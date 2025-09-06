@@ -164,6 +164,45 @@
             margin-bottom: 2rem;
         }
         
+        .conversation-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .new-conversation-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .new-conversation-btn:hover {
+            background: #3bb3d3;
+            transform: translateY(-2px);
+        }
+        
+        .current-conversation {
+            background: var(--light);
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+            padding: 0.7rem 1.5rem;
+            font-weight: 500;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
         .search-box {
             display: flex;
             margin-bottom: 1.5rem;
@@ -202,7 +241,6 @@
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
-            margin-bottom: 1.5rem;
             justify-content: center;
         }
         
@@ -274,6 +312,7 @@
             margin-bottom: 1rem;
             font-size: 0.9rem;
             color: var(--gray);
+            flex-wrap: wrap;
         }
         
         .confidence-badge {
@@ -391,36 +430,69 @@
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
         }
         
-        .search-history-section {
+        .chat-history-section {
             border-top: 1px solid var(--light-gray);
             padding-top: 1.5rem;
         }
         
-        .search-history-section .sidebar-title {
-            border-bottom: none;
-            margin-bottom: 0.8rem;
-            font-size: 1.1rem;
+        .chat-history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
         }
         
-        .history-item {
-            padding: 0.6rem 0.8rem;
+        .conversation-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tab-btn {
+            background: var(--light);
+            border: 1px solid var(--light-gray);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .conversations-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .conversation-item {
+            padding: 0.8rem;
             margin-bottom: 0.5rem;
             background: var(--light);
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
             border-left: 3px solid transparent;
         }
         
-        .history-item:hover {
+        .conversation-item:hover {
             background: #e8f0ff;
             border-left-color: var(--primary);
             transform: translateX(3px);
         }
         
-        .history-question {
+        .conversation-item.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .conversation-title {
             font-size: 0.85rem;
-            color: var(--dark);
+            font-weight: 600;
             margin-bottom: 0.3rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -428,7 +500,7 @@
             overflow: hidden;
         }
         
-        .history-meta {
+        .conversation-meta {
             font-size: 0.75rem;
             color: var(--gray);
             display: flex;
@@ -436,25 +508,79 @@
             align-items: center;
         }
         
-        .history-confidence {
-            padding: 0.2rem 0.4rem;
-            border-radius: 10px;
+        .conversation-item.active .conversation-meta {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .chat-messages-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .chat-message-item {
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            background: var(--light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .chat-message-item:hover {
+            background: #e8f0ff;
+            border-left-color: var(--primary);
+            transform: translateX(3px);
+        }
+        
+        .chat-question {
+            font-size: 0.85rem;
+            color: var(--dark);
+            margin-bottom: 0.3rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-weight: 600;
+        }
+        
+        .chat-answer {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 0.3rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .chat-message-meta {
+            font-size: 0.75rem;
+            color: var(--gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .confidence-mini {
+            padding: 0.1rem 0.3rem;
+            border-radius: 8px;
             font-size: 0.7rem;
             font-weight: 600;
         }
         
-        .no-history {
+        .no-conversations, .no-chat-history {
             text-align: center;
             color: var(--gray);
             font-style: italic;
-            padding: 1rem 0;
+            padding: 2rem 0;
         }
         
-        .clear-history-btn {
+        .load-more-btn {
             width: 100%;
             padding: 0.6rem;
-            background: none;
-            border: 1px solid var(--gray);
+            background: var(--light);
+            border: 1px solid var(--light-gray);
             border-radius: 6px;
             color: var(--gray);
             cursor: pointer;
@@ -463,10 +589,10 @@
             transition: all 0.3s;
         }
         
-        .clear-history-btn:hover {
-            background: var(--warning);
+        .load-more-btn:hover {
+            background: var(--primary);
             color: white;
-            border-color: var(--warning);
+            border-color: var(--primary);
         }
         
         .two-column-layout {
@@ -507,7 +633,6 @@
             border-radius: 12px;
             background-color: var(--light);
             color: var(--gray);
-            margin-left: 0.5rem;
         }
         
         .cache-hit {
@@ -628,13 +753,18 @@
                 justify-content: center;
             }
             
-            .filters {
+            .filters, .conversation-controls {
                 justify-content: flex-start;
             }
             
             .custom-google-btn {
                 font-size: 0.9rem;
                 padding: 0.5rem 1rem;
+            }
+            
+            .result-meta {
+                flex-direction: column;
+                gap: 0.5rem;
             }
         }
     </style>
@@ -661,7 +791,10 @@
                     <div class="user-info">
                         <div id="user-name" class="user-name"></div>
                         <div id="user-email" class="user-email"></div>
-                        <div id="user-stats" class="user-stats">Searches: <span id="search-count">0</span></div>
+                        <div id="user-stats" class="user-stats">
+                            <span>Searches: <span id="search-count">0</span></span> | 
+                            <span>Conversations: <span id="conversation-count">0</span></span>
+                        </div>
                     </div>
                     <button id="sign-out-btn" class="sign-out-btn">Sign Out</button>
                 </div>
@@ -672,7 +805,7 @@
     <main class="container main-content">
         <div id="auth-required" class="auth-required">
             <h2>Welcome to EduAI Syllabus Assistant</h2>
-            <p>Please sign in with your Google account to access the syllabus search functionality and save your preferences.</p>
+            <p>Please sign in with your Google account to access the syllabus search functionality and save your chat history.</p>
         </div>
 
         <section id="search-section" style="display: none;">
@@ -722,19 +855,50 @@
                         </div>
                     </div>
                     
-                    <div class="search-history-section">
-                        <h3 class="sidebar-title">Search History</h3>
-                        <div id="search-history-list">
-                            <div class="no-history">
-                                <p>No search history yet</p>
-                            </div>
+                    <div class="chat-history-section">
+                        <div class="chat-history-header">
+                            <h3 class="sidebar-title">Chat History</h3>
+                            <button id="refresh-history-btn" style="background: none; border: none; cursor: pointer; font-size: 1rem;" title="Refresh">🔄</button>
                         </div>
-                        <button id="clear-history-btn" class="clear-history-btn" style="display: none;">Clear History</button>
+                        
+                        <div class="conversation-tabs">
+                            <button class="tab-btn active" data-tab="conversations">Conversations</button>
+                            <button class="tab-btn" data-tab="messages">Messages</button>
+                        </div>
+                        
+                        <div id="conversations-tab" class="tab-content">
+                            <div id="conversations-list" class="conversations-list">
+                                <div class="no-conversations">
+                                    <p>No conversations yet</p>
+                                </div>
+                            </div>
+                            <button id="load-more-conversations-btn" class="load-more-btn" style="display: none;">Load More</button>
+                        </div>
+                        
+                        <div id="messages-tab" class="tab-content" style="display: none;">
+                            <div id="chat-messages-list" class="chat-messages-list">
+                                <div class="no-chat-history">
+                                    <p>No chat history yet</p>
+                                </div>
+                            </div>
+                            <button id="load-more-messages-btn" class="load-more-btn" style="display: none;">Load More</button>
+                        </div>
                     </div>
                 </aside>
 
                 <div class="main-content-area">
                     <div class="search-container">
+                        <div class="conversation-controls">
+                            <button id="new-conversation-btn" class="new-conversation-btn">
+                                <span>💬</span>
+                                <span>New Conversation</span>
+                            </button>
+                            <div id="current-conversation" class="current-conversation" style="display: none;">
+                                <span>📝</span>
+                                <span id="current-conversation-title">Current: New Conversation</span>
+                            </div>
+                        </div>
+                        
                         <div class="search-box">
                             <input type="text" class="search-input" id="question-input" placeholder="Ask a question about your syllabus...">
                             <button class="search-btn" id="search-button">Search</button>
@@ -767,7 +931,7 @@
 
     <footer>
         <div class="container footer-content">
-            <p>© 2023 EduAI Syllabus Assistant. For college students.</p>
+            <p>&copy; 2023 EduAI Syllabus Assistant. For college students.</p>
             <div class="footer-links">
                 <a href="#">Privacy Policy</a>
                 <a href="#">Terms of Service</a>
@@ -780,19 +944,18 @@
         // Google Sign-In Configuration
         const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com';
         
-        // API configuration
+        // API configuration - UPDATE THIS WITH YOUR NGROK URL
         const API_BASE_URL = 'https://overharsh-hoggishly-duncan.ngrok-free.app';
         
         // Global state
-        let searchHistory = [];
         let currentUser = null;
         let sessionToken = null;
-        
-        // Debug: Log current origin
-        console.log('Current origin:', window.location.origin);
+        let currentConversationId = null;
+        let conversationsData = [];
+        let chatMessagesData = [];
+        let currentPage = { conversations: 1, messages: 1 };
         
         // Utility Functions
-        
         function showNotification(message, type = 'info', duration = 3000) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -809,51 +972,32 @@
             return { 'Authorization': `Bearer ${sessionToken}` };
         }
         
-        // API Functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 1) return 'Today';
+            if (diffDays === 2) return 'Yesterday';
+            if (diffDays <= 7) return `${diffDays} days ago`;
+            return date.toLocaleDateString();
+        }
         
+        // API Functions
         async function authenticateWithBackend(googleUserData) {
             try {
                 const response = await fetch(`${API_BASE_URL}/auth/google`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ googleUserData })
                 });
                 
-                if (!response.ok) {
-                    throw new Error(`Authentication failed: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                return data;
+                if (!response.ok) throw new Error(`Authentication failed: ${response.status}`);
+                return await response.json();
             } catch (error) {
                 console.error('Backend authentication error:', error);
                 throw error;
-            }
-        }
-        
-        async function updateUserPreferences(preferences) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/user/preferences`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        ...getAuthHeaders()
-                    },
-                    body: JSON.stringify({ preferences })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`Failed to update preferences: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('Preferences updated:', data);
-                return data;
-            } catch (error) {
-                console.error('Error updating preferences:', error);
-                showNotification('Failed to save preferences', 'error');
             }
         }
         
@@ -863,10 +1007,7 @@
                     headers: getAuthHeaders()
                 });
                 
-                if (!response.ok) {
-                    throw new Error(`Failed to get profile: ${response.status}`);
-                }
-                
+                if (!response.ok) throw new Error(`Failed to get profile: ${response.status}`);
                 const data = await response.json();
                 return data.user;
             } catch (error) {
@@ -877,21 +1018,60 @@
         
         async function logoutUser() {
             try {
-                const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+                await fetch(`${API_BASE_URL}/auth/logout`, {
                     method: 'POST',
                     headers: getAuthHeaders()
                 });
-                
-                if (response.ok) {
-                    console.log('Logout successful');
-                }
             } catch (error) {
                 console.error('Error during logout:', error);
             }
         }
         
-        // Google Sign-In Functions
+        async function getUserConversations(page = 1) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/user/conversations?page=${page}&limit=20`, {
+                    headers: getAuthHeaders()
+                });
+                
+                if (!response.ok) throw new Error(`Failed to get conversations: ${response.status}`);
+                return await response.json();
+            } catch (error) {
+                console.error('Error getting conversations:', error);
+                return { conversations: [], totalCount: 0, hasMore: false };
+            }
+        }
         
+        async function getUserChatHistory(page = 1) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/user/chat-history?page=${page}&limit=20`, {
+                    headers: getAuthHeaders()
+                });
+                
+                if (!response.ok) throw new Error(`Failed to get chat history: ${response.status}`);
+                return await response.json();
+            } catch (error) {
+                console.error('Error getting chat history:', error);
+                return { chatHistory: [], totalCount: 0, hasMore: false };
+            }
+        }
+        
+        async function createNewConversation() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/user/conversation/new`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }
+                });
+                
+                if (!response.ok) throw new Error(`Failed to create conversation: ${response.status}`);
+                const data = await response.json();
+                return data.conversationId;
+            } catch (error) {
+                console.error('Error creating conversation:', error);
+                return null;
+            }
+        }
+        
+        // Google Sign-In Functions
         function initializeGoogleSignIn() {
             if (typeof google !== 'undefined') {
                 try {
@@ -921,9 +1101,9 @@
                                 showUserProfile(profile);
                                 showSearchSection();
                                 loadUserPreferences();
+                                loadChatHistory();
                                 showNotification('Welcome back!', 'success');
                             } else {
-                                // Session expired, clear local storage
                                 clearUserSession();
                             }
                         });
@@ -940,7 +1120,6 @@
         
         async function handleCredentialResponse(response) {
             try {
-                // Decode the JWT token to get user information
                 const payload = JSON.parse(atob(response.credential.split('.')[1]));
                 
                 const googleUserData = {
@@ -950,24 +1129,20 @@
                     picture: payload.picture
                 };
                 
-                console.log('Google Sign-In successful:', googleUserData);
                 showNotification('Signing in...', 'info');
                 
-                // Authenticate with backend
                 const authResult = await authenticateWithBackend(googleUserData);
                 
                 currentUser = authResult.user;
                 sessionToken = authResult.sessionToken;
                 
-                // Save to localStorage
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 localStorage.setItem('sessionToken', sessionToken);
-                
-                console.log('Backend authentication successful:', authResult);
                 
                 showUserProfile(currentUser);
                 showSearchSection();
                 loadUserPreferences();
+                loadChatHistory();
                 showNotification(`Welcome ${currentUser.name}!`, 'success');
                 
             } catch (error) {
@@ -980,7 +1155,9 @@
         function clearUserSession() {
             currentUser = null;
             sessionToken = null;
-            searchHistory = [];
+            currentConversationId = null;
+            conversationsData = [];
+            chatMessagesData = [];
             
             localStorage.removeItem('currentUser');
             localStorage.removeItem('sessionToken');
@@ -989,11 +1166,10 @@
             document.getElementById('google-signin-btn').style.display = 'flex';
             
             hideSearchSection();
-            updateSearchHistory();
+            clearChatHistoryDisplay();
         }
         
         // UI Functions
-        
         function showUserProfile(user) {
             document.getElementById('google-signin-btn').style.display = 'none';
             document.getElementById('user-profile').classList.add('show');
@@ -1021,39 +1197,17 @@
                     document.getElementById('department-select').value = department;
                     updateSubjectOptions();
                 }
-                if (semester) {
-                    document.getElementById('semester-select').value = semester;
-                }
-                if (subject) {
-                    document.getElementById('subject-select').value = subject;
-                }
+                if (semester) document.getElementById('semester-select').value = semester;
+                if (subject) document.getElementById('subject-select').value = subject;
             }
-        }
-        
-        function savePreferencesToBackend() {
-            if (!currentUser) return;
-            
-            const preferences = {
-                department: document.getElementById('department-select').value,
-                semester: document.getElementById('semester-select').value,
-                subject: document.getElementById('subject-select').value
-            };
-            
-            updateUserPreferences(preferences);
         }
         
         async function signOut() {
             try {
                 showNotification('Signing out...', 'info');
-                
-                // Logout from backend
-                if (sessionToken) {
-                    await logoutUser();
-                }
-                
+                if (sessionToken) await logoutUser();
                 clearUserSession();
                 showNotification('Signed out successfully', 'success');
-                
             } catch (error) {
                 console.error('Error during sign out:', error);
                 showNotification('Sign out error, but cleared locally', 'error');
@@ -1061,70 +1215,175 @@
             }
         }
         
-        // Search History Functions
-        
-        function addToSearchHistory(question, answer, confidence, timestamp) {
-            const historyItem = {
-                id: Date.now(),
-                question: question,
-                answer: answer,
-                confidence: confidence,
-                timestamp: timestamp,
-                department: document.getElementById('department-select').value,
-                semester: document.getElementById('semester-select').value,
-                subject: document.getElementById('subject-select').value
-            };
+        // Chat History Functions
+        async function loadChatHistory() {
+            if (!currentUser) return;
             
-            searchHistory.unshift(historyItem);
-            
-            if (searchHistory.length > 20) {
-                searchHistory = searchHistory.slice(0, 20);
-            }
-            
-            updateSearchHistory();
+            await loadConversations();
+            await loadChatMessages();
+            updateConversationCount();
         }
         
-        function updateSearchHistory() {
-            const historyList = document.getElementById('search-history-list');
-            const clearBtn = document.getElementById('clear-history-btn');
+        async function loadConversations(page = 1, append = false) {
+            try {
+                const data = await getUserConversations(page);
+                
+                if (!append) {
+                    conversationsData = data.conversations;
+                    currentPage.conversations = 1;
+                } else {
+                    conversationsData = [...conversationsData, ...data.conversations];
+                }
+                
+                displayConversations();
+                
+                const loadMoreBtn = document.getElementById('load-more-conversations-btn');
+                if (data.hasMore) {
+                    loadMoreBtn.style.display = 'block';
+                    currentPage.conversations = page;
+                } else {
+                    loadMoreBtn.style.display = 'none';
+                }
+                
+            } catch (error) {
+                console.error('Error loading conversations:', error);
+                showNotification('Failed to load conversations', 'error');
+            }
+        }
+        
+        async function loadChatMessages(page = 1, append = false) {
+            try {
+                const data = await getUserChatHistory(page);
+                
+                if (!append) {
+                    chatMessagesData = data.chatHistory;
+                    currentPage.messages = 1;
+                } else {
+                    chatMessagesData = [...chatMessagesData, ...data.chatHistory];
+                }
+                
+                displayChatMessages();
+                
+                const loadMoreBtn = document.getElementById('load-more-messages-btn');
+                if (data.hasMore) {
+                    loadMoreBtn.style.display = 'block';
+                    currentPage.messages = page;
+                } else {
+                    loadMoreBtn.style.display = 'none';
+                }
+                
+            } catch (error) {
+                console.error('Error loading chat messages:', error);
+                showNotification('Failed to load chat messages', 'error');
+            }
+        }
+        
+        function displayConversations() {
+            const conversationsList = document.getElementById('conversations-list');
             
-            if (searchHistory.length === 0) {
-                historyList.innerHTML = '<div class="no-history"><p>No search history yet</p></div>';
-                clearBtn.style.display = 'none';
+            if (conversationsData.length === 0) {
+                conversationsList.innerHTML = '<div class="no-conversations"><p>No conversations yet</p></div>';
                 return;
             }
             
-            clearBtn.style.display = 'block';
-            
-            const historyHTML = searchHistory.map(item => {
-                const date = new Date(item.timestamp).toLocaleDateString();
-                const time = new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                
-                let confidenceClass = 'confidence-low';
-                if (item.confidence >= 0.8) confidenceClass = 'confidence-high';
-                else if (item.confidence >= 0.5) confidenceClass = 'confidence-medium';
+            const conversationsHTML = conversationsData.map(conv => {
+                const isActive = currentConversationId === conv.conversationId;
                 
                 return `
-                    <div class="history-item" onclick="rerunSearch('${item.question.replace(/'/g, "\\'")}')">
-                        <div class="history-question">${item.question}</div>
-                        <div class="history-meta">
-                            <span>${date} ${time}</span>
-                            <span class="history-confidence ${confidenceClass}">${(item.confidence * 100).toFixed(0)}%</span>
+                    <div class="conversation-item ${isActive ? 'active' : ''}" 
+                         onclick="loadConversation('${conv.conversationId}')"
+                         data-conversation-id="${conv.conversationId}">
+                        <div class="conversation-title" title="${conv.title}">${conv.title}</div>
+                        <div class="conversation-meta">
+                            <span>${formatDate(conv.lastMessageAt)}</span>
+                            <span>${conv.messageCount} messages</span>
                         </div>
                     </div>
                 `;
             }).join('');
             
-            historyList.innerHTML = historyHTML;
+            conversationsList.innerHTML = conversationsHTML;
         }
         
-        window.rerunSearch = function(question) {
-            document.getElementById('question-input').value = question;
-            performSearch();
-        };
+        function displayChatMessages() {
+            const messagesList = document.getElementById('chat-messages-list');
+            
+            if (chatMessagesData.length === 0) {
+                messagesList.innerHTML = '<div class="no-chat-history"><p>No chat history yet</p></div>';
+                return;
+            }
+            
+            const messagesHTML = chatMessagesData.map(msg => {
+                let confidenceClass = 'confidence-low';
+                if (msg.confidence >= 0.8) confidenceClass = 'confidence-high';
+                else if (msg.confidence >= 0.5) confidenceClass = 'confidence-medium';
+                
+                return `
+                    <div class="chat-message-item" onclick="rerunSearch('${msg.question.replace(/'/g, "\\'")}')">
+                        <div class="chat-question">${msg.question}</div>
+                        <div class="chat-answer">${msg.answer.substring(0, 100)}...</div>
+                        <div class="chat-message-meta">
+                            <span>${formatDate(msg.timestamp)}</span>
+                            <span class="confidence-mini ${confidenceClass}">${(msg.confidence * 100).toFixed(0)}%</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            messagesList.innerHTML = messagesHTML;
+        }
+        
+        function clearChatHistoryDisplay() {
+            document.getElementById('conversations-list').innerHTML = '<div class="no-conversations"><p>No conversations yet</p></div>';
+            document.getElementById('chat-messages-list').innerHTML = '<div class="no-chat-history"><p>No chat history yet</p></div>';
+            document.getElementById('load-more-conversations-btn').style.display = 'none';
+            document.getElementById('load-more-messages-btn').style.display = 'none';
+        }
+        
+        function updateConversationCount() {
+            if (currentUser) {
+                const count = conversationsData.length;
+                document.getElementById('conversation-count').textContent = count;
+            }
+        }
+        
+        // Action Functions
+        async function refreshChatHistory() {
+            showNotification('Refreshing chat history...', 'info');
+            await loadChatHistory();
+            showNotification('Chat history refreshed', 'success');
+        }
+        
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tabName);
+            });
+            
+            document.getElementById('conversations-tab').style.display = tabName === 'conversations' ? 'block' : 'none';
+            document.getElementById('messages-tab').style.display = tabName === 'messages' ? 'block' : 'none';
+        }
+        
+        function loadConversation(conversationId) {
+            currentConversationId = conversationId;
+            
+            const conversation = conversationsData.find(c => c.conversationId === conversationId);
+            if (conversation) {
+                document.getElementById('current-conversation').style.display = 'flex';
+                document.getElementById('current-conversation-title').textContent = `Current: ${conversation.title}`;
+            }
+            
+            displayConversations();
+            showNotification(`Loaded conversation: ${conversation.title}`, 'success');
+        }
+        
+        function startNewConversation() {
+            currentConversationId = null;
+            document.getElementById('current-conversation').style.display = 'none';
+            displayConversations();
+            showNotification('Started new conversation', 'success');
+        }
         
         // Search Functions
-        
         async function performSearch() {
             if (!currentUser) {
                 showNotification('Please sign in to perform searches', 'error');
@@ -1135,21 +1394,23 @@
             if (!question) return;
             
             const resultsContent = document.getElementById('results-content');
-            resultsContent.innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                </div>
-            `;
+            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
             
             try {
+                if (!currentConversationId) {
+                    currentConversationId = await createNewConversation();
+                    if (currentConversationId) {
+                        document.getElementById('current-conversation').style.display = 'flex';
+                        document.getElementById('current-conversation-title').textContent = 'Current: New Conversation';
+                    }
+                }
+                
                 const response = await fetch(`${API_BASE_URL}/rag`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        ...getAuthHeaders()
-                    },
+                    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
                     body: JSON.stringify({
                         question: question,
+                        conversationId: currentConversationId,
                         limit: 5,
                         threshold: 0.75,
                         department: document.getElementById('department-select').value,
@@ -1158,34 +1419,26 @@
                     })
                 });
                 
-                if (!response.ok) {
-                    throw new Error(`API error: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`API error: ${response.status}`);
                 
                 const data = await response.json();
                 window.currentResults = data;
                 displayResults(data);
                 
-                // Update search count in UI
                 if (currentUser) {
                     currentUser.searchCount = (currentUser.searchCount || 0) + 1;
                     document.getElementById('search-count').textContent = currentUser.searchCount;
                     localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 }
                 
-                // Add to search history
-                if (data.found && data.answer) {
-                    addToSearchHistory(question, data.answer, data.confidence, new Date().toISOString());
-                }
-                
-                // Save preferences after search
-                savePreferencesToBackend();
+                await refreshChatHistory();
+                document.getElementById('question-input').value = '';
                 
             } catch (error) {
                 console.error('Error fetching data:', error);
                 resultsContent.innerHTML = `
                     <div class="no-results">
-                        <p>Error connecting to the server. Please make sure your backend is running on port 3000.</p>
+                        <p>Error connecting to the server. Please check your backend connection.</p>
                         <p>Error details: ${error.message}</p>
                     </div>
                 `;
@@ -1208,7 +1461,6 @@
                 return;
             }
             
-            // Determine confidence level
             let confidenceClass = 'confidence-low';
             let confidenceText = 'Low confidence';
             
@@ -1220,25 +1472,24 @@
                 confidenceText = 'Medium confidence';
             }
             
-            // Format sources
             let sourcesHtml = '';
             if (data.sources && data.sources.length > 0) {
                 sourcesHtml = `
                     <div class="sources-section">
                         <h4>Sources:</h4>
                         ${data.sources.map(source => `
-                            <div class="source-item">
-                                ${source.snippet || 'No snippet available'}
-                            </div>
+                            <div class="source-item">${source.snippet || 'No snippet available'}</div>
                         `).join('')}
                     </div>
                 `;
             }
             
-            // Cache indicator
             const cacheIndicator = data.cached ? 
                 `<span class="cache-indicator cache-hit">Cached response</span>` : 
                 `<span class="cache-indicator">Live response</span>`;
+            
+            const conversationIndicator = data.conversationId ? 
+                `<span class="cache-indicator">Conversation</span>` : '';
             
             const resultHtml = `
                 <div class="result-card">
@@ -1246,6 +1497,7 @@
                     <div class="result-meta">
                         <span class="confidence-badge ${confidenceClass}">${confidenceText} (${(data.confidence * 100).toFixed(1)}%)</span>
                         ${cacheIndicator}
+                        ${conversationIndicator}
                         <span>Response time: ${data.timing?.total || 'N/A'}</span>
                     </div>
                     <div class="result-content">
@@ -1265,37 +1517,20 @@
             resultsCount.textContent = '1 result found';
         }
         
-        function filterResults() {
-            const activeFilter = document.querySelector('.filter.active').getAttribute('data-filter');
-            
-            let filterMessage = '';
-            switch(activeFilter) {
-                case 'precise':
-                    filterMessage = 'Showing precise, focused answers';
-                    break;
-                case 'detailed':
-                    filterMessage = 'Showing detailed, comprehensive answers';
-                    break;
-                case 'concept':
-                    filterMessage = 'Showing conceptual explanations';
-                    break;
-                default:
-                    filterMessage = 'Showing all results';
-            }
-            
-            if (activeFilter !== 'precise') {
-                document.getElementById('results-content').innerHTML = `
-                    <div class="no-results">
-                        <p><strong>Filter Applied:</strong> ${filterMessage}</p>
-                        <p><em>Note: In a full implementation, this would filter the results accordingly.</em></p>
-                    </div>
-                `;
-            } else if (window.currentResults) {
-                displayResults(window.currentResults);
-            }
+        function rerunSearch(question) {
+            document.getElementById('question-input').value = question;
+            performSearch();
         }
         
-        // Subject Options Update
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Answer copied to clipboard!', 'success', 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                showNotification('Failed to copy to clipboard', 'error');
+            });
+        }
+        
         function updateSubjectOptions() {
             const department = document.getElementById('department-select').value;
             const subjectSelect = document.getElementById('subject-select');
@@ -1317,35 +1552,9 @@
                     {value: 'general-chem', text: 'General Chemistry'},
                     {value: 'organic-chem', text: 'Organic Chemistry'},
                     {value: 'physical-chem', text: 'Physical Chemistry'}
-                ],
-                'history': [
-                    {value: 'world-history', text: 'World History'},
-                    {value: 'american-history', text: 'American History'},
-                    {value: 'european-history', text: 'European History'}
-                ],
-                'psychology': [
-                    {value: 'psychology-101', text: 'Psychology 101'},
-                    {value: 'cognitive-psych', text: 'Cognitive Psychology'},
-                    {value: 'social-psych', text: 'Social Psychology'}
-                ],
-                'english': [
-                    {value: 'english-comp', text: 'English Composition'},
-                    {value: 'literature', text: 'Literature'},
-                    {value: 'creative-writing', text: 'Creative Writing'}
-                ],
-                'physics': [
-                    {value: 'physics-1', text: 'Physics I'},
-                    {value: 'physics-2', text: 'Physics II'},
-                    {value: 'quantum-physics', text: 'Quantum Physics'}
-                ],
-                'biology': [
-                    {value: 'general-biology', text: 'General Biology'},
-                    {value: 'molecular-biology', text: 'Molecular Biology'},
-                    {value: 'ecology', text: 'Ecology'}
                 ]
             };
             
-            // Clear current options
             subjectSelect.innerHTML = '<option value="">Select Subject</option>';
             
             if (department && subjectOptions[department]) {
@@ -1358,93 +1567,70 @@
             }
         }
         
-        // Copy to clipboard function
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showNotification('Answer copied to clipboard!', 'success', 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-                showNotification('Failed to copy to clipboard', 'error');
-            });
-        }
-        
         // Event Listeners
         document.addEventListener('DOMContentLoaded', function() {
-            const searchBtn = document.getElementById('search-button');
-            const questionInput = document.getElementById('question-input');
-            const filters = document.querySelectorAll('.filter');
-            const departmentSelect = document.getElementById('department-select');
-            const semesterSelect = document.getElementById('semester-select');
-            const subjectSelect = document.getElementById('subject-select');
-            const clearHistoryBtn = document.getElementById('clear-history-btn');
-            const googleSignInBtn = document.getElementById('google-signin-btn');
-            const signOutBtn = document.getElementById('sign-out-btn');
-            
             // Initialize Google Sign-In
             initializeGoogleSignIn();
             
-            // Google Sign-In button click
-            googleSignInBtn.addEventListener('click', function() {
-                if (typeof google !== 'undefined' && GOOGLE_CLIENT_ID !== 'YOUR_GOOGLE_CLIENT_ID') {
+            // Basic event listeners
+            document.getElementById('google-signin-btn').addEventListener('click', function() {
+                if (typeof google !== 'undefined') {
                     try {
                         google.accounts.id.prompt();
                     } catch (error) {
                         console.error('Error showing Google prompt:', error);
                         showNotification('Google Sign-In prompt failed', 'error');
                     }
-                } else if (GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
-                    showNotification('Please configure Google Client ID', 'error');
                 } else {
                     showNotification('Google Sign-In not available', 'error');
                 }
             });
             
-            // Sign out button click
-            signOutBtn.addEventListener('click', signOut);
+            document.getElementById('sign-out-btn').addEventListener('click', signOut);
+            document.getElementById('new-conversation-btn').addEventListener('click', startNewConversation);
+            document.getElementById('refresh-history-btn').addEventListener('click', refreshChatHistory);
+            document.getElementById('search-button').addEventListener('click', performSearch);
+            
+            document.getElementById('question-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch();
+            });
+            
+            // Tab switching
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    switchTab(tabName);
+                });
+            });
             
             // Filter selection
-            filters.forEach(filter => {
+            document.querySelectorAll('.filter').forEach(filter => {
                 filter.addEventListener('click', function() {
-                    filters.forEach(f => f.classList.remove('active'));
+                    document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
                     this.classList.add('active');
-                    
-                    if (window.currentResults) {
-                        filterResults();
-                    }
                 });
             });
             
             // Course selection handlers
-            departmentSelect.addEventListener('change', function() {
-                updateSubjectOptions();
-                savePreferencesToBackend();
+            document.getElementById('department-select').addEventListener('change', updateSubjectOptions);
+            
+            // Load more buttons
+            document.getElementById('load-more-conversations-btn').addEventListener('click', function() {
+                loadConversations(currentPage.conversations + 1, true);
             });
             
-            semesterSelect.addEventListener('change', savePreferencesToBackend);
-            subjectSelect.addEventListener('change', savePreferencesToBackend);
-            
-            // Clear history button
-            clearHistoryBtn.addEventListener('click', function() {
-                if (confirm('Are you sure you want to clear your search history?')) {
-                    searchHistory = [];
-                    updateSearchHistory();
-                    showNotification('Search history cleared', 'info');
-                }
+            document.getElementById('load-more-messages-btn').addEventListener('click', function() {
+                loadChatMessages(currentPage.messages + 1, true);
             });
             
-            // Search functionality
-            searchBtn.addEventListener('click', performSearch);
-            
-            questionInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
+            // Global functions for onclick handlers
+            window.loadConversation = loadConversation;
+            window.rerunSearch = rerunSearch;
+            window.copyToClipboard = copyToClipboard;
         });
         
-        // Initialize Google Sign-In when script loads
+        // Initialize when window loads
         window.addEventListener('load', initializeGoogleSignIn);
     </script>
 </body>
 </html>
-
