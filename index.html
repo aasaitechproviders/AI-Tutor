@@ -104,6 +104,12 @@
             opacity: 0.8;
         }
         
+        .user-stats {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+        
         .sign-out-btn {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -509,6 +515,54 @@
             color: #137333;
         }
         
+        .auth-required {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .auth-required h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .auth-required p {
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            max-width: 300px;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: var(--success);
+        }
+        
+        .notification.error {
+            background: var(--warning);
+        }
+        
+        .notification.info {
+            background: var(--primary);
+        }
+        
         footer {
             background: var(--dark);
             color: white;
@@ -535,24 +589,6 @@
         
         .footer-links a:hover {
             opacity: 0.8;
-        }
-        
-        .auth-required {
-            text-align: center;
-            padding: 2rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-        }
-        
-        .auth-required h2 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-        
-        .auth-required p {
-            color: var(--gray);
-            margin-bottom: 2rem;
         }
         
         @media (max-width: 768px) {
@@ -625,6 +661,7 @@
                     <div class="user-info">
                         <div id="user-name" class="user-name"></div>
                         <div id="user-email" class="user-email"></div>
+                        <div id="user-stats" class="user-stats">Searches: <span id="search-count">0</span></div>
                     </div>
                     <button id="sign-out-btn" class="sign-out-btn">Sign Out</button>
                 </div>
@@ -635,7 +672,7 @@
     <main class="container main-content">
         <div id="auth-required" class="auth-required">
             <h2>Welcome to EduAI Syllabus Assistant</h2>
-            <p>Please sign in with your Google account to access the syllabus search functionality.</p>
+            <p>Please sign in with your Google account to access the syllabus search functionality and save your preferences.</p>
         </div>
 
         <section id="search-section" style="display: none;">
@@ -725,6 +762,9 @@
         </section>
     </main>
 
+    <!-- Notification container -->
+    <div id="notification" class="notification"></div>
+
     <footer>
         <div class="container footer-content">
             <p>© 2023 EduAI Syllabus Assistant. For college students.</p>
@@ -738,89 +778,212 @@
 
     <script>
         // Google Sign-In Configuration
-        const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com'; // Replace with your actual Google Client ID
+        const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com';
         
         // API configuration
         const API_BASE_URL = 'http://localhost:3000';
         
-        // In-memory storage for search history
+        // Global state
         let searchHistory = [];
         let currentUser = null;
+        let sessionToken = null;
         
-        // Initialize Google Sign-In
-        function initializeGoogleSignIn() {
-            if (typeof google !== 'undefined') {
-                google.accounts.id.initialize({
-                    client_id: GOOGLE_CLIENT_ID,
-                    callback: handleCredentialResponse,
-                    auto_select: false,
-                    cancel_on_tap_outside: false
+        // Debug: Log current origin
+        console.log('Current origin:', window.location.origin);
+        
+        // Utility Functions
+        
+        function showNotification(message, type = 'info', duration = 3000) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, duration);
+        }
+        
+        function getAuthHeaders() {
+            if (!sessionToken) return {};
+            return { 'Authorization': `Bearer ${sessionToken}` };
+        }
+        
+        // API Functions
+        
+        async function authenticateWithBackend(googleUserData) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/google`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ googleUserData })
                 });
                 
-                // Check if user is already signed in
-                const savedUser = localStorage.getItem('currentUser');
-                if (savedUser) {
-                    currentUser = JSON.parse(savedUser);
-                    showUserProfile(currentUser);
-                    showSearchSection();
+                if (!response.ok) {
+                    throw new Error(`Authentication failed: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Backend authentication error:', error);
+                throw error;
+            }
+        }
+        
+        async function updateUserPreferences(preferences) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/user/preferences`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...getAuthHeaders()
+                    },
+                    body: JSON.stringify({ preferences })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to update preferences: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Preferences updated:', data);
+                return data;
+            } catch (error) {
+                console.error('Error updating preferences:', error);
+                showNotification('Failed to save preferences', 'error');
+            }
+        }
+        
+        async function getUserProfile() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/user/profile`, {
+                    headers: getAuthHeaders()
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to get profile: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                return data.user;
+            } catch (error) {
+                console.error('Error getting user profile:', error);
+                return null;
+            }
+        }
+        
+        async function logoutUser() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+                    method: 'POST',
+                    headers: getAuthHeaders()
+                });
+                
+                if (response.ok) {
+                    console.log('Logout successful');
+                }
+            } catch (error) {
+                console.error('Error during logout:', error);
+            }
+        }
+        
+        // Google Sign-In Functions
+        
+        function initializeGoogleSignIn() {
+            if (typeof google !== 'undefined') {
+                try {
+                    google.accounts.id.initialize({
+                        client_id: GOOGLE_CLIENT_ID,
+                        callback: handleCredentialResponse,
+                        auto_select: false,
+                        cancel_on_tap_outside: false,
+                        use_fedcm_for_prompt: false
+                    });
+                    
+                    console.log('Google Sign-In initialized successfully');
+                    
+                    // Check if user is already signed in
+                    const savedToken = localStorage.getItem('sessionToken');
+                    const savedUser = localStorage.getItem('currentUser');
+                    
+                    if (savedToken && savedUser) {
+                        sessionToken = savedToken;
+                        currentUser = JSON.parse(savedUser);
+                        
+                        // Verify session with backend
+                        getUserProfile().then(profile => {
+                            if (profile) {
+                                currentUser = profile;
+                                localStorage.setItem('currentUser', JSON.stringify(profile));
+                                showUserProfile(profile);
+                                showSearchSection();
+                                loadUserPreferences();
+                                showNotification('Welcome back!', 'success');
+                            } else {
+                                // Session expired, clear local storage
+                                clearUserSession();
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error initializing Google Sign-In:', error);
+                    showNotification('Google Sign-In initialization failed', 'error');
                 }
             } else {
-                // Retry after a short delay if Google API not loaded yet
+                console.log('Google API not loaded yet, retrying...');
                 setTimeout(initializeGoogleSignIn, 100);
             }
         }
         
-        // Handle Google Sign-In response
-        function handleCredentialResponse(response) {
+        async function handleCredentialResponse(response) {
             try {
                 // Decode the JWT token to get user information
                 const payload = JSON.parse(atob(response.credential.split('.')[1]));
                 
-                currentUser = {
+                const googleUserData = {
                     id: payload.sub,
                     name: payload.name,
                     email: payload.email,
                     picture: payload.picture
                 };
                 
-                // Save user to localStorage
+                console.log('Google Sign-In successful:', googleUserData);
+                showNotification('Signing in...', 'info');
+                
+                // Authenticate with backend
+                const authResult = await authenticateWithBackend(googleUserData);
+                
+                currentUser = authResult.user;
+                sessionToken = authResult.sessionToken;
+                
+                // Save to localStorage
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                localStorage.setItem('sessionToken', sessionToken);
+                
+                console.log('Backend authentication successful:', authResult);
                 
                 showUserProfile(currentUser);
                 showSearchSection();
+                loadUserPreferences();
+                showNotification(`Welcome ${currentUser.name}!`, 'success');
                 
             } catch (error) {
                 console.error('Error processing sign-in:', error);
-                alert('Sign-in failed. Please try again.');
+                showNotification('Sign-in failed. Please try again.', 'error');
+                clearUserSession();
             }
         }
         
-        // Show user profile in header
-        function showUserProfile(user) {
-            document.getElementById('google-signin-btn').style.display = 'none';
-            document.getElementById('user-profile').classList.add('show');
-            document.getElementById('user-avatar').src = user.picture;
-            document.getElementById('user-name').textContent = user.name;
-            document.getElementById('user-email').textContent = user.email;
-        }
-        
-        // Show search section and hide auth required
-        function showSearchSection() {
-            document.getElementById('auth-required').style.display = 'none';
-            document.getElementById('search-section').style.display = 'block';
-        }
-        
-        // Hide search section and show auth required
-        function hideSearchSection() {
-            document.getElementById('auth-required').style.display = 'block';
-            document.getElementById('search-section').style.display = 'none';
-        }
-        
-        // Sign out function
-        function signOut() {
+        function clearUserSession() {
             currentUser = null;
-            localStorage.removeItem('currentUser');
+            sessionToken = null;
             searchHistory = [];
+            
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('sessionToken');
             
             document.getElementById('user-profile').classList.remove('show');
             document.getElementById('google-signin-btn').style.display = 'flex';
@@ -829,14 +992,387 @@
             updateSearchHistory();
         }
         
+        // UI Functions
+        
+        function showUserProfile(user) {
+            document.getElementById('google-signin-btn').style.display = 'none';
+            document.getElementById('user-profile').classList.add('show');
+            document.getElementById('user-avatar').src = user.picture;
+            document.getElementById('user-name').textContent = user.name;
+            document.getElementById('user-email').textContent = user.email;
+            document.getElementById('search-count').textContent = user.searchCount || 0;
+        }
+        
+        function showSearchSection() {
+            document.getElementById('auth-required').style.display = 'none';
+            document.getElementById('search-section').style.display = 'block';
+        }
+        
+        function hideSearchSection() {
+            document.getElementById('auth-required').style.display = 'block';
+            document.getElementById('search-section').style.display = 'none';
+        }
+        
+        function loadUserPreferences() {
+            if (currentUser && currentUser.preferences) {
+                const { department, semester, subject } = currentUser.preferences;
+                
+                if (department) {
+                    document.getElementById('department-select').value = department;
+                    updateSubjectOptions();
+                }
+                if (semester) {
+                    document.getElementById('semester-select').value = semester;
+                }
+                if (subject) {
+                    document.getElementById('subject-select').value = subject;
+                }
+            }
+        }
+        
+        function savePreferencesToBackend() {
+            if (!currentUser) return;
+            
+            const preferences = {
+                department: document.getElementById('department-select').value,
+                semester: document.getElementById('semester-select').value,
+                subject: document.getElementById('subject-select').value
+            };
+            
+            updateUserPreferences(preferences);
+        }
+        
+        async function signOut() {
+            try {
+                showNotification('Signing out...', 'info');
+                
+                // Logout from backend
+                if (sessionToken) {
+                    await logoutUser();
+                }
+                
+                clearUserSession();
+                showNotification('Signed out successfully', 'success');
+                
+            } catch (error) {
+                console.error('Error during sign out:', error);
+                showNotification('Sign out error, but cleared locally', 'error');
+                clearUserSession();
+            }
+        }
+        
+        // Search History Functions
+        
+        function addToSearchHistory(question, answer, confidence, timestamp) {
+            const historyItem = {
+                id: Date.now(),
+                question: question,
+                answer: answer,
+                confidence: confidence,
+                timestamp: timestamp,
+                department: document.getElementById('department-select').value,
+                semester: document.getElementById('semester-select').value,
+                subject: document.getElementById('subject-select').value
+            };
+            
+            searchHistory.unshift(historyItem);
+            
+            if (searchHistory.length > 20) {
+                searchHistory = searchHistory.slice(0, 20);
+            }
+            
+            updateSearchHistory();
+        }
+        
+        function updateSearchHistory() {
+            const historyList = document.getElementById('search-history-list');
+            const clearBtn = document.getElementById('clear-history-btn');
+            
+            if (searchHistory.length === 0) {
+                historyList.innerHTML = '<div class="no-history"><p>No search history yet</p></div>';
+                clearBtn.style.display = 'none';
+                return;
+            }
+            
+            clearBtn.style.display = 'block';
+            
+            const historyHTML = searchHistory.map(item => {
+                const date = new Date(item.timestamp).toLocaleDateString();
+                const time = new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                let confidenceClass = 'confidence-low';
+                if (item.confidence >= 0.8) confidenceClass = 'confidence-high';
+                else if (item.confidence >= 0.5) confidenceClass = 'confidence-medium';
+                
+                return `
+                    <div class="history-item" onclick="rerunSearch('${item.question.replace(/'/g, "\\'")}')">
+                        <div class="history-question">${item.question}</div>
+                        <div class="history-meta">
+                            <span>${date} ${time}</span>
+                            <span class="history-confidence ${confidenceClass}">${(item.confidence * 100).toFixed(0)}%</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            historyList.innerHTML = historyHTML;
+        }
+        
+        window.rerunSearch = function(question) {
+            document.getElementById('question-input').value = question;
+            performSearch();
+        };
+        
+        // Search Functions
+        
+        async function performSearch() {
+            if (!currentUser) {
+                showNotification('Please sign in to perform searches', 'error');
+                return;
+            }
+            
+            const question = document.getElementById('question-input').value.trim();
+            if (!question) return;
+            
+            const resultsContent = document.getElementById('results-content');
+            resultsContent.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            `;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/rag`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...getAuthHeaders()
+                    },
+                    body: JSON.stringify({
+                        question: question,
+                        limit: 5,
+                        threshold: 0.75,
+                        department: document.getElementById('department-select').value,
+                        semester: document.getElementById('semester-select').value,
+                        subject: document.getElementById('subject-select').value
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                window.currentResults = data;
+                displayResults(data);
+                
+                // Update search count in UI
+                if (currentUser) {
+                    currentUser.searchCount = (currentUser.searchCount || 0) + 1;
+                    document.getElementById('search-count').textContent = currentUser.searchCount;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                }
+                
+                // Add to search history
+                if (data.found && data.answer) {
+                    addToSearchHistory(question, data.answer, data.confidence, new Date().toISOString());
+                }
+                
+                // Save preferences after search
+                savePreferencesToBackend();
+                
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                resultsContent.innerHTML = `
+                    <div class="no-results">
+                        <p>Error connecting to the server. Please make sure your backend is running on port 3000.</p>
+                        <p>Error details: ${error.message}</p>
+                    </div>
+                `;
+                showNotification('Search failed', 'error');
+            }
+        }
+        
+        function displayResults(data) {
+            const resultsContent = document.getElementById('results-content');
+            const resultsCount = document.getElementById('results-count');
+            
+            if (!data.found || !data.answer) {
+                resultsContent.innerHTML = `
+                    <div class="no-results">
+                        <p>No relevant information found for your question.</p>
+                        <p>Try rephrasing or asking about a different topic.</p>
+                    </div>
+                `;
+                resultsCount.textContent = '0 results found';
+                return;
+            }
+            
+            // Determine confidence level
+            let confidenceClass = 'confidence-low';
+            let confidenceText = 'Low confidence';
+            
+            if (data.confidence >= 0.8) {
+                confidenceClass = 'confidence-high';
+                confidenceText = 'High confidence';
+            } else if (data.confidence >= 0.5) {
+                confidenceClass = 'confidence-medium';
+                confidenceText = 'Medium confidence';
+            }
+            
+            // Format sources
+            let sourcesHtml = '';
+            if (data.sources && data.sources.length > 0) {
+                sourcesHtml = `
+                    <div class="sources-section">
+                        <h4>Sources:</h4>
+                        ${data.sources.map(source => `
+                            <div class="source-item">
+                                ${source.snippet || 'No snippet available'}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Cache indicator
+            const cacheIndicator = data.cached ? 
+                `<span class="cache-indicator cache-hit">Cached response</span>` : 
+                `<span class="cache-indicator">Live response</span>`;
+            
+            const resultHtml = `
+                <div class="result-card">
+                    <h3 class="result-title">Answer</h3>
+                    <div class="result-meta">
+                        <span class="confidence-badge ${confidenceClass}">${confidenceText} (${(data.confidence * 100).toFixed(1)}%)</span>
+                        ${cacheIndicator}
+                        <span>Response time: ${data.timing?.total || 'N/A'}</span>
+                    </div>
+                    <div class="result-content">
+                        <p>${data.answer}</p>
+                    </div>
+                    ${sourcesHtml}
+                    <div class="result-actions">
+                        <button class="action-btn" onclick="copyToClipboard('${data.answer.replace(/'/g, "\\'")}')">
+                            <span>📋</span>
+                            <span>Copy</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            resultsContent.innerHTML = resultHtml;
+            resultsCount.textContent = '1 result found';
+        }
+        
+        function filterResults() {
+            const activeFilter = document.querySelector('.filter.active').getAttribute('data-filter');
+            
+            let filterMessage = '';
+            switch(activeFilter) {
+                case 'precise':
+                    filterMessage = 'Showing precise, focused answers';
+                    break;
+                case 'detailed':
+                    filterMessage = 'Showing detailed, comprehensive answers';
+                    break;
+                case 'concept':
+                    filterMessage = 'Showing conceptual explanations';
+                    break;
+                default:
+                    filterMessage = 'Showing all results';
+            }
+            
+            if (activeFilter !== 'precise') {
+                document.getElementById('results-content').innerHTML = `
+                    <div class="no-results">
+                        <p><strong>Filter Applied:</strong> ${filterMessage}</p>
+                        <p><em>Note: In a full implementation, this would filter the results accordingly.</em></p>
+                    </div>
+                `;
+            } else if (window.currentResults) {
+                displayResults(window.currentResults);
+            }
+        }
+        
+        // Subject Options Update
+        function updateSubjectOptions() {
+            const department = document.getElementById('department-select').value;
+            const subjectSelect = document.getElementById('subject-select');
+            
+            const subjectOptions = {
+                'computer-science': [
+                    {value: 'intro-programming', text: 'Introduction to Programming'},
+                    {value: 'data-structures', text: 'Data Structures'},
+                    {value: 'algorithms', text: 'Algorithms'},
+                    {value: 'web-development', text: 'Web Development'}
+                ],
+                'mathematics': [
+                    {value: 'calculus-1', text: 'Calculus I'},
+                    {value: 'calculus-2', text: 'Calculus II'},
+                    {value: 'linear-algebra', text: 'Linear Algebra'},
+                    {value: 'statistics', text: 'Statistics'}
+                ],
+                'chemistry': [
+                    {value: 'general-chem', text: 'General Chemistry'},
+                    {value: 'organic-chem', text: 'Organic Chemistry'},
+                    {value: 'physical-chem', text: 'Physical Chemistry'}
+                ],
+                'history': [
+                    {value: 'world-history', text: 'World History'},
+                    {value: 'american-history', text: 'American History'},
+                    {value: 'european-history', text: 'European History'}
+                ],
+                'psychology': [
+                    {value: 'psychology-101', text: 'Psychology 101'},
+                    {value: 'cognitive-psych', text: 'Cognitive Psychology'},
+                    {value: 'social-psych', text: 'Social Psychology'}
+                ],
+                'english': [
+                    {value: 'english-comp', text: 'English Composition'},
+                    {value: 'literature', text: 'Literature'},
+                    {value: 'creative-writing', text: 'Creative Writing'}
+                ],
+                'physics': [
+                    {value: 'physics-1', text: 'Physics I'},
+                    {value: 'physics-2', text: 'Physics II'},
+                    {value: 'quantum-physics', text: 'Quantum Physics'}
+                ],
+                'biology': [
+                    {value: 'general-biology', text: 'General Biology'},
+                    {value: 'molecular-biology', text: 'Molecular Biology'},
+                    {value: 'ecology', text: 'Ecology'}
+                ]
+            };
+            
+            // Clear current options
+            subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+            
+            if (department && subjectOptions[department]) {
+                subjectOptions[department].forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option.value;
+                    optionElement.textContent = option.text;
+                    subjectSelect.appendChild(optionElement);
+                });
+            }
+        }
+        
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Answer copied to clipboard!', 'success', 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                showNotification('Failed to copy to clipboard', 'error');
+            });
+        }
+        
+        // Event Listeners
         document.addEventListener('DOMContentLoaded', function() {
             const searchBtn = document.getElementById('search-button');
             const questionInput = document.getElementById('question-input');
             const filters = document.querySelectorAll('.filter');
-            const resultsContent = document.getElementById('results-content');
-            const resultsCount = document.getElementById('results-count');
-            
-            // New selectors
             const departmentSelect = document.getElementById('department-select');
             const semesterSelect = document.getElementById('semester-select');
             const subjectSelect = document.getElementById('subject-select');
@@ -849,10 +1385,17 @@
             
             // Google Sign-In button click
             googleSignInBtn.addEventListener('click', function() {
-                if (typeof google !== 'undefined') {
-                    google.accounts.id.prompt();
+                if (typeof google !== 'undefined' && GOOGLE_CLIENT_ID !== 'YOUR_GOOGLE_CLIENT_ID') {
+                    try {
+                        google.accounts.id.prompt();
+                    } catch (error) {
+                        console.error('Error showing Google prompt:', error);
+                        showNotification('Google Sign-In prompt failed', 'error');
+                    }
+                } else if (GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
+                    showNotification('Please configure Google Client ID', 'error');
                 } else {
-                    alert('Google Sign-In is not available. Please refresh the page and try again.');
+                    showNotification('Google Sign-In not available', 'error');
                 }
             });
             
@@ -865,7 +1408,6 @@
                     filters.forEach(f => f.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // If we have results, filter them
                     if (window.currentResults) {
                         filterResults();
                     }
@@ -875,13 +1417,18 @@
             // Course selection handlers
             departmentSelect.addEventListener('change', function() {
                 updateSubjectOptions();
+                savePreferencesToBackend();
             });
+            
+            semesterSelect.addEventListener('change', savePreferencesToBackend);
+            subjectSelect.addEventListener('change', savePreferencesToBackend);
             
             // Clear history button
             clearHistoryBtn.addEventListener('click', function() {
                 if (confirm('Are you sure you want to clear your search history?')) {
                     searchHistory = [];
                     updateSearchHistory();
+                    showNotification('Search history cleared', 'info');
                 }
             });
             
@@ -893,302 +1440,7 @@
                     performSearch();
                 }
             });
-            
-            // Update subject options based on selected department
-            function updateSubjectOptions() {
-                const department = departmentSelect.value;
-                const subjectOptions = {
-                    'computer-science': [
-                        {value: 'intro-programming', text: 'Introduction to Programming'},
-                        {value: 'data-structures', text: 'Data Structures'},
-                        {value: 'algorithms', text: 'Algorithms'},
-                        {value: 'web-development', text: 'Web Development'}
-                    ],
-                    'mathematics': [
-                        {value: 'calculus-1', text: 'Calculus I'},
-                        {value: 'calculus-2', text: 'Calculus II'},
-                        {value: 'linear-algebra', text: 'Linear Algebra'},
-                        {value: 'statistics', text: 'Statistics'}
-                    ],
-                    'chemistry': [
-                        {value: 'general-chem', text: 'General Chemistry'},
-                        {value: 'organic-chem', text: 'Organic Chemistry'},
-                        {value: 'physical-chem', text: 'Physical Chemistry'}
-                    ],
-                    'history': [
-                        {value: 'world-history', text: 'World History'},
-                        {value: 'american-history', text: 'American History'},
-                        {value: 'european-history', text: 'European History'}
-                    ],
-                    'psychology': [
-                        {value: 'psychology-101', text: 'Psychology 101'},
-                        {value: 'cognitive-psych', text: 'Cognitive Psychology'},
-                        {value: 'social-psych', text: 'Social Psychology'}
-                    ],
-                    'english': [
-                        {value: 'english-comp', text: 'English Composition'},
-                        {value: 'literature', text: 'Literature'},
-                        {value: 'creative-writing', text: 'Creative Writing'}
-                    ],
-                    'physics': [
-                        {value: 'physics-1', text: 'Physics I'},
-                        {value: 'physics-2', text: 'Physics II'},
-                        {value: 'quantum-physics', text: 'Quantum Physics'}
-                    ],
-                    'biology': [
-                        {value: 'general-biology', text: 'General Biology'},
-                        {value: 'molecular-biology', text: 'Molecular Biology'},
-                        {value: 'ecology', text: 'Ecology'}
-                    ]
-                };
-                
-                // Clear current options
-                subjectSelect.innerHTML = '<option value="">Select Subject</option>';
-                
-                if (department && subjectOptions[department]) {
-                    subjectOptions[department].forEach(option => {
-                        const optionElement = document.createElement('option');
-                        optionElement.value = option.value;
-                        optionElement.textContent = option.text;
-                        subjectSelect.appendChild(optionElement);
-                    });
-                }
-            }
-            
-            // Add search to history
-            function addToSearchHistory(question, answer, confidence, timestamp) {
-                const historyItem = {
-                    id: Date.now(),
-                    question: question,
-                    answer: answer,
-                    confidence: confidence,
-                    timestamp: timestamp,
-                    department: departmentSelect.value,
-                    semester: semesterSelect.value,
-                    subject: subjectSelect.value
-                };
-                
-                // Add to beginning of array (most recent first)
-                searchHistory.unshift(historyItem);
-                
-                // Keep only last 20 searches
-                if (searchHistory.length > 20) {
-                    searchHistory = searchHistory.slice(0, 20);
-                }
-                
-                updateSearchHistory();
-            }
-            
-            // Update search history display
-            function updateSearchHistory() {
-                const historyList = document.getElementById('search-history-list');
-                const clearBtn = document.getElementById('clear-history-btn');
-                
-                if (searchHistory.length === 0) {
-                    historyList.innerHTML = '<div class="no-history"><p>No search history yet</p></div>';
-                    clearBtn.style.display = 'none';
-                    return;
-                }
-                
-                clearBtn.style.display = 'block';
-                
-                const historyHTML = searchHistory.map(item => {
-                    const date = new Date(item.timestamp).toLocaleDateString();
-                    const time = new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    
-                    let confidenceClass = 'confidence-low';
-                    if (item.confidence >= 0.8) confidenceClass = 'confidence-high';
-                    else if (item.confidence >= 0.5) confidenceClass = 'confidence-medium';
-                    
-                    return `
-                        <div class="history-item" onclick="rerunSearch('${item.question.replace(/'/g, "\\'")}')">
-                            <div class="history-question">${item.question}</div>
-                            <div class="history-meta">
-                                <span>${date} ${time}</span>
-                                <span class="history-confidence ${confidenceClass}">${(item.confidence * 100).toFixed(0)}%</span>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-                
-                historyList.innerHTML = historyHTML;
-            }
-            
-            // Rerun search from history
-            window.rerunSearch = function(question) {
-                questionInput.value = question;
-                performSearch();
-            };
-            
-            // Perform search using the RAG API
-            async function performSearch() {
-                if (!currentUser) {
-                    alert('Please sign in to perform searches.');
-                    return;
-                }
-                
-                const question = questionInput.value.trim();
-                if (!question) return;
-                
-                resultsContent.innerHTML = `
-                    <div class="loading">
-                        <div class="spinner"></div>
-                    </div>
-                `;
-                
-                try {
-                    const response = await fetch(`${API_BASE_URL}/rag`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${currentUser.id}` // Send user ID as auth
-                        },
-                        body: JSON.stringify({
-                            question: question,
-                            limit: 5,
-                            threshold: 0.75,
-                            department: departmentSelect.value,
-                            semester: semesterSelect.value,
-                            subject: subjectSelect.value,
-                            user: currentUser
-                        })
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`API error: ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    window.currentResults = data;
-                    displayResults(data);
-                    
-                    // Add to search history
-                    if (data.found && data.answer) {
-                        addToSearchHistory(question, data.answer, data.confidence, new Date().toISOString());
-                    }
-                    
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                    resultsContent.innerHTML = `
-                        <div class="no-results">
-                            <p>Error connecting to the server. Please make sure your backend is running on port 3000.</p>
-                            <p>Error details: ${error.message}</p>
-                        </div>
-                    `;
-                }
-            }
-            
-            // Display results from the API
-            function displayResults(data) {
-                if (!data.found || !data.answer) {
-                    resultsContent.innerHTML = `
-                        <div class="no-results">
-                            <p>No relevant information found for your question.</p>
-                            <p>Try rephrasing or asking about a different topic.</p>
-                        </div>
-                    `;
-                    resultsCount.textContent = '0 results found';
-                    return;
-                }
-                
-                // Determine confidence level
-                let confidenceClass = 'confidence-low';
-                let confidenceText = 'Low confidence';
-                
-                if (data.confidence >= 0.8) {
-                    confidenceClass = 'confidence-high';
-                    confidenceText = 'High confidence';
-                } else if (data.confidence >= 0.5) {
-                    confidenceClass = 'confidence-medium';
-                    confidenceText = 'Medium confidence';
-                }
-                
-                // Format sources
-                let sourcesHtml = '';
-                if (data.sources && data.sources.length > 0) {
-                    sourcesHtml = `
-                        <div class="sources-section">
-                            <h4>Sources:</h4>
-                            ${data.sources.map(source => `
-                                <div class="source-item">
-                                    ${source.snippet || 'No snippet available'}
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                }
-                
-                // Cache indicator
-                const cacheIndicator = data.cached ? 
-                    `<span class="cache-indicator cache-hit">Cached response</span>` : 
-                    `<span class="cache-indicator">Live response</span>`;
-                
-                const resultHtml = `
-                    <div class="result-card">
-                        <h3 class="result-title">Answer</h3>
-                        <div class="result-meta">
-                            <span class="confidence-badge ${confidenceClass}">${confidenceText} (${(data.confidence * 100).toFixed(1)}%)</span>
-                            ${cacheIndicator}
-                            <span>Response time: ${data.timing?.total || 'N/A'}</span>
-                        </div>
-                        <div class="result-content">
-                            <p>${data.answer}</p>
-                        </div>
-                        ${sourcesHtml}
-                        <div class="result-actions">
-                            <button class="action-btn" onclick="copyToClipboard('${data.answer.replace(/'/g, "\\'")}')">
-                                <span>📋</span>
-                                <span>Copy</span>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                
-                resultsContent.innerHTML = resultHtml;
-                resultsCount.textContent = '1 result found';
-            }
-            
-            // Filter results based on selected filter
-            function filterResults() {
-                const activeFilter = document.querySelector('.filter.active').getAttribute('data-filter');
-                
-                // Display message about the active filter
-                let filterMessage = '';
-                switch(activeFilter) {
-                    case 'precise':
-                        filterMessage = 'Showing precise, focused answers';
-                        break;
-                    case 'detailed':
-                        filterMessage = 'Showing detailed, comprehensive answers';
-                        break;
-                    case 'concept':
-                        filterMessage = 'Showing conceptual explanations';
-                        break;
-                    default:
-                        filterMessage = 'Showing all results';
-                }
-                
-                if (activeFilter !== 'precise') {
-                    resultsContent.innerHTML = `
-                        <div class="no-results">
-                            <p><strong>Filter Applied:</strong> ${filterMessage}</p>
-                            <p><em>Note: In a full implementation, this would filter the results accordingly.</em></p>
-                        </div>
-                    `;
-                } else {
-                    displayResults(window.currentResults);
-                }
-            }
         });
-        
-        // Copy to clipboard function
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Answer copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        }
         
         // Initialize Google Sign-In when script loads
         window.addEventListener('load', initializeGoogleSignIn);
