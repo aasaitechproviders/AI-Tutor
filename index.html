@@ -1574,16 +1574,45 @@
             
             // Basic event listeners
             document.getElementById('google-signin-btn').addEventListener('click', function() {
-                if (typeof google !== 'undefined') {
-                    try {
-                        google.accounts.id.prompt();
-                    } catch (error) {
-                        console.error('Error showing Google prompt:', error);
-                        showNotification('Google Sign-In prompt failed', 'error');
-                    }
-                } else {
-                    showNotification('Google Sign-In not available', 'error');
+                console.log('Google Sign-In button clicked');
+                debugGoogleSignIn();
+                
+                if (typeof google === 'undefined') {
+                    showNotification('Google API not loaded. Please refresh the page.', 'error');
+                    return;
                 }
+                
+                if (typeof google.accounts === 'undefined') {
+                    showNotification('Google accounts API not available', 'error');
+                    return;
+                }
+                
+                try {
+                    console.log('Attempting to show Google prompt...');
+                    
+                    // Use mobile-specific handling
+                    if (isMobile()) {
+                        console.log('Using mobile Google Sign-In flow');
+                        handleMobileGoogleSignIn();
+                    } else {
+                        console.log('Using desktop Google Sign-In flow');
+                        google.accounts.id.prompt((notification) => {
+                            console.log('Desktop prompt notification:', notification);
+                            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                                showNotification('Google Sign-In prompt failed to display', 'error');
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error showing Google prompt:', error);
+                    showNotification(`Google Sign-In error: ${error.message}`, 'error');
+                }
+            });
+            
+            // Debug Google Sign-In
+            debugGoogleBtn.addEventListener('click', function() {
+                debugGoogleSignIn();
+                showNotification('Check console for Google Sign-In debug info', 'info');
             });
             
             document.getElementById('sign-out-btn').addEventListener('click', signOut);
