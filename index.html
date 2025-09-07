@@ -845,21 +845,33 @@
             
             /* Main Layout Mobile */
             .main-layout {
-                display: block;
+                display: flex;
+                flex-direction: column;
                 padding: 1rem 0;
-                gap: 0;
+                gap: 1.5rem;
             }
             
             .sidebar {
                 position: static;
-                margin-bottom: 1.5rem;
                 padding: 1.5rem;
                 border-radius: 16px;
-                order: 2;
+                order: 1;
+                margin-bottom: 0;
             }
             
             .main-content {
+                order: 2;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            /* Reorder main-content children */
+            .search-container {
                 order: 1;
+            }
+            
+            .results-container {
+                order: 2;
             }
             
             /* Search Container Mobile */
