@@ -1021,6 +1021,62 @@
             
             .sidebar-section {
                 margin-bottom: 1.5rem;
+                display: block;
+                width: 100%;
+            }
+            
+            .sidebar-title {
+                font-size: 1.1rem;
+                text-align: center;
+                margin-bottom: 1rem;
+                display: block;
+                color: var(--primary);
+                font-weight: 600;
+            }
+            
+            .selector-group {
+                margin-bottom: 1rem;
+                display: block;
+                width: 100%;
+            }
+            
+            .selector-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: var(--dark);
+                font-size: 0.9rem;
+            }
+            
+            .form-select {
+                width: 100%;
+                min-height: 48px;
+                font-size: 16px;
+                padding: 0.8rem;
+                font-weight: 500;
+                border-radius: 10px;
+                border: 2px solid var(--light-gray);
+                background-color: white;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                -webkit-border-radius: 10px;
+                display: block;
+                cursor: pointer;
+            }
+            
+            .form-select:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            }
+            
+            .chat-history-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+                width: 100%;
             }
             
             .conversation-tabs {
@@ -1028,6 +1084,7 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 0.5rem;
                 margin-bottom: 1rem;
+                width: 100%;
             }
             
             .tab-btn {
@@ -1037,10 +1094,31 @@
                 text-align: center;
                 font-weight: 600;
                 border-radius: 12px;
+                background: var(--light);
+                border: 1px solid var(--light-gray);
+                cursor: pointer;
+                transition: all 0.3s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .tab-btn.active {
+                background: var(--primary);
+                color: white;
+                border-color: var(--primary);
+            }
+            
+            .tab-content {
+                display: block;
+                width: 100%;
             }
             
             .conversations-list, .chat-messages-list {
                 max-height: 250px;
+                overflow-y: auto;
+                width: 100%;
+                display: block;
             }
             
             .conversation-item, .chat-message-item {
@@ -1048,16 +1126,88 @@
                 margin-bottom: 0.8rem;
                 min-height: auto;
                 border-radius: 10px;
+                background: var(--light);
+                border: 1px solid var(--light-gray);
+                cursor: pointer;
+                transition: all 0.3s;
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .conversation-item:hover, .conversation-item:active,
+            .chat-message-item:hover, .chat-message-item:active {
+                background: #e8f0ff;
+                border-left-color: var(--primary);
+                transform: translateX(3px);
             }
             
             .conversation-title, .chat-question {
                 font-size: 0.85rem;
                 line-height: 1.3;
+                font-weight: 600;
+                margin-bottom: 0.3rem;
+                display: block;
+            }
+            
+            .chat-answer {
+                font-size: 0.8rem;
+                color: var(--gray);
+                margin-bottom: 0.3rem;
+                display: block;
             }
             
             .conversation-meta, .chat-message-meta {
                 font-size: 0.75rem;
                 margin-top: 0.5rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                color: var(--gray);
+            }
+            
+            .load-more-btn {
+                width: 100%;
+                padding: 0.8rem;
+                background: var(--light);
+                border: 1px solid var(--light-gray);
+                border-radius: 8px;
+                color: var(--gray);
+                cursor: pointer;
+                font-size: 0.85rem;
+                margin-top: 1rem;
+                transition: all 0.3s;
+                min-height: 44px;
+                display: block;
+            }
+            
+            .load-more-btn:hover, .load-more-btn:active {
+                background: var(--primary);
+                color: white;
+                border-color: var(--primary);
+            }
+            
+            .no-conversations, .no-chat-history {
+                text-align: center;
+                color: var(--gray);
+                font-style: italic;
+                padding: 2rem 1rem;
+                display: block;
+            }
+            
+            #refresh-history-btn {
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 1.2rem;
+                color: var(--primary);
+                padding: 0.5rem;
+                border-radius: 50%;
+                min-height: 40px;
+                min-width: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             
             .auth-required {
