@@ -2316,7 +2316,19 @@
             document.getElementById('search-button').addEventListener('click', performSearch);
             
             document.getElementById('question-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') performSearch();
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                    performSearch();
+                }
+            });
+            
+            // Auto-resize textarea as user types
+            document.getElementById('question-input').addEventListener('input', function() {
+                autoResizeTextarea(this);
+            });
+            
+            // Initial auto-resize on page load
+            document.getElementById('question-input').addEventListener('focus', function() {
+                autoResizeTextarea(this);
             });
             
             document.querySelectorAll('.tab-btn').forEach(btn => {
