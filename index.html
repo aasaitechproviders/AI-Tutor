@@ -128,6 +128,7 @@
             background: rgba(255, 255, 255, 0.3);
         }
         
+        /* Google Sign-In Button Container */
         .google-signin-container {
             display: flex;
             align-items: center;
@@ -150,7 +151,7 @@
             transition: all 0.3s;
             text-decoration: none;
             -webkit-tap-highlight-color: transparent;
-            min-height: 44px;
+            min-height: 44px; /* Improved touch target for mobile */
         }
         
         .custom-google-btn:hover, .custom-google-btn:active {
@@ -750,15 +751,15 @@
             opacity: 0.8;
         }
         
-        /* Mobile-optimized layout */
+        /* Mobile-first responsive design */
         @media (max-width: 768px) {
             .container {
                 padding: 0 15px;
             }
             
-            /* Compact mobile header */
+            /* Header improvements - Compact mobile profile */
             header {
-                padding: 0.7rem 0;
+                padding: 0.8rem 0;
             }
             
             .header-content {
@@ -769,13 +770,13 @@
             }
             
             .logo {
-                font-size: 1rem;
+                font-size: 1.1rem;
                 order: 1;
                 flex: 1;
             }
             
             .logo-icon {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
                 margin-right: 5px;
             }
             
@@ -788,29 +789,32 @@
             
             .google-signin-container {
                 width: auto;
+                max-width: 200px;
             }
             
-            .custom-google-btn {
-                font-size: 0.75rem;
-                padding: 0.4rem 0.7rem;
-                min-height: 32px;
+            .custom-google-btn, #mobile-fallback-signin-btn {
+                width: auto;
+                font-size: 0.8rem;
+                padding: 0.5rem 0.8rem;
+                min-height: 36px;
                 white-space: nowrap;
             }
             
-            /* Ultra-compact user profile */
+            /* Ultra-compact mobile user profile */
             .user-profile {
                 flex-direction: row;
                 text-align: left;
-                padding: 0.25rem 0.5rem;
+                padding: 0.3rem 0.6rem;
                 width: auto;
+                max-width: none;
                 background: rgba(255, 255, 255, 0.15);
-                border-radius: 16px;
-                gap: 0.4rem;
+                border-radius: 18px;
+                gap: 0.5rem;
             }
             
             .user-avatar {
-                width: 20px;
-                height: 20px;
+                width: 24px;
+                height: 24px;
                 border: 1px solid white;
                 flex-shrink: 0;
             }
@@ -823,253 +827,238 @@
             }
             
             .user-name {
-                font-size: 0.7rem;
+                font-size: 0.75rem;
                 font-weight: 600;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                max-width: 60px;
-                line-height: 1.1;
+                max-width: 80px;
+                line-height: 1.2;
             }
             
             .user-email {
-                display: none;
+                display: none; /* Hide email on mobile to save space */
             }
             
             .user-stats {
-                font-size: 0.55rem;
+                font-size: 0.6rem;
+                opacity: 0.8;
                 margin-top: 1px;
                 white-space: nowrap;
                 line-height: 1;
             }
             
             .sign-out-btn {
-                padding: 0.25rem 0.5rem;
-                font-size: 0.6rem;
-                border-radius: 10px;
-                min-height: 20px;
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
+                border-radius: 12px;
+                min-height: 24px;
                 white-space: nowrap;
                 flex-shrink: 0;
             }
             
-            /* Mobile-first layout - Search at top */
-            .main-content {
-                padding: 1rem 0;
-            }
-            
+            /* Mobile-first layout - Search comes first */
             .two-column-layout {
                 display: flex;
                 flex-direction: column;
-                gap: 1rem;
+                gap: 1.5rem;
             }
             
             .main-content-area {
-                order: 1; /* Search first */
+                order: 1; /* Search section comes first on mobile */
             }
             
             .courses-sidebar {
-                order: 2; /* Sidebar second */
+                order: 2; /* Sidebar comes after search on mobile */
                 padding: 1rem;
             }
             
-            /* Prominent search section */
+            /* Enhanced search container */
             .search-container {
-                padding: 1.2rem;
+                padding: 1.5rem;
                 margin-bottom: 1rem;
-                background: linear-gradient(135deg, #ffffff, #f8f9ff);
-                border: 2px solid var(--primary);
             }
             
             .conversation-controls {
                 flex-direction: column;
                 gap: 0.8rem;
-                margin-bottom: 1.2rem;
+                margin-bottom: 1.5rem;
             }
             
             .new-conversation-btn {
                 width: 100%;
                 justify-content: center;
-                padding: 0.9rem;
-                font-size: 0.95rem;
-                font-weight: 700;
+                padding: 1rem;
+                font-size: 1rem;
             }
             
             .current-conversation {
                 width: 100%;
                 justify-content: center;
                 text-align: center;
-                padding: 0.7rem;
-                font-size: 0.85rem;
+                padding: 0.8rem;
             }
             
-            /* Mobile search box - stacked vertically */
+            /* Mobile search box */
             .search-box {
                 flex-direction: column;
-                gap: 0.7rem;
-                margin-bottom: 1.2rem;
+                gap: 0.8rem;
+                margin-bottom: 1.5rem;
             }
             
             .search-input {
                 width: 100%;
                 border-radius: 8px;
-                min-height: 50px;
-                font-size: 16px; /* Prevents iOS zoom */
+                min-height: 48px;
+                font-size: 16px; /* Prevents zoom on iOS */
                 padding: 1rem;
-                border: 3px solid var(--primary);
-                font-weight: 500;
+                border: 2px solid var(--light-gray);
             }
             
             .search-btn {
                 width: 100%;
                 border-radius: 8px;
-                min-height: 50px;
-                font-size: 1.1rem;
-                font-weight: 700;
+                min-height: 48px;
+                font-size: 1rem;
                 padding: 1rem;
-                background: linear-gradient(135deg, var(--primary), var(--secondary));
             }
             
-            /* Mobile filters - responsive grid */
+            /* Mobile filters */
             .filters {
                 display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 0.6rem;
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 0.8rem;
+                justify-content: stretch;
             }
             
             .filter {
                 min-width: auto;
-                padding: 0.8rem;
-                font-size: 0.85rem;
-                font-weight: 600;
+                padding: 1rem;
+                font-size: 0.9rem;
             }
             
-            /* Enhanced results for mobile */
+            /* Results container */
             .results-container {
-                padding: 1.2rem;
+                padding: 1.5rem;
             }
             
             .results-header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 0.5rem;
+                text-align: left;
             }
             
             .results-title {
-                font-size: 1.2rem;
-                color: var(--primary);
+                font-size: 1.3rem;
             }
             
             .result-card {
-                padding: 1rem;
-                margin-bottom: 1rem;
-                border: 2px solid var(--light-gray);
+                padding: 1.2rem;
             }
             
             .result-meta {
                 flex-direction: column;
-                gap: 0.4rem;
+                gap: 0.5rem;
                 align-items: flex-start;
             }
             
             .result-actions {
                 flex-direction: column;
-                gap: 0.6rem;
+                gap: 0.8rem;
             }
             
             .action-btn {
                 width: 100%;
                 justify-content: center;
-                padding: 0.7rem;
-                border: 1px solid var(--primary);
+                padding: 0.8rem;
+                border: 1px solid var(--light-gray);
                 border-radius: 8px;
                 background: var(--light);
-                font-weight: 600;
             }
             
-            /* Compact sidebar */
+            /* Sidebar improvements */
             .sidebar-title {
-                font-size: 1rem;
+                font-size: 1.1rem;
                 text-align: center;
-                margin-bottom: 0.8rem;
+                margin-bottom: 1rem;
             }
             
             .form-select {
-                min-height: 46px;
-                font-size: 16px; /* Prevents iOS zoom */
-                padding: 0.8rem;
-                font-weight: 500;
+                min-height: 48px;
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 1rem;
             }
             
-            /* Streamlined chat history */
+            /* Chat history section */
             .chat-history-section {
-                margin-top: 1rem;
-                padding-top: 1rem;
+                margin-top: 1.5rem;
+                padding-top: 1.5rem;
             }
             
             .conversation-tabs {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 0.4rem;
-                margin-bottom: 0.8rem;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
             }
             
             .tab-btn {
-                padding: 0.7rem;
-                font-size: 0.85rem;
-                min-height: 40px;
+                padding: 0.8rem;
+                font-size: 0.9rem;
+                min-height: 44px;
                 text-align: center;
-                font-weight: 600;
             }
             
             .conversations-list, .chat-messages-list {
-                max-height: 200px;
+                max-height: 250px;
             }
             
             .conversation-item, .chat-message-item {
-                padding: 0.8rem;
-                margin-bottom: 0.6rem;
+                padding: 1rem;
+                margin-bottom: 0.8rem;
                 min-height: auto;
             }
             
             .conversation-title, .chat-question {
-                font-size: 0.85rem;
-                line-height: 1.3;
+                font-size: 0.9rem;
+                line-height: 1.4;
             }
             
             .conversation-meta, .chat-message-meta {
-                font-size: 0.75rem;
-                margin-top: 0.4rem;
+                font-size: 0.8rem;
+                margin-top: 0.5rem;
             }
             
-            /* Auth section */
+            /* Auth required section */
             .auth-required {
-                padding: 1.5rem 1rem;
-                margin: 1rem 0;
+                padding: 2rem 1rem;
+                text-align: center;
             }
             
             .auth-required h2 {
-                font-size: 1.3rem;
-                margin-bottom: 0.8rem;
+                font-size: 1.4rem;
+                margin-bottom: 1rem;
             }
             
             .auth-required p {
-                font-size: 0.95rem;
-                line-height: 1.4;
-                margin-bottom: 1.5rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                margin-bottom: 2rem;
             }
             
             /* Footer */
             .footer-content {
                 flex-direction: column;
                 text-align: center;
-                gap: 0.8rem;
-                padding: 0.8rem 0;
+                gap: 1rem;
+                padding: 1rem 0;
             }
             
             .footer-links {
                 justify-content: center;
                 flex-wrap: wrap;
-                gap: 0.8rem;
+                gap: 1rem;
             }
             
             /* Notifications */
@@ -1079,23 +1068,23 @@
                 left: 10px;
                 max-width: none;
                 transform: translateY(-100px);
-                font-size: 0.85rem;
-                padding: 0.8rem;
+                font-size: 0.9rem;
+                padding: 1rem;
             }
             
             .notification.show {
                 transform: translateY(0);
             }
             
-            /* Loading states */
+            /* Loading and no results */
             .loading, .no-results, .no-conversations, .no-chat-history {
-                padding: 1.5rem 0.8rem;
-                font-size: 0.85rem;
+                padding: 2rem 1rem;
+                font-size: 0.9rem;
             }
             
             .spinner {
-                width: 32px;
-                height: 32px;
+                width: 35px;
+                height: 35px;
             }
         }
         
@@ -1129,7 +1118,7 @@
         <div class="container header-content">
             <div class="logo">
                 <span class="logo-icon">📚</span>
-                <span>EduAI</span>
+                <span>EduAI Syllabus Assistant</span>
             </div>
             <div class="auth-container">
                 <div class="google-signin-container">
@@ -1141,7 +1130,7 @@
                             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                         </svg>
-                        Sign in
+                        Sign in with Google
                     </div>
                 </div>
                 <div id="user-profile" class="user-profile">
@@ -1150,11 +1139,11 @@
                         <div id="user-name" class="user-name"></div>
                         <div id="user-email" class="user-email"></div>
                         <div id="user-stats" class="user-stats">
-                            <span><span id="search-count">0</span>S</span> | 
-                            <span><span id="conversation-count">0</span>C</span>
+                            <span>Searches: <span id="search-count">0</span></span> | 
+                            <span>Conversations: <span id="conversation-count">0</span></span>
                         </div>
                     </div>
-                    <button id="sign-out-btn" class="sign-out-btn">Out</button>
+                    <button id="sign-out-btn" class="sign-out-btn">Sign Out</button>
                 </div>
             </div>
         </div>
@@ -1168,43 +1157,6 @@
 
         <section id="search-section" style="display: none;">
             <div class="two-column-layout">
-                <div class="main-content-area">
-                    <div class="search-container">
-                        <div class="conversation-controls">
-                            <button id="new-conversation-btn" class="new-conversation-btn">
-                                <span>💬</span>
-                                <span>New Conversation</span>
-                            </button>
-                            <div id="current-conversation" class="current-conversation" style="display: none;">
-                                <span>📝</span>
-                                <span id="current-conversation-title">Current: New Conversation</span>
-                            </div>
-                        </div>
-                        
-                        <div class="search-box">
-                            <input type="text" class="search-input" id="question-input" placeholder="Ask a question about your syllabus...">
-                            <button class="search-btn" id="search-button">Search</button>
-                        </div>
-                        <div class="filters">
-                            <div class="filter active" data-filter="precise">Precise</div>
-                            <div class="filter" data-filter="detailed">Detailed</div>
-                            <div class="filter" data-filter="concept">Concept</div>
-                        </div>
-                    </div>
-
-                    <div class="results-container" id="results-container">
-                        <div class="results-header">
-                            <h2 class="results-title">Syllabus Answers</h2>
-                            <span id="results-count">0 results found</span>
-                        </div>
-                        <div id="results-content">
-                            <div class="no-results">
-                                <p>Enter a question about your syllabus to get answers</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <aside class="courses-sidebar">
                     <h2 class="sidebar-title">Course Selection</h2>
                     <div class="course-selectors">
@@ -1280,27 +1232,70 @@
                         </div>
                     </div>
                 </aside>
+
+                <div class="main-content-area">
+                    <div class="search-container">
+                        <div class="conversation-controls">
+                            <button id="new-conversation-btn" class="new-conversation-btn">
+                                <span>💬</span>
+                                <span>New Conversation</span>
+                            </button>
+                            <div id="current-conversation" class="current-conversation" style="display: none;">
+                                <span>📝</span>
+                                <span id="current-conversation-title">Current: New Conversation</span>
+                            </div>
+                        </div>
+                        
+                        <div class="search-box">
+                            <input type="text" class="search-input" id="question-input" placeholder="Ask a question about your syllabus...">
+                            <button class="search-btn" id="search-button">Search</button>
+                        </div>
+                        <div class="filters">
+                            <div class="filter active" data-filter="precise">Precise</div>
+                            <div class="filter" data-filter="detailed">Detailed</div>
+                            <div class="filter" data-filter="concept">Concept</div>
+                        </div>
+                    </div>
+
+                    <div class="results-container" id="results-container">
+                        <div class="results-header">
+                            <h2 class="results-title">Syllabus Answers</h2>
+                            <span id="results-count">0 results found</span>
+                        </div>
+                        <div id="results-content">
+                            <div class="no-results">
+                                <p>Enter a question about your syllabus to get answers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
 
+    <!-- Notification container -->
     <div id="notification" class="notification"></div>
 
     <footer>
         <div class="container footer-content">
             <p>&copy; 2023 EduAI Syllabus Assistant. For college students.</p>
             <div class="footer-links">
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-                <a href="#">Help</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Help Center</a>
             </div>
         </div>
     </footer>
 
     <script>
+        // Google Sign-In Configuration
         const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com';
-        const API_BASE_URL = 'https://overharsh-hoggishly-duncan.ngrok-free.app';
         
+        // API configuration - UPDATE THIS WITH YOUR NGROK URL  
+        // const API_BASE_URL = 'http://localhost:3000';
+         const API_BASE_URL = 'https://overharsh-hoggishly-duncan.ngrok-free.app'
+        
+        // Global state
         let currentUser = null;
         let sessionToken = null;
         let currentConversationId = null;
@@ -1309,6 +1304,7 @@
         let currentPage = { conversations: 1, messages: 1 };
         let googleSignInInitialized = false;
         
+        // Utility Functions
         function showNotification(message, type = 'info', duration = 3000) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -1341,31 +1337,16 @@
             return date.toLocaleDateString();
         }
         
-        // API Functions with ngrok headers
+        // API Functions
         async function authenticateWithBackend(googleUserData) {
             try {
                 const response = await fetch(`${API_BASE_URL}/auth/google`, {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ googleUserData })
                 });
                 
-                if (!response.ok) {
-                    const text = await response.text();
-                    console.error('Authentication failed:', response.status, text);
-                    throw new Error(`Authentication failed: ${response.status}`);
-                }
-                
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    const text = await response.text();
-                    console.error('Non-JSON response:', text);
-                    throw new Error('Server returned invalid response');
-                }
-                
+                if (!response.ok) throw new Error(`Authentication failed: ${response.status}`);
                 return await response.json();
             } catch (error) {
                 console.error('Backend authentication error:', error);
@@ -1376,23 +1357,10 @@
         async function getUserProfile() {
             try {
                 const response = await fetch(`${API_BASE_URL}/user/profile`, {
-                    headers: {
-                        ...getAuthHeaders(),
-                        'ngrok-skip-browser-warning': 'true'
-                    }
+                    headers: getAuthHeaders()
                 });
                 
-                if (!response.ok) {
-                    console.error('Profile request failed:', response.status);
-                    return null;
-                }
-                
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    console.error('Non-JSON response from profile endpoint');
-                    return null;
-                }
-                
+                if (!response.ok) throw new Error(`Failed to get profile: ${response.status}`);
                 const data = await response.json();
                 return data.user;
             } catch (error) {
@@ -1405,10 +1373,7 @@
             try {
                 await fetch(`${API_BASE_URL}/auth/logout`, {
                     method: 'POST',
-                    headers: {
-                        ...getAuthHeaders(),
-                        'ngrok-skip-browser-warning': 'true'
-                    }
+                    headers: getAuthHeaders()
                 });
             } catch (error) {
                 console.error('Error during logout:', error);
@@ -1418,23 +1383,10 @@
         async function getUserConversations(page = 1) {
             try {
                 const response = await fetch(`${API_BASE_URL}/user/conversations?page=${page}&limit=20`, {
-                    headers: {
-                        ...getAuthHeaders(),
-                        'ngrok-skip-browser-warning': 'true'
-                    }
+                    headers: getAuthHeaders()
                 });
                 
-                if (!response.ok) {
-                    console.error('Conversations request failed:', response.status);
-                    return { conversations: [], totalCount: 0, hasMore: false };
-                }
-                
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    console.error('Non-JSON response from conversations endpoint');
-                    return { conversations: [], totalCount: 0, hasMore: false };
-                }
-                
+                if (!response.ok) throw new Error(`Failed to get conversations: ${response.status}`);
                 return await response.json();
             } catch (error) {
                 console.error('Error getting conversations:', error);
@@ -1445,23 +1397,10 @@
         async function getUserChatHistory(page = 1) {
             try {
                 const response = await fetch(`${API_BASE_URL}/user/chat-history?page=${page}&limit=20`, {
-                    headers: {
-                        ...getAuthHeaders(),
-                        'ngrok-skip-browser-warning': 'true'
-                    }
+                    headers: getAuthHeaders()
                 });
                 
-                if (!response.ok) {
-                    console.error('Chat history request failed:', response.status);
-                    return { chatHistory: [], totalCount: 0, hasMore: false };
-                }
-                
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    console.error('Non-JSON response from chat history endpoint');
-                    return { chatHistory: [], totalCount: 0, hasMore: false };
-                }
-                
+                if (!response.ok) throw new Error(`Failed to get chat history: ${response.status}`);
                 return await response.json();
             } catch (error) {
                 console.error('Error getting chat history:', error);
@@ -1473,24 +1412,10 @@
             try {
                 const response = await fetch(`${API_BASE_URL}/user/conversation/new`, {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json', 
-                        'ngrok-skip-browser-warning': 'true',
-                        ...getAuthHeaders() 
-                    }
+                    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }
                 });
                 
-                if (!response.ok) {
-                    console.error('Create conversation failed:', response.status);
-                    return null;
-                }
-                
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    console.error('Non-JSON response from create conversation endpoint');
-                    return null;
-                }
-                
+                if (!response.ok) throw new Error(`Failed to create conversation: ${response.status}`);
                 const data = await response.json();
                 return data.conversationId;
             } catch (error) {
@@ -1499,21 +1424,49 @@
             }
         }
         
-        // Google Sign-In Functions (redirect-only to avoid COOP)
+        // Enhanced Google Sign-In Functions
         function initializeGoogleSignIn() {
             if (googleSignInInitialized) return;
             
             if (typeof google === 'undefined' || !google.accounts) {
                 console.log('Google API not ready, retrying...');
-                setTimeout(initializeGoogleSignIn, 500);
+                setTimeout(initializeGoogleSignIn, 100);
                 return;
             }
             
             try {
-                console.log('Initializing Google Sign-In with redirect-only mode...');
+                console.log('Initializing Google Sign-In...');
                 
-                // Use custom button only to avoid all COOP issues
-                showCustomSignInButton();
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleCredentialResponse,
+                    auto_select: false,
+                    cancel_on_tap_outside: false,
+                    use_fedcm_for_prompt: true,
+                    ux_mode: 'popup'
+                });
+                
+                // Try to render the Google button
+                try {
+                    google.accounts.id.renderButton(
+                        document.getElementById("google-signin-button"),
+                        {
+                            theme: "outline",
+                            size: "large",
+                            width: isMobile() ? "280" : "250",
+                            text: "signin_with",
+                            shape: "rectangular",
+                            logo_alignment: "left"
+                        }
+                    );
+                    
+                    console.log('Google button rendered successfully');
+                } catch (renderError) {
+                    console.error('Failed to render Google button:', renderError);
+                    // Show custom button as fallback
+                    showCustomSignInButton();
+                }
+                
                 googleSignInInitialized = true;
                 
                 // Check if user is already signed in
@@ -1524,6 +1477,7 @@
                     sessionToken = savedToken;
                     currentUser = JSON.parse(savedUser);
                     
+                    // Verify session with backend
                     getUserProfile().then(profile => {
                         if (profile) {
                             currentUser = profile;
@@ -1542,6 +1496,7 @@
             } catch (error) {
                 console.error('Error initializing Google Sign-In:', error);
                 showCustomSignInButton();
+                showNotification('Google Sign-In initialization failed, using fallback', 'error');
             }
         }
         
@@ -1555,92 +1510,20 @@
             document.getElementById('google-signin-button').style.display = 'block';
         }
         
-        function handleCustomSignIn() {
+        async function handleCredentialResponse(response) {
             try {
-                console.log('Custom sign-in button clicked - using direct OAuth redirect');
-                showNotification('Redirecting to Google Sign-In...', 'info');
+                showNotification('Signing in...', 'info');
                 
-                const state = Math.random().toString(36).substring(2, 15);
-                localStorage.setItem('oauth_state', state);
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
                 
-                const redirectUri = encodeURIComponent(window.location.origin);
-                const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
-                    `client_id=${GOOGLE_CLIENT_ID}&` +
-                    `redirect_uri=${redirectUri}&` +
-                    `response_type=code&` +
-                    `scope=openid%20email%20profile&` +
-                    `state=${state}&` +
-                    `access_type=offline&` +
-                    `prompt=select_account`;
+                const googleUserData = {
+                    id: payload.sub,
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture
+                };
                 
-                window.location.href = authUrl;
-                
-            } catch (error) {
-                console.error('Custom sign-in error:', error);
-                showNotification(`Sign-in error: ${error.message}`, 'error');
-            }
-        }
-        
-        // Handle OAuth redirect response
-        function handleOAuthRedirect() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get('code');
-            const state = urlParams.get('state');
-            const error = urlParams.get('error');
-            
-            if (error) {
-                console.error('OAuth error:', error);
-                showNotification('Sign-in was cancelled or failed', 'error');
-                window.history.replaceState({}, document.title, window.location.pathname);
-                return;
-            }
-            
-            if (code && state) {
-                console.log('OAuth code received, processing...');
-                
-                const storedState = localStorage.getItem('oauth_state');
-                if (state !== storedState) {
-                    console.error('OAuth state mismatch');
-                    showNotification('Security error during sign-in', 'error');
-                    return;
-                }
-                
-                localStorage.removeItem('oauth_state');
-                exchangeCodeForUserInfo(code);
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-        }
-        
-        async function exchangeCodeForUserInfo(code) {
-            try {
-                showNotification('Completing sign-in...', 'info');
-                
-                const response = await fetch(`${API_BASE_URL}/auth/google/oauth`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify({ 
-                        code: code,
-                        redirect_uri: window.location.origin
-                    })
-                });
-                
-                if (!response.ok) {
-                    const text = await response.text();
-                    console.error('OAuth exchange failed:', response.status, text);
-                    throw new Error(`OAuth exchange failed: ${response.status}`);
-                }
-                
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    const text = await response.text();
-                    console.error('Non-JSON response from OAuth endpoint:', text);
-                    throw new Error('Server returned invalid response');
-                }
-                
-                const authResult = await response.json();
+                const authResult = await authenticateWithBackend(googleUserData);
                 
                 currentUser = authResult.user;
                 sessionToken = authResult.sessionToken;
@@ -1655,8 +1538,34 @@
                 showNotification(`Welcome ${currentUser.name}!`, 'success');
                 
             } catch (error) {
-                console.error('Error exchanging OAuth code:', error);
-                showNotification('Failed to complete sign-in. Please try again.', 'error');
+                console.error('Error processing sign-in:', error);
+                showNotification('Sign-in failed. Please try again.', 'error');
+                clearUserSession();
+            }
+        }
+        
+        function handleCustomSignIn() {
+            if (!googleSignInInitialized || typeof google === 'undefined') {
+                showNotification('Google Sign-In not ready. Please wait and try again.', 'error');
+                return;
+            }
+            
+            try {
+                console.log('Custom sign-in button clicked');
+                
+                google.accounts.id.prompt((notification) => {
+                    console.log('Google prompt notification:', notification);
+                    
+                    if (notification.isNotDisplayed()) {
+                        showNotification('Sign-in popup blocked. Please allow popups for this site.', 'error');
+                    } else if (notification.isSkippedMoment()) {
+                        showNotification('Sign-in was cancelled. Please try again.', 'info');
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Custom sign-in error:', error);
+                showNotification(`Sign-in error: ${error.message}`, 'error');
             }
         }
         
@@ -1671,7 +1580,13 @@
             localStorage.removeItem('sessionToken');
             
             document.getElementById('user-profile').classList.remove('show');
-            showCustomSignInButton();
+            
+            if (googleSignInInitialized) {
+                hideCustomSignInButton();
+            } else {
+                showCustomSignInButton();
+            }
+            
             hideSearchSection();
             clearChatHistoryDisplay();
         }
@@ -1713,6 +1628,12 @@
         async function signOut() {
             try {
                 showNotification('Signing out...', 'info');
+                
+                // Sign out from Google
+                if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                    google.accounts.id.disableAutoSelect();
+                }
+                
                 if (sessionToken) await logoutUser();
                 clearUserSession();
                 showNotification('Signed out successfully', 'success');
@@ -1915,11 +1836,7 @@
                 
                 const response = await fetch(`${API_BASE_URL}/rag`, {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json', 
-                        'ngrok-skip-browser-warning': 'true',
-                        ...getAuthHeaders() 
-                    },
+                    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
                     body: JSON.stringify({
                         question: question,
                         conversationId: currentConversationId,
@@ -1931,18 +1848,7 @@
                     })
                 });
                 
-                if (!response.ok) {
-                    const text = await response.text();
-                    console.error('Search API error:', response.status, text);
-                    throw new Error(`API error: ${response.status}`);
-                }
-                
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    const text = await response.text();
-                    console.error('Non-JSON response from search API:', text);
-                    throw new Error('Server returned invalid response');
-                }
+                if (!response.ok) throw new Error(`API error: ${response.status}`);
                 
                 const data = await response.json();
                 window.currentResults = data;
@@ -1963,7 +1869,6 @@
                     <div class="no-results">
                         <p>Error connecting to the server. Please check your backend connection.</p>
                         <p>Error details: ${error.message}</p>
-                        <p>Make sure your ngrok tunnel is running at: ${API_BASE_URL}</p>
                     </div>
                 `;
                 showNotification('Search failed', 'error');
@@ -2093,31 +1998,10 @@
         
         // Event Listeners
         document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(initializeGoogleSignIn, 500);
+            // Initialize Google Sign-In
+            setTimeout(initializeGoogleSignIn, 100);
             
-            // Check if user is already signed in
-            const savedToken = localStorage.getItem('sessionToken');
-            const savedUser = localStorage.getItem('currentUser');
-            
-            if (savedToken && savedUser) {
-                sessionToken = savedToken;
-                currentUser = JSON.parse(savedUser);
-                
-                getUserProfile().then(profile => {
-                    if (profile) {
-                        currentUser = profile;
-                        localStorage.setItem('currentUser', JSON.stringify(profile));
-                        showUserProfile(profile);
-                        showSearchSection();
-                        loadUserPreferences();
-                        loadChatHistory();
-                        showNotification('Welcome back!', 'success');
-                    } else {
-                        clearUserSession();
-                    }
-                });
-            }
-            
+            // Basic event listeners
             document.getElementById('custom-google-signin-btn').addEventListener('click', handleCustomSignIn);
             document.getElementById('sign-out-btn').addEventListener('click', signOut);
             document.getElementById('new-conversation-btn').addEventListener('click', startNewConversation);
@@ -2128,6 +2012,7 @@
                 if (e.key === 'Enter') performSearch();
             });
             
+            // Tab switching
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const tabName = this.dataset.tab;
@@ -2135,6 +2020,7 @@
                 });
             });
             
+            // Filter selection
             document.querySelectorAll('.filter').forEach(filter => {
                 filter.addEventListener('click', function() {
                     document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
@@ -2142,8 +2028,10 @@
                 });
             });
             
+            // Course selection handlers
             document.getElementById('department-select').addEventListener('change', updateSubjectOptions);
             
+            // Load more buttons
             document.getElementById('load-more-conversations-btn').addEventListener('click', function() {
                 loadConversations(currentPage.conversations + 1, true);
             });
@@ -2152,10 +2040,19 @@
                 loadChatMessages(currentPage.messages + 1, true);
             });
             
+            // Global functions for onclick handlers
             window.loadConversation = loadConversation;
             window.rerunSearch = rerunSearch;
             window.copyToClipboard = copyToClipboard;
         });
+        
+        // Initialize when window loads
+        window.addEventListener('load', function() {
+            setTimeout(initializeGoogleSignIn, 200);
+        });
+        
+        // Handle Google API load
+        window.addEventListener('google-loaded', initializeGoogleSignIn);
     </script>
 </body>
 </html>
