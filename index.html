@@ -843,38 +843,45 @@
                 min-height: 36px;
             }
             
-            /* Main Layout Mobile */
+            /* Main Layout Mobile - Use Flexbox for proper ordering */
             .main-layout {
-                display: block !important;
+                display: flex !important;
+                flex-direction: column;
                 padding: 1rem 0;
-                gap: 0;
+                gap: 1.5rem;
             }
             
+            /* Main content appears first */
+            .main-content {
+                order: 1;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            /* Sidebar appears last */
             .sidebar {
+                order: 2;
                 position: static;
+                padding: 1.5rem;
+                border-radius: 16px;
+                width: 100%;
+                margin-bottom: 0;
+            }
+            
+            /* Search container styling */
+            .search-container {
                 padding: 1.5rem;
                 border-radius: 16px;
                 margin-bottom: 1.5rem;
                 width: 100%;
-                order: 2;
             }
             
-            .main-content {
-                order: 1;
-                width: 100%;
-                display: block;
-                margin-bottom: 1.5rem;
-            }
-            
-            /* Ensure proper stacking */
-            .search-container {
-                margin-bottom: 1.5rem;
-                width: 100%;
-            }
-            
+            /* Results container styling */
             .results-container {
+                padding: 1.5rem;
+                border-radius: 16px;
                 width: 100%;
-                margin-top: 0;
                 margin-bottom: 1.5rem;
             }
             
