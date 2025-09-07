@@ -2093,9 +2093,30 @@
         
         // Event Listeners
         document.addEventListener('DOMContentLoaded', function() {
-            handleOAuthRedirect();
-            
             setTimeout(initializeGoogleSignIn, 500);
+            
+            // Check if user is already signed in
+            const savedToken = localStorage.getItem('sessionToken');
+            const savedUser = localStorage.getItem('currentUser');
+            
+            if (savedToken && savedUser) {
+                sessionToken = savedToken;
+                currentUser = JSON.parse(savedUser);
+                
+                getUserProfile().then(profile => {
+                    if (profile) {
+                        currentUser = profile;
+                        localStorage.setItem('currentUser', JSON.stringify(profile));
+                        showUserProfile(profile);
+                        showSearchSection();
+                        loadUserPreferences();
+                        loadChatHistory();
+                        showNotification('Welcome back!', 'success');
+                    } else {
+                        clearUserSession();
+                    }
+                });
+            }
             
             document.getElementById('custom-google-signin-btn').addEventListener('click', handleCustomSignIn);
             document.getElementById('sign-out-btn').addEventListener('click', signOut);
