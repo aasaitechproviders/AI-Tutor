@@ -404,7 +404,7 @@
         
         .search-box {
             display: flex;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0;
             box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15);
             border-radius: 12px;
             overflow: hidden;
@@ -439,38 +439,6 @@
         
         .search-btn:hover, .search-btn:active {
             background: linear-gradient(135deg, var(--secondary), var(--accent));
-        }
-        
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-        }
-        
-        .filter {
-            background: var(--light);
-            border: 2px solid var(--light-gray);
-            border-radius: 25px;
-            padding: 0.8rem 2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-            min-width: 120px;
-            text-align: center;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .filter:hover, .filter.active, .filter:active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.3);
         }
         
         .results-container {
@@ -917,7 +885,7 @@
                 box-shadow: none;
                 border-radius: 0;
                 overflow: visible;
-                margin-bottom: 1.5rem;
+                margin-bottom: 0;
             }
             
             .search-input {
@@ -947,22 +915,6 @@
                 font-weight: 700;
                 padding: 1rem;
                 box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-            }
-            
-            /* Filters Mobile */
-            .filters {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 0.8rem;
-            }
-            
-            .filter {
-                min-width: auto;
-                padding: 1rem 0.8rem;
-                font-size: 0.9rem;
-                font-weight: 600;
-                border-radius: 16px;
-                min-height: 50px;
             }
             
             /* Results Mobile */
@@ -1189,10 +1141,6 @@
                 min-height: 32px;
             }
             
-            .filters {
-                grid-template-columns: 1fr;
-            }
-            
             .sidebar, .search-container, .results-container {
                 padding: 1.2rem;
             }
@@ -1390,11 +1338,6 @@
                     <div class="search-box">
                         <input type="text" class="search-input" id="question-input" placeholder="What would you like to know about your syllabus?">
                         <button class="search-btn" id="search-button">Search</button>
-                    </div>
-                    <div class="filters">
-                        <div class="filter active" data-filter="precise">Precise</div>
-                        <div class="filter" data-filter="detailed">Detailed</div>
-                        <div class="filter" data-filter="concept">Concept</div>
                     </div>
                 </div>
 
@@ -2260,13 +2203,6 @@
                 btn.addEventListener('click', function() {
                     const tabName = this.dataset.tab;
                     switchTab(tabName);
-                });
-            });
-            
-            document.querySelectorAll('.filter').forEach(filter => {
-                filter.addEventListener('click', function() {
-                    document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
-                    this.classList.add('active');
                 });
             });
             
