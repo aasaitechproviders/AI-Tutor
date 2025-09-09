@@ -257,41 +257,12 @@
             margin-bottom: 1rem;
         }
         
-        .conversation-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .tab-btn {
-            background: var(--light);
-            border: 1px solid var(--light-gray);
-            padding: 0.5rem 1rem;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 44px;
-            flex: 1;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        
-        .conversations-list, .chat-messages-list {
+        .chat-messages-list {
             max-height: 300px;
             overflow-y: auto;
         }
         
-        .conversation-item, .chat-message-item {
+        .chat-message-item {
             padding: 0.8rem;
             margin-bottom: 0.5rem;
             background: var(--light);
@@ -303,19 +274,13 @@
             min-height: 60px;
         }
         
-        .conversation-item:hover, .conversation-item:active,
         .chat-message-item:hover, .chat-message-item:active {
             background: #e8f0ff;
             border-left-color: var(--primary);
             transform: translateX(3px);
         }
         
-        .conversation-item.active {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .conversation-title, .chat-question {
+        .chat-question {
             font-size: 0.85rem;
             font-weight: 600;
             margin-bottom: 0.3rem;
@@ -335,7 +300,7 @@
             overflow: hidden;
         }
         
-        .conversation-meta, .chat-message-meta {
+        .chat-message-meta {
             font-size: 0.75rem;
             color: var(--gray);
             display: flex;
@@ -343,55 +308,9 @@
             align-items: center;
         }
         
-        .conversation-item.active .conversation-meta {
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
         .main-content {
             display: flex;
             flex-direction: column;
-        }
-        
-        .conversation-controls {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .new-conversation-btn {
-            background: linear-gradient(135deg, var(--success), #3bb3d3);
-            color: white;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 50px;
-            box-shadow: 0 4px 15px rgba(76, 201, 240, 0.3);
-        }
-        
-        .new-conversation-btn:hover, .new-conversation-btn:active {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(76, 201, 240, 0.4);
-        }
-        
-        .current-conversation {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 25px;
-            padding: 0.8rem 2rem;
-            font-weight: 500;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
         
         .search-container {
@@ -576,7 +495,7 @@
             font-weight: 600;
         }
         
-        .no-conversations, .no-chat-history {
+        .no-chat-history {
             text-align: center;
             color: var(--gray);
             font-style: italic;
@@ -853,31 +772,6 @@
                 margin-bottom: 1.5rem;
             }
             
-            .conversation-controls {
-                flex-direction: column;
-                gap: 1rem;
-                margin-bottom: 1.5rem;
-            }
-            
-            .new-conversation-btn {
-                width: 100%;
-                justify-content: center;
-                padding: 1rem;
-                font-size: 1rem;
-                min-height: 54px;
-                border-radius: 20px;
-            }
-            
-            .current-conversation {
-                width: 100%;
-                justify-content: center;
-                text-align: center;
-                padding: 1rem;
-                font-size: 0.95rem;
-                border-radius: 20px;
-                min-height: 54px;
-            }
-            
             /* Search Box Mobile */
             .search-box {
                 flex-direction: column;
@@ -997,34 +891,19 @@
                 margin-bottom: 1rem;
             }
             
-            .conversation-tabs {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 0.6rem;
-                margin-bottom: 1rem;
-            }
-            
-            .tab-btn {
-                padding: 1rem;
-                font-size: 0.9rem;
-                min-height: 48px;
-                font-weight: 600;
-                border-radius: 12px;
-            }
-            
-            .conversations-list, .chat-messages-list {
+            .chat-messages-list {
                 max-height: 280px;
                 overflow-y: auto;
             }
             
-            .conversation-item, .chat-message-item {
+            .chat-message-item {
                 padding: 1.2rem;
                 margin-bottom: 0.8rem;
                 border-radius: 12px;
                 min-height: auto;
             }
             
-            .conversation-title, .chat-question {
+            .chat-question {
                 font-size: 0.9rem;
                 line-height: 1.4;
                 margin-bottom: 0.4rem;
@@ -1036,7 +915,7 @@
                 margin-bottom: 0.4rem;
             }
             
-            .conversation-meta, .chat-message-meta {
+            .chat-message-meta {
                 font-size: 0.8rem;
                 margin-top: 0.6rem;
             }
@@ -1048,7 +927,7 @@
                 min-height: 48px;
             }
             
-            .no-conversations, .no-chat-history {
+            .no-chat-history {
                 padding: 2rem 1rem;
                 font-size: 0.9rem;
             }
@@ -1149,20 +1028,17 @@
                 min-height: 50px;
             }
             
-            .tab-btn, .load-more-btn {
+            .load-more-btn {
                 min-height: 46px;
             }
         }
         
         /* Touch device optimizations */
         @media (hover: none) and (pointer: coarse) {
-            .new-conversation-btn:hover,
             .result-card:hover,
-            .conversation-item:hover,
             .chat-message-item:hover,
             .action-btn:hover,
             .load-more-btn:hover,
-            .tab-btn:hover,
             .sign-out-btn:hover,
             .custom-google-btn:hover,
             #refresh-history-btn:hover {
@@ -1173,8 +1049,7 @@
             
             /* Improve active states for touch */
             .action-btn:active,
-            .load-more-btn:active,
-            .tab-btn:active {
+            .load-more-btn:active {
                 background-color: var(--primary);
                 color: white;
                 transform: scale(0.98);
@@ -1298,43 +1173,17 @@
                         <button id="refresh-history-btn" title="Refresh">🔄</button>
                     </div>
                     
-                    <div class="conversation-tabs">
-                        <button class="tab-btn active" data-tab="conversations">Conversations</button>
-                        <button class="tab-btn" data-tab="messages">Messages</button>
-                    </div>
-                    
-                    <div id="conversations-tab" class="tab-content">
-                        <div id="conversations-list" class="conversations-list">
-                            <div class="no-conversations">
-                                <p>No conversations yet</p>
-                            </div>
+                    <div id="chat-history-list" class="chat-messages-list">
+                        <div class="no-chat-history">
+                            <p>No chat history yet</p>
                         </div>
-                        <button id="load-more-conversations-btn" class="load-more-btn" style="display: none;">Load More</button>
                     </div>
-                    
-                    <div id="messages-tab" class="tab-content" style="display: none;">
-                        <div id="chat-messages-list" class="chat-messages-list">
-                            <div class="no-chat-history">
-                                <p>No chat history yet</p>
-                            </div>
-                        </div>
-                        <button id="load-more-messages-btn" class="load-more-btn" style="display: none;">Load More</button>
-                    </div>
+                    <button id="load-more-history-btn" class="load-more-btn" style="display: none;">Load More</button>
                 </div>
             </aside>
 
             <div class="main-content">
                 <div class="search-container">
-                    <div class="conversation-controls">
-                        <button id="new-conversation-btn" class="new-conversation-btn">
-                            <span>💬</span>
-                            <span>New Conversation</span>
-                        </button>
-                        <div id="current-conversation" class="current-conversation" style="display: none;">
-                            <span>📋</span>
-                            <span id="current-conversation-title">Current: New Conversation</span>
-                        </div>
-                    </div>
                     <div class="search-box">
                         <input type="text" class="search-input" id="question-input" placeholder="What would you like to know about your syllabus?">
                         <button class="search-btn" id="search-button">Search</button>
@@ -1376,10 +1225,8 @@
          const API_BASE_URL = 'https://overharsh-hoggishly-duncan.ngrok-free.app'
         let currentUser = null;
         let sessionToken = null;
-        let currentConversationId = null;
-        let conversationsData = [];
-        let chatMessagesData = [];
-        let currentPage = { conversations: 1, messages: 1 };
+        let chatHistoryData = [];
+        let currentPage = 1;
         let googleSignInInitialized = false;
         
         function showNotification(message, type = 'info', duration = 3000) {
@@ -1633,46 +1480,6 @@
             }
         }
         
-        async function getUserConversations(page = 1) {
-            try {
-                const url = `${API_BASE_URL}/user/conversations?page=${page}&limit=20`;
-                console.log('Calling conversations endpoint:', url);
-                
-                const response = await fetch(url, {
-                    headers: {
-                        ...getAuthHeaders(),
-                        'ngrok-skip-browser-warning': 'true'
-                    }
-                });
-                
-                console.log('Conversations response status:', response.status);
-                
-                if (!response.ok) {
-                    const text = await response.text();
-                    console.error('Conversations request failed:', response.status, text);
-                    if (response.status === 404) {
-                        console.warn('Conversations endpoint not found - feature may not be implemented');
-                    }
-                    return { conversations: [], totalCount: 0, hasMore: false };
-                }
-                
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    const text = await response.text();
-                    console.error('Non-JSON response from conversations endpoint:', text);
-                    return { conversations: [], totalCount: 0, hasMore: false };
-                }
-                
-                const data = await response.json();
-                console.log('Conversations data received:', data);
-                return data;
-                
-            } catch (error) {
-                console.error('Error getting conversations:', error);
-                return { conversations: [], totalCount: 0, hasMore: false };
-            }
-        }
-        
         async function getUserChatHistory(page = 1) {
             try {
                 const url = `${API_BASE_URL}/user/chat-history?page=${page}&limit=20`;
@@ -1713,42 +1520,10 @@
             }
         }
         
-        async function createNewConversation() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/user/conversation/new`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json', 
-                        'ngrok-skip-browser-warning': 'true',
-                        ...getAuthHeaders() 
-                    }
-                });
-                
-                if (!response.ok) {
-                    console.error('Create conversation failed:', response.status);
-                    return null;
-                }
-                
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    console.error('Non-JSON response from create conversation endpoint');
-                    return null;
-                }
-                
-                const data = await response.json();
-                return data.conversationId;
-            } catch (error) {
-                console.error('Error creating conversation:', error);
-                return null;
-            }
-        }
-        
         function clearUserSession() {
             currentUser = null;
             sessionToken = null;
-            currentConversationId = null;
-            conversationsData = [];
-            chatMessagesData = [];
+            chatHistoryData = [];
             
             localStorage.removeItem('currentUser');
             localStorage.removeItem('sessionToken');
@@ -1818,37 +1593,7 @@
                 showNotification('Backend connection issue - some features may be limited', 'warning', 5000);
             }
             
-            await loadConversations();
             await loadChatMessages();
-            updateConversationCount();
-        }
-        
-        async function loadConversations(page = 1, append = false) {
-            try {
-                console.log(`Loading conversations page ${page}, append: ${append}`);
-                const data = await getUserConversations(page);
-                
-                if (!append) {
-                    conversationsData = data.conversations;
-                    currentPage.conversations = 1;
-                } else {
-                    conversationsData = [...conversationsData, ...data.conversations];
-                }
-                
-                displayConversations();
-                
-                const loadMoreBtn = document.getElementById('load-more-conversations-btn');
-                if (data.hasMore) {
-                    loadMoreBtn.style.display = 'block';
-                    currentPage.conversations = page;
-                } else {
-                    loadMoreBtn.style.display = 'none';
-                }
-                
-            } catch (error) {
-                console.error('Error loading conversations:', error);
-                showNotification('Failed to load conversations', 'error');
-            }
         }
         
         async function loadChatMessages(page = 1, append = false) {
@@ -1857,64 +1602,37 @@
                 const data = await getUserChatHistory(page);
                 
                 if (!append) {
-                    chatMessagesData = data.chatHistory;
-                    currentPage.messages = 1;
+                    chatHistoryData = data.chatHistory;
+                    currentPage = 1;
                 } else {
-                    chatMessagesData = [...chatMessagesData, ...data.chatHistory];
+                    chatHistoryData = [...chatHistoryData, ...data.chatHistory];
                 }
                 
-                displayChatMessages();
+                displayChatHistory();
                 
-                const loadMoreBtn = document.getElementById('load-more-messages-btn');
+                const loadMoreBtn = document.getElementById('load-more-history-btn');
                 if (data.hasMore) {
                     loadMoreBtn.style.display = 'block';
-                    currentPage.messages = page;
+                    currentPage = page;
                 } else {
                     loadMoreBtn.style.display = 'none';
                 }
                 
             } catch (error) {
                 console.error('Error loading chat messages:', error);
-                showNotification('Failed to load chat messages', 'error');
+                showNotification('Failed to load chat history', 'error');
             }
         }
         
-        function displayConversations() {
-            const conversationsList = document.getElementById('conversations-list');
+        function displayChatHistory() {
+            const historyList = document.getElementById('chat-history-list');
             
-            if (conversationsData.length === 0) {
-                conversationsList.innerHTML = '<div class="no-conversations"><p>No conversations yet</p></div>';
+            if (chatHistoryData.length === 0) {
+                historyList.innerHTML = '<div class="no-chat-history"><p>No chat history yet</p></div>';
                 return;
             }
             
-            const conversationsHTML = conversationsData.map(conv => {
-                const isActive = currentConversationId === conv.conversationId;
-                
-                return `
-                    <div class="conversation-item ${isActive ? 'active' : ''}" 
-                         onclick="loadConversation('${conv.conversationId}')"
-                         data-conversation-id="${conv.conversationId}">
-                        <div class="conversation-title" title="${conv.title}">${conv.title}</div>
-                        <div class="conversation-meta">
-                            <span>${formatDate(conv.lastMessageAt)}</span>
-                            <span>${conv.messageCount} messages</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            conversationsList.innerHTML = conversationsHTML;
-        }
-        
-        function displayChatMessages() {
-            const messagesList = document.getElementById('chat-messages-list');
-            
-            if (chatMessagesData.length === 0) {
-                messagesList.innerHTML = '<div class="no-chat-history"><p>No chat history yet</p></div>';
-                return;
-            }
-            
-            const messagesHTML = chatMessagesData.map(msg => {
+            const historyHTML = chatHistoryData.map(msg => {
                 let confidenceClass = 'confidence-low';
                 if (msg.confidence >= 0.8) confidenceClass = 'confidence-high';
                 else if (msg.confidence >= 0.5) confidenceClass = 'confidence-medium';
@@ -1931,21 +1649,12 @@
                 `;
             }).join('');
             
-            messagesList.innerHTML = messagesHTML;
+            historyList.innerHTML = historyHTML;
         }
         
         function clearChatHistoryDisplay() {
-            document.getElementById('conversations-list').innerHTML = '<div class="no-conversations"><p>No conversations yet</p></div>';
-            document.getElementById('chat-messages-list').innerHTML = '<div class="no-chat-history"><p>No chat history yet</p></div>';
-            document.getElementById('load-more-conversations-btn').style.display = 'none';
-            document.getElementById('load-more-messages-btn').style.display = 'none';
-        }
-        
-        function updateConversationCount() {
-            if (currentUser) {
-                const count = conversationsData.length;
-                document.getElementById('conversation-count').textContent = count;
-            }
+            document.getElementById('chat-history-list').innerHTML = '<div class="no-chat-history"><p>No chat history yet</p></div>';
+            document.getElementById('load-more-history-btn').style.display = 'none';
         }
         
         // Action Functions
@@ -1953,35 +1662,6 @@
             showNotification('Refreshing chat history...', 'info');
             await loadChatHistory();
             showNotification('Chat history refreshed', 'success');
-        }
-        
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.tab === tabName);
-            });
-            
-            document.getElementById('conversations-tab').style.display = tabName === 'conversations' ? 'block' : 'none';
-            document.getElementById('messages-tab').style.display = tabName === 'messages' ? 'block' : 'none';
-        }
-        
-        function loadConversation(conversationId) {
-            currentConversationId = conversationId;
-            
-            const conversation = conversationsData.find(c => c.conversationId === conversationId);
-            if (conversation) {
-                document.getElementById('current-conversation').style.display = 'flex';
-                document.getElementById('current-conversation-title').textContent = `Current: ${conversation.title}`;
-            }
-            
-            displayConversations();
-            showNotification(`Loaded conversation: ${conversation.title}`, 'success');
-        }
-        
-        function startNewConversation() {
-            currentConversationId = null;
-            document.getElementById('current-conversation').style.display = 'none';
-            displayConversations();
-            showNotification('Started new conversation', 'success');
         }
         
         // Search Functions
@@ -1998,14 +1678,6 @@
             resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
             
             try {
-                if (!currentConversationId) {
-                    currentConversationId = await createNewConversation();
-                    if (currentConversationId) {
-                        document.getElementById('current-conversation').style.display = 'flex';
-                        document.getElementById('current-conversation-title').textContent = 'Current: New Conversation';
-                    }
-                }
-                
                 const response = await fetch(`${API_BASE_URL}/rag`, {
                     method: 'POST',
                     headers: { 
@@ -2015,7 +1687,6 @@
                     },
                     body: JSON.stringify({
                         question: question,
-                        conversationId: currentConversationId,
                         limit: 5,
                         threshold: 0.75,
                         department: document.getElementById('department-select').value,
@@ -2105,16 +1776,12 @@
                 `<span class="cache-indicator cache-hit">Cached response</span>` : 
                 `<span class="cache-indicator">Live response</span>`;
             
-            const conversationIndicator = data.conversationId ? 
-                `<span class="cache-indicator">Conversation</span>` : '';
-            
             const resultHtml = `
                 <div class="result-card">
                     <h3 class="result-title">Answer</h3>
                     <div class="result-meta">
                         <span class="confidence-badge ${confidenceClass}">${confidenceText} (${(data.confidence * 100).toFixed(1)}%)</span>
                         ${cacheIndicator}
-                        ${conversationIndicator}
                         <span>Response time: ${data.timing?.total || 'N/A'}</span>
                     </div>
                     <div class="result-content">
@@ -2191,7 +1858,6 @@
             setTimeout(initializeGoogleSignIn, 500);
             
             document.getElementById('sign-out-btn').addEventListener('click', signOut);
-            document.getElementById('new-conversation-btn').addEventListener('click', startNewConversation);
             document.getElementById('refresh-history-btn').addEventListener('click', refreshChatHistory);
             document.getElementById('search-button').addEventListener('click', performSearch);
             
@@ -2199,21 +1865,10 @@
                 if (e.key === 'Enter') performSearch();
             });
             
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const tabName = this.dataset.tab;
-                    switchTab(tabName);
-                });
-            });
-            
             document.getElementById('department-select').addEventListener('change', updateSubjectOptions);
             
-            document.getElementById('load-more-conversations-btn').addEventListener('click', function() {
-                loadConversations(currentPage.conversations + 1, true);
-            });
-            
-            document.getElementById('load-more-messages-btn').addEventListener('click', function() {
-                loadChatMessages(currentPage.messages + 1, true);
+            document.getElementById('load-more-history-btn').addEventListener('click', function() {
+                loadChatMessages(currentPage + 1, true);
             });
             
             window.rerunSearch = rerunSearch;
