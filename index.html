@@ -3,7 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>EduAI - Syllabus Assistant</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>EduAI - AI-Powered Syllabus Assistant for College Students</title>
+    <meta name="description" content="Smart syllabus assistant for college students. Get instant AI answers from your course materials and access organized question banks by units and topics.">
+    <meta name="keywords" content="syllabus assistant, college students, AI education, question bank, study tool, academic help, course materials, RAG system">
+    <meta name="author" content="EduAI Team">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="EduAI - AI-Powered Syllabus Assistant for College Students">
+    <meta property="og:description" content="Smart syllabus assistant for college students. Get instant AI answers from your course materials and access organized question banks.">
+    <meta property="og:url" content="https://ai.aasaitech.in">
+    <meta property="og:site_name" content="EduAI">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EduAI - AI-Powered Syllabus Assistant">
+    <meta name="twitter:description" content="Smart syllabus assistant for college students. Get instant AI answers from your course materials.">
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://ai.aasaitech.in">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "EduAI",
+        "description": "AI-powered syllabus assistant for college students",
+        "url": "https://ai.aasaitech.in",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "Aasai Tech"
+        }
+    }
+    </script>
+    
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         :root {
@@ -32,6 +85,8 @@
             -webkit-text-size-adjust: 100%;
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .container {
@@ -182,6 +237,11 @@
         .google-icon {
             width: 18px;
             height: 18px;
+        }
+
+        /* Main content - flex grow to push footer down */
+        main {
+            flex: 1;
         }
 
         /* Main Layout - Now Single Column */
@@ -927,13 +987,15 @@
             background: var(--primary);
         }
 
+        /* Fixed Footer Styles */
         footer {
             background: var(--dark);
             color: white;
             padding: 2rem 0;
-            margin-top: 3rem;
+            margin-top: auto; /* This pushes the footer to the bottom */
+            width: 100%;
         }
-
+        
         .footer-content {
             display: flex;
             justify-content: space-between;
@@ -1546,11 +1608,12 @@
 
     <footer>
         <div class="container footer-content">
-            <p>&copy; 2023 EduAI Syllabus Assistant. For college students.</p>
+            <p>&copy; 2024 EduAI Syllabus Assistant. For college students.</p>
             <div class="footer-links">
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-                <a href="#">Help</a>
+                <a href="#" aria-label="Privacy Policy">Privacy</a>
+                <a href="#" aria-label="Terms of Service">Terms</a>
+                <a href="#" aria-label="Help Center">Help</a>
+                <a href="#" aria-label="Contact Us">Contact</a>
             </div>
         </div>
     </footer>
