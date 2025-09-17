@@ -85,6 +85,7 @@
             -webkit-text-size-adjust: 100%;
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
+            width: 100%;
             /* Footer fix - body as flex container */
             display: flex;
             flex-direction: column;
@@ -1106,7 +1107,7 @@
             }
 
             .mode-buttons {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
                 gap: 1rem;
             }
 
@@ -1374,6 +1375,29 @@
             .results-container, 
             .units-container {
                 padding: 1.2rem;
+            }
+
+            .mode-buttons {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+
+            .mode-btn {
+                padding: 1rem;
+            }
+
+            .mode-icon {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .mode-title {
+                font-size: 1rem;
+            }
+
+            .mode-description {
+                font-size: 0.8rem;
+                line-height: 1.4;
             }
 
             .search-input, .search-btn, .form-select {
