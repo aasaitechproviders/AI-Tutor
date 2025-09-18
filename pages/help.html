@@ -3,45 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help Center - EduAI Syllabus Assistant</title>
-    <meta name="description" content="Help Center and FAQ for EduAI - AI-Powered Syllabus Assistant for College Students">
+    <title>Help Center - Aasai Tech AI Educational Platform</title>
+    <meta name="description" content="Help Center and FAQ for Aasai Tech AI Educational Platform - AI-Powered Educational Solutions for College Students">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://ai.aasaitech.in/help">
     
     <style>
         :root {
-            --primary: #4361ee;
-            --secondary: #3a0ca3;
-            --accent: #7209b7;
-            --light: #f8f9fa;
-            --dark: #212529;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --accent: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --text: #334155;
             --gray: #6c757d;
             --light-gray: #e9ecef;
-            --success: #4cc9f0;
+            --success: #22c55e;
+            --warning: #ef4444;
+            --ai-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
             background: linear-gradient(135deg, #f5f7fb 0%, #c3cfe2 100%);
-            color: var(--dark);
+            color: var(--text);
             line-height: 1.7;
             min-height: 100vh;
         }
         
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 0 20px;
         }
         
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--ai-gradient);
             color: white;
             padding: 2rem 0;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -69,10 +73,11 @@
         
         .back-btn:hover {
             background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
         }
         
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 700;
         }
         
@@ -104,11 +109,13 @@
             border-radius: 8px;
             font-size: 1rem;
             margin-bottom: 1rem;
+            transition: border-color 0.3s;
         }
         
         .search-help input:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
         
         .quick-links {
@@ -173,6 +180,11 @@
             margin-bottom: 1rem;
             overflow: hidden;
             border: 1px solid var(--light-gray);
+            transition: all 0.3s;
+        }
+        
+        .faq-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
         .faq-question {
@@ -254,7 +266,7 @@
         }
         
         .contact-section {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--ai-gradient);
             color: white;
             padding: 2.5rem;
             border-radius: 16px;
@@ -307,7 +319,7 @@
         
         .troubleshooting-tip {
             background: #fff3cd;
-            border: 1px solid #f39c12;
+            border: 1px solid var(--accent);
             padding: 1rem;
             border-radius: 8px;
             margin: 1rem 0;
@@ -316,6 +328,29 @@
         .troubleshooting-tip h4 {
             color: #d68910;
             margin-bottom: 0.5rem;
+        }
+        
+        .demo-section {
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+        
+        .demo-section h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-section a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .demo-section a:hover {
+            text-decoration: underline;
         }
         
         footer {
@@ -338,7 +373,7 @@
             }
             
             h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
             
             .subtitle {
@@ -352,6 +387,26 @@
             .contact-options {
                 grid-template-columns: 1fr;
             }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .back-btn {
+                align-self: flex-start;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .content-wrapper {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -359,13 +414,13 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <a href="../index.html" class="back-btn">
+                <a href="index.html" class="back-btn">
                     <span>←</span>
-                    <span>Back to EduAI</span>
+                    <span>Back to Aasai Tech</span>
                 </a>
                 <div>
                     <h1>Help Center</h1>
-                    <p class="subtitle">Get help and support for EduAI</p>
+                    <p class="subtitle">Get help and support for Aasai Tech AI Educational Platform</p>
                 </div>
             </div>
         </div>
@@ -376,7 +431,7 @@
             <div class="search-help">
                 <h3 style="color: var(--primary); margin-bottom: 1rem;">Search Help Articles</h3>
                 <input type="text" id="help-search" placeholder="Search for help topics, features, or issues...">
-                <p style="color: var(--gray); font-size: 0.9rem;">Try searching for: "sign in", "question bank", "AI search", "chat history"</p>
+                <p style="color: var(--gray); font-size: 0.9rem;">Try searching for: "sign in", "question bank", "AI search", "chat history", "syllabus"</p>
             </div>
 
             <div class="quick-links">
@@ -384,7 +439,7 @@
                     <div class="quick-link-icon">🚀</div>
                     <div class="quick-link-content">
                         <h3>Getting Started</h3>
-                        <p>Learn the basics of EduAI</p>
+                        <p>Learn the basics of our AI platform</p>
                     </div>
                 </a>
                 <a href="#ai-search" class="quick-link">
@@ -410,6 +465,11 @@
                 </a>
             </div>
 
+            <div class="demo-section">
+                <h4>🎯 Try Our Live AI Demo</h4>
+                <p>Experience our AI-powered educational platform: <a href="https://ai.aasaitech.in" target="_blank">ai.aasaitech.in</a></p>
+            </div>
+
             <div class="section" id="getting-started">
                 <h2>🚀 Getting Started</h2>
                 
@@ -418,42 +478,42 @@
                         <div class="step-number">1</div>
                         <div class="step-content">
                             <h4>Sign In with Google</h4>
-                            <p>Click the "Sign in with Google" button and authorize EduAI to access your basic profile information. This helps us personalize your experience and save your chat history.</p>
+                            <p>Click the "Sign in with Google" button and authorize our AI platform to access your basic profile information. This helps us personalize your experience and save your chat history securely.</p>
                         </div>
                     </div>
                     <div class="step">
                         <div class="step-number">2</div>
                         <div class="step-content">
                             <h4>Choose Your Study Mode</h4>
-                            <p>Select between AI Search (for asking questions) or Question Bank (for browsing organized questions by units and topics).</p>
+                            <p>Select between AI Search (for asking questions directly to our AI) or Question Bank (for browsing organized questions by departments, subjects, and units).</p>
                         </div>
                     </div>
                     <div class="step">
                         <div class="step-number">3</div>
                         <div class="step-content">
                             <h4>Start Learning</h4>
-                            <p>Begin asking questions about your syllabus or explore the question bank to find relevant study materials for your courses.</p>
+                            <p>Begin asking questions about your syllabus, explore the question bank, or get personalized study assistance from our AI-powered educational platform.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>What subjects and courses does EduAI support?</span>
+                        <span>What subjects and courses does the AI platform support?</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        EduAI currently supports major subjects including Computer Science, Mathematics, Chemistry, History, Psychology, English, Physics, and Biology. We're continuously expanding our database to include more departments and specialized courses. The question bank is organized by department, semester, and subject for easy navigation.
+                        Our AI-powered educational platform currently supports major subjects including Computer Science, Mathematics, Chemistry, History, Psychology, English, Physics, and Biology. We're continuously expanding our database to include more departments and specialized courses. The question bank is organized by department, semester, and subject for easy navigation.
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>Is EduAI free to use?</span>
+                        <span>Is the AI educational platform free to use?</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        Yes, EduAI is currently completely free for all college students. We may introduce premium features in the future, but the core functionality will remain accessible to students. We believe in making quality educational assistance available to everyone.
+                        Yes, our AI educational platform is currently completely free for all college students. We may introduce premium features in the future, but the core AI functionality will remain accessible to students. Aasai Tech believes in making quality educational assistance available to everyone.
                     </div>
                 </div>
 
@@ -463,7 +523,7 @@
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        You need to sign in with your Google account to use EduAI. This allows us to save your chat history, personalize recommendations, and provide a better user experience. We use Google OAuth for secure authentication and don't store your Google password.
+                        You need to sign in with your Google account to use our AI platform. This allows us to save your chat history, personalize AI recommendations, and provide a better user experience. We use Google OAuth for secure authentication and don't store your Google password.
                     </div>
                 </div>
             </div>
@@ -473,44 +533,44 @@
 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>How do I ask effective questions?</span>
+                        <span>How do I ask effective questions to the AI?</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
                         <strong>Be specific and clear:</strong> Instead of "Tell me about loops", ask "Explain for loops in Python with examples".<br><br>
-                        <strong>Provide context:</strong> Mention your subject, topic, or unit when relevant.<br><br>
-                        <strong>Use academic language:</strong> Terms like "define", "explain", "compare", "analyze" work well.<br><br>
-                        <strong>Ask follow-up questions:</strong> Build on previous answers for deeper understanding.
+                        <strong>Provide context:</strong> Mention your subject, topic, or unit when relevant to get more targeted AI responses.<br><br>
+                        <strong>Use academic language:</strong> Terms like "define", "explain", "compare", "analyze" help the AI understand what type of response you need.<br><br>
+                        <strong>Ask follow-up questions:</strong> Build on previous AI answers for deeper understanding.
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>What types of questions can I ask?</span>
+                        <span>What types of questions can I ask the AI?</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        You can ask about definitions, explanations, examples, comparisons, problem-solving steps, formulas, historical facts, theoretical concepts, and practical applications. EduAI works best with academic questions related to college-level subjects.
+                        You can ask about definitions, explanations, examples, comparisons, problem-solving steps, formulas, historical facts, theoretical concepts, and practical applications. Our AI works best with academic questions related to college-level subjects and syllabus content.
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>Why do some answers have different confidence levels?</span>
+                        <span>Why do some AI answers have different confidence levels?</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        Confidence levels indicate how certain our AI is about the answer based on available information. High confidence (80%+) means the answer is well-supported by our knowledge base. Medium confidence (50-79%) suggests the answer is likely correct but may need verification. Low confidence (&lt;50%) indicates you should double-check the information.
+                        Confidence levels indicate how certain our AI is about the answer based on available information in our knowledge base. High confidence (80%+) means the AI answer is well-supported. Medium confidence (50-79%) suggests the answer is likely correct but may need verification. Low confidence (&lt;50%) indicates you should double-check the AI's response.
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>Can I access my previous questions?</span>
+                        <span>Can I access my previous AI conversations?</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        Yes! Your chat history is automatically saved and displayed in the "Recent Searches" section. You can click on any previous question to view the full conversation or re-run the search. Use the refresh button to update your history.
+                        Yes! Your AI chat history is automatically saved and displayed in the "Recent Searches" section. You can click on any previous question to view the full AI conversation or re-run the search. Use the refresh button to update your history.
                     </div>
                 </div>
             </div>
@@ -529,13 +589,13 @@
                         <strong>Step 3:</strong> Select your Semester<br>
                         <strong>Step 4:</strong> Pick your Subject<br>
                         <strong>Step 5:</strong> Browse units and click to expand question categories<br>
-                        <strong>Step 6:</strong> Click on individual questions to view answers
+                        <strong>Step 6:</strong> Click on individual questions to view detailed answers
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>What are the different mark categories?</span>
+                        <span>What are the different mark categories in the question bank?</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
@@ -547,7 +607,7 @@
 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>Can I copy questions and answers?</span>
+                        <span>Can I copy questions and answers for study notes?</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
@@ -561,7 +621,7 @@
 
                 <div class="troubleshooting-tip">
                     <h4>💡 Quick Tip</h4>
-                    <p>Most issues can be resolved by refreshing the page or signing out and signing back in. If problems persist, try the solutions below.</p>
+                    <p>Most issues can be resolved by refreshing the page or signing out and signing back in. If problems persist, try the solutions below or contact our support team.</p>
                 </div>
 
                 <div class="faq-item">
@@ -579,13 +639,13 @@
 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFaq(this)">
-                        <span>Search not working</span>
+                        <span>AI Search not working</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        <strong>No results or errors:</strong> Check your internet connection and try refreshing<br><br>
-                        <strong>Slow responses:</strong> Our servers might be busy; wait a moment and try again<br><br>
-                        <strong>Incorrect answers:</strong> Try rephrasing your question or being more specific<br><br>
+                        <strong>No AI results or errors:</strong> Check your internet connection and try refreshing<br><br>
+                        <strong>Slow AI responses:</strong> Our servers might be busy; wait a moment and try again<br><br>
+                        <strong>Incorrect AI answers:</strong> Try rephrasing your question or being more specific<br><br>
                         <strong>Search button not responding:</strong> Press Enter in the search box as an alternative
                     </div>
                 </div>
@@ -622,7 +682,7 @@
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        EduAI works best on:<br>
+                        Our AI platform works best on:<br>
                         <strong>Recommended:</strong> Chrome 90+, Firefox 88+, Safari 14+, Edge 90+<br><br>
                         <strong>Features requiring JavaScript:</strong> Make sure JavaScript is enabled<br><br>
                         <strong>Older browsers:</strong> Some features may not work; please update your browser<br><br>
@@ -633,23 +693,28 @@
 
             <div class="contact-section">
                 <h3>Still Need Help?</h3>
-                <p>Can't find the answer you're looking for? Our support team is here to help you get the most out of EduAI.</p>
+                <p>Can't find the answer you're looking for? Our Aasai Tech support team is here to help you get the most out of our AI educational platform.</p>
                 
                 <div class="contact-options">
-                    <a href="mailto:support@aasaitech.in" class="contact-option">
+                    <a href="mailto:info@aasaitech.in" class="contact-option">
                         <div class="contact-option-icon">📧</div>
                         <h4>Email Support</h4>
                         <p>Get detailed help via email<br>Response within 24 hours</p>
                     </a>
-                    <a href="https://wa.me/919876543210" class="contact-option" target="_blank">
-                        <div class="contact-option-icon">💬</div>
-                        <h4>WhatsApp</h4>
-                        <p>Quick answers to urgent questions<br>Business hours: 9 AM - 6 PM IST</p>
+                    <a href="tel:+918939134777" class="contact-option">
+                        <div class="contact-option-icon">📱</div>
+                        <h4>Phone Support</h4>
+                        <p>Call us for urgent issues<br>+91 8939134777</p>
                     </a>
-                    <a href="mailto:feedback@aasaitech.in" class="contact-option">
+                    <a href="contact.html" class="contact-option">
+                        <div class="contact-option-icon">💬</div>
+                        <h4>Contact Form</h4>
+                        <p>Submit detailed inquiries<br>Multiple support options</p>
+                    </a>
+                    <a href="mailto:business@aasaitech.in" class="contact-option">
                         <div class="contact-option-icon">💡</div>
                         <h4>Feature Request</h4>
-                        <p>Suggest new features or improvements<br>We value your feedback</p>
+                        <p>Suggest new AI features<br>We value your feedback</p>
                     </a>
                 </div>
             </div>
@@ -658,7 +723,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 EduAI Syllabus Assistant by Aasai Technologies. All rights reserved.</p>
+            <p>&copy; 2025 Aasai Tech Providers Private Limited. All rights reserved. | Fueling the Future of Technology</p>
         </div>
     </footer>
 
