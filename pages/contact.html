@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - EduAI Syllabus Assistant</title>
+    <meta name="description" content="Contact EduAI - AI-Powered Syllabus Assistant for College Students. Get in touch with our support team.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ai.aasaitech.in/contact">
+    
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #4cc9f0;
+            --warning: #f72585;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fb 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .contact-form-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-info-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--dark);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .required {
+            color: var(--warning);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: var(--light);
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--dark);
+        }
+        
+        .contact-method:hover {
+            background: #e8f4ff;
+            transform: translateY(-2px);
+        }
+        
+        .contact-icon {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .contact-details h3 {
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+        }
+        
+        .contact-details p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .office-info {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-top: 1.5rem;
+        }
+        
+        .office-info h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .office-info p {
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+        
+        .office-hours {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        .office-hours h4 {
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .response-time {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+        
+        .response-time h4 {
+            color: #2e7d32;
+            margin-bottom: 0.5rem;
+        }
+        
+        .response-time ul {
+            margin-left: 1rem;
+            color: var(--dark);
+        }
+        
+        .response-time li {
+            margin-bottom: 0.3rem;
+        }
+        
+        .success-message {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            color: #2e7d32;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .error-message {
+            background: #ffebee;
+            border: 1px solid #f44336;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin: 1rem 0;
+            }
+            
+            .contact-form-section,
+            .contact-info-section {
+                padding: 2rem 1.5rem;
+                border-radius: 16px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .contact-method {
+                padding: 1.2rem;
+            }
+            
+            .contact-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="back-btn">
+                    <span>←</span>
+                    <span>Back to EduAI</span>
+                </a>
+                <div>
+                    <h1>Contact Us</h1>
+                    <p class="subtitle">Get in touch with the EduAI team</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Contact Form Section -->
+            <div class="contact-form-section">
+                <h2 class="section-title">
+                    <span>📝</span>
+                    Send us a Message
+                </h2>
+                
+                <div id="success-message" class="success-message">
+                    <strong>Thank you!</strong> Your message has been sent successfully. We'll get back to you within 24 hours.
+                </div>
+                
+                <div id="error-message" class="error-message">
+                    <strong>Error:</strong> There was a problem sending your message. Please try again or contact us directly via email.
+                </div>
+                
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="institution">Institution/College</label>
+                        <input type="text" id="institution" name="institution" placeholder="Optional">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Subject <span class="required">*</span></label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a topic</option>
+                            <option value="technical-support">Technical Support</option>
+                            <option value="account-issue">Account Issues</option>
+                            <option value="feature-request">Feature Request</option>
+                            <option value="content-question">Content/Syllabus Question</option>
+                            <option value="partnership">Partnership Inquiry</option>
+                            <option value="privacy-data">Privacy/Data Concern</option>
+                            <option value="feedback">General Feedback</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="priority">Priority Level</label>
+                        <select id="priority" name="priority">
+                            <option value="low">Low - General inquiry</option>
+                            <option value="medium">Medium - Need assistance</option>
+                            <option value="high">High - Urgent issue</option>
+                            <option value="critical">Critical - Service not working</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message <span class="required">*</span></label>
+                        <textarea id="message" name="message" placeholder="Please describe your question, issue, or feedback in detail..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submit-btn">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Contact Information Section -->
+            <div class="contact-info-section">
+                <h2 class="section-title">
+                    <span>📞</span>
+                    Get in Touch
+                </h2>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-details">
+                        <h3>Email Support</h3>
+                        <p>support@aasaitech.in</p>
+                        <p>For general questions and technical support</p>
+                    </div>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">🏢</div>
+                    <div class="contact-details">
+                        <h3>Business Inquiries</h3>
+                        <p>business@aasaitech.in</p>
+                        <p>For partnerships and institutional collaborations</p>
+                    </div>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">🔒</div>
+                    <div class="contact-details">
+                        <h3>Privacy & Legal</h3>
+                        <p>privacy@aasaitech.in</p>
+                        <p>For privacy concerns and legal matters</p>
+                    </div>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">💬</div>
+                    <div class="contact-details">
+                        <h3>WhatsApp Support</h3>
+                        <p>+91 98765 43210</p>
+                        <p>Quick support during business hours</p>
+                    </div>
+                </div>
+                
+                <div class="response-time">
+                    <h4>Response Times</h4>
+                    <ul>
+                        <li><strong>Critical issues:</strong> Within 2-4 hours</li>
+                        <li><strong>High priority:</strong> Within 12 hours</li>
+                        <li><strong>General inquiries:</strong> Within 24 hours</li>
+                        <li><strong>Feature requests:</strong> Within 48 hours</li>
+                    </ul>
+                </div>
+                
+                <div class="office-info">
+                    <h3>Office Information</h3>
+                    <p><strong>Aasai Technologies Private Limited</strong></p>
+                    <p>123 Tech Park, Innovation Hub</p>
+                    <p>Coimbatore, Tamil Nadu 641001</p>
+                    <p>India</p>
+                    
+                    <div class="office-hours">
+                        <h4>Business Hours</h4>
+                        <p><strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM IST</p>
+                        <p><strong>Saturday:</strong> 10:00 AM - 2:00 PM IST</p>
+                        <p><strong>Sunday:</strong> Closed</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                            <em>Emergency support available 24/7 for critical issues</em>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 EduAI Syllabus Assistant by Aasai Technologies. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Show loading state
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Get form data
+            const formData = new FormData(this);
+            const formObject = Object.fromEntries(formData);
+            
+            // Simulate form submission (replace with actual API call)
+            setTimeout(() => {
+                // For demo purposes, show success message
+                // In production, replace this with actual form submission logic
+                
+                try {
+                    // Here you would make an API call to your backend
+                    // const response = await fetch('/api/contact', {
+                    //     method: 'POST',
+                    //     headers: { 'Content-Type': 'application/json' },
+                    //     body: JSON.stringify(formObject)
+                    // });
+                    
+                    // For now, simulate success
+                    console.log('Form submitted:', formObject);
+                    
+                    successMessage.style.display = 'block';
+                    this.reset();
+                    
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                } catch (error) {
+                    console.error('Form submission error:', error);
+                    errorMessage.style.display = 'block';
+                    errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                
+                // Reset button state
+                submitBtn.textContent = 'Send Message';
+                submitBtn.disabled = false;
+                
+            }, 1500); // Simulate network delay
+        });
+        
+        // Add real-time form validation
+        const requiredFields = ['name', 'email', 'subject', 'message'];
+        
+        requiredFields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            field.addEventListener('blur', validateField);
+            field.addEventListener('input', clearFieldError);
+        });
+        
+        function validateField(e) {
+            const field = e.target;
+            const value = field.value.trim();
+            
+            // Remove existing error styling
+            field.style.borderColor = '';
+            
+            if (field.hasAttribute('required') && !value) {
+                field.style.borderColor = '#f44336';
+                return false;
+            }
+            
+            if (field.type === 'email' && value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) {
+                    field.style.borderColor = '#f44336';
+                    return false;
+                }
+            }
+            
+            field.style.borderColor = '#4caf50';
+            return true;
+        }
+        
+        function clearFieldError(e) {
+            const field = e.target;
+            if (field.style.borderColor === 'rgb(244, 67, 54)') {
+                field.style.borderColor = '';
+            }
+        }
+        
+        // Dynamic subject field behavior
+        document.getElementById('subject').addEventListener('change', function(e) {
+            const messageField = document.getElementById('message');
+            const selectedValue = e.target.value;
+            
+            let placeholder = 'Please describe your question, issue, or feedback in detail...';
+            
+            switch(selectedValue) {
+                case 'technical-support':
+                    placeholder = 'Please describe the technical issue you\'re experiencing. Include details like browser type, error messages, and steps to reproduce the problem.';
+                    break;
+                case 'account-issue':
+                    placeholder = 'Please describe your account issue. Include your registered email address and any error messages you\'re seeing.';
+                    break;
+                case 'feature-request':
+                    placeholder = 'Please describe the feature you\'d like to see in EduAI. How would this feature help improve your learning experience?';
+                    break;
+                case 'content-question':
+                    placeholder = 'Please describe your question about syllabus content or subject matter. Include the specific topic or subject you\'re asking about.';
+                    break;
+                case 'partnership':
+                    placeholder = 'Please describe your partnership proposal. Include information about your organization and how you\'d like to collaborate with EduAI.';
+                    break;
+            }
+            
+            messageField.placeholder = placeholder;
+        });
+    </script>
+</body>
+</html>
