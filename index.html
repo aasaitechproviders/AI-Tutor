@@ -5,13 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     
     <!-- SEO Meta Tags -->
-    <title>EduAI - AI-Powered Syllabus Assistant for School Students</title><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    
-    <!-- SEO Meta Tags -->
     <title>EduAI - AI-Powered Syllabus Assistant for School Students</title>
     <meta name="description" content="Smart syllabus assistant for college students. Get instant AI answers from your course materials and access organized question banks by units and topics.">
     <meta name="keywords" content="syllabus assistant, college students, AI education, question bank, study tool, academic help, course materials, RAG system">
@@ -20,53 +13,9 @@
     <meta name="language" content="English">
     <meta name="revisit-after" content="7 days">
     
-    <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="EduAI - AI-Powered Syllabus Assistant for College Students">
-    <meta property="og:description" content="Smart syllabus assistant for college students. Get instant AI answers from your course materials and access organized question banks.">
-    <meta property="og:url" content="https://ai.aasaitech.in">
-    <meta property="og:site_name" content="EduAI">
-    <meta property="og:locale" content="en_US">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="EduAI - AI-Powered Syllabus Assistant">
-    <meta name="twitter:description" content="Smart syllabus assistant for college students. Get instant AI answers from your course materials.">
-    
-    <!-- Favicon and Icons -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://ai.aasaitech.in">
-    
     <!-- MathJax for mathematical formulas -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "EduAI",
-        "description": "AI-powered syllabus assistant for college students",
-        "url": "https://ai.aasaitech.in",
-        "applicationCategory": "EducationalApplication",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "creator": {
-            "@type": "Organization",
-            "name": "Aasai Tech"
-        }
-    }
-    </script>
     
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
@@ -93,18 +42,15 @@
             background: linear-gradient(135deg, #f5f7fb 0%, #c3cfe2 100%);
             color: var(--dark);
             line-height: 1.6;
-            -webkit-text-size-adjust: 100%;
-            -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
-            width: 100%;
-            /* Footer fix - body as flex container */
             display: flex;
             flex-direction: column;
         }
         
         .container {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 40px;
+            padding: 0 20px;
         }
         
         /* Header */
@@ -126,23 +72,21 @@
         }
         
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             display: flex;
             align-items: center;
-            flex: 1;
         }
         
         .logo-icon {
-            margin-right: 12px;
-            font-size: 2rem;
+            margin-right: 10px;
+            font-size: 1.8rem;
         }
         
         .auth-container {
             display: flex;
             align-items: center;
             gap: 1rem;
-            flex-shrink: 0;
         }
         
         .user-profile {
@@ -163,32 +107,21 @@
             height: 32px;
             border-radius: 50%;
             border: 2px solid white;
-            flex-shrink: 0;
         }
         
         .user-info {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            min-width: 0;
         }
         
         .user-name {
             font-weight: 600;
             font-size: 0.9rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 120px;
         }
         
         .user-email {
             font-size: 0.75rem;
             opacity: 0.8;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 120px;
         }
         
         .user-stats {
@@ -206,12 +139,9 @@
             cursor: pointer;
             font-size: 0.85rem;
             transition: all 0.3s;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 44px;
-            white-space: nowrap;
         }
         
-        .sign-out-btn:hover, .sign-out-btn:active {
+        .sign-out-btn:hover {
             background: rgba(255, 255, 255, 0.3);
         }
         
@@ -224,7 +154,6 @@
         .custom-google-btn {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 0.5rem;
             background: white;
             color: #757575;
@@ -235,13 +164,9 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.3s;
-            text-decoration: none;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 44px;
-            white-space: nowrap;
         }
         
-        .custom-google-btn:hover, .custom-google-btn:active {
+        .custom-google-btn:hover {
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
             background: #f8f9fa;
         }
@@ -251,14 +176,13 @@
             height: 18px;
         }
 
-        /* Main content - flex grow to push footer down */
+        /* Main content */
         main {
             flex: 1;
+            padding: 2rem 0;
         }
 
-        /* Main Layout - Now Single Column */
         .main-layout {
-            padding: 2rem 0;
             display: flex;
             flex-direction: column;
             gap: 2rem;
@@ -400,14 +324,11 @@
             background-color: white;
             transition: border-color 0.3s;
             cursor: pointer;
-            -webkit-appearance: none;
-            min-height: 44px;
         }
 
         .form-select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
         }
 
         /* Search Section */
@@ -416,6 +337,11 @@
             border-radius: 20px;
             padding: 2rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .search-container.show {
+            display: block;
         }
 
         .search-header {
@@ -450,7 +376,6 @@
             font-size: 1.1rem;
             outline: none;
             background: white;
-            -webkit-appearance: none;
         }
 
         .search-input::placeholder {
@@ -466,15 +391,185 @@
             font-weight: 600;
             font-size: 1.1rem;
             transition: all 0.3s;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 60px;
         }
 
-        .search-btn:hover, .search-btn:active {
+        .search-btn:hover {
             background: linear-gradient(135deg, var(--secondary), var(--accent));
         }
 
-        /* Chat History in Search Mode */
+        /* Results Section */
+        .results-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .results-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .result-card {
+            padding: 2rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+        }
+
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .result-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+            flex-wrap: wrap;
+        }
+
+        .confidence-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .confidence-high {
+            background-color: #e6f4ea;
+            color: #137333;
+        }
+
+        .confidence-medium {
+            background-color: #fff8e1;
+            color: #f57c00;
+        }
+
+        .confidence-low {
+            background-color: #fce8e6;
+            color: #c5221f;
+        }
+
+        .result-content {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            background: var(--light);
+            border: 2px solid var(--light-gray);
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .sources-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--light-gray);
+        }
+
+        .source-item {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .source-item:before {
+            content: "•";
+            color: var(--primary);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--light-gray);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .cache-indicator {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            background-color: var(--light);
+            color: var(--gray);
+        }
+
+        .cache-hit {
+            background-color: #e6f4ea;
+            color: #137333;
+        }
+
+        /* Chat History */
         .chat-history-search {
             margin-top: 2rem;
             padding-top: 2rem;
@@ -502,11 +597,6 @@
             color: var(--primary);
             padding: 0.5rem;
             border-radius: 50%;
-            min-height: 44px;
-            min-width: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             transition: all 0.3s;
         }
 
@@ -529,10 +619,9 @@
             cursor: pointer;
             transition: all 0.3s;
             border-left: 3px solid transparent;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        .chat-message-item:hover, .chat-message-item:active {
+        .chat-message-item:hover {
             background: #e8f0ff;
             border-left-color: var(--primary);
             transform: translateX(3px);
@@ -542,20 +631,12 @@
             font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
         }
 
         .chat-answer {
             font-size: 0.8rem;
             color: var(--gray);
             margin-bottom: 0.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
         }
 
         .chat-message-meta {
@@ -564,6 +645,40 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .confidence-mini {
+            padding: 0.1rem 0.3rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .no-chat-history {
+            text-align: center;
+            color: var(--gray);
+            font-style: italic;
+            padding: 2rem 0;
+            grid-column: 1/-1;
+        }
+
+        .load-more-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--light);
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .load-more-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
 
         /* Units Container */
@@ -658,11 +773,6 @@
             padding: 0.5rem;
             border-radius: 50%;
             transition: all 0.3s;
-            min-height: 44px;
-            min-width: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .unit-toggle:hover {
@@ -733,10 +843,6 @@
             font-size: 0.9rem;
             font-weight: 500;
             margin-bottom: 0.3rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
         }
 
         .question-meta {
@@ -744,210 +850,7 @@
             color: var(--gray);
         }
 
-        /* Results Container */
-        .results-container {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--light-gray);
-        }
-
-        .results-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .result-card {
-            padding: 2rem;
-            border: 2px solid var(--light-gray);
-            border-radius: 16px;
-            margin-bottom: 1rem;
-            transition: all 0.3s;
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
-        }
-
-        .result-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary);
-        }
-
-        .result-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .result-meta {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            color: var(--gray);
-            flex-wrap: wrap;
-        }
-
-        .confidence-badge {
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .confidence-high {
-            background-color: #e6f4ea;
-            color: #137333;
-        }
-
-        .confidence-medium {
-            background-color: #fff8e1;
-            color: #f57c00;
-        }
-
-        .confidence-low {
-            background-color: #fce8e6;
-            color: #c5221f;
-        }
-
-        .result-content {
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            line-height: 1.7;
-        }
-
-        .result-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .action-btn {
-            background: var(--light);
-            border: 2px solid var(--light-gray);
-            color: var(--primary);
-            cursor: pointer;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 44px;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-        }
-
-        .action-btn:hover, .action-btn:active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .sources-section {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px dashed var(--light-gray);
-        }
-
-        .source-item {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .source-item:before {
-            content: "•";
-            color: var(--primary);
-        }
-
-        .confidence-mini {
-            padding: 0.1rem 0.3rem;
-            border-radius: 8px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .no-chat-history {
-            text-align: center;
-            color: var(--gray);
-            font-style: italic;
-            padding: 2rem 0;
-            grid-column: 1/-1;
-        }
-
-        .load-more-btn {
-            width: 100%;
-            padding: 0.8rem;
-            background: var(--light);
-            border: 1px solid var(--light-gray);
-            border-radius: 12px;
-            color: var(--gray);
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            transition: all 0.3s;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 44px;
-        }
-
-        .load-more-btn:hover, .load-more-btn:active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 3rem;
-            color: var(--gray);
-        }
-
-        .loading {
-            display: flex;
-            justify-content: center;
-            padding: 3rem;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--light-gray);
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .cache-indicator {
-            font-size: 0.8rem;
-            padding: 0.3rem 0.6rem;
-            border-radius: 12px;
-            background-color: var(--light);
-            color: var(--gray);
-        }
-
-        .cache-hit {
-            background-color: #e6f4ea;
-            color: #137333;
-        }
-
+        /* Auth Required */
         .auth-required {
             text-align: center;
             padding: 3rem 2rem;
@@ -969,6 +872,7 @@
             font-size: 1.1rem;
         }
 
+        /* Notification */
         .notification {
             position: fixed;
             top: 20px;
@@ -999,10 +903,9 @@
             background: var(--primary);
         }
 
-        /* Enhanced Content Display Styles */
+        /* Enhanced Content Styles */
         .formatted-content {
             line-height: 1.7;
-            font-size: 1rem;
         }
 
         .formatted-content table {
@@ -1032,18 +935,6 @@
             background-color: #f8f9fa;
         }
 
-        /* Math and Formula Styling */
-        .math-formula {
-            font-family: "Times New Roman", serif;
-            font-style: italic;
-            background: #f8f9ff;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
-            margin: 1rem 0;
-            overflow-x: auto;
-        }
-
         .math-equation {
             text-align: center;
             font-size: 1.2rem;
@@ -1062,7 +953,6 @@
             border-radius: 4px;
         }
 
-        /* Chemistry Styling */
         .chemical-formula {
             font-family: "Times New Roman", serif;
             background: #fff3e0;
@@ -1073,49 +963,6 @@
             text-align: center;
         }
 
-        .chemical-reaction {
-            text-align: center;
-            font-size: 1.1rem;
-            margin: 1rem 0;
-            padding: 1rem;
-            background: #e8f5e8;
-            border-radius: 8px;
-            border: 1px solid #c8e6c9;
-        }
-
-        .chemical-structure {
-            text-align: center;
-            margin: 1rem 0;
-            padding: 1rem;
-            background: #f3e5f5;
-            border-radius: 8px;
-            border: 1px solid #e1bee7;
-            font-family: monospace;
-        }
-
-        /* Derivation and Proof Styling */
-        .derivation-step {
-            margin: 0.5rem 0;
-            padding: 0.5rem;
-            border-left: 3px solid #4caf50;
-            background: #f1f8e9;
-        }
-
-        .proof-container {
-            background: #fafafa;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-
-        .proof-title {
-            font-weight: bold;
-            color: var(--secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        /* Code and Algorithm Styling */
         .code-block {
             background: #2d2d2d;
             color: #f8f8f2;
@@ -1127,15 +974,6 @@
             font-size: 0.9rem;
         }
 
-        .algorithm-step {
-            margin: 0.5rem 0;
-            padding: 0.5rem;
-            background: #e3f2fd;
-            border-radius: 4px;
-            border-left: 3px solid #2196f3;
-        }
-
-        /* Content Feature Indicators */
         .content-features {
             display: flex;
             gap: 0.5rem;
@@ -1167,17 +1005,12 @@
             color: #f57c00;
         }
 
-        .content-feature.code {
-            background: #2d2d2d;
-            color: #f8f8f2;
-        }
-
-        /* Footer - Fixed positioning and alignment */
+        /* Footer */
         footer {
             background: var(--dark);
             color: white;
             padding: 2rem 0;
-            margin-top: auto; /* This pushes footer to bottom */
+            margin-top: auto;
         }
 
         .footer-content {
@@ -1207,455 +1040,37 @@
                 padding: 0 16px;
             }
 
-            header {
-                padding: 0.8rem 0;
-            }
-
             .header-content {
-                min-height: 56px;
-                gap: 0.5rem;
-            }
-
-            .logo {
-                font-size: 1.3rem;
-                flex: 1;
-                min-width: 0;
-            }
-
-            .logo-icon {
-                font-size: 1.5rem;
-                margin-right: 8px;
-            }
-
-            .auth-container {
-                gap: 0.5rem;
-                flex-shrink: 0;
-            }
-
-            .custom-google-btn {
-                font-size: 0.8rem;
-                padding: 0.5rem 0.8rem;
-                min-height: 44px;
-            }
-
-            .user-profile {
-                padding: 0.4rem 0.8rem;
-                gap: 0.6rem;
-                border-radius: 22px;
-                max-width: 180px;
-            }
-
-            .user-avatar {
-                width: 28px;
-                height: 28px;
-            }
-
-            .user-name {
-                font-size: 0.8rem;
-                max-width: 80px;
-            }
-
-            .user-email {
-                display: none;
-            }
-
-            .user-stats {
-                font-size: 0.65rem;
-            }
-
-            .sign-out-btn {
-                padding: 0.4rem 0.7rem;
-                font-size: 0.7rem;
-                min-height: 36px;
-            }
-
-            .main-layout {
-                padding: 1rem 0;
-                gap: 1.5rem;
-            }
-
-            .mode-toggle-section, 
-            .search-container, 
-            .results-container, 
-            .units-container {
-                padding: 1.5rem;
-                border-radius: 16px;
-            }
-
-            .mode-toggle-title, 
-            .search-title, 
-            .results-title, 
-            .units-title {
-                font-size: 1.5rem;
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
             }
 
             .mode-buttons {
-                grid-template-columns: 1fr 1fr;
-                gap: 1rem;
-            }
-
-            .mode-btn {
-                padding: 1.5rem;
-                border-radius: 12px;
-            }
-
-            .mode-icon {
-                font-size: 2.5rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .mode-title {
-                font-size: 1.1rem;
-            }
-
-            .mode-description {
-                font-size: 0.85rem;
-            }
-
-            .course-selection-panel {
-                padding: 1.2rem;
-                border-radius: 10px;
-            }
-
-            .selectors-grid {
                 grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .form-select {
-                min-height: 50px;
-                font-size: 16px;
-                padding: 1rem;
-                border-radius: 10px;
             }
 
             .search-box {
                 flex-direction: column;
-                gap: 1rem;
-                box-shadow: none;
-                border-radius: 0;
-                overflow: visible;
-                margin-bottom: 1.5rem;
-            }
-
-            .search-input {
-                border-radius: 16px;
-                min-height: 56px;
-                font-size: 16px;
-                padding: 1rem 1.5rem;
-                border: 2px solid var(--light-gray);
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            }
-
-            .search-input:focus {
-                border-color: var(--primary);
-                box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
-                outline: none;
             }
 
             .search-btn {
-                border-radius: 16px;
-                min-height: 56px;
-                font-size: 1.1rem;
-                font-weight: 700;
                 padding: 1rem;
-                box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-            }
-
-            .chat-messages-grid {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-                max-height: 300px;
-            }
-
-            .chat-message-item {
-                padding: 1rem;
-                border-radius: 10px;
-            }
-
-            .chat-question {
-                font-size: 0.85rem;
-                line-height: 1.4;
-                margin-bottom: 0.4rem;
-            }
-
-            .chat-answer {
-                font-size: 0.8rem;
-                line-height: 1.4;
-                margin-bottom: 0.4rem;
-            }
-
-            .units-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .unit-card {
-                padding: 1.2rem;
-                border-radius: 12px;
-            }
-
-            .unit-title {
-                font-size: 1.1rem;
-            }
-
-            .unit-toggle {
-                min-height: 40px;
-                min-width: 40px;
-                font-size: 1.3rem;
-            }
-
-            .questions-list {
-                max-height: 150px;
-            }
-
-            .question-item {
-                padding: 0.7rem;
-                margin-bottom: 0.4rem;
-                border-radius: 6px;
-            }
-
-            .question-text {
-                font-size: 0.85rem;
-                margin-bottom: 0.2rem;
-            }
-
-            .question-meta {
-                font-size: 0.7rem;
-            }
-
-            .course-info {
-                padding: 0.8rem;
-                border-radius: 10px;
-                margin-bottom: 0.8rem;
-            }
-
-            .course-info h4 {
-                font-size: 1rem;
-                margin-bottom: 0.3rem;
-            }
-
-            .course-info p {
-                font-size: 0.8rem;
-            }
-
-            .result-card {
-                padding: 1.5rem;
-                border-radius: 16px;
-            }
-
-            .result-meta {
-                flex-direction: column;
-                gap: 0.5rem;
-                align-items: flex-start;
             }
 
             .result-actions {
                 flex-direction: column;
-                gap: 0.8rem;
-            }
-
-            .action-btn {
-                width: 100%;
-                justify-content: center;
-                padding: 1rem;
-                border-radius: 12px;
-                font-weight: 600;
-                min-height: 50px;
-            }
-
-            .load-more-btn {
-                padding: 1rem;
-                border-radius: 12px;
-                font-size: 0.9rem;
-                min-height: 48px;
-            }
-
-            .no-chat-history, .no-results {
-                padding: 2rem 1rem;
-                font-size: 0.9rem;
-            }
-
-            .loading {
-                padding: 2rem 1rem;
-            }
-
-            .spinner {
-                width: 36px;
-                height: 36px;
-            }
-
-            .auth-required {
-                padding: 2rem 1.5rem;
-                margin: 1rem 0;
-                border-radius: 16px;
-            }
-
-            .auth-required h2 {
-                font-size: 1.6rem;
-            }
-
-            .auth-required p {
-                font-size: 1rem;
-                line-height: 1.5;
             }
 
             .footer-content {
                 flex-direction: column;
-                text-align: center;
                 gap: 1rem;
+                text-align: center;
             }
 
             .footer-links {
                 justify-content: center;
                 flex-wrap: wrap;
-            }
-
-            .notification {
-                top: 10px;
-                right: 10px;
-                left: 10px;
-                max-width: none;
-                transform: translateY(-100px);
-                font-size: 0.9rem;
-                padding: 1rem;
-                border-radius: 12px;
-            }
-
-            .notification.show {
-                transform: translateY(0);
-            }
-
-            /* Mobile optimizations for formatted content */
-            .formatted-content table {
-                font-size: 0.8rem;
-            }
-
-            .formatted-content th,
-            .formatted-content td {
-                padding: 0.5rem;
-            }
-
-            .math-equation {
-                font-size: 1rem;
-                padding: 0.8rem;
-            }
-
-            .chemical-formula {
-                font-size: 0.9rem;
-                padding: 0.8rem;
-            }
-
-            .content-features {
-                justify-content: center;
-            }
-        }
-
-        /* Very Small Screens */
-        @media screen and (max-width: 480px) {
-            .container {
-                padding: 0 12px;
-            }
-
-            .logo {
-                font-size: 1.1rem;
-            }
-
-            .logo-icon {
-                font-size: 1.3rem;
-                margin-right: 6px;
-            }
-
-            .user-name {
-                max-width: 60px;
-                font-size: 0.75rem;
-            }
-
-            .sign-out-btn {
-                padding: 0.3rem 0.5rem;
-                font-size: 0.65rem;
-                min-height: 32px;
-            }
-
-            .mode-toggle-section, 
-            .search-container, 
-            .results-container, 
-            .units-container {
-                padding: 1.2rem;
-            }
-
-            .mode-buttons {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.8rem;
-            }
-
-            .mode-btn {
-                padding: 1rem;
-            }
-
-            .mode-icon {
-                font-size: 2rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .mode-title {
-                font-size: 1rem;
-            }
-
-            .mode-description {
-                font-size: 0.8rem;
-                line-height: 1.4;
-            }
-
-            .search-input, .search-btn, .form-select {
-                min-height: 50px;
-            }
-
-            .load-more-btn {
-                min-height: 46px;
-            }
-        }
-
-        /* Touch device optimizations */
-        @media (hover: none) and (pointer: coarse) {
-            .result-card:hover,
-            .chat-message-item:hover,
-            .action-btn:hover,
-            .load-more-btn:hover,
-            .sign-out-btn:hover,
-            .custom-google-btn:hover,
-            .refresh-btn:hover,
-            .unit-card:hover,
-            .question-item:hover,
-            .mode-btn:hover {
-                transform: none;
-                box-shadow: initial;
-                background: initial;
-            }
-
-            .action-btn:active,
-            .load-more-btn:active {
-                background-color: var(--primary);
-                color: white;
-                transform: scale(0.98);
-            }
-        }
-
-        /* Prevent horizontal scroll */
-        html, body {
-            overflow-x: hidden;
-            width: 100%;
-        }
-
-        /* Fix webkit zoom issue */
-        @media screen and (max-width: 768px) {
-            input[type="text"], 
-            input[type="email"], 
-            input[type="password"], 
-            textarea, 
-            select {
-                font-size: 16px !important;
-                -webkit-text-size-adjust: 100%;
             }
         }
     </style>
@@ -1690,7 +1105,7 @@
                             <span><span id="conversation-count">0</span>C</span>
                         </div>
                     </div>
-                    <button id="sign-out-btn" class="sign-out-btn">Out</button>
+                    <button id="sign-out-btn" class="sign-out-btn">Sign Out</button>
                 </div>
             </div>
         </div>
@@ -1711,7 +1126,7 @@
                 </div>
                 
                 <div class="mode-buttons">
-                    <div class="mode-btn" id="ai-search-mode" onclick="switchMode('search')">
+                    <div class="mode-btn active" id="ai-search-mode" onclick="switchMode('search')">
                         <div class="mode-icon">🤖</div>
                         <div class="mode-title">AI Search</div>
                         <div class="mode-description">Ask questions and get instant answers from your syllabus using advanced AI with enhanced formatting for tables, math, and chemistry</div>
@@ -1724,7 +1139,7 @@
                     </div>
                 </div>
                 
-                <!-- Course Selection Panel (shown only for Question Bank mode) -->
+                <!-- Course Selection Panel -->
                 <div id="course-selection-panel" class="course-selection-panel">
                     <h3 class="course-selection-title">Select Your Course Details</h3>
                     <div class="selectors-grid">
@@ -1735,11 +1150,6 @@
                                 <option value="computer-science">Computer Science</option>
                                 <option value="mathematics">Mathematics</option>
                                 <option value="chemistry">Chemistry</option>
-                                <option value="history">History</option>
-                                <option value="psychology">Psychology</option>
-                                <option value="english">English</option>
-                                <option value="physics">Physics</option>
-                                <option value="biology">Biology</option>
                             </select>
                         </div>
                         
@@ -1750,11 +1160,6 @@
                                 <option value="1">Semester 1</option>
                                 <option value="2">Semester 2</option>
                                 <option value="3">Semester 3</option>
-                                <option value="4">Semester 4</option>
-                                <option value="5">Semester 5</option>
-                                <option value="6">Semester 6</option>
-                                <option value="7">Semester 7</option>
-                                <option value="8">Semester 8</option>
                             </select>
                         </div>
                         
@@ -1765,11 +1170,6 @@
                                 <option value="intro-programming">Introduction to Programming</option>
                                 <option value="data-structures">Data Structures</option>
                                 <option value="calculus-1">Calculus I</option>
-                                <option value="calculus-2">Calculus II</option>
-                                <option value="organic-chem">Organic Chemistry</option>
-                                <option value="world-history">World History</option>
-                                <option value="psychology-101">Psychology 101</option>
-                                <option value="english-comp">English Composition</option>
                             </select>
                         </div>
                     </div>
@@ -1777,7 +1177,7 @@
             </div>
 
             <!-- Search Section -->
-            <div id="search-section" class="search-container" style="display: none;">
+            <div id="search-section" class="search-container show">
                 <div class="search-header">
                     <h2 class="search-title">Ask AI About Your Syllabus</h2>
                     <p class="search-subtitle">Get instant, accurate answers from your course materials with enhanced formatting</p>
@@ -1789,7 +1189,7 @@
                 </div>
 
                 <!-- Results Section -->
-                <div class="results-container" id="results-container" style="display: none;">
+                <div id="results-container" class="results-container">
                     <div class="results-header">
                         <h2 class="results-title">Results</h2>
                         <span id="results-count">0 results found</span>
@@ -1801,7 +1201,7 @@
                     </div>
                 </div>
 
-                <!-- Chat History in Search Mode -->
+                <!-- Chat History -->
                 <div class="chat-history-search">
                     <div class="chat-history-header">
                         <h3 class="chat-history-title">Recent Searches</h3>
@@ -1839,345 +1239,100 @@
 
     <footer>
         <div class="container footer-content">
-            <p>&copy; 2025 Aasai SmartEDU -AI Syllabus Assistant.</p>
+            <p>&copy; 2025 Aasai SmartEDU - AI Syllabus Assistant.</p>
             
             <div class="footer-links">
                 <a href="https://www.aasaitech.in">Company Website</a>
-                <a href="pages/privacy.html">Privacy</a>
-                <a href="pages/terms.html">Terms</a>
-                <a href="pages/help.html">Help</a>
-                <a href="pages/contact.html">Contact</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Help</a>
             </div>
         </div>
     </footer>
 
     <script>
+        // Configuration
         const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com';
-        const API_BASE_URL1 = 'https://musical-suitably-woodcock.ngrok-free.app';
-        const API_BASE_URL = 'https://6vgvuw4ulc.execute-api.ap-south-1.amazonaws.com/PROD';
+        const API_BASE_URL = 'https://musical-suitably-woodcock.ngrok-free.app';
         
+        // State management
         let currentUser = null;
         let sessionToken = null;
         let chatHistoryData = [];
         let currentPage = 1;
         let googleSignInInitialized = false;
-        let currentMode = null;
-        
-        // Sample unit-wise questions data
-        const unitQuestions = {
-            'computer-science': {
-                '1': {
-                    'intro-programming': {
-                        'Unit 1: Programming Fundamentals': {
-                            '2-mark': [
-                                { question: 'What is a variable in programming?', answer: 'A variable is a container that holds data that can be changed during program execution.' },
-                                { question: 'Define algorithm.', answer: 'An algorithm is a step-by-step procedure to solve a problem.' },
-                                { question: 'What is pseudocode?', answer: 'Pseudocode is a high-level description of a program logic using structured English.' },
-                                { question: 'Differentiate between compiler and interpreter.', answer: 'A compiler translates the entire program at once, while an interpreter translates line by line during execution.' }
-                            ],
-                            '15-mark': [
-                                { question: 'Explain the software development life cycle with examples.', answer: 'SDLC includes phases: Planning (requirements gathering), Analysis (feasibility study), Design (system architecture), Implementation (coding), Testing (unit and integration testing), Deployment (release), and Maintenance (updates and bug fixes). Example: For a banking system, planning involves understanding user needs, analysis checks technical feasibility, design creates database schemas, implementation involves coding modules, testing ensures security, deployment makes it live, and maintenance handles updates.' },
-                                { question: 'Write a program to find factorial of a number and trace its execution.', answer: 'Factorial program: int factorial(int n) { if(n<=1) return 1; else return n*factorial(n-1); } Trace for factorial(4): factorial(4) calls factorial(3), which calls factorial(2), which calls factorial(1) returning 1, then 2*1=2, then 3*2=6, finally 4*6=24.' }
-                            ]
-                        },
-                        'Unit 2: Data Types & Operators': {
-                            '2-mark': [
-                                { question: 'What are primitive data types?', answer: 'Primitive data types are basic data types provided by programming languages like int, float, char, boolean.' },
-                                { question: 'Define operators in programming.', answer: 'Operators are symbols used to perform operations on operands like arithmetic (+, -, *, /), logical (&&, ||), and relational (<, >, ==).' },
-                                { question: 'What is type casting?', answer: 'Type casting is the process of converting one data type to another, either implicitly or explicitly.' }
-                            ],
-                            '15-mark': [
-                                { question: 'Explain control structures with examples and flowcharts.', answer: 'Control structures include: 1) Sequential (statements executed in order), 2) Selection (if-else, switch for decision making), 3) Iteration (for, while, do-while for repetition). Example: if(age>=18) print("eligible"); else print("not eligible"); While loop: while(i<10) { print(i); i++; }. Each has specific flowchart symbols and execution patterns.' }
-                            ]
-                        },
-                        'Unit 3: Functions & Arrays': {
-                            '2-mark': [
-                                { question: 'What is a function?', answer: 'A function is a block of code that performs a specific task and can be called multiple times with different parameters.' },
-                                { question: 'Define recursion.', answer: 'Recursion is a programming technique where a function calls itself with modified parameters to solve smaller subproblems.' },
-                                { question: 'What is an array?', answer: 'An array is a collection of elements of the same data type stored in contiguous memory locations.' }
-                            ],
-                            '15-mark': [
-                                { question: 'Implement and explain different sorting algorithms.', answer: 'Bubble Sort: Compare adjacent elements and swap if in wrong order. Time complexity O(n²). Selection Sort: Find minimum element and place at beginning. Insertion Sort: Insert each element at correct position in sorted portion. Quick Sort: Divide and conquer approach with pivot element. Each has different time complexities and use cases.' }
-                            ]
-                        }
-                    }
-                }
-            },
-            'mathematics': {
-                '1': {
-                    'calculus-1': {
-                        'Unit 1: Limits and Continuity': {
-                            '2-mark': [
-                                { question: 'Define limit of a function.', answer: 'The limit of a function is the value that the function approaches as the input approaches a certain value.' },
-                                { question: 'What is continuity?', answer: 'A function is continuous at a point if it is defined at that point and the limit equals the function value.' },
-                                { question: 'State the squeeze theorem.', answer: 'If f(x) ≤ g(x) ≤ h(x) and lim f(x) = lim h(x) = L, then lim g(x) = L.' }
-                            ],
-                            '15-mark': [
-                                { question: 'Derive the rules of differentiation with proofs.', answer: 'Differentiation rules include: Power rule d/dx(x^n) = nx^(n-1), Product rule d/dx(uv) = u\'v + uv\', Quotient rule d/dx(u/v) = (u\'v - uv\')/v², Chain rule d/dx(f(g(x))) = f\'(g(x))g\'(x). Each rule can be proven using the definition of derivative as a limit.' }
-                            ]
-                        }
-                    }
-                }
-            }
-        };
+        let currentMode = 'search';
 
-        // Enhanced content formatting functions
-        function formatAnswerContent(answer) {
-            if (!answer) return '';
-            
-            let formattedAnswer = answer;
-            
-            // Process markdown tables
-            formattedAnswer = formatTables(formattedAnswer);
-            
-            // Process mathematical formulas (LaTeX)
-            formattedAnswer = formatMath(formattedAnswer);
-            
-            // Process chemical formulas
-            formattedAnswer = formatChemistry(formattedAnswer);
-            
-            // Process derivations and proofs
-            formattedAnswer = formatDerivations(formattedAnswer);
-            
-            // Process code blocks
-            formattedAnswer = formatCode(formattedAnswer);
-            
-            return formattedAnswer;
-        }
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGoogleSignIn();
+            setupEventListeners();
+            switchMode('search');
+        });
 
-        function formatTables(text) {
-            // Simple table detection and formatting
-            const tableRegex = /\|(.+)\|/g;
-            return text.replace(tableRegex, (match) => {
-                const rows = match.trim().split('\n').filter(row => row.includes('|'));
-                if (rows.length < 2) return match;
-                
-                let tableHtml = '<div class="formatted-content"><table>';
-                
-                rows.forEach((row, index) => {
-                    const cells = row.split('|').filter(cell => cell.trim() !== '');
-                    if (index === 0) {
-                        // Header row
-                        tableHtml += '<thead><tr>';
-                        cells.forEach(cell => {
-                            tableHtml += `<th>${cell.trim()}</th>`;
-                        });
-                        tableHtml += '</tr></thead><tbody>';
-                    } else if (index === 1 && cells.every(cell => cell.trim().replace(/-/g, '') === '')) {
-                        // Separator row, skip
-                        return;
-                    } else {
-                        // Data row
-                        tableHtml += '<tr>';
-                        cells.forEach(cell => {
-                            tableHtml += `<td>${cell.trim()}</td>`;
-                        });
-                        tableHtml += '</tr>';
-                    }
-                });
-                
-                tableHtml += '</tbody></table></div>';
-                return tableHtml;
-            });
-        }
-
-        function formatMath(text) {
-            // Process block equations ($$...$$)
-            text = text.replace(/\$\$(.*?)\$\$/g, '<div class="math-equation">$$$1$$</div>');
+        // Setup event listeners
+        function setupEventListeners() {
+            document.getElementById('sign-out-btn').addEventListener('click', signOut);
+            document.getElementById('refresh-history-btn').addEventListener('click', refreshChatHistory);
+            document.getElementById('search-button').addEventListener('click', performSearch);
             
-            // Process inline equations ($...$)
-            text = text.replace(/\$(.*?)\$/g, '<span class="math-inline">$1</span>');
-            
-            // Process simple subscripts and superscripts
-            text = text.replace(/(\w)_(\d)/g, '$1<sub>$2</sub>');
-            text = text.replace(/(\w)\^(\d)/g, '$1<sup>$2</sup>');
-            
-            return text;
-        }
-
-        function formatChemistry(text) {
-            // Process chemical formulas with subscripts
-            text = text.replace(/([A-Z][a-z]?)(\d+)/g, '$1<sub>$2</sub>');
-            
-            // Process chemical reactions
-            text = text.replace(/(.+)\s*→\s*(.+)/g, '<div class="chemical-reaction">$1 → $2</div>');
-            text = text.replace(/(.+)\s*⇌\s*(.+)/g, '<div class="chemical-reaction">$1 ⇌ $2</div>');
-            
-            // Process chemical formulas in text
-            const chemFormulas = text.match(/([A-Z][a-z]?\d*)+/g) || [];
-            chemFormulas.forEach(formula => {
-                if (formula.length > 1 && !formula.includes(' ') && !formula.includes('<')) {
-                    const formatted = formula.replace(/([A-Z][a-z]?)(\d*)/g, (match, element, number) => {
-                        return number ? `${element}<sub>${number}</sub>` : element;
-                    });
-                    text = text.replace(new RegExp(formula, 'g'), `<span class="chemical-formula">${formatted}</span>`);
-                }
+            document.getElementById('question-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch();
             });
             
-            return text;
-        }
-
-        function formatDerivations(text) {
-            // Process step-by-step derivations
-            const stepRegex = /(Step\s*\d+[:.]?|∴|Therefore[:.]?|Hence[:.]?)\s*(.+)/gi;
-            text = text.replace(stepRegex, '<div class="derivation-step"><strong>$1</strong> $2</div>');
+            document.getElementById('department-select').addEventListener('change', function() {
+                updateSubjectOptions();
+                checkCourseSelection();
+            });
             
-            // Process proofs
-            const proofRegex = /(Proof[:.]?|Derivation[:.]?)\s*\n(.+?)(?=\n\n|\n[A-Z]|$)/gis;
-            text = text.replace(proofRegex, '<div class="proof-container"><div class="proof-title">$1</div>$2</div>');
+            document.getElementById('semester-select').addEventListener('change', checkCourseSelection);
+            document.getElementById('subject-select').addEventListener('change', checkCourseSelection);
             
-            return text;
-        }
-
-        function formatCode(text) {
-            // Process code blocks (```...```)
-            text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, '<div class="code-block">$2</div>');
-            
-            // Process inline code (`...`)
-            text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
-            
-            // Process algorithm steps
-            text = text.replace(/(\d+\.)\s*(.+)/g, '<div class="algorithm-step"><strong>$1</strong> $2</div>');
-            
-            return text;
-        }
-
-        function detectContentFeatures(answer) {
-            const features = {
-                hasTables: answer.includes('|') && answer.includes('-'),
-                hasMath: answer.includes('$') || answer.includes('_') || answer.includes('^'),
-                hasChemistry: /[A-Z][a-z]?\d/.test(answer) || answer.includes('→') || answer.includes('⇌'),
-                hasCode: answer.includes('```') || answer.includes('`')
-            };
-            return features;
-        }
-
-        function renderContentFeatures(features) {
-            if (!features) return '';
-            
-            const featureElements = [];
-            if (features.hasTables) featureElements.push('<span class="content-feature tables">📊 Tables</span>');
-            if (features.hasMath) featureElements.push('<span class="content-feature math">🧮 Math</span>');
-            if (features.hasChemistry) featureElements.push('<span class="content-feature chemistry">⚗️ Chemistry</span>');
-            if (features.hasCode) featureElements.push('<span class="content-feature code">💻 Code</span>');
-            
-            return featureElements.length > 0 ? 
-                `<div class="content-features">${featureElements.join('')}</div>` : '';
+            document.getElementById('load-more-history-btn').addEventListener('click', function() {
+                loadChatMessages(currentPage + 1, true);
+            });
         }
 
         // Mode switching functionality
         function switchMode(mode) {
-            const searchMode = document.getElementById('ai-search-mode');
-            const questionMode = document.getElementById('question-bank-mode');
-            const coursePanel = document.getElementById('course-selection-panel');
-            const searchSection = document.getElementById('search-section');
-            const unitsContainer = document.getElementById('units-container');
-            const resultsContainer = document.getElementById('results-container');
-            
-            // Remove active class from all modes
-            searchMode.classList.remove('active');
-            questionMode.classList.remove('active');
-            
-            // Hide all sections initially
-            coursePanel.classList.remove('show');
-            searchSection.style.display = 'none';
-            unitsContainer.classList.remove('show');
-            resultsContainer.style.display = 'none';
-            
             currentMode = mode;
             
-            if (mode === 'search') {
-                searchMode.classList.add('active');
-                searchSection.style.display = 'block';
-                showNotification('AI Search mode activated with enhanced formatting', 'success');
-            } else if (mode === 'questions') {
-                questionMode.classList.add('active');
-                coursePanel.classList.add('show');
-                unitsContainer.classList.add('show');
-                showNotification('Question Bank mode activated', 'success');
-                checkCourseSelection(); // Check if course details are already selected
+            // Update mode buttons
+            document.getElementById('ai-search-mode').classList.toggle('active', mode === 'search');
+            document.getElementById('question-bank-mode').classList.toggle('active', mode === 'questions');
+            
+            // Show/hide sections
+            document.getElementById('search-section').classList.toggle('show', mode === 'search');
+            document.getElementById('units-container').classList.toggle('show', mode === 'questions');
+            document.getElementById('course-selection-panel').classList.toggle('show', mode === 'questions');
+            
+            // Show notification
+            showNotification(`${mode === 'search' ? 'AI Search' : 'Question Bank'} mode activated`, 'success');
+            
+            if (mode === 'questions') {
+                checkCourseSelection();
             }
         }
-        
-        // Utility Functions
-        function showNotification(message, type = 'info', duration = 3000) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification ${type}`;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, duration);
-        }
-        
-        function getAuthHeaders() {
-            if (!sessionToken) return {};
-            return { 'Authorization': `Bearer ${sessionToken}` };
-        }
-        
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const now = new Date();
-            const diffTime = Math.abs(now - date);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            if (diffDays === 1) return 'Today';
-            if (diffDays === 2) return 'Yesterday';
-            if (diffDays <= 7) return `${diffDays} days ago`;
-            return date.toLocaleDateString();
-        }
-        
-        // Backend connection test
-        async function testBackendConnection() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/health`, {
-                    method: 'GET',
-                    headers: { 'ngrok-skip-browser-warning': 'true' }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (error) {
-                console.error('Backend connection failed:', error);
-                return false;
-            }
-        }
-        
+
         // Google Sign-In initialization
         function initializeGoogleSignIn() {
-            if (googleSignInInitialized) return;
-            
-            if (typeof google === 'undefined' || !google.accounts) {
-                setTimeout(initializeGoogleSignIn, 500);
+            if (typeof google === 'undefined') {
+                setTimeout(initializeGoogleSignIn, 100);
                 return;
             }
-            
+
             try {
                 google.accounts.id.initialize({
                     client_id: GOOGLE_CLIENT_ID,
                     callback: handleCredentialResponse,
-                    auto_select: false,
-                    cancel_on_tap_outside: false
+                    auto_select: false
                 });
-                
+
                 google.accounts.id.renderButton(
                     document.getElementById("google-signin-button"),
-                    { 
-                        theme: "outline", 
-                        size: "large",
-                        type: "standard",
-                        text: "signin_with",
-                        width: 200
-                    }
+                    { theme: "outline", size: "large", type: "standard" }
                 );
-                
-                googleSignInInitialized = true;
-                
+
                 // Check for existing session
                 const savedToken = localStorage.getItem('sessionToken');
                 const savedUser = localStorage.getItem('currentUser');
@@ -2185,28 +1340,16 @@
                 if (savedToken && savedUser) {
                     sessionToken = savedToken;
                     currentUser = JSON.parse(savedUser);
-                    
-                    getUserProfile().then(profile => {
-                        if (profile) {
-                            currentUser = profile;
-                            localStorage.setItem('currentUser', JSON.stringify(profile));
-                            showUserProfile(profile);
-                            showSearchSection();
-                            loadUserPreferences();
-                            loadChatHistory();
-                            showNotification('Welcome back!', 'success');
-                        } else {
-                            clearUserSession();
-                        }
-                    });
+                    showUserProfile(currentUser);
+                    showSearchSection();
+                    loadChatHistory();
                 }
-                
+
             } catch (error) {
                 console.error('Error initializing Google Sign-In:', error);
-                showCustomSignInButton();
             }
         }
-        
+
         // Handle Google credential response
         async function handleCredentialResponse(response) {
             try {
@@ -2228,7 +1371,6 @@
                 
                 showUserProfile(currentUser);
                 showSearchSection();
-                loadUserPreferences();
                 loadChatHistory();
                 showNotification(`Welcome ${currentUser.name}!`, 'success');
                 
@@ -2237,27 +1379,22 @@
                 showNotification('Failed to sign in. Please try again.', 'error');
             }
         }
-        
+
         // Parse JWT token
         function parseJwt(token) {
             try {
                 const base64Url = token.split('.')[1];
                 const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
                     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
                 }).join(''));
                 return JSON.parse(jsonPayload);
             } catch (error) {
                 console.error('Error parsing JWT:', error);
-                throw error;
+                return null;
             }
         }
-        
-        function showCustomSignInButton() {
-            document.getElementById('google-signin-button').style.display = 'none';
-            document.getElementById('custom-google-signin-btn').style.display = 'flex';
-        }
-        
+
         // API Functions
         async function authenticateWithBackend(googleUserData) {
             try {
@@ -2280,366 +1417,7 @@
                 throw error;
             }
         }
-        
-        async function getUserProfile() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/user/profile`, {
-                    headers: {
-                        ...getAuthHeaders(),
-                        'ngrok-skip-browser-warning': 'true'
-                    }
-                });
-                
-                if (!response.ok) {
-                    return null;
-                }
-                
-                const data = await response.json();
-                return data.user;
-            } catch (error) {
-                console.error('Error getting user profile:', error);
-                return null;
-            }
-        }
-        
-        async function logoutUser() {
-            try {
-                await fetch(`${API_BASE_URL}/auth/logout`, {
-                    method: 'POST',
-                    headers: {
-                        ...getAuthHeaders(),
-                        'ngrok-skip-browser-warning': 'true'
-                    }
-                });
-            } catch (error) {
-                console.error('Error during logout:', error);
-            }
-        }
-        
-        async function getUserChatHistory(page = 1) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/user/chat-history?page=${page}&limit=20`, {
-                    headers: {
-                        ...getAuthHeaders(),
-                        'ngrok-skip-browser-warning': 'true'
-                    }
-                });
-                
-                if (!response.ok) {
-                    return { chatHistory: [], totalCount: 0, hasMore: false };
-                }
-                
-                const data = await response.json();
-                return data;
-                
-            } catch (error) {
-                console.error('Error getting chat history:', error);
-                return { chatHistory: [], totalCount: 0, hasMore: false };
-            }
-        }
-        
-        function clearUserSession() {
-            currentUser = null;
-            sessionToken = null;
-            chatHistoryData = [];
-            
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('sessionToken');
-            
-            document.getElementById('user-profile').classList.remove('show');
-            document.getElementById('google-signin-button').style.display = 'block';
-            hideSearchSection();
-            clearChatHistoryDisplay();
-        }
-        
-        // UI Functions
-        function showUserProfile(user) {
-            document.getElementById('google-signin-button').style.display = 'none';
-            document.getElementById('custom-google-signin-btn').style.display = 'none';
-            document.getElementById('user-profile').classList.add('show');
-            document.getElementById('user-avatar').src = user.picture;
-            document.getElementById('user-name').textContent = user.name;
-            document.getElementById('user-email').textContent = user.email;
-            document.getElementById('search-count').textContent = user.searchCount || 0;
-        }
-        
-        function showSearchSection() {
-            document.getElementById('auth-required').style.display = 'none';
-            document.getElementById('main-layout').style.display = 'flex';
-        }
-        
-        function hideSearchSection() {
-            document.getElementById('auth-required').style.display = 'block';
-            document.getElementById('main-layout').style.display = 'none';
-        }
-        
-        function loadUserPreferences() {
-            if (currentUser && currentUser.preferences) {
-                const { department, semester, subject } = currentUser.preferences;
-                
-                if (department) {
-                    document.getElementById('department-select').value = department;
-                    updateSubjectOptions();
-                }
-                if (semester) document.getElementById('semester-select').value = semester;
-                if (subject) document.getElementById('subject-select').value = subject;
-            }
-        }
-        
-        async function signOut() {
-            try {
-                showNotification('Signing out...', 'info');
-                if (sessionToken) await logoutUser();
-                clearUserSession();
-                showNotification('Signed out successfully', 'success');
-            } catch (error) {
-                console.error('Error during sign out:', error);
-                showNotification('Sign out error, but cleared locally', 'error');
-                clearUserSession();
-            }
-        }
-        
-        // Course Selection Functions
-        function checkCourseSelection() {
-            const department = document.getElementById('department-select').value;
-            const semester = document.getElementById('semester-select').value;
-            const subject = document.getElementById('subject-select').value;
-            
-            if (department && semester && subject) {
-                displayUnitsSection(department, semester, subject);
-            } else {
-                hideUnitsSection();
-            }
-        }
-        
-        function displayUnitsSection(department, semester, subject) {
-            const courseInfo = document.getElementById('selected-course');
-            const unitsGrid = document.getElementById('units-grid');
-            
-            // Update course info
-            const departmentText = document.getElementById('department-select').options[document.getElementById('department-select').selectedIndex].text;
-            const subjectText = document.getElementById('subject-select').options[document.getElementById('subject-select').selectedIndex].text;
-            courseInfo.innerHTML = `${departmentText} - Semester ${semester} - ${subjectText}`;
-            courseInfo.nextElementSibling.textContent = 'Select a unit to view questions';
-            
-            // Get units data
-            const courseData = unitQuestions[department]?.[semester]?.[subject];
-            
-            if (courseData) {
-                const unitsHTML = Object.keys(courseData).map(unitName => {
-                    const unit = courseData[unitName];
-                    const twoMarkCount = unit['2-mark']?.length || 0;
-                    const fifteenMarkCount = unit['15-mark']?.length || 0;
-                    
-                    return `
-                        <div class="unit-card" data-unit="${unitName}">
-                            <div class="unit-header">
-                                <h3 class="unit-title">${unitName}</h3>
-                                <button class="unit-toggle" onclick="toggleUnit('${unitName}')">+</button>
-                            </div>
-                            <div class="unit-content" id="content-${unitName}">
-                                <div class="question-section">
-                                    <div class="question-section-header">
-                                        <span class="question-type-title">2-Mark Questions</span>
-                                        <span class="question-count">${twoMarkCount}</span>
-                                    </div>
-                                    <div class="questions-list">
-                                        ${unit['2-mark']?.map((q, index) => `
-                                            <div class="question-item" onclick="selectQuestion('${unitName}', '2-mark', ${index})">
-                                                <div class="question-text">${q.question}</div>
-                                                <div class="question-meta">Question ${index + 1} of ${twoMarkCount}</div>
-                                            </div>
-                                        `).join('') || '<p style="text-align: center; color: var(--gray); padding: 1rem;">No questions available</p>'}
-                                    </div>
-                                </div>
-                                <div class="question-section">
-                                    <div class="question-section-header">
-                                        <span class="question-type-title">15-Mark Questions</span>
-                                        <span class="question-count">${fifteenMarkCount}</span>
-                                    </div>
-                                    <div class="questions-list">
-                                        ${unit['15-mark']?.map((q, index) => `
-                                            <div class="question-item" onclick="selectQuestion('${unitName}', '15-mark', ${index})">
-                                                <div class="question-text">${q.question}</div>
-                                                <div class="question-meta">Question ${index + 1} of ${fifteenMarkCount}</div>
-                                            </div>
-                                        `).join('') || '<p style="text-align: center; color: var(--gray); padding: 1rem;">No questions available</p>'}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-                
-                unitsGrid.innerHTML = unitsHTML;
-            } else {
-                unitsGrid.innerHTML = `
-                    <div style="text-align: center; padding: 3rem; color: var(--gray); grid-column: 1/-1;">
-                        <h3>Questions Not Available</h3>
-                        <p>Questions for this course combination are not yet available.</p>
-                    </div>
-                `;
-            }
-        }
-        
-        function hideUnitsSection() {
-            const courseInfo = document.getElementById('selected-course');
-            courseInfo.innerHTML = 'Select Course Details';
-            courseInfo.nextElementSibling.textContent = 'Choose department, semester, and subject to view unit-wise questions';
-        }
-        
-        function toggleUnit(unitName) {
-            const content = document.getElementById(`content-${unitName}`);
-            const toggle = document.querySelector(`[data-unit="${unitName}"] .unit-toggle`);
-            const card = document.querySelector(`[data-unit="${unitName}"]`);
-            
-            if (content.classList.contains('show')) {
-                content.classList.remove('show');
-                toggle.textContent = '+';
-                card.classList.remove('active');
-            } else {
-                // Close all other units
-                document.querySelectorAll('.unit-content.show').forEach(c => {
-                    c.classList.remove('show');
-                    c.parentElement.classList.remove('active');
-                });
-                document.querySelectorAll('.unit-toggle').forEach(t => t.textContent = '+');
-                
-                // Open this unit
-                content.classList.add('show');
-                toggle.textContent = '-';
-                card.classList.add('active');
-            }
-        }
-        
-        function selectQuestion(unitName, markType, questionIndex) {
-            const department = document.getElementById('department-select').value;
-            const semester = document.getElementById('semester-select').value;
-            const subject = document.getElementById('subject-select').value;
-            
-            const question = unitQuestions[department][semester][subject][unitName][markType][questionIndex];
-            
-            // Show results container and display question
-            const resultsContainer = document.getElementById('results-container');
-            const resultsContent = document.getElementById('results-content');
-            const resultsCount = document.getElementById('results-count');
-            
-            const resultHtml = `
-                <div class="result-card">
-                    <h3 class="result-title">${markType} Question - ${unitName}</h3>
-                    <div class="result-meta">
-                        <span class="confidence-badge confidence-high">Question Bank</span>
-                        <span class="cache-indicator">${unitName}</span>
-                        <span class="cache-indicator">${markType}</span>
-                    </div>
-                    <div class="result-content formatted-content">
-                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Question:</h4>
-                        <p style="margin-bottom: 1.5rem; font-weight: 500;">${question.question}</p>
-                        <h4 style="color: var(--secondary); margin-bottom: 1rem;">Answer:</h4>
-                        <p>${formatAnswerContent(question.answer)}</p>
-                    </div>
-                    <div class="result-actions">
-                        <button class="action-btn" onclick="copyToClipboard('Q: ${question.question.replace(/'/g, "\\'")}\\n\\nA: ${question.answer.replace(/'/g, "\\'")}')">
-                            <span>📋</span>
-                            <span>Copy Q&A</span>
-                        </button>
-                        <button class="action-btn" onclick="copyToClipboard('${question.question.replace(/'/g, "\\'")}')">
-                            <span>❓</span>
-                            <span>Copy Question</span>
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            resultsContent.innerHTML = resultHtml;
-            resultsCount.textContent = '1 question selected';
-            resultsContainer.style.display = 'block';
-            
-            // Scroll to results
-            resultsContainer.scrollIntoView({ behavior: 'smooth' });
-            
-            showNotification(`Selected ${markType} question from ${unitName}`, 'success');
-        }
-        
-        // Chat History Functions
-        async function loadChatHistory() {
-            if (!currentUser) return;
-            
-            const isConnected = await testBackendConnection();
-            if (!isConnected) {
-                showNotification('Backend connection issue - some features may be limited', 'warning', 5000);
-            }
-            
-            await loadChatMessages();
-        }
-        
-        async function loadChatMessages(page = 1, append = false) {
-            try {
-                const data = await getUserChatHistory(page);
-                
-                if (!append) {
-                    chatHistoryData = data.chatHistory;
-                    currentPage = 1;
-                } else {
-                    chatHistoryData = [...chatHistoryData, ...data.chatHistory];
-                }
-                
-                displayChatHistory();
-                
-                const loadMoreBtn = document.getElementById('load-more-history-btn');
-                if (data.hasMore) {
-                    loadMoreBtn.style.display = 'block';
-                    currentPage = page;
-                } else {
-                    loadMoreBtn.style.display = 'none';
-                }
-                
-            } catch (error) {
-                console.error('Error loading chat messages:', error);
-                showNotification('Failed to load chat history', 'error');
-            }
-        }
-        
-        function displayChatHistory() {
-            const historyGrid = document.getElementById('chat-history-grid');
-            
-            if (chatHistoryData.length === 0) {
-                historyGrid.innerHTML = '<div class="no-chat-history"><p>No search history yet</p></div>';
-                return;
-            }
-            
-            const historyHTML = chatHistoryData.map(msg => {
-                let confidenceClass = 'confidence-low';
-                if (msg.confidence >= 0.8) confidenceClass = 'confidence-high';
-                else if (msg.confidence >= 0.5) confidenceClass = 'confidence-medium';
-                
-                return `
-                    <div class="chat-message-item" onclick="rerunSearch('${msg.question.replace(/'/g, "\\'")}')">
-                        <div class="chat-question">${msg.question}</div>
-                        <div class="chat-answer">${msg.answer.substring(0, 100)}...</div>
-                        <div class="chat-message-meta">
-                            <span>${formatDate(msg.timestamp)}</span>
-                            <span class="confidence-mini ${confidenceClass}">${(msg.confidence * 100).toFixed(0)}%</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            historyGrid.innerHTML = historyHTML;
-        }
-        
-        function clearChatHistoryDisplay() {
-            document.getElementById('chat-history-grid').innerHTML = '<div class="no-chat-history"><p>No search history yet</p></div>';
-            document.getElementById('load-more-history-btn').style.display = 'none';
-        }
-        
-        async function refreshChatHistory() {
-            showNotification('Refreshing chat history...', 'info');
-            await loadChatHistory();
-            showNotification('Chat history refreshed', 'success');
-        }
-        
-        // Search Functions
+
         async function performSearch() {
             if (!currentUser) {
                 showNotification('Please sign in to perform searches', 'error');
@@ -2647,25 +1425,28 @@
             }
             
             const question = document.getElementById('question-input').value.trim();
-            if (!question) return;
+            if (!question) {
+                showNotification('Please enter a question', 'error');
+                return;
+            }
             
             const resultsContainer = document.getElementById('results-container');
             const resultsContent = document.getElementById('results-content');
-            resultsContainer.style.display = 'block';
+            resultsContainer.classList.add('show');
             resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
             
             try {
-                const response = await fetch(`${API_BASE_URL1}/rag`, {
+                const response = await fetch(`${API_BASE_URL}/rag`, {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json', 
                         'ngrok-skip-browser-warning': 'true',
-                        ...getAuthHeaders() 
+                        'Authorization': `Bearer ${sessionToken}`
                     },
                     body: JSON.stringify({
                         question: question,
-                        limit: 3,
-                        threshold: 0.6
+                        limit: 5,
+                        threshold: 0.75
                     })
                 });
                 
@@ -2676,6 +1457,7 @@
                 const data = await response.json();
                 displayResults(data);
                 
+                // Update user stats
                 if (currentUser) {
                     currentUser.searchCount = (currentUser.searchCount || 0) + 1;
                     document.getElementById('search-count').textContent = currentUser.searchCount;
@@ -2696,12 +1478,12 @@
                 showNotification('Search failed', 'error');
             }
         }
-        
+
         function displayResults(data) {
             const resultsContent = document.getElementById('results-content');
             const resultsCount = document.getElementById('results-count');
             
-            if (!data.found || !data.answer) {
+            if (!data.answer) {
                 resultsContent.innerHTML = `
                     <div class="no-results">
                         <p>No relevant information found for your question.</p>
@@ -2723,25 +1505,9 @@
                 confidenceText = 'Medium confidence';
             }
             
-            let sourcesHtml = '';
-            if (data.sources && data.sources.length > 0) {
-                sourcesHtml = `
-                    <div class="sources-section">
-                        <h4>Sources:</h4>
-                        ${data.sources.map(source => `
-                            <div class="source-item">${source.snippet || 'No snippet available'}</div>
-                        `).join('')}
-                    </div>
-                `;
-            }
-            
             const cacheIndicator = data.cached ? 
                 `<span class="cache-indicator cache-hit">Cached response</span>` : 
                 `<span class="cache-indicator">Live response</span>`;
-            
-            // Detect content features
-            const contentFeatures = data.quality?.contentFeatures || detectContentFeatures(data.answer);
-            const contentFeaturesHtml = renderContentFeatures(contentFeatures);
             
             const resultHtml = `
                 <div class="result-card">
@@ -2749,21 +1515,14 @@
                     <div class="result-meta">
                         <span class="confidence-badge ${confidenceClass}">${confidenceText} (${(data.confidence * 100).toFixed(1)}%)</span>
                         ${cacheIndicator}
-                        <span>Response time: ${data.timing?.total || 'N/A'}ms</span>
                     </div>
-                    ${contentFeaturesHtml}
                     <div class="result-content formatted-content">
                         ${formatAnswerContent(data.answer)}
                     </div>
-                    ${sourcesHtml}
                     <div class="result-actions">
                         <button class="action-btn" onclick="copyToClipboard('${data.answer.replace(/'/g, "\\'")}')">
                             <span>📋</span>
-                            <span>Copy</span>
-                        </button>
-                        <button class="action-btn" onclick="rerunSearch('${data.question?.replace(/'/g, "\\'") || document.getElementById('question-input').value.replace(/'/g, "\\'")}')">
-                            <span>🔄</span>
-                            <span>Search Again</span>
+                            <span>Copy Answer</span>
                         </button>
                     </div>
                 </div>
@@ -2772,1848 +1531,81 @@
             resultsContent.innerHTML = resultHtml;
             resultsCount.textContent = '1 result found';
             
-            // Render MathJax if math content is detected
-            if (contentFeatures.hasMath && window.MathJax) {
-                setTimeout(() => {
-                    MathJax.typesetPromise([resultsContent]).catch(console.error);
-                }, 100);
+            // Render MathJax if available
+            if (window.MathJax) {
+                MathJax.typesetPromise([resultsContent]).catch(console.error);
             }
         }
-        
-        function rerunSearch(question) {
-            // Switch to search mode first
-            switchMode('search');
+
+        // Content formatting functions
+        function formatAnswerContent(answer) {
+            if (!answer) return '';
             
-            // Set the question and perform search
-            document.getElementById('question-input').value = question;
-            performSearch();
+            let formatted = answer;
+            
+            // Format tables
+            formatted = formatTables(formatted);
+            
+            // Format math
+            formatted = formatMath(formatted);
+            
+            // Format chemistry
+            formatted = formatChemistry(formatted);
+            
+            // Format code blocks
+            formatted = formatCode(formatted);
+            
+            return formatted;
         }
-        
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showNotification('Copied to clipboard!', 'success', 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-                showNotification('Failed to copy to clipboard', 'error');
-            });
-        }
-        
-        function updateSubjectOptions() {
-            const department = document.getElementById('department-select').value;
-            const subjectSelect = document.getElementById('subject-select');
-            
-            const subjectOptions = {
-                'computer-science': [
-                    {value: 'intro-programming', text: 'Introduction to Programming'},
-                    {value: 'data-structures', text: 'Data Structures'},
-                    {value: 'algorithms', text: 'Algorithms'},
-                    {value: 'web-development', text: 'Web Development'}
-                ],
-                'mathematics': [
-                    {value: 'calculus-1', text: 'Calculus I'},
-                    {value: 'calculus-2', text: 'Calculus II'},
-                    {value: 'linear-algebra', text: 'Linear Algebra'},
-                    {value: 'statistics', text: 'Statistics'}
-                ],
-                'chemistry': [
-                    {value: 'general-chem', text: 'General Chemistry'},
-                    {value: 'organic-chem', text: 'Organic Chemistry'},
-                    {value: 'physical-chem', text: 'Physical Chemistry'}
-                ]
-            };
-            
-            subjectSelect.innerHTML = '<option value="">Select Subject</option>';
-            
-            if (department && subjectOptions[department]) {
-                subjectOptions[department].forEach(option => {
-                    const optionElement = document.createElement('option');
-                    optionElement.value = option.value;
-                    optionElement.textContent = option.text;
-                    subjectSelect.appendChild(optionElement);
+
+        function formatTables(text) {
+            return text.replace(/\|(.+)\|/g, (match) => {
+                const rows = match.trim().split('\n').filter(row => row.includes('|'));
+                if (rows.length < 2) return match;
+                
+                let tableHtml = '<table>';
+                rows.forEach((row, index) => {
+                    const cells = row.split('|').filter(cell => cell.trim() !== '');
+                    if (index === 0) {
+                        tableHtml += '<thead><tr>';
+                        cells.forEach(cell => {
+                            tableHtml += `<th>${cell.trim()}</th>`;
+                        });
+                        tableHtml += '</tr></thead><tbody>';
+                    } else {
+                        tableHtml += '<tr>';
+                        cells.forEach(cell => {
+                            tableHtml += `<td>${cell.trim()}</td>`;
+                        });
+                        tableHtml += '</tr>';
+                    }
                 });
-            }
-        }
-        
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(initializeGoogleSignIn, 500);
-            
-            document.getElementById('sign-out-btn').addEventListener('click', signOut);
-            document.getElementById('refresh-history-btn').addEventListener('click', refreshChatHistory);
-            document.getElementById('search-button').addEventListener('click', performSearch);
-            
-            document.getElementById('question-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') performSearch();
+                tableHtml += '</tbody></table>';
+                return tableHtml;
             });
-            
-            document.getElementById('department-select').addEventListener('change', function() {
-                updateSubjectOptions();
-                checkCourseSelection();
-            });
-            
-            document.getElementById('semester-select').addEventListener('change', checkCourseSelection);
-            document.getElementById('subject-select').addEventListener('change', checkCourseSelection);
-            
-            document.getElementById('load-more-history-btn').addEventListener('click', function() {
-                loadChatMessages(currentPage + 1, true);
-            });
-            
-            // Global function assignments
-            window.switchMode = switchMode;
-            window.toggleUnit = toggleUnit;
-            window.selectQuestion = selectQuestion;
-            window.rerunSearch = rerunSearch;
-            window.copyToClipboard = copyToClipboard;
-            window.testBackendConnection = testBackendConnection;
-            window.formatAnswerContent = formatAnswerContent;
-            
-            // Set default mode to search
-            switchMode('search');
-        });
-    </script>
-</body>
-</html>
-    <meta name="description" content="Smart syllabus assistant for college students. Get instant AI answers from your course materials and access organized question banks by units and topics.">
-    <meta name="keywords" content="syllabus assistant, college students, AI education, question bank, study tool, academic help, course materials, RAG system">
-    <meta name="author" content="EduAI Team">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="English">
-    <meta name="revisit-after" content="7 days">
-    
-    <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="EduAI - AI-Powered Syllabus Assistant for College Students">
-    <meta property="og:description" content="Smart syllabus assistant for college students. Get instant AI answers from your course materials and access organized question banks.">
-    <meta property="og:url" content="https://ai.aasaitech.in">
-    <meta property="og:site_name" content="EduAI">
-    <meta property="og:locale" content="en_US">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="EduAI - AI-Powered Syllabus Assistant">
-    <meta name="twitter:description" content="Smart syllabus assistant for college students. Get instant AI answers from your course materials.">
-    
-    <!-- Favicon and Icons -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://ai.aasaitech.in">
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "EduAI",
-        "description": "AI-powered syllabus assistant for college students",
-        "url": "https://ai.aasaitech.in",
-        "applicationCategory": "EducationalApplication",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "creator": {
-            "@type": "Organization",
-            "name": "Aasai Tech"
         }
-    }
-    </script>
-    
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <style>
-        :root {
-            --primary: #4361ee;
-            --secondary: #3a0ca3;
-            --accent: #7209b7;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #4cc9f0;
-            --warning: #f72585;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f5f7fb 0%, #c3cfe2 100%);
-            color: var(--dark);
-            line-height: 1.6;
-            -webkit-text-size-adjust: 100%;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 100vh;
-            width: 100%;
-            /* Footer fix - body as flex container */
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .container {
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-        
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            min-height: 60px;
-        }
-        
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            flex: 1;
-        }
-        
-        .logo-icon {
-            margin-right: 12px;
-            font-size: 2rem;
-        }
-        
-        .auth-container {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-shrink: 0;
-        }
-        
-        .user-profile {
-            display: none;
-            align-items: center;
-            gap: 0.8rem;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-        }
-        
-        .user-profile.show {
-            display: flex;
-        }
-        
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 2px solid white;
-            flex-shrink: 0;
-        }
-        
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            min-width: 0;
-        }
-        
-        .user-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 120px;
-        }
-        
-        .user-email {
-            font-size: 0.75rem;
-            opacity: 0.8;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 120px;
-        }
-        
-        .user-stats {
-            font-size: 0.7rem;
-            opacity: 0.8;
-            margin-top: 2px;
-        }
-        
-        .sign-out-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 44px;
-            white-space: nowrap;
-        }
-        
-        .sign-out-btn:hover, .sign-out-btn:active {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .google-signin-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .custom-google-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            background: white;
-            color: #757575;
-            border: 1px solid #dadce0;
-            border-radius: 4px;
-            padding: 0.6rem 1.2rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s;
-            text-decoration: none;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 44px;
-            white-space: nowrap;
-        }
-        
-        .custom-google-btn:hover, .custom-google-btn:active {
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-            background: #f8f9fa;
-        }
-        
-        .google-icon {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* Main content - flex grow to push footer down */
-        main {
-            flex: 1;
-        }
-
-        /* Main Layout - Now Single Column */
-        .main-layout {
-            padding: 2rem 0;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        /* Mode Toggle Section */
-        .mode-toggle-section {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .mode-toggle-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .mode-toggle-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .mode-toggle-subtitle {
-            color: var(--gray);
-            font-size: 1rem;
-        }
-
-        .mode-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .mode-btn {
-            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
-            border: 2px solid var(--light-gray);
-            border-radius: 16px;
-            padding: 2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            position: relative;
-        }
-
-        .mode-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary);
-        }
-
-        .mode-btn.active {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, #e8f0ff 0%, #f8f9ff 100%);
-        }
-
-        .mode-btn.active::before {
-            content: '✓';
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--primary);
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .mode-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .mode-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .mode-description {
-            color: var(--gray);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* Course Selection Panel */
-        .course-selection-panel {
-            display: none;
-            background: var(--light);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .course-selection-panel.show {
-            display: block;
-        }
-
-        .course-selection-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--secondary);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .selectors-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .selector-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .selector-group label {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .form-select {
-            padding: 0.75rem;
-            border: 2px solid var(--light-gray);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            background-color: white;
-            transition: border-color 0.3s;
-            cursor: pointer;
-            -webkit-appearance: none;
-            min-height: 44px;
-        }
-
-        .form-select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
-        }
-
-        /* Search Section */
-        .search-container {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .search-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .search-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .search-subtitle {
-            color: var(--gray);
-            font-size: 1rem;
-        }
-
-        .search-box {
-            display: flex;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 1.2rem 1.5rem;
-            border: none;
-            font-size: 1.1rem;
-            outline: none;
-            background: white;
-            -webkit-appearance: none;
-        }
-
-        .search-input::placeholder {
-            color: var(--gray);
-        }
-
-        .search-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 0 2rem;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 60px;
-        }
-
-        .search-btn:hover, .search-btn:active {
-            background: linear-gradient(135deg, var(--secondary), var(--accent));
-        }
-
-        /* Chat History in Search Mode */
-        .chat-history-search {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--light-gray);
-        }
-
-        .chat-history-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .chat-history-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .refresh-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            color: var(--primary);
-            padding: 0.5rem;
-            border-radius: 50%;
-            min-height: 44px;
-            min-width: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .refresh-btn:hover {
-            background: var(--light);
-        }
-
-        .chat-messages-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .chat-message-item {
-            padding: 1rem;
-            background: var(--light);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-left: 3px solid transparent;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .chat-message-item:hover, .chat-message-item:active {
-            background: #e8f0ff;
-            border-left-color: var(--primary);
-            transform: translateX(3px);
-        }
-
-        .chat-question {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .chat-answer {
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-bottom: 0.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .chat-message-meta {
-            font-size: 0.75rem;
-            color: var(--gray);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Units Container */
-        .units-container {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            display: none;
-        }
-
-        .units-container.show {
-            display: block;
-        }
-
-        .units-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .units-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .course-info {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1rem;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .course-info h4 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .course-info p {
-            opacity: 0.9;
-            font-size: 0.9rem;
-        }
-
-        .units-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .unit-card {
-            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
-            border: 2px solid var(--light-gray);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .unit-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary);
-        }
-
-        .unit-card.active {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, #e8f0ff 0%, #f8f9ff 100%);
-        }
-
-        .unit-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .unit-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .unit-toggle {
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 50%;
-            transition: all 0.3s;
-            min-height: 44px;
-            min-width: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .unit-toggle:hover {
-            background: rgba(67, 97, 238, 0.1);
-        }
-
-        .unit-content {
-            display: none;
-        }
-
-        .unit-content.show {
-            display: block;
-        }
-
-        .question-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .question-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .question-section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.8rem;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .question-type-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--secondary);
-        }
-
-        .question-count {
-            background: var(--primary);
-            color: white;
-            padding: 0.2rem 0.6rem;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .questions-list {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .question-item {
-            padding: 0.8rem;
-            margin-bottom: 0.5rem;
-            background: white;
-            border-radius: 8px;
-            border-left: 3px solid var(--primary);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .question-item:hover {
-            background: #f0f7ff;
-            transform: translateX(3px);
-        }
-
-        .question-text {
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 0.3rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .question-meta {
-            font-size: 0.75rem;
-            color: var(--gray);
-        }
-
-        /* Results Container */
-        .results-container {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
 
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--light-gray);
+        function formatMath(text) {
+            // Block equations
+            text = text.replace(/\$\$(.*?)\$\$/g, '<div class="math-equation">$$$1$$</div>');
+            // Inline equations
+            text = text.replace(/\$(.*?)\$/g, '<span class="math-inline">$1</span>');
+            return text;
         }
 
-        .results-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--primary);
+        function formatChemistry(text) {
+            // Chemical formulas with subscripts
+            text = text.replace(/([A-Z][a-z]?)(\d+)/g, '$1<sub>$2</sub>');
+            return text;
         }
 
-        .result-card {
-            padding: 2rem;
-            border: 2px solid var(--light-gray);
-            border-radius: 16px;
-            margin-bottom: 1rem;
-            transition: all 0.3s;
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+        function formatCode(text) {
+            // Code blocks
+            text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, '<div class="code-block">$2</div>');
+            return text;
         }
 
-        .result-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary);
-        }
-
-        .result-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .result-meta {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            color: var(--gray);
-            flex-wrap: wrap;
-        }
-
-        .confidence-badge {
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .confidence-high {
-            background-color: #e6f4ea;
-            color: #137333;
-        }
-
-        .confidence-medium {
-            background-color: #fff8e1;
-            color: #f57c00;
-        }
-
-        .confidence-low {
-            background-color: #fce8e6;
-            color: #c5221f;
-        }
-
-        .result-content {
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            line-height: 1.7;
-        }
-
-        .result-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .action-btn {
-            background: var(--light);
-            border: 2px solid var(--light-gray);
-            color: var(--primary);
-            cursor: pointer;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 44px;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-        }
-
-        .action-btn:hover, .action-btn:active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .sources-section {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px dashed var(--light-gray);
-        }
-
-        .source-item {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .source-item:before {
-            content: "•";
-            color: var(--primary);
-        }
-
-        .confidence-mini {
-            padding: 0.1rem 0.3rem;
-            border-radius: 8px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .no-chat-history {
-            text-align: center;
-            color: var(--gray);
-            font-style: italic;
-            padding: 2rem 0;
-            grid-column: 1/-1;
-        }
-
-        .load-more-btn {
-            width: 100%;
-            padding: 0.8rem;
-            background: var(--light);
-            border: 1px solid var(--light-gray);
-            border-radius: 12px;
-            color: var(--gray);
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            transition: all 0.3s;
-            -webkit-tap-highlight-color: transparent;
-            min-height: 44px;
-        }
-
-        .load-more-btn:hover, .load-more-btn:active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 3rem;
-            color: var(--gray);
-        }
-
-        .loading {
-            display: flex;
-            justify-content: center;
-            padding: 3rem;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--light-gray);
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .cache-indicator {
-            font-size: 0.8rem;
-            padding: 0.3rem 0.6rem;
-            border-radius: 12px;
-            background-color: var(--light);
-            color: var(--gray);
-        }
-
-        .cache-hit {
-            background-color: #e6f4ea;
-            color: #137333;
-        }
-
-        .auth-required {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            margin: 2rem 0;
-        }
-
-        .auth-required h2 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            font-size: 2rem;
-        }
-
-        .auth-required p {
-            color: var(--gray);
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            z-index: 1000;
-            max-width: 300px;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.success {
-            background: var(--success);
-        }
-
-        .notification.error {
-            background: var(--warning);
-        }
-
-        .notification.info {
-            background: var(--primary);
-        }
-
-        /* Footer - Fixed positioning and alignment */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 2rem 0;
-            margin-top: auto; /* This pushes footer to bottom */
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            transition: opacity 0.3s;
-        }
-
-        .footer-links a:hover {
-            opacity: 0.8;
-        }
-
-        /* Mobile Styles */
-        @media screen and (max-width: 768px) {
-            .container {
-                padding: 0 16px;
-            }
-
-            header {
-                padding: 0.8rem 0;
-            }
-
-            .header-content {
-                min-height: 56px;
-                gap: 0.5rem;
-            }
-
-            .logo {
-                font-size: 1.3rem;
-                flex: 1;
-                min-width: 0;
-            }
-
-            .logo-icon {
-                font-size: 1.5rem;
-                margin-right: 8px;
-            }
-
-            .auth-container {
-                gap: 0.5rem;
-                flex-shrink: 0;
-            }
-
-            .custom-google-btn {
-                font-size: 0.8rem;
-                padding: 0.5rem 0.8rem;
-                min-height: 44px;
-            }
-
-            .user-profile {
-                padding: 0.4rem 0.8rem;
-                gap: 0.6rem;
-                border-radius: 22px;
-                max-width: 180px;
-            }
-
-            .user-avatar {
-                width: 28px;
-                height: 28px;
-            }
-
-            .user-name {
-                font-size: 0.8rem;
-                max-width: 80px;
-            }
-
-            .user-email {
-                display: none;
-            }
-
-            .user-stats {
-                font-size: 0.65rem;
-            }
-
-            .sign-out-btn {
-                padding: 0.4rem 0.7rem;
-                font-size: 0.7rem;
-                min-height: 36px;
-            }
-
-            .main-layout {
-                padding: 1rem 0;
-                gap: 1.5rem;
-            }
-
-            .mode-toggle-section, 
-            .search-container, 
-            .results-container, 
-            .units-container {
-                padding: 1.5rem;
-                border-radius: 16px;
-            }
-
-            .mode-toggle-title, 
-            .search-title, 
-            .results-title, 
-            .units-title {
-                font-size: 1.5rem;
-            }
-
-            .mode-buttons {
-                grid-template-columns: 1fr 1fr;
-                gap: 1rem;
-            }
-
-            .mode-btn {
-                padding: 1.5rem;
-                border-radius: 12px;
-            }
-
-            .mode-icon {
-                font-size: 2.5rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .mode-title {
-                font-size: 1.1rem;
-            }
-
-            .mode-description {
-                font-size: 0.85rem;
-            }
-
-            .course-selection-panel {
-                padding: 1.2rem;
-                border-radius: 10px;
-            }
-
-            .selectors-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .form-select {
-                min-height: 50px;
-                font-size: 16px;
-                padding: 1rem;
-                border-radius: 10px;
-            }
-
-            .search-box {
-                flex-direction: column;
-                gap: 1rem;
-                box-shadow: none;
-                border-radius: 0;
-                overflow: visible;
-                margin-bottom: 1.5rem;
-            }
-
-            .search-input {
-                border-radius: 16px;
-                min-height: 56px;
-                font-size: 16px;
-                padding: 1rem 1.5rem;
-                border: 2px solid var(--light-gray);
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            }
-
-            .search-input:focus {
-                border-color: var(--primary);
-                box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
-                outline: none;
-            }
-
-            .search-btn {
-                border-radius: 16px;
-                min-height: 56px;
-                font-size: 1.1rem;
-                font-weight: 700;
-                padding: 1rem;
-                box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-            }
-
-            .chat-messages-grid {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-                max-height: 300px;
-            }
-
-            .chat-message-item {
-                padding: 1rem;
-                border-radius: 10px;
-            }
-
-            .chat-question {
-                font-size: 0.85rem;
-                line-height: 1.4;
-                margin-bottom: 0.4rem;
-            }
-
-            .chat-answer {
-                font-size: 0.8rem;
-                line-height: 1.4;
-                margin-bottom: 0.4rem;
-            }
-
-            .units-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .unit-card {
-                padding: 1.2rem;
-                border-radius: 12px;
-            }
-
-            .unit-title {
-                font-size: 1.1rem;
-            }
-
-            .unit-toggle {
-                min-height: 40px;
-                min-width: 40px;
-                font-size: 1.3rem;
-            }
-
-            .questions-list {
-                max-height: 150px;
-            }
-
-            .question-item {
-                padding: 0.7rem;
-                margin-bottom: 0.4rem;
-                border-radius: 6px;
-            }
-
-            .question-text {
-                font-size: 0.85rem;
-                margin-bottom: 0.2rem;
-            }
-
-            .question-meta {
-                font-size: 0.7rem;
-            }
-
-            .course-info {
-                padding: 0.8rem;
-                border-radius: 10px;
-                margin-bottom: 0.8rem;
-            }
-
-            .course-info h4 {
-                font-size: 1rem;
-                margin-bottom: 0.3rem;
-            }
-
-            .course-info p {
-                font-size: 0.8rem;
-            }
-
-            .result-card {
-                padding: 1.5rem;
-                border-radius: 16px;
-            }
-
-            .result-meta {
-                flex-direction: column;
-                gap: 0.5rem;
-                align-items: flex-start;
-            }
-
-            .result-actions {
-                flex-direction: column;
-                gap: 0.8rem;
-            }
-
-            .action-btn {
-                width: 100%;
-                justify-content: center;
-                padding: 1rem;
-                border-radius: 12px;
-                font-weight: 600;
-                min-height: 50px;
-            }
-
-            .load-more-btn {
-                padding: 1rem;
-                border-radius: 12px;
-                font-size: 0.9rem;
-                min-height: 48px;
-            }
-
-            .no-chat-history, .no-results {
-                padding: 2rem 1rem;
-                font-size: 0.9rem;
-            }
-
-            .loading {
-                padding: 2rem 1rem;
-            }
-
-            .spinner {
-                width: 36px;
-                height: 36px;
-            }
-
-            .auth-required {
-                padding: 2rem 1.5rem;
-                margin: 1rem 0;
-                border-radius: 16px;
-            }
-
-            .auth-required h2 {
-                font-size: 1.6rem;
-            }
-
-            .auth-required p {
-                font-size: 1rem;
-                line-height: 1.5;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-
-            .footer-links {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            .notification {
-                top: 10px;
-                right: 10px;
-                left: 10px;
-                max-width: none;
-                transform: translateY(-100px);
-                font-size: 0.9rem;
-                padding: 1rem;
-                border-radius: 12px;
-            }
-
-            .notification.show {
-                transform: translateY(0);
-            }
-        }
-
-        /* Very Small Screens */
-        @media screen and (max-width: 480px) {
-            .container {
-                padding: 0 12px;
-            }
-
-            .logo {
-                font-size: 1.1rem;
-            }
-
-            .logo-icon {
-                font-size: 1.3rem;
-                margin-right: 6px;
-            }
-
-            .user-name {
-                max-width: 60px;
-                font-size: 0.75rem;
-            }
-
-            .sign-out-btn {
-                padding: 0.3rem 0.5rem;
-                font-size: 0.65rem;
-                min-height: 32px;
-            }
-
-            .mode-toggle-section, 
-            .search-container, 
-            .results-container, 
-            .units-container {
-                padding: 1.2rem;
-            }
-
-            .mode-buttons {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.8rem;
-            }
-
-            .mode-btn {
-                padding: 1rem;
-            }
-
-            .mode-icon {
-                font-size: 2rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .mode-title {
-                font-size: 1rem;
-            }
-
-            .mode-description {
-                font-size: 0.8rem;
-                line-height: 1.4;
-            }
-
-            .search-input, .search-btn, .form-select {
-                min-height: 50px;
-            }
-
-            .load-more-btn {
-                min-height: 46px;
-            }
-        }
-
-        /* Touch device optimizations */
-        @media (hover: none) and (pointer: coarse) {
-            .result-card:hover,
-            .chat-message-item:hover,
-            .action-btn:hover,
-            .load-more-btn:hover,
-            .sign-out-btn:hover,
-            .custom-google-btn:hover,
-            .refresh-btn:hover,
-            .unit-card:hover,
-            .question-item:hover,
-            .mode-btn:hover {
-                transform: none;
-                box-shadow: initial;
-                background: initial;
-            }
-
-            .action-btn:active,
-            .load-more-btn:active {
-                background-color: var(--primary);
-                color: white;
-                transform: scale(0.98);
-            }
-        }
-
-        /* Prevent horizontal scroll */
-        html, body {
-            overflow-x: hidden;
-            width: 100%;
-        }
-
-        /* Fix webkit zoom issue */
-        @media screen and (max-width: 768px) {
-            input[type="text"], 
-            input[type="email"], 
-            input[type="password"], 
-            textarea, 
-            select {
-                font-size: 16px !important;
-                -webkit-text-size-adjust: 100%;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container header-content">
-            <div class="logo">
-                <span class="logo-icon">📚</span>
-                <span>Aasai SmartEDU</span>
-            </div>
-            <div class="auth-container">
-                <div class="google-signin-container">
-                    <div id="google-signin-button"></div>
-                    <div id="custom-google-signin-btn" class="custom-google-btn" style="display: none;">
-                        <svg class="google-icon" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                        </svg>
-                        Sign in
-                    </div>
-                </div>
-                <div id="user-profile" class="user-profile">
-                    <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
-                    <div class="user-info">
-                        <div id="user-name" class="user-name"></div>
-                        <div id="user-email" class="user-email"></div>
-                        <div id="user-stats" class="user-stats">
-                            <span><span id="search-count">0</span>S</span> | 
-                            <span><span id="conversation-count">0</span>C</span>
-                        </div>
-                    </div>
-                    <button id="sign-out-btn" class="sign-out-btn">Out</button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="container">
-        <div id="auth-required" class="auth-required">
-            <h2>Welcome to EduAI Syllabus Assistant</h2>
-            <p>Please sign in with your Google account to access the syllabus search functionality and save your chat history.</p>
-        </div>
-
-        <div id="main-layout" class="main-layout" style="display: none;">
-            <!-- Mode Toggle Section -->
-            <div class="mode-toggle-section">
-                <div class="mode-toggle-header">
-                    <h2 class="mode-toggle-title">Choose Your Study Mode</h2>
-                    <p class="mode-toggle-subtitle">Select how you want to explore your syllabus content</p>
-                </div>
-                
-                <div class="mode-buttons">
-                    <div class="mode-btn" id="ai-search-mode" onclick="switchMode('search')">
-                        <div class="mode-icon">🤖</div>
-                        <div class="mode-title">AI Search</div>
-                        <div class="mode-description">Ask questions and get instant answers from your syllabus using advanced AI</div>
-                    </div>
-                    
-                    <div class="mode-btn" id="question-bank-mode" onclick="switchMode('questions')">
-                        <div class="mode-icon">📝</div>
-                        <div class="mode-title">Question Bank</div>
-                        <div class="mode-description">Browse organized questions by units, topics, and mark distributions</div>
-                    </div>
-                </div>
-                
-                <!-- Course Selection Panel (shown only for Question Bank mode) -->
-                <div id="course-selection-panel" class="course-selection-panel">
-                    <h3 class="course-selection-title">Select Your Course Details</h3>
-                    <div class="selectors-grid">
-                        <div class="selector-group">
-                            <label for="department-select">Department</label>
-                            <select id="department-select" class="form-select">
-                                <option value="">Select Department</option>
-                                <option value="computer-science">Computer Science</option>
-                                <option value="mathematics">Mathematics</option>
-                                <option value="chemistry">Chemistry</option>
-                                <option value="history">History</option>
-                                <option value="psychology">Psychology</option>
-                                <option value="english">English</option>
-                                <option value="physics">Physics</option>
-                                <option value="biology">Biology</option>
-                            </select>
-                        </div>
-                        
-                        <div class="selector-group">
-                            <label for="semester-select">Semester</label>
-                            <select id="semester-select" class="form-select">
-                                <option value="">Select Semester</option>
-                                <option value="1">Semester 1</option>
-                                <option value="2">Semester 2</option>
-                                <option value="3">Semester 3</option>
-                                <option value="4">Semester 4</option>
-                                <option value="5">Semester 5</option>
-                                <option value="6">Semester 6</option>
-                                <option value="7">Semester 7</option>
-                                <option value="8">Semester 8</option>
-                            </select>
-                        </div>
-                        
-                        <div class="selector-group">
-                            <label for="subject-select">Subject</label>
-                            <select id="subject-select" class="form-select">
-                                <option value="">Select Subject</option>
-                                <option value="intro-programming">Introduction to Programming</option>
-                                <option value="data-structures">Data Structures</option>
-                                <option value="calculus-1">Calculus I</option>
-                                <option value="calculus-2">Calculus II</option>
-                                <option value="organic-chem">Organic Chemistry</option>
-                                <option value="world-history">World History</option>
-                                <option value="psychology-101">Psychology 101</option>
-                                <option value="english-comp">English Composition</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Search Section -->
-            <div id="search-section" class="search-container" style="display: none;">
-                <div class="search-header">
-                    <h2 class="search-title">Ask AI About Your Syllabus</h2>
-                    <p class="search-subtitle">Get instant, accurate answers from your course materials</p>
-                </div>
-                
-                <div class="search-box">
-                    <input type="text" class="search-input" id="question-input" placeholder="What would you like to know about your syllabus?">
-                    <button class="search-btn" id="search-button">Search</button>
-                </div>
-
-                <!-- Results Section -->
-                <div class="results-container" id="results-container" style="display: none;">
-                    <div class="results-header">
-                        <h2 class="results-title">Results</h2>
-                        <span id="results-count">0 results found</span>
-                    </div>
-                    <div id="results-content">
-                        <div class="no-results">
-                            <p>Your search results will appear here</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Chat History in Search Mode -->
-                <div class="chat-history-search">
-                    <div class="chat-history-header">
-                        <h3 class="chat-history-title">Recent Searches</h3>
-                        <button id="refresh-history-btn" class="refresh-btn" title="Refresh">🔄</button>
-                    </div>
-                    
-                    <div id="chat-history-grid" class="chat-messages-grid">
-                        <div class="no-chat-history">
-                            <p>No search history yet</p>
-                        </div>
-                    </div>
-                    <button id="load-more-history-btn" class="load-more-btn" style="display: none;">Load More History</button>
-                </div>
-            </div>
-
-            <!-- Question Bank Section -->
-            <div id="units-container" class="units-container">
-                <div class="units-header">
-                    <h2 class="units-title">Unit-wise Question Bank</h2>
-                </div>
-                
-                <div class="course-info">
-                    <h4 id="selected-course">Select Course Details</h4>
-                    <p>Choose department, semester, and subject to view unit-wise questions</p>
-                </div>
-                
-                <div id="units-grid" class="units-grid">
-                    <!-- Units will be populated here -->
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <div id="notification" class="notification"></div>
-
-    <footer>
-        <div class="container footer-content">
-            <p>&copy; 2025 Aasai SmartEDU -AI Syllabus Assistant.</p>
-            
-            <div class="footer-links">
-                <a href="https://www.aasaitech.in">Company Website</a>
-                <a href="pages/privacy.html">Privacy</a>
-                <a href="pages/terms.html">Terms</a>
-                <a href="pages/help.html">Help</a>
-                <a href="pages/contact.html">Contact</a>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com';
-        const API_BASE_URL1 = 'https://musical-suitably-woodcock.ngrok-free.app';
-        const API_BASE_URL = 'https://6vgvuw4ulc.execute-api.ap-south-1.amazonaws.com/PROD';
-        let currentUser = null;
-        let sessionToken = null;
-        let chatHistoryData = [];
-        let currentPage = 1;
-        let googleSignInInitialized = false;
-        let currentMode = null;
-        
-        // Sample unit-wise questions data
-        const unitQuestions = {
-            'computer-science': {
-                '1': {
-                    'intro-programming': {
-                        'Unit 1: Programming Fundamentals': {
-                            '2-mark': [
-                                { question: 'What is a variable in programming?', answer: 'A variable is a container that holds data that can be changed during program execution.' },
-                                { question: 'Define algorithm.', answer: 'An algorithm is a step-by-step procedure to solve a problem.' },
-                                { question: 'What is pseudocode?', answer: 'Pseudocode is a high-level description of a program logic using structured English.' },
-                                { question: 'Differentiate between compiler and interpreter.', answer: 'A compiler translates the entire program at once, while an interpreter translates line by line during execution.' }
-                            ],
-                            '15-mark': [
-                                { question: 'Explain the software development life cycle with examples.', answer: 'SDLC includes phases: Planning (requirements gathering), Analysis (feasibility study), Design (system architecture), Implementation (coding), Testing (unit and integration testing), Deployment (release), and Maintenance (updates and bug fixes). Example: For a banking system, planning involves understanding user needs, analysis checks technical feasibility, design creates database schemas, implementation involves coding modules, testing ensures security, deployment makes it live, and maintenance handles updates.' },
-                                { question: 'Write a program to find factorial of a number and trace its execution.', answer: 'Factorial program: int factorial(int n) { if(n<=1) return 1; else return n*factorial(n-1); } Trace for factorial(4): factorial(4) calls factorial(3), which calls factorial(2), which calls factorial(1) returning 1, then 2*1=2, then 3*2=6, finally 4*6=24.' }
-                            ]
-                        },
-                        'Unit 2: Data Types & Operators': {
-                            '2-mark': [
-                                { question: 'What are primitive data types?', answer: 'Primitive data types are basic data types provided by programming languages like int, float, char, boolean.' },
-                                { question: 'Define operators in programming.', answer: 'Operators are symbols used to perform operations on operands like arithmetic (+, -, *, /), logical (&&, ||), and relational (<, >, ==).' },
-                                { question: 'What is type casting?', answer: 'Type casting is the process of converting one data type to another, either implicitly or explicitly.' }
-                            ],
-                            '15-mark': [
-                                { question: 'Explain control structures with examples and flowcharts.', answer: 'Control structures include: 1) Sequential (statements executed in order), 2) Selection (if-else, switch for decision making), 3) Iteration (for, while, do-while for repetition). Example: if(age>=18) print("eligible"); else print("not eligible"); While loop: while(i<10) { print(i); i++; }. Each has specific flowchart symbols and execution patterns.' }
-                            ]
-                        },
-                        'Unit 3: Functions & Arrays': {
-                            '2-mark': [
-                                { question: 'What is a function?', answer: 'A function is a block of code that performs a specific task and can be called multiple times with different parameters.' },
-                                { question: 'Define recursion.', answer: 'Recursion is a programming technique where a function calls itself with modified parameters to solve smaller subproblems.' },
-                                { question: 'What is an array?', answer: 'An array is a collection of elements of the same data type stored in contiguous memory locations.' }
-                            ],
-                            '15-mark': [
-                                { question: 'Implement and explain different sorting algorithms.', answer: 'Bubble Sort: Compare adjacent elements and swap if in wrong order. Time complexity O(n²). Selection Sort: Find minimum element and place at beginning. Insertion Sort: Insert each element at correct position in sorted portion. Quick Sort: Divide and conquer approach with pivot element. Each has different time complexities and use cases.' }
-                            ]
-                        }
-                    }
-                }
-            },
-            'mathematics': {
-                '1': {
-                    'calculus-1': {
-                        'Unit 1: Limits and Continuity': {
-                            '2-mark': [
-                                { question: 'Define limit of a function.', answer: 'The limit of a function is the value that the function approaches as the input approaches a certain value.' },
-                                { question: 'What is continuity?', answer: 'A function is continuous at a point if it is defined at that point and the limit equals the function value.' },
-                                { question: 'State the squeeze theorem.', answer: 'If f(x) ≤ g(x) ≤ h(x) and lim f(x) = lim h(x) = L, then lim g(x) = L.' }
-                            ],
-                            '15-mark': [
-                                { question: 'Derive the rules of differentiation with proofs.', answer: 'Differentiation rules include: Power rule d/dx(x^n) = nx^(n-1), Product rule d/dx(uv) = u\'v + uv\', Quotient rule d/dx(u/v) = (u\'v - uv\')/v², Chain rule d/dx(f(g(x))) = f\'(g(x))g\'(x). Each rule can be proven using the definition of derivative as a limit.' }
-                            ]
-                        }
-                    }
-                }
-            }
-        };
-        
-        // Mode switching functionality
-        function switchMode(mode) {
-            const searchMode = document.getElementById('ai-search-mode');
-            const questionMode = document.getElementById('question-bank-mode');
-            const coursePanel = document.getElementById('course-selection-panel');
-            const searchSection = document.getElementById('search-section');
-            const unitsContainer = document.getElementById('units-container');
-            const resultsContainer = document.getElementById('results-container');
-            
-            // Remove active class from all modes
-            searchMode.classList.remove('active');
-            questionMode.classList.remove('active');
-            
-            // Hide all sections initially
-            coursePanel.classList.remove('show');
-            searchSection.style.display = 'none';
-            unitsContainer.classList.remove('show');
-            resultsContainer.style.display = 'none';
-            
-            currentMode = mode;
-            
-            if (mode === 'search') {
-                searchMode.classList.add('active');
-                searchSection.style.display = 'block';
-                showNotification('AI Search mode activated', 'success');
-            } else if (mode === 'questions') {
-                questionMode.classList.add('active');
-                coursePanel.classList.add('show');
-                unitsContainer.classList.add('show');
-                showNotification('Question Bank mode activated', 'success');
-                checkCourseSelection(); // Check if course details are already selected
-            }
-        }
-        
-        // Utility Functions
+        // Utility functions
         function showNotification(message, type = 'info', duration = 3000) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -4624,496 +1616,91 @@
                 notification.classList.remove('show');
             }, duration);
         }
-        
-        function getAuthHeaders() {
-            if (!sessionToken) return {};
-            return { 'Authorization': `Bearer ${sessionToken}` };
-        }
-        
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const now = new Date();
-            const diffTime = Math.abs(now - date);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            if (diffDays === 1) return 'Today';
-            if (diffDays === 2) return 'Yesterday';
-            if (diffDays <= 7) return `${diffDays} days ago`;
-            return date.toLocaleDateString();
-        }
-        
-        // Backend connection test
-        async function testBackendConnection() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/health`, {
-                    method: 'GET',
-                    headers: { 'ngrok-skip-browser-warning': 'true' }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (error) {
-                console.error('Backend connection failed:', error);
-                return false;
-            }
-        }
-        
-        // Google Sign-In initialization
-        function initializeGoogleSignIn() {
-            if (googleSignInInitialized) return;
-            
-            if (typeof google === 'undefined' || !google.accounts) {
-                setTimeout(initializeGoogleSignIn, 500);
-                return;
-            }
-            
-            try {
-                google.accounts.id.initialize({
-                    client_id: GOOGLE_CLIENT_ID,
-                    callback: handleCredentialResponse,
-                    auto_select: false,
-                    cancel_on_tap_outside: false
-                });
-                
-                google.accounts.id.renderButton(
-                    document.getElementById("google-signin-button"),
-                    { 
-                        theme: "outline", 
-                        size: "large",
-                        type: "standard",
-                        text: "signin_with",
-                        width: 200
-                    }
-                );
-                
-                googleSignInInitialized = true;
-                
-                // Check for existing session
-                const savedToken = localStorage.getItem('sessionToken');
-                const savedUser = localStorage.getItem('currentUser');
-                
-                if (savedToken && savedUser) {
-                    sessionToken = savedToken;
-                    currentUser = JSON.parse(savedUser);
-                    
-                    getUserProfile().then(profile => {
-                        if (profile) {
-                            currentUser = profile;
-                            localStorage.setItem('currentUser', JSON.stringify(profile));
-                            showUserProfile(profile);
-                            showSearchSection();
-                            loadUserPreferences();
-                            loadChatHistory();
-                            showNotification('Welcome back!', 'success');
-                        } else {
-                            clearUserSession();
-                        }
-                    });
-                }
-                
-            } catch (error) {
-                console.error('Error initializing Google Sign-In:', error);
-                showCustomSignInButton();
-            }
-        }
-        
-        // Handle Google credential response
-        async function handleCredentialResponse(response) {
-            try {
-                showNotification('Signing you in...', 'info');
-                
-                const userInfo = parseJwt(response.credential);
-                const authResult = await authenticateWithBackend({
-                    id: userInfo.sub,
-                    email: userInfo.email,
-                    name: userInfo.name,
-                    picture: userInfo.picture
-                });
-                
-                currentUser = authResult.user;
-                sessionToken = authResult.sessionToken;
-                
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                localStorage.setItem('sessionToken', sessionToken);
-                
-                showUserProfile(currentUser);
-                showSearchSection();
-                loadUserPreferences();
-                loadChatHistory();
-                showNotification(`Welcome ${currentUser.name}!`, 'success');
-                
-            } catch (error) {
-                console.error('Error processing Google sign-in:', error);
-                showNotification('Failed to sign in. Please try again.', 'error');
-            }
-        }
-        
-        // Parse JWT token
-        function parseJwt(token) {
-            try {
-                const base64Url = token.split('.')[1];
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                }).join(''));
-                return JSON.parse(jsonPayload);
-            } catch (error) {
-                console.error('Error parsing JWT:', error);
-                throw error;
-            }
-        }
-        
-        function showCustomSignInButton() {
-            document.getElementById('google-signin-button').style.display = 'none';
-            document.getElementById('custom-google-signin-btn').style.display = 'flex';
-        }
-        
-        // API Functions
-        async function authenticateWithBackend(googleUserData) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/auth/google`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify({ googleUserData })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`Authentication failed: ${response.status}`);
-                }
-                
-                return await response.json();
-            } catch (error) {
-                console.error('Backend authentication error:', error);
-                throw error;
-            }
-        }
-        
-        async function getUserProfile() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/user/profile`, {
-                    headers: {
-                        ...getAuthHeaders(),
-                        'ngrok-skip-browser-warning': 'true'
-                    }
-                });
-                
-                if (!response.ok) {
-                    return null;
-                }
-                
-                const data = await response.json();
-                return data.user;
-            } catch (error) {
-                console.error('Error getting user profile:', error);
-                return null;
-            }
-        }
-        
-        async function logoutUser() {
-            try {
-                await fetch(`${API_BASE_URL}/auth/logout`, {
-                    method: 'POST',
-                    headers: {
-                        ...getAuthHeaders(),
-                        'ngrok-skip-browser-warning': 'true'
-                    }
-                });
-            } catch (error) {
-                console.error('Error during logout:', error);
-            }
-        }
-        
-        async function getUserChatHistory(page = 1) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/user/chat-history?page=${page}&limit=20`, {
-                    headers: {
-                        ...getAuthHeaders(),
-                        'ngrok-skip-browser-warning': 'true'
-                    }
-                });
-                
-                if (!response.ok) {
-                    return { chatHistory: [], totalCount: 0, hasMore: false };
-                }
-                
-                const data = await response.json();
-                return data;
-                
-            } catch (error) {
-                console.error('Error getting chat history:', error);
-                return { chatHistory: [], totalCount: 0, hasMore: false };
-            }
-        }
-        
-        function clearUserSession() {
-            currentUser = null;
-            sessionToken = null;
-            chatHistoryData = [];
-            
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('sessionToken');
-            
-            document.getElementById('user-profile').classList.remove('show');
-            document.getElementById('google-signin-button').style.display = 'block';
-            hideSearchSection();
-            clearChatHistoryDisplay();
-        }
-        
-        // UI Functions
+
         function showUserProfile(user) {
-            document.getElementById('google-signin-button').style.display = 'none';
-            document.getElementById('custom-google-signin-btn').style.display = 'none';
             document.getElementById('user-profile').classList.add('show');
             document.getElementById('user-avatar').src = user.picture;
             document.getElementById('user-name').textContent = user.name;
             document.getElementById('user-email').textContent = user.email;
             document.getElementById('search-count').textContent = user.searchCount || 0;
         }
-        
+
         function showSearchSection() {
             document.getElementById('auth-required').style.display = 'none';
             document.getElementById('main-layout').style.display = 'flex';
         }
-        
-        function hideSearchSection() {
-            document.getElementById('auth-required').style.display = 'block';
-            document.getElementById('main-layout').style.display = 'none';
-        }
-        
-        function loadUserPreferences() {
-            if (currentUser && currentUser.preferences) {
-                const { department, semester, subject } = currentUser.preferences;
-                
-                if (department) {
-                    document.getElementById('department-select').value = department;
-                    updateSubjectOptions();
-                }
-                if (semester) document.getElementById('semester-select').value = semester;
-                if (subject) document.getElementById('subject-select').value = subject;
-            }
-        }
-        
+
         async function signOut() {
             try {
                 showNotification('Signing out...', 'info');
-                if (sessionToken) await logoutUser();
+                if (sessionToken) {
+                    await fetch(`${API_BASE_URL}/auth/logout`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${sessionToken}`,
+                            'ngrok-skip-browser-warning': 'true'
+                        }
+                    });
+                }
                 clearUserSession();
                 showNotification('Signed out successfully', 'success');
             } catch (error) {
                 console.error('Error during sign out:', error);
-                showNotification('Sign out error, but cleared locally', 'error');
                 clearUserSession();
             }
         }
-        
-        // Course Selection Functions
-        function checkCourseSelection() {
-            const department = document.getElementById('department-select').value;
-            const semester = document.getElementById('semester-select').value;
-            const subject = document.getElementById('subject-select').value;
-            
-            if (department && semester && subject) {
-                displayUnitsSection(department, semester, subject);
-            } else {
-                hideUnitsSection();
-            }
+
+        function clearUserSession() {
+            currentUser = null;
+            sessionToken = null;
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('sessionToken');
+            document.getElementById('user-profile').classList.remove('show');
+            document.getElementById('auth-required').style.display = 'block';
+            document.getElementById('main-layout').style.display = 'none';
         }
-        
-        function displayUnitsSection(department, semester, subject) {
-            const courseInfo = document.getElementById('selected-course');
-            const unitsGrid = document.getElementById('units-grid');
-            
-            // Update course info
-            const departmentText = document.getElementById('department-select').options[document.getElementById('department-select').selectedIndex].text;
-            const subjectText = document.getElementById('subject-select').options[document.getElementById('subject-select').selectedIndex].text;
-            courseInfo.innerHTML = `${departmentText} - Semester ${semester} - ${subjectText}`;
-            courseInfo.nextElementSibling.textContent = 'Select a unit to view questions';
-            
-            // Get units data
-            const courseData = unitQuestions[department]?.[semester]?.[subject];
-            
-            if (courseData) {
-                const unitsHTML = Object.keys(courseData).map(unitName => {
-                    const unit = courseData[unitName];
-                    const twoMarkCount = unit['2-mark']?.length || 0;
-                    const fifteenMarkCount = unit['15-mark']?.length || 0;
-                    
-                    return `
-                        <div class="unit-card" data-unit="${unitName}">
-                            <div class="unit-header">
-                                <h3 class="unit-title">${unitName}</h3>
-                                <button class="unit-toggle" onclick="toggleUnit('${unitName}')">+</button>
-                            </div>
-                            <div class="unit-content" id="content-${unitName}">
-                                <div class="question-section">
-                                    <div class="question-section-header">
-                                        <span class="question-type-title">2-Mark Questions</span>
-                                        <span class="question-count">${twoMarkCount}</span>
-                                    </div>
-                                    <div class="questions-list">
-                                        ${unit['2-mark']?.map((q, index) => `
-                                            <div class="question-item" onclick="selectQuestion('${unitName}', '2-mark', ${index})">
-                                                <div class="question-text">${q.question}</div>
-                                                <div class="question-meta">Question ${index + 1} of ${twoMarkCount}</div>
-                                            </div>
-                                        `).join('') || '<p style="text-align: center; color: var(--gray); padding: 1rem;">No questions available</p>'}
-                                    </div>
-                                </div>
-                                <div class="question-section">
-                                    <div class="question-section-header">
-                                        <span class="question-type-title">15-Mark Questions</span>
-                                        <span class="question-count">${fifteenMarkCount}</span>
-                                    </div>
-                                    <div class="questions-list">
-                                        ${unit['15-mark']?.map((q, index) => `
-                                            <div class="question-item" onclick="selectQuestion('${unitName}', '15-mark', ${index})">
-                                                <div class="question-text">${q.question}</div>
-                                                <div class="question-meta">Question ${index + 1} of ${fifteenMarkCount}</div>
-                                            </div>
-                                        `).join('') || '<p style="text-align: center; color: var(--gray); padding: 1rem;">No questions available</p>'}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-                
-                unitsGrid.innerHTML = unitsHTML;
-            } else {
-                unitsGrid.innerHTML = `
-                    <div style="text-align: center; padding: 3rem; color: var(--gray); grid-column: 1/-1;">
-                        <h3>Questions Not Available</h3>
-                        <p>Questions for this course combination are not yet available.</p>
-                    </div>
-                `;
-            }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Copied to clipboard!', 'success', 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                showNotification('Failed to copy to clipboard', 'error');
+            });
         }
-        
-        function hideUnitsSection() {
-            const courseInfo = document.getElementById('selected-course');
-            courseInfo.innerHTML = 'Select Course Details';
-            courseInfo.nextElementSibling.textContent = 'Choose department, semester, and subject to view unit-wise questions';
-        }
-        
-        function toggleUnit(unitName) {
-            const content = document.getElementById(`content-${unitName}`);
-            const toggle = document.querySelector(`[data-unit="${unitName}"] .unit-toggle`);
-            const card = document.querySelector(`[data-unit="${unitName}"]`);
-            
-            if (content.classList.contains('show')) {
-                content.classList.remove('show');
-                toggle.textContent = '+';
-                card.classList.remove('active');
-            } else {
-                // Close all other units
-                document.querySelectorAll('.unit-content.show').forEach(c => {
-                    c.classList.remove('show');
-                    c.parentElement.classList.remove('active');
-                });
-                document.querySelectorAll('.unit-toggle').forEach(t => t.textContent = '+');
-                
-                // Open this unit
-                content.classList.add('show');
-                toggle.textContent = '-';
-                card.classList.add('active');
-            }
-        }
-        
-        function selectQuestion(unitName, markType, questionIndex) {
-            const department = document.getElementById('department-select').value;
-            const semester = document.getElementById('semester-select').value;
-            const subject = document.getElementById('subject-select').value;
-            
-            const question = unitQuestions[department][semester][subject][unitName][markType][questionIndex];
-            
-            // Show results container and display question
-            const resultsContainer = document.getElementById('results-container');
-            const resultsContent = document.getElementById('results-content');
-            const resultsCount = document.getElementById('results-count');
-            
-            const resultHtml = `
-                <div class="result-card">
-                    <h3 class="result-title">${markType} Question - ${unitName}</h3>
-                    <div class="result-meta">
-                        <span class="confidence-badge confidence-high">Question Bank</span>
-                        <span class="cache-indicator">${unitName}</span>
-                        <span class="cache-indicator">${markType}</span>
-                    </div>
-                    <div class="result-content">
-                        <h4 style="color: var(--primary); margin-bottom: 1rem;">Question:</h4>
-                        <p style="margin-bottom: 1.5rem; font-weight: 500;">${question.question}</p>
-                        <h4 style="color: var(--secondary); margin-bottom: 1rem;">Answer:</h4>
-                        <p>${question.answer}</p>
-                    </div>
-                    <div class="result-actions">
-                        <button class="action-btn" onclick="copyToClipboard('Q: ${question.question.replace(/'/g, "\\'")}\\n\\nA: ${question.answer.replace(/'/g, "\\'")}')">
-                            <span>📋</span>
-                            <span>Copy Q&A</span>
-                        </button>
-                        <button class="action-btn" onclick="copyToClipboard('${question.question.replace(/'/g, "\\'")}')">
-                            <span>❓</span>
-                            <span>Copy Question</span>
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            resultsContent.innerHTML = resultHtml;
-            resultsCount.textContent = '1 question selected';
-            resultsContainer.style.display = 'block';
-            
-            // Scroll to results
-            resultsContainer.scrollIntoView({ behavior: 'smooth' });
-            
-            showNotification(`Selected ${markType} question from ${unitName}`, 'success');
-        }
-        
-        // Chat History Functions
+
+        // Chat history functions
         async function loadChatHistory() {
             if (!currentUser) return;
-            
-            const isConnected = await testBackendConnection();
-            if (!isConnected) {
-                showNotification('Backend connection issue - some features may be limited', 'warning', 5000);
-            }
-            
             await loadChatMessages();
         }
-        
+
         async function loadChatMessages(page = 1, append = false) {
             try {
-                const data = await getUserChatHistory(page);
+                const response = await fetch(`${API_BASE_URL}/user/chat-history?page=${page}&limit=20`, {
+                    headers: {
+                        'Authorization': `Bearer ${sessionToken}`,
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
+                
+                if (!response.ok) return;
+                
+                const data = await response.json();
                 
                 if (!append) {
-                    chatHistoryData = data.chatHistory;
-                    currentPage = 1;
+                    chatHistoryData = data.chatHistory || [];
                 } else {
-                    chatHistoryData = [...chatHistoryData, ...data.chatHistory];
+                    chatHistoryData = [...chatHistoryData, ...(data.chatHistory || [])];
                 }
                 
                 displayChatHistory();
                 
-                const loadMoreBtn = document.getElementById('load-more-history-btn');
-                if (data.hasMore) {
-                    loadMoreBtn.style.display = 'block';
-                    currentPage = page;
-                } else {
-                    loadMoreBtn.style.display = 'none';
-                }
-                
             } catch (error) {
-                console.error('Error loading chat messages:', error);
-                showNotification('Failed to load chat history', 'error');
+                console.error('Error loading chat history:', error);
             }
         }
-        
+
         function displayChatHistory() {
             const historyGrid = document.getElementById('chat-history-grid');
             
@@ -5123,17 +1710,12 @@
             }
             
             const historyHTML = chatHistoryData.map(msg => {
-                let confidenceClass = 'confidence-low';
-                if (msg.confidence >= 0.8) confidenceClass = 'confidence-high';
-                else if (msg.confidence >= 0.5) confidenceClass = 'confidence-medium';
-                
                 return `
-                    <div class="chat-message-item" onclick="rerunSearch('${msg.question.replace(/'/g, "\\'")}')">
+                    <div class="chat-message-item" onclick="rerunSearch('${msg.question}')">
                         <div class="chat-question">${msg.question}</div>
                         <div class="chat-answer">${msg.answer.substring(0, 100)}...</div>
                         <div class="chat-message-meta">
-                            <span>${formatDate(msg.timestamp)}</span>
-                            <span class="confidence-mini ${confidenceClass}">${(msg.confidence * 100).toFixed(0)}%</span>
+                            <span>${new Date(msg.timestamp).toLocaleDateString()}</span>
                         </div>
                     </div>
                 `;
@@ -5141,251 +1723,68 @@
             
             historyGrid.innerHTML = historyHTML;
         }
-        
-        function clearChatHistoryDisplay() {
-            document.getElementById('chat-history-grid').innerHTML = '<div class="no-chat-history"><p>No search history yet</p></div>';
-            document.getElementById('load-more-history-btn').style.display = 'none';
-        }
-        
+
         async function refreshChatHistory() {
-            showNotification('Refreshing chat history...', 'info');
             await loadChatHistory();
             showNotification('Chat history refreshed', 'success');
         }
-        
-        // Search Functions
-        async function performSearch() {
-            if (!currentUser) {
-                showNotification('Please sign in to perform searches', 'error');
-                return;
-            }
-            
-            const question = document.getElementById('question-input').value.trim();
-            if (!question) return;
-            
-            const resultsContainer = document.getElementById('results-container');
-            const resultsContent = document.getElementById('results-content');
-            resultsContainer.style.display = 'block';
-            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-            
-            try {
-                const response = await fetch(`${API_BASE_URL1}/rag`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json', 
-                        'ngrok-skip-browser-warning': 'true',
-                        ...getAuthHeaders() 
-                    },
-                    body: JSON.stringify({
-                        question: question,
-                        limit: 3,
-                        threshold: 0.6
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`API error: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                displayResults(data);
-                
-                if (currentUser) {
-                    currentUser.searchCount = (currentUser.searchCount || 0) + 1;
-                    document.getElementById('search-count').textContent = currentUser.searchCount;
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                }
-                
-                await refreshChatHistory();
-                document.getElementById('question-input').value = '';
-                
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                resultsContent.innerHTML = `
-                    <div class="no-results">
-                        <p>Error connecting to the server. Please check your backend connection.</p>
-                        <p>Error details: ${error.message}</p>
-                    </div>
-                `;
-                showNotification('Search failed', 'error');
-            }
-        }
-        
-        // FIXED: displayResults function - now shows GPT-5 answers even when no documents found
-        function displayResults(data) {
-            const resultsContent = document.getElementById('results-content');
-            const resultsCount = document.getElementById('results-count');
-            
-            // FIX: Check if answer exists, not just if documents were found
-            if (data.answer && data.answer.trim() !== '') {
-                let confidenceClass = 'confidence-low';
-                let confidenceText = 'Low confidence';
-                
-                // Use the confidence score from backend or default to high for GPT-5 answers
-                const confidence = data.confidence || 0.9; // Default to 90% for GPT-5 answers
-                
-                if (confidence >= 0.8) {
-                    confidenceClass = 'confidence-high';
-                    confidenceText = 'High confidence';
-                } else if (confidence >= 0.5) {
-                    confidenceClass = 'confidence-medium';
-                    confidenceText = 'Medium confidence';
-                }
-                
-                let sourcesHtml = '';
-                if (data.sources && data.sources.length > 0) {
-                    sourcesHtml = `
-                        <div class="sources-section">
-                            <h4>Sources:</h4>
-                            ${data.sources.map(source => `
-                                <div class="source-item">${source.snippet || 'No snippet available'}</div>
-                            `).join('')}
-                        </div>
-                    `;
-                } else {
-                    // Show that this is from GPT-5 general knowledge
-                    sourcesHtml = `
-                        <div class="sources-section">
-                            <h4>Source:</h4>
-                            <div class="source-item">GPT-5 General Knowledge (No relevant documents found in database)</div>
-                        </div>
-                    `;
-                }
-                
-                const cacheIndicator = data.cached ? 
-                    `<span class="cache-indicator cache-hit">Cached response</span>` : 
-                    `<span class="cache-indicator">Live response</span>`;
-                
-                // Add response type indicator
-                const responseType = data.found ? 'Document-based Answer' : 'AI-Generated Answer';
-                const responseTypeClass = data.found ? 'confidence-high' : 'confidence-medium';
-                
-                const resultHtml = `
-                    <div class="result-card">
-                        <h3 class="result-title">${responseType}</h3>
-                        <div class="result-meta">
-                            <span class="confidence-badge ${confidenceClass}">${confidenceText} (${(confidence * 100).toFixed(1)}%)</span>
-                            <span class="confidence-badge ${responseTypeClass}">${responseType}</span>
-                            ${cacheIndicator}
-                            <span>Response time: ${data.timing?.total || 'N/A'}</span>
-                        </div>
-                        <div class="result-content">
-                            <p>${data.answer}</p>
-                        </div>
-                        ${sourcesHtml}
-                        <div class="result-actions">
-                            <button class="action-btn" onclick="copyToClipboard('${data.answer.replace(/'/g, "\\'")}')">
-                                <span>📋</span>
-                                <span>Copy</span>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                
-                resultsContent.innerHTML = resultHtml;
-                resultsCount.textContent = '1 result found';
-            } else {
-                resultsContent.innerHTML = `
-                    <div class="no-results">
-                        <p>No relevant information found for your question.</p>
-                        <p>Try rephrasing or asking about a different topic.</p>
-                    </div>
-                `;
-                resultsCount.textContent = '0 results found';
-            }
-        }
-        
+
         function rerunSearch(question) {
-            // Switch to search mode first
-            switchMode('search');
-            
-            // Set the question and perform search
             document.getElementById('question-input').value = question;
             performSearch();
         }
-        
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showNotification('Copied to clipboard!', 'success', 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-                showNotification('Failed to copy to clipboard', 'error');
-            });
+
+        // Question bank functions
+        function checkCourseSelection() {
+            const department = document.getElementById('department-select').value;
+            const semester = document.getElementById('semester-select').value;
+            const subject = document.getElementById('subject-select').value;
+            
+            if (department && semester && subject) {
+                displayUnitsSection(department, semester, subject);
+            }
         }
-        
+
         function updateSubjectOptions() {
+            // Simplified subject options update
             const department = document.getElementById('department-select').value;
             const subjectSelect = document.getElementById('subject-select');
             
-            const subjectOptions = {
-                'computer-science': [
-                    {value: 'intro-programming', text: 'Introduction to Programming'},
-                    {value: 'data-structures', text: 'Data Structures'},
-                    {value: 'algorithms', text: 'Algorithms'},
-                    {value: 'web-development', text: 'Web Development'}
-                ],
-                'mathematics': [
-                    {value: 'calculus-1', text: 'Calculus I'},
-                    {value: 'calculus-2', text: 'Calculus II'},
-                    {value: 'linear-algebra', text: 'Linear Algebra'},
-                    {value: 'statistics', text: 'Statistics'}
-                ],
-                'chemistry': [
-                    {value: 'general-chem', text: 'General Chemistry'},
-                    {value: 'organic-chem', text: 'Organic Chemistry'},
-                    {value: 'physical-chem', text: 'Physical Chemistry'}
-                ]
-            };
-            
+            // Clear existing options
             subjectSelect.innerHTML = '<option value="">Select Subject</option>';
             
-            if (department && subjectOptions[department]) {
-                subjectOptions[department].forEach(option => {
-                    const optionElement = document.createElement('option');
-                    optionElement.value = option.value;
-                    optionElement.textContent = option.text;
-                    subjectSelect.appendChild(optionElement);
-                });
+            if (department === 'computer-science') {
+                subjectSelect.innerHTML += `
+                    <option value="intro-programming">Introduction to Programming</option>
+                    <option value="data-structures">Data Structures</option>
+                `;
+            } else if (department === 'mathematics') {
+                subjectSelect.innerHTML += `
+                    <option value="calculus-1">Calculus I</option>
+                    <option value="calculus-2">Calculus II</option>
+                `;
+            } else if (department === 'chemistry') {
+                subjectSelect.innerHTML += `
+                    <option value="organic-chem">Organic Chemistry</option>
+                `;
             }
         }
-        
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(initializeGoogleSignIn, 500);
-            
-            document.getElementById('sign-out-btn').addEventListener('click', signOut);
-            document.getElementById('refresh-history-btn').addEventListener('click', refreshChatHistory);
-            document.getElementById('search-button').addEventListener('click', performSearch);
-            
-            document.getElementById('question-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') performSearch();
-            });
-            
-            document.getElementById('department-select').addEventListener('change', function() {
-                updateSubjectOptions();
-                checkCourseSelection();
-            });
-            
-            document.getElementById('semester-select').addEventListener('change', checkCourseSelection);
-            document.getElementById('subject-select').addEventListener('change', checkCourseSelection);
-            
-            document.getElementById('load-more-history-btn').addEventListener('click', function() {
-                loadChatMessages(currentPage + 1, true);
-            });
-            
-            // Global function assignments
-            window.switchMode = switchMode;
-            window.toggleUnit = toggleUnit;
-            window.selectQuestion = selectQuestion;
-            window.rerunSearch = rerunSearch;
-            window.copyToClipboard = copyToClipboard;
-            window.testBackendConnection = testBackendConnection;
-            
-            // Set default mode to search
-            switchMode('search');
-        });
+
+        function displayUnitsSection(department, semester, subject) {
+            const unitsGrid = document.getElementById('units-grid');
+            unitsGrid.innerHTML = `
+                <div style="text-align: center; padding: 2rem; color: var(--gray);">
+                    <h3>Question Bank Loading...</h3>
+                    <p>Unit-wise questions will be displayed here for ${department} - Semester ${semester} - ${subject}</p>
+                </div>
+            `;
+        }
+
+        // Make functions globally available
+        window.switchMode = switchMode;
+        window.performSearch = performSearch;
+        window.copyToClipboard = copyToClipboard;
+        window.rerunSearch = rerunSearch;
     </script>
 </body>
 </html>
-
-
