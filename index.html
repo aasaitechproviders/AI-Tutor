@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     
     <!-- SEO Meta Tags -->
-    <title>EduAI - AI-Powered Syllabus Assistant for College Students</title>
+    <title>EduAI - AI-Powered Syllabus Assistant for School Students</title>
     <meta name="description" content="Smart syllabus assistant for college students. Get instant AI answers from your course materials and access organized question banks by units and topics.">
     <meta name="keywords" content="syllabus assistant, college students, AI education, question bank, study tool, academic help, course materials, RAG system">
     <meta name="author" content="EduAI Team">
@@ -1580,19 +1580,19 @@
                     <button class="search-btn" id="search-button">Search</button>
                 </div>
 
-                 <!-- Results Section -->
-            <div class="results-container" id="results-container" style="display: none;">
-                <div class="results-header">
-                    <h2 class="results-title">Results</h2>
-                    <span id="results-count">0 results found</span>
-                </div>
-                <div id="results-content">
-                    <div class="no-results">
-                        <p>Your search results will appear here</p>
+                <!-- Results Section -->
+                <div class="results-container" id="results-container" style="display: none;">
+                    <div class="results-header">
+                        <h2 class="results-title">Results</h2>
+                        <span id="results-count">0 results found</span>
+                    </div>
+                    <div id="results-content">
+                        <div class="no-results">
+                            <p>Your search results will appear here</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+                
                 <!-- Chat History in Search Mode -->
                 <div class="chat-history-search">
                     <div class="chat-history-header">
@@ -1624,8 +1624,6 @@
                     <!-- Units will be populated here -->
                 </div>
             </div>
-
-           
         </div>
     </main>
 
@@ -1648,7 +1646,7 @@
     <script>
         const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com';
         const API_BASE_URL1 = 'https://musical-suitably-woodcock.ngrok-free.app';
-const API_BASE_URL = 'https://6vgvuw4ulc.execute-api.ap-south-1.amazonaws.com/PROD';
+        const API_BASE_URL = 'https://6vgvuw4ulc.execute-api.ap-south-1.amazonaws.com/PROD';
         let currentUser = null;
         let sessionToken = null;
         let chatHistoryData = [];
@@ -2346,11 +2344,80 @@ const API_BASE_URL = 'https://6vgvuw4ulc.execute-api.ap-south-1.amazonaws.com/PR
             }
         }
         
+        // FIXED: displayResults function - now shows GPT-5 answers even when no documents found
         function displayResults(data) {
             const resultsContent = document.getElementById('results-content');
             const resultsCount = document.getElementById('results-count');
             
-            if (!data.found || !data.answer) {
+            // FIX: Check if answer exists, not just if documents were found
+            if (data.answer && data.answer.trim() !== '') {
+                let confidenceClass = 'confidence-low';
+                let confidenceText = 'Low confidence';
+                
+                // Use the confidence score from backend or default to high for GPT-5 answers
+                const confidence = data.confidence || 0.9; // Default to 90% for GPT-5 answers
+                
+                if (confidence >= 0.8) {
+                    confidenceClass = 'confidence-high';
+                    confidenceText = 'High confidence';
+                } else if (confidence >= 0.5) {
+                    confidenceClass = 'confidence-medium';
+                    confidenceText = 'Medium confidence';
+                }
+                
+                let sourcesHtml = '';
+                if (data.sources && data.sources.length > 0) {
+                    sourcesHtml = `
+                        <div class="sources-section">
+                            <h4>Sources:</h4>
+                            ${data.sources.map(source => `
+                                <div class="source-item">${source.snippet || 'No snippet available'}</div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else {
+                    // Show that this is from GPT-5 general knowledge
+                    sourcesHtml = `
+                        <div class="sources-section">
+                            <h4>Source:</h4>
+                            <div class="source-item">GPT-5 General Knowledge (No relevant documents found in database)</div>
+                        </div>
+                    `;
+                }
+                
+                const cacheIndicator = data.cached ? 
+                    `<span class="cache-indicator cache-hit">Cached response</span>` : 
+                    `<span class="cache-indicator">Live response</span>`;
+                
+                // Add response type indicator
+                const responseType = data.found ? 'Document-based Answer' : 'AI-Generated Answer';
+                const responseTypeClass = data.found ? 'confidence-high' : 'confidence-medium';
+                
+                const resultHtml = `
+                    <div class="result-card">
+                        <h3 class="result-title">${responseType}</h3>
+                        <div class="result-meta">
+                            <span class="confidence-badge ${confidenceClass}">${confidenceText} (${(confidence * 100).toFixed(1)}%)</span>
+                            <span class="confidence-badge ${responseTypeClass}">${responseType}</span>
+                            ${cacheIndicator}
+                            <span>Response time: ${data.timing?.total || 'N/A'}</span>
+                        </div>
+                        <div class="result-content">
+                            <p>${data.answer}</p>
+                        </div>
+                        ${sourcesHtml}
+                        <div class="result-actions">
+                            <button class="action-btn" onclick="copyToClipboard('${data.answer.replace(/'/g, "\\'")}')">
+                                <span>📋</span>
+                                <span>Copy</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                resultsContent.innerHTML = resultHtml;
+                resultsCount.textContent = '1 result found';
+            } else {
                 resultsContent.innerHTML = `
                     <div class="no-results">
                         <p>No relevant information found for your question.</p>
@@ -2358,59 +2425,7 @@ const API_BASE_URL = 'https://6vgvuw4ulc.execute-api.ap-south-1.amazonaws.com/PR
                     </div>
                 `;
                 resultsCount.textContent = '0 results found';
-                return;
             }
-            
-            let confidenceClass = 'confidence-low';
-            let confidenceText = 'Low confidence';
-            
-            if (data.confidence >= 0.8) {
-                confidenceClass = 'confidence-high';
-                confidenceText = 'High confidence';
-            } else if (data.confidence >= 0.5) {
-                confidenceClass = 'confidence-medium';
-                confidenceText = 'Medium confidence';
-            }
-            
-            let sourcesHtml = '';
-            if (data.sources && data.sources.length > 0) {
-                sourcesHtml = `
-                    <div class="sources-section">
-                        <h4>Sources:</h4>
-                        ${data.sources.map(source => `
-                            <div class="source-item">${source.snippet || 'No snippet available'}</div>
-                        `).join('')}
-                    </div>
-                `;
-            }
-            
-            const cacheIndicator = data.cached ? 
-                `<span class="cache-indicator cache-hit">Cached response</span>` : 
-                `<span class="cache-indicator">Live response</span>`;
-            
-            const resultHtml = `
-                <div class="result-card">
-                    <h3 class="result-title">AI Answer</h3>
-                    <div class="result-meta">
-                        <span class="confidence-badge ${confidenceClass}">${confidenceText} (${(data.confidence * 100).toFixed(1)}%)</span>
-                        ${cacheIndicator}
-                        <span>Response time: ${data.timing?.total || 'N/A'}</span>
-                    </div>
-                    <div class="result-content">
-                        <p>${data.answer}</p>
-                    </div>
-                    ${sourcesHtml}
-                    <div class="result-actions">
-                        <button class="action-btn" onclick="copyToClipboard('${data.answer.replace(/'/g, "\\'")}')">
-                            <span>📋</span>
-                            <span>Copy</span>
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            resultsContent.innerHTML = resultHtml;
-            resultsCount.textContent = '1 result found';
         }
         
         function rerunSearch(question) {
@@ -2505,12 +2520,3 @@ const API_BASE_URL = 'https://6vgvuw4ulc.execute-api.ap-south-1.amazonaws.com/PR
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
