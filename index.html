@@ -1645,8 +1645,37 @@
         function formatMarkdownContent(markdown) {
             if (!markdown) return '';
             
+            // First, protect LaTeX equations from being processed by markdown
+            let tempLatex = [];
+            let counter = 0;
+            
+            // Protect display math ($...$)
+            markdown = markdown.replace(/\$\$[\s\S]*?\$\$/g, function(match) {
+                tempLatex[counter] = match;
+                return '___LATEX_DISPLAY_' + (counter++) + '___';
+            });
+            
+            // Protect inline math ($...$) but not inside $
+            markdown = markdown.replace(/\$([^\$\n]+?)\$/g, function(match) {
+                tempLatex[counter] = match;
+                return '___LATEX_INLINE_' + (counter++) + '___';
+            });
+            
+            // Protect \(...\) inline
+            markdown = markdown.replace(/\\\([\s\S]*?\\\)/g, function(match) {
+                tempLatex[counter] = match;
+                return '___LATEX_INLINE_' + (counter++) + '___';
+            });
+            
+            // Protect \[...\] display
+            markdown = markdown.replace(/\\\[[\s\S]*?\\\]/g, function(match) {
+                tempLatex[counter] = match;
+                return '___LATEX_DISPLAY_' + (counter++) + '___';
+            });
+            
             let html = '';
             
+            // Parse markdown
             if (typeof marked !== 'undefined') {
                 try {
                     html = marked.parse(markdown);
@@ -1657,6 +1686,12 @@
             } else {
                 // Fallback
                 html = markdown.replace(/\n/g, '<br>');
+            }
+            
+            // Restore LaTeX equations
+            for (let i = 0; i < counter; i++) {
+                html = html.replace('___LATEX_DISPLAY_' + i + '___', tempLatex[i]);
+                html = html.replace('___LATEX_INLINE_' + i + '___', tempLatex[i]);
             }
             
             return html;
