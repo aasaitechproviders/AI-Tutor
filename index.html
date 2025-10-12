@@ -1358,16 +1358,44 @@
             resultsContent.innerHTML = resultHtml;
             resultsCount.textContent = '1 result';
             
-            // Trigger MathJax rendering
-            setTimeout(function() {
-                if (window.MathJax && window.MathJax.typesetPromise) {
-                    MathJax.typesetPromise([resultsContent]).then(function() {
-                        console.log('MathJax rendered');
-                    }).catch(function(err) {
-                        console.error('MathJax error:', err);
-                    });
+            // Enhanced MathJax rendering with better waiting
+            renderMathJax(resultsContent);
+        }
+
+        function renderMathJax(element) {
+            // Wait for MathJax to be fully loaded
+            function tryRender(attempts) {
+                if (attempts > 50) {
+                    console.warn('MathJax not loaded after 5 seconds');
+                    return;
                 }
-            }, 100);
+                
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    // Clear any previous rendering
+                    if (window.MathJax.typesetClear) {
+                        try {
+                            MathJax.typesetClear([element]);
+                        } catch (e) {
+                            console.log('Clear not needed');
+                        }
+                    }
+                    
+                    // Render the math
+                    MathJax.typesetPromise([element]).then(function() {
+                        console.log('✅ MathJax equations rendered successfully!');
+                    }).catch(function(err) {
+                        console.error('MathJax rendering error:', err);
+                    });
+                } else {
+                    // MathJax not ready yet, try again in 100ms
+                    setTimeout(function() {
+                        tryRender(attempts + 1);
+                    }, 100);
+                }
+            }
+            
+            // Start trying to render
+            tryRender(0);
         }
 
         function formatMarkdownContent(markdown) {
