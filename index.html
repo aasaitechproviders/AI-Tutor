@@ -2,8 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    
     <title>Aasai SmartEDU - AI Learning Assistant</title>
+    <meta name="description" content="AI-powered learning assistant for school students aged 8-17.">
+    
+    <!-- MathJax Configuration - MUST come before loading MathJax -->
+    <script>
+    window.MathJax = {
+        tex: {
+            inlineMath: [['\\(', '\\)']],
+            displayMath: [['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        },
+        startup: {
+            ready: () => {
+                console.log('MathJax is loaded and configured');
+                MathJax.startup.defaultReady();
+                console.log('MathJax startup complete');
+            }
+        }
+    };
+    </script>
+    
+    <!-- Load MathJax -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+    
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Google Sign-In -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
     <style>
         :root {
             --primary: #4361ee;
@@ -93,7 +127,6 @@
             height: 32px;
             border-radius: 50%;
             border: 2px solid white;
-            background: white;
         }
         
         .user-info {
@@ -294,6 +327,7 @@
             padding: 2rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             display: none;
+            min-height: 400px;
         }
 
         .search-container.show {
@@ -402,6 +436,30 @@
             border-color: var(--primary);
         }
 
+        .result-question {
+            background: #f0f7ff;
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .result-question-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
         .result-title {
             font-size: 1.3rem;
             font-weight: 600;
@@ -442,7 +500,7 @@
 
         /* FORMATTED CONTENT STYLES */
         .formatted-content {
-            line-height: 1.8;
+            line-height: 1.6;
             color: var(--dark);
             font-size: 1.05rem;
         }
@@ -451,56 +509,105 @@
             font-size: 2rem;
             font-weight: 700;
             color: var(--primary);
-            margin: 1.5rem 0 1rem 0;
+            margin: 1.2rem 0 0.8rem 0;
             padding-bottom: 0.5rem;
             border-bottom: 3px solid var(--primary);
+            line-height: 1.3;
         }
 
         .formatted-content h2 {
             font-size: 1.6rem;
             font-weight: 600;
             color: var(--secondary);
-            margin: 1.3rem 0 0.8rem 0;
+            margin: 1rem 0 0.6rem 0;
             padding-bottom: 0.3rem;
             border-bottom: 2px solid var(--light-gray);
+            line-height: 1.3;
         }
 
         .formatted-content h3 {
             font-size: 1.3rem;
             font-weight: 600;
             color: var(--accent);
-            margin: 1.2rem 0 0.7rem 0;
+            margin: 0.8rem 0 0.5rem 0;
+            line-height: 1.3;
         }
 
         .formatted-content h4 {
             font-size: 1.1rem;
             font-weight: 600;
             color: var(--primary);
-            margin: 1rem 0 0.6rem 0;
+            margin: 0.7rem 0 0.4rem 0;
+            line-height: 1.3;
         }
 
         .formatted-content p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .formatted-content br {
+            display: block;
+            content: "";
+            margin: 0.3rem 0;
         }
 
         .formatted-content ul,
         .formatted-content ol {
-            margin: 1rem 0 1rem 2rem;
+            margin: 0.8rem 0 0.8rem 2rem;
             padding-left: 1rem;
         }
 
         .formatted-content li {
-            margin-bottom: 0.5rem;
-            line-height: 1.7;
+            margin-bottom: 0.4rem;
+            line-height: 1.5;
         }
 
         .formatted-content ul li {
-            list-style-type: disc;
+            list-style-type: none;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .formatted-content ul li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(67, 97, 238, 0.3);
         }
 
         .formatted-content ol li {
-            list-style-type: decimal;
+            list-style-type: none;
+            position: relative;
+            padding-left: 2rem;
+            counter-increment: item;
+        }
+
+        .formatted-content ol {
+            counter-reset: item;
+        }
+
+        .formatted-content ol li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(67, 97, 238, 0.3);
         }
 
         .formatted-content table {
@@ -825,145 +932,8 @@
 
         .units-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
-        }
-
-        /* NEW STYLES FOR QUESTION BANK */
-        .unit-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .unit-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .unit-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1rem 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .unit-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .unit-toggle {
-            font-size: 1.5rem;
-            transition: transform 0.3s;
-        }
-
-        .unit-toggle.open {
-            transform: rotate(180deg);
-        }
-
-        .unit-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-
-        .unit-content.open {
-            max-height: 2000px;
-        }
-
-        .marks-section {
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .marks-section:last-child {
-            border-bottom: none;
-        }
-
-        .marks-header {
-            background: var(--light);
-            padding: 0.8rem 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .marks-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .marks-toggle {
-            font-size: 1.2rem;
-            transition: transform 0.3s;
-        }
-
-        .marks-toggle.open {
-            transform: rotate(180deg);
-        }
-
-        .marks-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-
-        .marks-content.open {
-            max-height: 1000px;
-        }
-
-        .question-list {
-            padding: 1rem 1.5rem;
-        }
-
-        .question-item {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .question-item:last-child {
-            border-bottom: none;
-        }
-
-        .question-text {
-            margin-bottom: 0.5rem;
-            line-height: 1.5;
-        }
-
-        .question-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .question-btn {
-            background: var(--light);
-            border: 1px solid var(--light-gray);
-            color: var(--primary);
-            padding: 0.3rem 0.8rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .question-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .no-questions {
-            text-align: center;
-            padding: 1.5rem;
-            color: var(--gray);
-            font-style: italic;
         }
 
         /* Auth Required */
@@ -1051,40 +1021,247 @@
         /* Mobile Styles */
         @media screen and (max-width: 768px) {
             .container {
-                padding: 0 16px;
+                padding: 0 12px;
             }
 
             .header-content {
                 flex-direction: column;
+                gap: 0.8rem;
+                padding: 0.5rem 0;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .logo-icon {
+                font-size: 1.4rem;
+            }
+
+            .user-profile {
+                flex-wrap: wrap;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .user-avatar {
+                width: 28px;
+                height: 28px;
+            }
+
+            .user-stats {
+                font-size: 0.65rem;
+            }
+
+            .sign-out-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            main {
+                padding: 1rem 0;
+            }
+
+            .main-layout {
                 gap: 1rem;
-                text-align: center;
+            }
+
+            .mode-toggle-section,
+            .search-container,
+            .results-container,
+            .units-container {
+                padding: 1rem;
+                border-radius: 12px;
+            }
+
+            .mode-toggle-title,
+            .search-title,
+            .results-title,
+            .units-title {
+                font-size: 1.3rem;
+            }
+
+            .mode-toggle-subtitle,
+            .search-subtitle {
+                font-size: 0.9rem;
             }
 
             .mode-buttons {
                 grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .mode-btn {
+                padding: 1.2rem;
+            }
+
+            .mode-icon {
+                font-size: 2.5rem;
+            }
+
+            .mode-title {
+                font-size: 1.1rem;
+            }
+
+            .mode-description {
+                font-size: 0.85rem;
+            }
+
+            .selectors-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
             }
 
             .search-box {
                 flex-direction: column;
+                border-radius: 8px;
+            }
+
+            .search-input {
+                padding: 1rem;
+                font-size: 1rem;
+                border-bottom: 1px solid var(--light-gray);
             }
 
             .search-btn {
                 padding: 1rem;
+                font-size: 1rem;
+            }
+
+            .result-card {
+                padding: 1rem;
+            }
+
+            .result-title {
+                font-size: 1.1rem;
+            }
+
+            .result-meta {
+                font-size: 0.85rem;
+                gap: 0.5rem;
+            }
+
+            .formatted-content {
+                font-size: 0.95rem;
+            }
+
+            .formatted-content h1 {
+                font-size: 1.5rem;
+            }
+
+            .formatted-content h2 {
+                font-size: 1.3rem;
+            }
+
+            .formatted-content h3 {
+                font-size: 1.1rem;
+            }
+
+            .formatted-content h4 {
+                font-size: 1rem;
+            }
+
+            .formatted-content table {
+                font-size: 0.85rem;
+                overflow-x: auto;
+                display: block;
+            }
+
+            .formatted-content th,
+            .formatted-content td {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+
+            .formatted-content .math-display {
+                font-size: 1em;
+                padding: 0.8rem;
+                overflow-x: auto;
             }
 
             .result-actions {
                 flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 0.7rem;
+            }
+
+            .chat-history-search {
+                margin-top: 1rem;
+                padding-top: 1rem;
+            }
+
+            .chat-history-title {
+                font-size: 1.1rem;
+            }
+
+            .chat-messages-grid {
+                grid-template-columns: 1fr;
+                max-height: 300px;
+            }
+
+            .chat-message-item {
+                padding: 0.8rem;
+            }
+
+            .units-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .unit-card {
+                padding: 1rem;
+            }
+
+            .unit-title {
+                font-size: 1.1rem;
+            }
+
+            .question-item {
+                padding: 0.6rem;
+                font-size: 0.85rem;
             }
 
             .footer-content {
                 flex-direction: column;
                 gap: 1rem;
                 text-align: center;
+                font-size: 0.85rem;
             }
 
             .footer-links {
                 justify-content: center;
                 flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .notification {
+                max-width: 90%;
+                right: 5%;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Tablet Styles */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .mode-buttons {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .units-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .formatted-content table {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -1097,12 +1274,14 @@
                 <span>Aasai SmartEDU</span>
             </div>
             <div class="auth-container">
-                <div id="google-signin-button"></div>
+                <div class="google-signin-container" id="google-signin-container">
+                    <div id="google-signin-button"></div>
+                </div>
                 <div id="user-profile" class="user-profile">
-                    <div class="user-avatar"></div>
+                    <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
                     <div class="user-info">
-                        <div id="user-name" class="user-name">Demo User</div>
-                        <div id="user-email" class="user-email">user@example.com</div>
+                        <div id="user-name" class="user-name"></div>
+                        <div id="user-email" class="user-email"></div>
                         <div id="user-stats" class="user-stats">
                             <span><span id="search-count">0</span>S</span> | 
                             <span><span id="conversation-count">0</span>C</span>
@@ -1118,9 +1297,6 @@
         <div id="auth-required" class="auth-required">
             <h2>Welcome to Aasai SmartEDU</h2>
             <p>Please sign in with your Google account to start learning</p>
-            <div style="margin-top: 2rem;">
-                <button id="demo-login-btn" class="search-btn" style="border-radius: 12px; padding: 1rem 2rem;">Try Demo Mode</button>
-            </div>
         </div>
 
         <div id="main-layout" class="main-layout" style="display: none;">
@@ -1231,15 +1407,12 @@
                     <p>Choose department, semester, and subject</p>
                 </div>
                 
-                <div id="units-grid" class="units-grid">
-                    <!-- Units will be dynamically loaded here -->
-                    <div class="no-questions">
-                        <p>Please select course details to view question bank</p>
-                    </div>
-                </div>
+                <div id="units-grid" class="units-grid"></div>
             </div>
         </div>
     </main>
+
+    <div id="notification" class="notification"></div>
 
     <footer>
         <div class="container footer-content">
@@ -1253,433 +1426,283 @@
         </div>
     </footer>
 
-    <div id="notification" class="notification"></div>
-
     <script>
-        // Global variables
+        // Configuration
+        const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com';
+        const API_BASE_URL = 'https://musical-suitably-woodcock.ngrok-free.app';
+        
+        // State
         let currentUser = null;
+        let sessionToken = null;
+        let chatHistoryData = [];
+        let currentPage = 1;
         let currentMode = 'search';
-        let selectedDepartment = '';
-        let selectedSemester = '';
-        let selectedSubject = '';
-        let chatHistory = [];
-        let currentHistoryPage = 0;
-        const HISTORY_PAGE_SIZE = 6;
+        let currentAnswerText = '';
 
-        // Initialize the application
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            initializeGoogleSignIn();
             setupEventListeners();
-            loadFromLocalStorage();
-            // Show demo user by default
-            showDemoUser();
+            
+            if (typeof marked !== 'undefined') {
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true,
+                    headerIds: false,
+                    mangle: false
+                });
+            }
         });
 
-        // Show demo user
-        function showDemoUser() {
-            document.getElementById('user-profile').classList.add('show');
-            document.getElementById('google-signin-button').style.display = 'none';
-        }
-
-        // Demo login
-        document.getElementById('demo-login-btn').addEventListener('click', function() {
-            document.getElementById('auth-required').style.display = 'none';
-            document.getElementById('main-layout').style.display = 'flex';
-            showNotification('Demo mode activated!', 'success');
-        });
-
-        // Sign Out Function
-        function signOut() {
-            currentUser = null;
-            document.getElementById('user-profile').classList.remove('show');
-            document.getElementById('google-signin-button').style.display = 'block';
-            document.getElementById('auth-required').style.display = 'block';
-            document.getElementById('main-layout').style.display = 'none';
-            
-            localStorage.removeItem('aasai-smart-edu-user');
-            localStorage.removeItem('aasai-smart-edu-chat-history');
-            
-            showNotification('Signed out successfully', 'info');
-        }
-
-        // Setup Event Listeners
         function setupEventListeners() {
             document.getElementById('sign-out-btn').addEventListener('click', signOut);
-            document.getElementById('search-button').addEventListener('click', handleSearch);
+            document.getElementById('refresh-history-btn').addEventListener('click', refreshChatHistory);
+            document.getElementById('search-button').addEventListener('click', performSearch);
             document.getElementById('question-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    handleSearch();
-                }
+                if (e.key === 'Enter') performSearch();
             });
-            
-            document.getElementById('refresh-history-btn').addEventListener('click', loadChatHistory);
-            document.getElementById('load-more-history-btn').addEventListener('click', loadMoreHistory);
-            
-            // Course selection dropdowns
-            document.getElementById('department-select').addEventListener('change', handleDepartmentChange);
-            document.getElementById('semester-select').addEventListener('change', handleSemesterChange);
-            document.getElementById('subject-select').addEventListener('change', handleSubjectChange);
+            document.getElementById('department-select').addEventListener('change', function() {
+                updateSubjectOptions();
+                checkCourseSelection();
+            });
+            document.getElementById('semester-select').addEventListener('change', checkCourseSelection);
+            document.getElementById('subject-select').addEventListener('change', checkCourseSelection);
+            document.getElementById('load-more-history-btn').addEventListener('click', function() {
+                loadChatMessages(currentPage + 1, true);
+            });
         }
 
-        // Switch between modes
         function switchMode(mode) {
             currentMode = mode;
-            
-            // Update active mode button
             document.getElementById('ai-search-mode').classList.toggle('active', mode === 'search');
             document.getElementById('question-bank-mode').classList.toggle('active', mode === 'questions');
-            
-            // Show/hide sections
             document.getElementById('search-section').classList.toggle('show', mode === 'search');
             document.getElementById('units-container').classList.toggle('show', mode === 'questions');
-            
-            // Show course selection panel for question bank
             document.getElementById('course-selection-panel').classList.toggle('show', mode === 'questions');
-            
-            // If switching to question bank and we have selections, load questions
-            if (mode === 'questions' && selectedDepartment && selectedSemester && selectedSubject) {
-                loadQuestionBank();
-            }
-            
             showNotification((mode === 'search' ? 'AI Search' : 'Question Bank') + ' mode activated', 'success');
+            if (mode === 'questions') checkCourseSelection();
         }
 
-        // Handle department change
-        function handleDepartmentChange() {
-            selectedDepartment = document.getElementById('department-select').value;
-            updateSubjectOptions();
-            checkCourseSelection();
-        }
+        function initializeGoogleSignIn() {
+            if (typeof google === 'undefined') {
+                setTimeout(initializeGoogleSignIn, 100);
+                return;
+            }
 
-        // Handle semester change
-        function handleSemesterChange() {
-            selectedSemester = document.getElementById('semester-select').value;
-            updateSubjectOptions();
-            checkCourseSelection();
-        }
+            google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleCredentialResponse
+            });
 
-        // Handle subject change
-        function handleSubjectChange() {
-            selectedSubject = document.getElementById('subject-select').value;
-            checkCourseSelection();
-        }
+            google.accounts.id.renderButton(
+                document.getElementById("google-signin-button"),
+                { theme: "outline", size: "large" }
+            );
 
-        // Update subject options based on department and semester
-        function updateSubjectOptions() {
-            const subjectSelect = document.getElementById('subject-select');
-            subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+            const savedToken = localStorage.getItem('sessionToken');
+            const savedUser = localStorage.getItem('currentUser');
             
-            if (selectedDepartment && selectedSemester) {
-                // This is a simplified example - in a real app, you would fetch from an API
-                let subjects = [];
-                
-                if (selectedDepartment === 'computer-science') {
-                    if (selectedSemester === '1') {
-                        subjects = ['Programming Fundamentals', 'Discrete Mathematics', 'Digital Logic'];
-                    } else if (selectedSemester === '2') {
-                        subjects = ['Data Structures', 'Computer Organization', 'Probability & Statistics'];
-                    } else if (selectedSemester === '3') {
-                        subjects = ['Algorithms', 'Database Systems', 'Operating Systems'];
-                    }
-                } else if (selectedDepartment === 'mathematics') {
-                    if (selectedSemester === '1') {
-                        subjects = ['Calculus I', 'Linear Algebra', 'Differential Equations'];
-                    } else if (selectedSemester === '2') {
-                        subjects = ['Calculus II', 'Probability Theory', 'Numerical Methods'];
-                    } else if (selectedSemester === '3') {
-                        subjects = ['Real Analysis', 'Complex Analysis', 'Abstract Algebra'];
-                    }
-                } else if (selectedDepartment === 'chemistry') {
-                    if (selectedSemester === '1') {
-                        subjects = ['General Chemistry', 'Organic Chemistry I', 'Inorganic Chemistry'];
-                    } else if (selectedSemester === '2') {
-                        subjects = ['Physical Chemistry', 'Organic Chemistry II', 'Analytical Chemistry'];
-                    } else if (selectedSemester === '3') {
-                        subjects = ['Biochemistry', 'Polymer Chemistry', 'Environmental Chemistry'];
-                    }
-                }
-                
-                subjects.forEach(subject => {
-                    const option = document.createElement('option');
-                    option.value = subject.toLowerCase().replace(/\s+/g, '-');
-                    option.textContent = subject;
-                    subjectSelect.appendChild(option);
-                });
+            if (savedToken && savedUser) {
+                sessionToken = savedToken;
+                currentUser = JSON.parse(savedUser);
+                showUserProfile(currentUser);
+                showSearchSection();
+                loadChatHistory();
             }
         }
 
-        // Check if all course details are selected
-        function checkCourseSelection() {
-            const courseInfo = document.getElementById('selected-course');
-            
-            if (selectedDepartment && selectedSemester && selectedSubject) {
-                const deptName = document.getElementById('department-select').options[document.getElementById('department-select').selectedIndex].text;
-                const subjectName = document.getElementById('subject-select').options[document.getElementById('subject-select').selectedIndex].text;
+        async function handleCredentialResponse(response) {
+            try {
+                showNotification('Signing you in...', 'info');
+                const userInfo = parseJwt(response.credential);
+                const authResult = await authenticateWithBackend({
+                    id: userInfo.sub,
+                    email: userInfo.email,
+                    name: userInfo.name,
+                    picture: userInfo.picture
+                });
                 
-                courseInfo.textContent = `${deptName} - Semester ${selectedSemester} - ${subjectName}`;
-                
-                // If in question bank mode, load the questions
-                if (currentMode === 'questions') {
-                    loadQuestionBank();
-                }
-            } else {
-                courseInfo.textContent = 'Select Course Details';
+                currentUser = authResult.user;
+                sessionToken = authResult.sessionToken;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                localStorage.setItem('sessionToken', sessionToken);
+                showUserProfile(currentUser);
+                showSearchSection();
+                loadChatHistory();
+                showNotification('Welcome ' + currentUser.name + '!', 'success');
+            } catch (error) {
+                console.error('Sign-in error:', error);
+                showNotification('Failed to sign in', 'error');
             }
         }
 
-        // Load question bank data
-        function loadQuestionBank() {
-            const unitsGrid = document.getElementById('units-grid');
-            unitsGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-            
-            // Simulate API call with timeout
-            setTimeout(() => {
-                // Sample question bank data
-                const questionBankData = getSampleQuestionBankData();
-                
-                if (questionBankData.length === 0) {
-                    unitsGrid.innerHTML = `
-                        <div class="no-questions">
-                            <p>No questions available for the selected course</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                let unitsHTML = '';
-                
-                questionBankData.forEach(unit => {
-                    let marksHTML = '';
-                    
-                    // Group questions by marks
-                    const marksGroups = {};
-                    unit.questions.forEach(question => {
-                        if (!marksGroups[question.marks]) {
-                            marksGroups[question.marks] = [];
-                        }
-                        marksGroups[question.marks].push(question);
-                    });
-                    
-                    // Create marks sections
-                    Object.keys(marksGroups).sort((a, b) => parseInt(a) - parseInt(b)).forEach(marks => {
-                        const questions = marksGroups[marks];
-                        let questionsHTML = '';
-                        
-                        questions.forEach((question, index) => {
-                            questionsHTML += `
-                                <div class="question-item">
-                                    <div class="question-text">${index + 1}. ${question.text}</div>
-                                    <div class="question-actions">
-                                        <button class="question-btn" onclick="viewQuestion('${unit.id}', '${marks}', ${index})">View</button>
-                                        <button class="question-btn" onclick="practiceQuestion('${unit.id}', '${marks}', ${index})">Practice</button>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        
-                        marksHTML += `
-                            <div class="marks-section">
-                                <div class="marks-header" onclick="toggleMarksSection(this)">
-                                    <div class="marks-title">${marks} Marks Questions</div>
-                                    <div class="marks-toggle">▼</div>
-                                </div>
-                                <div class="marks-content">
-                                    <div class="question-list">
-                                        ${questionsHTML}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    unitsHTML += `
-                        <div class="unit-card">
-                            <div class="unit-header" onclick="toggleUnit(this)">
-                                <div class="unit-title">${unit.name}</div>
-                                <div class="unit-toggle">▼</div>
-                            </div>
-                            <div class="unit-content">
-                                ${marksHTML}
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                unitsGrid.innerHTML = unitsHTML;
-            }, 800);
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => 
+                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+            ).join(''));
+            return JSON.parse(jsonPayload);
         }
 
-        // Get sample question bank data (in a real app, this would come from an API)
-        function getSampleQuestionBankData() {
-            if (!selectedDepartment || !selectedSemester || !selectedSubject) return [];
-            
-            // Sample data structure
-            return [
-                {
-                    id: 'unit-1',
-                    name: 'Unit 1: Introduction to Programming',
-                    questions: [
-                        { marks: '2', text: 'What is a variable in programming?' },
-                        { marks: '2', text: 'Define the term "algorithm".' },
-                        { marks: '2', text: 'What are the basic data types in programming?' },
-                        { marks: '5', text: 'Explain the difference between compiler and interpreter with examples.' },
-                        { marks: '5', text: 'Describe the steps involved in program development life cycle.' },
-                        { marks: '5', text: 'What are control structures in programming? Explain with examples.' },
-                        { marks: '10', text: 'Explain the concept of object-oriented programming with its key principles.' },
-                        { marks: '10', text: 'Discuss the importance of data structures in programming with suitable examples.' },
-                        { marks: '10', text: 'Compare and contrast procedural programming and object-oriented programming.' }
-                    ]
+        async function authenticateWithBackend(googleUserData) {
+            const response = await fetch(API_BASE_URL + '/auth/google', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
                 },
-                {
-                    id: 'unit-2',
-                    name: 'Unit 2: Data Structures and Algorithms',
-                    questions: [
-                        { marks: '2', text: 'What is a stack data structure?' },
-                        { marks: '2', text: 'Define time complexity of an algorithm.' },
-                        { marks: '2', text: 'What is the difference between array and linked list?' },
-                        { marks: '5', text: 'Explain the bubble sort algorithm with an example.' },
-                        { marks: '5', text: 'Describe the operations performed on a queue data structure.' },
-                        { marks: '5', text: 'What is a binary search tree? Explain its properties.' },
-                        { marks: '10', text: 'Compare and contrast various sorting algorithms with their time complexities.' },
-                        { marks: '10', text: 'Explain graph traversal algorithms - BFS and DFS with examples.' },
-                        { marks: '10', text: 'Discuss the applications of different data structures in real-world scenarios.' }
-                    ]
-                },
-                {
-                    id: 'unit-3',
-                    name: 'Unit 3: Database Management Systems',
-                    questions: [
-                        { marks: '2', text: 'What is a primary key in a database?' },
-                        { marks: '2', text: 'Define the term "normalization".' },
-                        { marks: '2', text: 'What is SQL?' },
-                        { marks: '5', text: 'Explain the different types of relationships in DBMS with examples.' },
-                        { marks: '5', text: 'Describe the ACID properties of database transactions.' },
-                        { marks: '5', text: 'What are the advantages of using a database management system?' },
-                        { marks: '10', text: 'Explain the normalization process up to 3NF with suitable examples.' },
-                        { marks: '10', text: 'Compare and contrast relational databases and NoSQL databases.' },
-                        { marks: '10', text: 'Discuss the security issues in database management systems and their solutions.' }
-                    ]
-                }
-            ];
+                body: JSON.stringify({ googleUserData })
+            });
+            if (!response.ok) throw new Error('Auth failed');
+            return await response.json();
         }
 
-        // Toggle unit expansion
-        function toggleUnit(element) {
-            const unitContent = element.nextElementSibling;
-            const toggleIcon = element.querySelector('.unit-toggle');
+        async function performSearch() {
+            if (!currentUser) {
+                showNotification('Please sign in first', 'error');
+                return;
+            }
             
-            unitContent.classList.toggle('open');
-            toggleIcon.classList.toggle('open');
-        }
-
-        // Toggle marks section expansion
-        function toggleMarksSection(element) {
-            const marksContent = element.nextElementSibling;
-            const toggleIcon = element.querySelector('.marks-toggle');
-            
-            marksContent.classList.toggle('open');
-            toggleIcon.classList.toggle('open');
-        }
-
-        // View question details
-        function viewQuestion(unitId, marks, questionIndex) {
-            showNotification('Opening question details...', 'info');
-            // In a real app, this would open a modal or navigate to a question detail page
-            console.log(`Viewing question: Unit ${unitId}, ${marks} marks, Index ${questionIndex}`);
-        }
-
-        // Practice question
-        function practiceQuestion(unitId, marks, questionIndex) {
-            showNotification('Starting practice session...', 'info');
-            // In a real app, this would start a practice session for this question
-            console.log(`Practicing question: Unit ${unitId}, ${marks} marks, Index ${questionIndex}`);
-        }
-
-        // Handle search functionality
-        function handleSearch() {
-            const questionInput = document.getElementById('question-input');
-            const question = questionInput.value.trim();
-            
+            const question = document.getElementById('question-input').value.trim();
             if (!question) {
                 showNotification('Please enter a question', 'error');
                 return;
             }
             
-            // Show loading state
             const resultsContainer = document.getElementById('results-container');
             const resultsContent = document.getElementById('results-content');
+            const searchBtn = document.getElementById('search-button');
             
             resultsContainer.classList.add('show');
             resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            searchBtn.disabled = true;
+            searchBtn.textContent = 'Searching...';
             
-            // Simulate API call with timeout
-            setTimeout(() => {
-                // Generate sample response
-                const response = generateSampleResponse(question);
+            try {
+                const response = await fetch(API_BASE_URL + '/rag', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json', 
+                        'ngrok-skip-browser-warning': 'true',
+                        'Authorization': 'Bearer ' + sessionToken
+                    },
+                    body: JSON.stringify({ question: question, limit: 5, threshold: 0.75 })
+                });
                 
-                // Add to chat history
-                addToChatHistory(question, response);
+                if (!response.ok) throw new Error('API error');
                 
-                // Display results
-                displaySearchResults(response);
+                const data = await response.json();
+                displayResults(data);
                 
-                // Clear input
-                questionInput.value = '';
+                if (currentUser) {
+                    currentUser.searchCount = (currentUser.searchCount || 0) + 1;
+                    document.getElementById('search-count').textContent = currentUser.searchCount;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                }
                 
-                // Update user stats
-                updateUserStats();
-            }, 1500);
+                await refreshChatHistory();
+                document.getElementById('question-input').value = '';
+            } catch (error) {
+                console.error('Error:', error);
+                resultsContent.innerHTML = '<div class="no-results"><p>Error: ' + error.message + '</p></div>';
+                showNotification('Search failed', 'error');
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.textContent = 'Search';
+            }
         }
 
-        // Generate sample response (in a real app, this would come from an API)
-        function generateSampleResponse(question) {
-            // This is a simplified example - in a real app, you would call an AI API
-            return {
-                answer: `# Answer to: "${question}"\n\nBased on the syllabus content, here is a comprehensive explanation:\n\n## Key Concepts\n\n- **Concept 1**: This is the first important point related to your question. It forms the foundation of understanding this topic.\n\n- **Concept 2**: The second key concept builds upon the first and provides additional context.\n\n## Detailed Explanation\n\nThis is a more detailed response that would come from the AI system analyzing the syllabus content. In a real implementation, this would be generated based on the actual course materials and would include:\n\n1. Precise definitions\n2. Relevant examples\n3. Step-by-step explanations\n4. Connections to other topics\n\n### Mathematical Formulation\n\nIf your question involves mathematics, the response would include properly formatted equations:\n\n\\[ E = mc^2 \\]\n\n\\[ \\int_{a}^{b} f(x) dx = F(b) - F(a) \\]\n\n## Summary\n\nTo summarize the answer to your question "${question}", the key points are:\n\n- Point one\n- Point two\n- Point three\n\nThis should provide a comprehensive understanding of the topic you asked about.`,
-                confidence: 'high',
-                sources: ['Unit 3: Database Management', 'Chapter 5: SQL Queries', 'Appendix B: Advanced Concepts'],
-                cacheHit: Math.random() > 0.7
-            };
-        }
-
-        // Display search results
-        function displaySearchResults(response) {
+        function displayResults(data) {
             const resultsContent = document.getElementById('results-content');
             const resultsCount = document.getElementById('results-count');
             
-            // Format confidence badge
-            let confidenceClass = 'confidence-medium';
-            if (response.confidence === 'high') confidenceClass = 'confidence-high';
-            if (response.confidence === 'low') confidenceClass = 'confidence-low';
+            if (!data.answer) {
+                resultsContent.innerHTML = '<div class="no-results"><p>No information found</p></div>';
+                resultsCount.textContent = '';
+                return;
+            }
             
-            // Format cache indicator
-            const cacheClass = response.cacheHit ? 'cache-hit' : '';
-            const cacheText = response.cacheHit ? 'Cached' : 'Live';
+            currentAnswerText = data.answer;
             
-            // Convert markdown to HTML
-            const answerHTML = formatMarkdownContent(response.answer);
+            // Get the original question from the input
+            const originalQuestion = document.getElementById('question-input').value || 'Your question';
             
-            resultsContent.innerHTML = `
-                <div class="result-card">
-                    <div class="result-title">Search Results</div>
-                    <div class="result-meta">
-                        <span class="confidence-badge ${confidenceClass}">${response.confidence.toUpperCase()} Confidence</span>
-                        <span class="cache-indicator ${cacheClass}">${cacheText}</span>
-                    </div>
-                    <div class="formatted-content">
-                        ${answerHTML}
-                    </div>
-                    <div class="result-actions">
-                        <button class="action-btn" onclick="saveResult()">💾 Save</button>
-                        <button class="action-btn" onclick="shareResult()">📤 Share</button>
-                        <button class="action-btn" onclick="askFollowUp()">💬 Follow-up</button>
-                    </div>
-                </div>
-            `;
+            let confidenceClass = 'confidence-low';
+            let confidenceText = 'Low';
+            if (data.confidence >= 0.8) {
+                confidenceClass = 'confidence-high';
+                confidenceText = 'High';
+            } else if (data.confidence >= 0.5) {
+                confidenceClass = 'confidence-medium';
+                confidenceText = 'Medium';
+            }
             
+            const cacheIndicator = data.cached ? 
+                '<span class="cache-indicator cache-hit">Cached</span>' : 
+                '<span class="cache-indicator">Live</span>';
+            
+            const formattedAnswer = formatMarkdownContent(data.answer);
+            
+            const resultHtml = '<div class="result-card">' +
+                '<div class="result-question">' +
+                    '<div class="result-question-label">Question</div>' +
+                    '<div class="result-question-text">' + escapeHtml(originalQuestion) + '</div>' +
+                '</div>' +
+                '<h3 class="result-title">AI Answer</h3>' +
+                '<div class="result-meta">' +
+                    '<span class="confidence-badge ' + confidenceClass + '">' + confidenceText + ' (' + (data.confidence * 100).toFixed(1) + '%)</span>' +
+                    cacheIndicator +
+                '</div>' +
+                '<div class="formatted-content">' + formattedAnswer + '</div>' +
+                '<div class="result-actions">' +
+                    '<button class="action-btn" onclick="copyCurrentAnswer()">📋 Copy</button>' +
+                '</div>' +
+            '</div>';
+            
+            resultsContent.innerHTML = resultHtml;
             resultsCount.textContent = '1 result';
+            
+            // Enhanced MathJax rendering with better waiting
+            renderMathJax(resultsContent);
         }
 
-        // Format markdown content
+        function renderMathJax(element) {
+            console.log('Starting MathJax render attempt...');
+            
+            // Wait for MathJax to be fully loaded
+            function tryRender(attempts) {
+                if (attempts > 100) {
+                    console.error('❌ MathJax not loaded after 10 seconds');
+                    console.log('Window.MathJax exists?', !!window.MathJax);
+                    return;
+                }
+                
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    console.log('✅ MathJax found! Starting typeset...');
+                    
+                    // Render the math
+                    MathJax.typesetPromise([element]).then(function() {
+                        console.log('✅ MathJax equations rendered successfully!');
+                        console.log('Content:', element.innerHTML.substring(0, 200));
+                    }).catch(function(err) {
+                        console.error('❌ MathJax rendering error:', err);
+                    });
+                } else {
+                    // MathJax not ready yet, try again in 100ms
+                    if (attempts % 10 === 0) {
+                        console.log('Waiting for MathJax... attempt', attempts);
+                    }
+                    setTimeout(function() {
+                        tryRender(attempts + 1);
+                    }, 100);
+                }
+            }
+            
+            // Start trying to render
+            tryRender(0);
+        }
+
         function formatMarkdownContent(markdown) {
             if (!markdown) return '';
             
@@ -1687,9 +1710,15 @@
             let html = markdown;
             
             // Protect display math \[ ... \] by wrapping in divs
-            html = html.replace(/\\\[([\s\S]*?)\\\]/g, function(match) {
-                return '<div class="math-display">' + match + '</div>';
+            // Match across newlines and handle whitespace
+            html = html.replace(/\\\[\s*([\s\S]*?)\s*\\\]/g, function(match, content) {
+                // Keep the original LaTeX delimiters
+                return '<div class="math-display">\\[' + content + '\\]</div>';
             });
+            
+            // Also handle display math on separate lines
+            html = html.replace(/^\\\[$/gm, '<div class="math-display">\\[');
+            html = html.replace(/^\\\]$/gm, '\\]</div>');
             
             // Headers
             html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
@@ -1697,11 +1726,11 @@
             html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
             html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
             
-            // Bold
+            // Bold (must come before italic to avoid conflicts)
             html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
             
-            // Italic
-            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            // Italic  
+            html = html.replace(/\*([^*]+?)\*/g, '<em>$1</em>');
             
             // Lists - need to be careful not to break LaTeX
             let lines = html.split('\n');
@@ -1712,7 +1741,7 @@
                 let line = lines[i];
                 
                 // Check if line starts with list marker
-                if (line.match(/^[\s]*[-*]\s+/)) {
+                if (line.match(/^[\s]*[-*]\s+/) && !line.includes('math-display')) {
                     if (!inList) {
                         processedLines.push('<ul>');
                         inList = true;
@@ -1734,177 +1763,435 @@
             
             html = processedLines.join('\n');
             
-            // Paragraphs - double line breaks
-            html = html.replace(/\n\n+/g, '</p><p>');
-            html = '<p>' + html + '</p>';
+            // Paragraphs - double line breaks (but not inside math-display)
+            let parts = html.split(/<div class="math-display">[\s\S]*?<\/div>/g);
+            let mathBlocks = html.match(/<div class="math-display">[\s\S]*?<\/div>/g) || [];
             
-            // Single line breaks
-            html = html.replace(/\n/g, '<br>');
+            let result = [];
+            for (let i = 0; i < parts.length; i++) {
+                // Process non-math parts
+                let part = parts[i];
+                part = part.replace(/\n\n+/g, '</p><p>');
+                part = '<p>' + part + '</p>';
+                part = part.replace(/\n/g, '<br>');
+                part = part.replace(/<p><\/p>/g, '');
+                part = part.replace(/<p><br>/g, '<p>');
+                result.push(part);
+                
+                // Add back the math block
+                if (mathBlocks[i]) {
+                    result.push(mathBlocks[i]);
+                }
+            }
             
-            // Clean up empty paragraphs
-            html = html.replace(/<p><\/p>/g, '');
-            html = html.replace(/<p><br>/g, '<p>');
+            html = result.join('');
             
             return html;
         }
 
-        // Add to chat history
-        function addToChatHistory(question, response) {
-            const chatItem = {
-                id: Date.now(),
-                question: question,
-                answer: response.answer,
-                timestamp: new Date().toISOString(),
-                confidence: response.confidence
-            };
-            
-            chatHistory.unshift(chatItem);
-            saveToLocalStorage();
-            renderChatHistory();
-        }
-
-        // Load chat history
-        function loadChatHistory() {
-            currentHistoryPage = 0;
-            renderChatHistory();
-            showNotification('History refreshed', 'success', 1500);
-        }
-
-        // Load more history
-        function loadMoreHistory() {
-            currentHistoryPage++;
-            renderChatHistory();
-        }
-
-        // Render chat history
-        function renderChatHistory() {
-            const chatHistoryGrid = document.getElementById('chat-history-grid');
-            const loadMoreBtn = document.getElementById('load-more-history-btn');
-            
-            if (chatHistory.length === 0) {
-                chatHistoryGrid.innerHTML = '<div class="no-chat-history"><p>No search history yet</p></div>';
-                loadMoreBtn.style.display = 'none';
+        function copyCurrentAnswer() {
+            if (!currentAnswerText) {
+                showNotification('No answer to copy', 'error');
                 return;
             }
-            
-            const startIndex = 0;
-            const endIndex = (currentHistoryPage + 1) * HISTORY_PAGE_SIZE;
-            const itemsToShow = chatHistory.slice(startIndex, endIndex);
-            
-            let historyHTML = '';
-            
-            itemsToShow.forEach(item => {
-                // Truncate answer for display
-                const truncatedAnswer = item.answer.length > 100 ? 
-                    item.answer.substring(0, 100) + '...' : item.answer;
-                
-                historyHTML += `
-                    <div class="chat-message-item" onclick="rerunSearch('${escapeHtml(item.question)}')">
-                        <div class="chat-question">${item.question}</div>
-                        <div class="chat-answer">${truncatedAnswer}</div>
-                        <div class="chat-message-meta">
-                            <span>${new Date(item.timestamp).toLocaleDateString()}</span>
-                            <span class="confidence-badge confidence-${item.confidence}">${item.confidence}</span>
-                        </div>
-                    </div>
-                `;
+            navigator.clipboard.writeText(currentAnswerText).then(function() {
+                showNotification('Copied!', 'success', 2000);
+            }).catch(function() {
+                showNotification('Copy failed', 'error');
             });
-            
-            chatHistoryGrid.innerHTML = historyHTML;
-            
-            // Show/hide load more button
-            loadMoreBtn.style.display = endIndex < chatHistory.length ? 'block' : 'none';
         }
 
-        // Rerun search from history
+        function showNotification(message, type, duration) {
+            type = type || 'info';
+            duration = duration || 3000;
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification ' + type;
+            notification.classList.add('show');
+            setTimeout(function() {
+                notification.classList.remove('show');
+            }, duration);
+        }
+
+        function showUserProfile(user) {
+            document.getElementById('user-profile').classList.add('show');
+            document.getElementById('user-avatar').src = user.picture;
+            document.getElementById('user-name').textContent = user.name;
+            document.getElementById('user-email').textContent = user.email;
+            document.getElementById('search-count').textContent = user.searchCount || 0;
+            
+            // Hide the Google sign-in button
+            const signInContainer = document.getElementById('google-signin-container');
+            if (signInContainer) {
+                signInContainer.style.display = 'none';
+            }
+        }
+
+        function showSearchSection() {
+            document.getElementById('auth-required').style.display = 'none';
+            document.getElementById('main-layout').style.display = 'flex';
+        }
+
+        async function signOut() {
+            try {
+                showNotification('Signing out...', 'info');
+                if (sessionToken) {
+                    await fetch(API_BASE_URL + '/auth/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + sessionToken,
+                            'ngrok-skip-browser-warning': 'true'
+                        }
+                    });
+                }
+                clearUserSession();
+                showNotification('Signed out', 'success');
+            } catch (error) {
+                console.error('Sign out error:', error);
+                clearUserSession();
+            }
+        }
+
+        function clearUserSession() {
+            currentUser = null;
+            sessionToken = null;
+            currentAnswerText = '';
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('sessionToken');
+            document.getElementById('user-profile').classList.remove('show');
+            document.getElementById('auth-required').style.display = 'block';
+            document.getElementById('main-layout').style.display = 'none';
+            
+            // Show the Google sign-in button again
+            const signInContainer = document.getElementById('google-signin-container');
+            if (signInContainer) {
+                signInContainer.style.display = 'flex';
+            }
+        }
+
+        async function loadChatHistory() {
+            if (!currentUser) return;
+            await loadChatMessages();
+        }
+
+        async function loadChatMessages(page, append) {
+            page = page || 1;
+            append = append || false;
+            try {
+                const response = await fetch(API_BASE_URL + '/user/chat-history?page=' + page + '&limit=20', {
+                    headers: {
+                        'Authorization': 'Bearer ' + sessionToken,
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
+                if (!response.ok) return;
+                const data = await response.json();
+                if (!append) {
+                    chatHistoryData = data.chatHistory || [];
+                } else {
+                    chatHistoryData = chatHistoryData.concat(data.chatHistory || []);
+                }
+                displayChatHistory();
+            } catch (error) {
+                console.error('Chat history error:', error);
+            }
+        }
+
+        function displayChatHistory() {
+            const historyGrid = document.getElementById('chat-history-grid');
+            if (chatHistoryData.length === 0) {
+                historyGrid.innerHTML = '<div class="no-chat-history"><p>No history yet</p></div>';
+                return;
+            }
+            const historyHTML = chatHistoryData.map(function(msg) {
+                return '<div class="chat-message-item" onclick="rerunSearch(\'' + escapeHtml(msg.question) + '\')">' +
+                    '<div class="chat-question">' + escapeHtml(msg.question) + '</div>' +
+                    '<div class="chat-answer">' + escapeHtml(msg.answer.substring(0, 100)) + '...</div>' +
+                    '<div class="chat-message-meta"><span>' + new Date(msg.timestamp).toLocaleDateString() + '</span></div>' +
+                '</div>';
+            }).join('');
+            historyGrid.innerHTML = historyHTML;
+        }
+
+        async function refreshChatHistory() {
+            await loadChatHistory();
+            showNotification('Refreshed', 'success', 1500);
+        }
+
         function rerunSearch(question) {
             document.getElementById('question-input').value = question;
-            handleSearch();
+            performSearch();
         }
 
-        // Escape HTML
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        // Update user stats
-        function updateUserStats() {
-            const searchCount = document.getElementById('search-count');
-            const conversationCount = document.getElementById('conversation-count');
-            
-            searchCount.textContent = chatHistory.length;
-            conversationCount.textContent = Math.floor(chatHistory.length / 3); // Simplified calculation
-        }
-
-        // Save to localStorage
-        function saveToLocalStorage() {
-            if (currentUser) {
-                localStorage.setItem('aasai-smart-edu-user', JSON.stringify(currentUser));
-            }
-            localStorage.setItem('aasai-smart-edu-chat-history', JSON.stringify(chatHistory));
-        }
-
-        // Load from localStorage
-        function loadFromLocalStorage() {
-            const savedUser = localStorage.getItem('aasai-smart-edu-user');
-            const savedHistory = localStorage.getItem('aasai-smart-edu-chat-history');
-            
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                document.getElementById('user-name').textContent = currentUser.name;
-                document.getElementById('user-email').textContent = currentUser.email;
-                document.getElementById('user-avatar').src = currentUser.picture;
-                document.getElementById('user-profile').classList.add('show');
-                document.getElementById('google-signin-button').style.display = 'none';
-                document.getElementById('auth-required').style.display = 'none';
-                document.getElementById('main-layout').style.display = 'block';
-            }
-            
-            if (savedHistory) {
-                chatHistory = JSON.parse(savedHistory);
-                renderChatHistory();
-                updateUserStats();
+        function checkCourseSelection() {
+            const department = document.getElementById('department-select').value;
+            const semester = document.getElementById('semester-select').value;
+            const subject = document.getElementById('subject-select').value;
+            if (department && semester && subject) {
+                displayUnitsSection(department, semester, subject);
             }
         }
 
-        // Show notification
-        function showNotification(message, type = 'info', duration = 3000) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification ${type}`;
-            notification.classList.add('show');
+        function updateSubjectOptions() {
+            const department = document.getElementById('department-select').value;
+            const subjectSelect = document.getElementById('subject-select');
+            subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+            if (department === 'computer-science') {
+                subjectSelect.innerHTML += '<option value="intro-programming">Introduction to Programming</option><option value="data-structures">Data Structures</option>';
+            } else if (department === 'mathematics') {
+                subjectSelect.innerHTML += '<option value="calculus-1">Calculus I</option><option value="calculus-2">Calculus II</option>';
+            } else if (department === 'chemistry') {
+                subjectSelect.innerHTML += '<option value="organic-chem">Organic Chemistry</option>';
+            }
+        }
+
+        function displayUnitsSection(department, semester, subject) {
+            const unitsGrid = document.getElementById('units-grid');
+            const courseInfo = document.getElementById('selected-course');
             
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, duration);
+            // Update course info
+            courseInfo.textContent = department.replace(/-/g, ' ').toUpperCase() + ' - Semester ' + semester + ' - ' + subject.replace(/-/g, ' ').toUpperCase();
+            
+            // Sample question bank data
+            const questionBankData = {
+                'computer-science': {
+                    'intro-programming': [
+                        {
+                            unit: 'Unit 1: Introduction to Programming',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { text: 'What is a variable in programming?', marks: 2 },
+                                        { text: 'Explain the difference between int and float data types', marks: 2 },
+                                        { text: 'What is the purpose of comments in code?', marks: 2 },
+                                        { text: 'Define an algorithm', marks: 2 }
+                                    ]
+                                },
+                                {
+                                    type: '5 Mark Questions',
+                                    questions: [
+                                        { text: 'Explain the structure of a Python program with an example', marks: 5 },
+                                        { text: 'Write a program to find the largest of three numbers', marks: 5 },
+                                        { text: 'Describe different types of operators in Python', marks: 5 }
+                                    ]
+                                },
+                                {
+                                    type: '10 Mark Questions',
+                                    questions: [
+                                        { text: 'Explain control structures in Python with examples', marks: 10 },
+                                        { text: 'Write a program to implement a simple calculator', marks: 10 }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            unit: 'Unit 2: Data Structures',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { text: 'What is a list in Python?', marks: 2 },
+                                        { text: 'Define tuple and its properties', marks: 2 },
+                                        { text: 'What is the difference between list and tuple?', marks: 2 }
+                                    ]
+                                },
+                                {
+                                    type: '5 Mark Questions',
+                                    questions: [
+                                        { text: 'Explain list operations with examples', marks: 5 },
+                                        { text: 'Write a program to sort a list using built-in methods', marks: 5 }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            unit: 'Unit 3: Functions',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { text: 'What is a function?', marks: 2 },
+                                        { text: 'Explain function parameters', marks: 2 }
+                                    ]
+                                },
+                                {
+                                    type: '5 Mark Questions',
+                                    questions: [
+                                        { text: 'Write a recursive function to calculate factorial', marks: 5 },
+                                        { text: 'Explain the concept of lambda functions', marks: 5 }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    'data-structures': [
+                        {
+                            unit: 'Unit 1: Arrays and Linked Lists',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { text: 'What is an array?', marks: 2 },
+                                        { text: 'Define linked list', marks: 2 }
+                                    ]
+                                },
+                                {
+                                    type: '10 Mark Questions',
+                                    questions: [
+                                        { text: 'Implement a singly linked list with insertion and deletion', marks: 10 }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                'mathematics': {
+                    'calculus-1': [
+                        {
+                            unit: 'Unit 1: Limits and Continuity',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { text: 'Define limit of a function', marks: 2 },
+                                        { text: 'What is continuity?', marks: 2 }
+                                    ]
+                                },
+                                {
+                                    type: '5 Mark Questions',
+                                    questions: [
+                                        { text: 'Evaluate the limit of (x²-1)/(x-1) as x approaches 1', marks: 5 },
+                                        { text: 'Prove that f(x) = x² is continuous at x = 2', marks: 5 }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            unit: 'Unit 2: Differentiation',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { text: 'Define derivative', marks: 2 },
+                                        { text: 'State the chain rule', marks: 2 }
+                                    ]
+                                },
+                                {
+                                    type: '10 Mark Questions',
+                                    questions: [
+                                        { text: 'Find the derivative of sin(x²) and explain the chain rule', marks: 10 }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                'chemistry': {
+                    'organic-chem': [
+                        {
+                            unit: 'Unit 1: Basic Concepts',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { text: 'What is organic chemistry?', marks: 2 },
+                                        { text: 'Define functional group', marks: 2 }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            };
+            
+            // Get questions for selected course
+            const units = questionBankData[department]?.[subject] || [];
+            
+            if (units.length === 0) {
+                unitsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray); grid-column: 1/-1;"><p>📚 No questions available yet for this course.</p><p>Questions will be added soon!</p></div>';
+                return;
+            }
+            
+            // Generate HTML for units
+            let unitsHTML = '';
+            units.forEach((unit, index) => {
+                const unitId = 'unit-' + index;
+                unitsHTML += '<div class="unit-card">';
+                unitsHTML += '<div class="unit-header" onclick="toggleUnit(\'' + unitId + '\')">';
+                unitsHTML += '<h3 class="unit-title">' + unit.unit + '</h3>';
+                unitsHTML += '<button class="unit-toggle" id="toggle-' + unitId + '">▼</button>';
+                unitsHTML += '</div>';
+                unitsHTML += '<div class="unit-content" id="' + unitId + '">';
+                
+                // Add question sections
+                unit.sections.forEach(section => {
+                    unitsHTML += '<div class="question-section">';
+                    unitsHTML += '<div class="question-section-header">';
+                    unitsHTML += '<span class="question-type-title">' + section.type + '</span>';
+                    unitsHTML += '<span class="question-count">' + section.questions.length + '</span>';
+                    unitsHTML += '</div>';
+                    unitsHTML += '<div class="questions-list">';
+                    
+                    section.questions.forEach(q => {
+                        unitsHTML += '<div class="question-item" onclick="askQuestionFromBank(\'' + escapeHtml(q.text) + '\')">';
+                        unitsHTML += '<div class="question-text">' + q.text + '</div>';
+                        unitsHTML += '<div class="question-meta">';
+                        unitsHTML += '<span class="mark-badge">' + q.marks + ' Marks</span>';
+                        unitsHTML += '<span>Click to get AI answer</span>';
+                        unitsHTML += '</div>';
+                        unitsHTML += '</div>';
+                    });
+                    
+                    unitsHTML += '</div>';
+                    unitsHTML += '</div>';
+                });
+                
+                unitsHTML += '</div>';
+                unitsHTML += '</div>';
+            });
+            
+            unitsGrid.innerHTML = unitsHTML;
         }
 
-        // Placeholder functions for result actions
-        function saveResult() {
-            showNotification('Result saved to your collection', 'success');
+        function toggleUnit(unitId) {
+            const unitContent = document.getElementById(unitId);
+            const toggleBtn = document.getElementById('toggle-' + unitId);
+            
+            if (unitContent.classList.contains('show')) {
+                unitContent.classList.remove('show');
+                toggleBtn.textContent = '▼';
+            } else {
+                unitContent.classList.add('show');
+                toggleBtn.textContent = '▲';
+            }
         }
 
-        function shareResult() {
-            showNotification('Share functionality would open here', 'info');
+        function askQuestionFromBank(question) {
+            // Switch to AI Search mode
+            switchMode('search');
+            
+            // Set the question in the input
+            document.getElementById('question-input').value = question;
+            
+            // Scroll to search box
+            document.getElementById('search-section').scrollIntoView({ behavior: 'smooth' });
+            
+            // Show notification
+            showNotification('Question loaded! Click Search to get answer', 'info', 2000);
         }
 
-        function askFollowUp() {
-            document.getElementById('question-input').focus();
-            showNotification('You can now ask a follow-up question', 'info');
-        }
-
-        // Make functions globally available
         window.switchMode = switchMode;
-        window.toggleUnit = toggleUnit;
-        window.toggleMarksSection = toggleMarksSection;
-        window.viewQuestion = viewQuestion;
-        window.practiceQuestion = practiceQuestion;
+        window.copyCurrentAnswer = copyCurrentAnswer;
         window.rerunSearch = rerunSearch;
-        window.saveResult = saveResult;
-        window.shareResult = shareResult;
-        window.askFollowUp = askFollowUp;
+        window.toggleUnit = toggleUnit;
+        window.askQuestionFromBank = askQuestionFromBank;
     </script>
 </body>
 </html>
