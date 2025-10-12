@@ -1969,6 +1969,8 @@
         let currentPage = 1;
         let currentMode = 'search';
         let currentAnswerText = '';
+        let currentChatId = null;
+        let searchStartTime = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -2110,6 +2112,9 @@
             searchBtn.disabled = true;
             searchBtn.textContent = 'Searching...';
             
+            // Start timer
+            searchStartTime = Date.now();
+            
             try {
                 const response = await fetch(API_BASE_URL + '/rag', {
                     method: 'POST',
@@ -2124,7 +2129,14 @@
                 if (!response.ok) throw new Error('API error');
                 
                 const data = await response.json();
-                displayResults(data);
+                
+                // Calculate response time
+                const responseTime = ((Date.now() - searchStartTime) / 1000).toFixed(2);
+                
+                // Store chat ID for feedback
+                currentChatId = data.chatId || null;
+                
+                displayResults(data, responseTime);
                 
                 if (currentUser) {
                     currentUser.searchCount = (currentUser.searchCount || 0) + 1;
@@ -2144,7 +2156,7 @@
             }
         }
 
-        function displayResults(data) {
+        function displayResults(data, responseTime) {
             const resultsContent = document.getElementById('results-content');
             const resultsCount = document.getElementById('results-count');
             
@@ -2172,6 +2184,9 @@
                 '<span class="cache-indicator cache-hit">Cached</span>' : 
                 '<span class="cache-indicator">Live</span>';
             
+            const responseTimeDisplay = responseTime ? 
+                '<span class="response-time">⏱️ ' + responseTime + 's</span>' : '';
+            
             const formattedAnswer = formatMarkdownContent(data.answer);
             
             const resultHtml = '<div class="result-card">' +
@@ -2183,10 +2198,14 @@
                 '<div class="result-meta">' +
                     '<span class="confidence-badge ' + confidenceClass + '">' + confidenceText + ' (' + (data.confidence * 100).toFixed(1) + '%)</span>' +
                     cacheIndicator +
+                    responseTimeDisplay +
                 '</div>' +
                 '<div class="formatted-content">' + formattedAnswer + '</div>' +
                 '<div class="result-actions">' +
                     '<button class="action-btn" onclick="copyCurrentAnswer()">📋 Copy</button>' +
+                    '<button class="feedback-btn" id="like-btn" onclick="submitFeedback(\'like\')">👍 Like</button>' +
+                    '<button class="feedback-btn" id="dislike-btn" onclick="submitFeedback(\'dislike\')">👎 Dislike</button>' +
+                    '<button class="feedback-btn" id="report-btn" onclick="submitFeedback(\'report\')">🚩 Report</button>' +
                 '</div>' +
             '</div>';
             
@@ -2308,6 +2327,88 @@
             }).catch(function() {
                 showNotification('Copy failed', 'error');
             });
+        }
+
+        async function submitFeedback(feedbackType) {
+            if (!currentChatId) {
+                showNotification('No chat session found', 'error');
+                return;
+            }
+
+            if (!sessionToken) {
+                showNotification('Please sign in to submit feedback', 'error');
+                return;
+            }
+
+            // Update UI immediately
+            const likeBtn = document.getElementById('like-btn');
+            const dislikeBtn = document.getElementById('dislike-btn');
+            const reportBtn = document.getElementById('report-btn');
+
+            // Reset all buttons
+            likeBtn.classList.remove('active-like');
+            dislikeBtn.classList.remove('active-dislike');
+            reportBtn.classList.remove('active-report');
+
+            // Highlight selected button
+            if (feedbackType === 'like') {
+                likeBtn.classList.add('active-like');
+            } else if (feedbackType === 'dislike') {
+                dislikeBtn.classList.add('active-dislike');
+            } else if (feedbackType === 'report') {
+                reportBtn.classList.add('active-report');
+            }
+
+            // Disable all buttons temporarily
+            likeBtn.disabled = true;
+            dislikeBtn.disabled = true;
+            reportBtn.disabled = true;
+
+            try {
+                const response = await fetch(API_BASE_URL + '/feedback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + sessionToken,
+                        'ngrok-skip-browser-warning': 'true'
+                    },
+                    body: JSON.stringify({
+                        chatId: currentChatId,
+                        feedbackType: feedbackType,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to submit feedback');
+                }
+
+                const result = await response.json();
+                
+                let message = 'Thank you for your feedback!';
+                if (feedbackType === 'like') {
+                    message = '👍 Thanks! Glad we could help!';
+                } else if (feedbackType === 'dislike') {
+                    message = '👎 Feedback noted. We\'ll improve!';
+                } else if (feedbackType === 'report') {
+                    message = '🚩 Issue reported. We\'ll review it!';
+                }
+                
+                showNotification(message, 'success', 2000);
+            } catch (error) {
+                console.error('Feedback error:', error);
+                showNotification('Failed to submit feedback', 'error');
+                
+                // Reset UI on error
+                likeBtn.classList.remove('active-like');
+                dislikeBtn.classList.remove('active-dislike');
+                reportBtn.classList.remove('active-report');
+            } finally {
+                // Re-enable buttons
+                likeBtn.disabled = false;
+                dislikeBtn.disabled = false;
+                reportBtn.disabled = false;
+            }
         }
 
         function showNotification(message, type, duration) {
@@ -2632,6 +2733,7 @@
 
         window.switchMode = switchMode;
         window.copyCurrentAnswer = copyCurrentAnswer;
+        window.submitFeedback = submitFeedback;
         window.rerunSearch = rerunSearch;
         window.toggleUnit = toggleUnit;
         window.toggleQuestion = toggleQuestion;
