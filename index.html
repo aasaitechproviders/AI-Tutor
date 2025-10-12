@@ -942,6 +942,7 @@
             border-radius: 16px;
             overflow: hidden;
             transition: all 0.3s;
+            max-width: 100%;
         }
 
         .unit-card:hover {
@@ -977,6 +978,9 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            min-width: 0;
         }
 
         .unit-header.active .unit-title {
@@ -985,6 +989,7 @@
 
         .unit-icon {
             font-size: 1.5rem;
+            flex-shrink: 0;
         }
 
         .unit-toggle {
@@ -1016,7 +1021,7 @@
         }
 
         .unit-content.show {
-            max-height: 5000px;
+            max-height: 10000px;
             transition: max-height 0.5s ease-in;
         }
 
@@ -1066,6 +1071,7 @@
             transition: all 0.3s;
             border: 2px solid transparent;
             overflow: hidden;
+            max-width: 100%;
         }
 
         .question-item:hover {
@@ -1097,6 +1103,7 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
+            min-width: 0;
         }
 
         .question-number {
@@ -1119,6 +1126,9 @@
             color: var(--dark);
             line-height: 1.5;
             font-weight: 500;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            min-width: 0;
         }
 
         .question-right {
@@ -1166,13 +1176,15 @@
         }
 
         .question-answer.show {
-            max-height: 2000px;
+            max-height: 3000px;
             transition: max-height 0.5s ease-in;
             border-top: 2px solid var(--light-gray);
         }
 
         .answer-content {
             padding: 1.5rem;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
 
         .answer-label {
@@ -1225,10 +1237,14 @@
             padding: 1.5rem;
             border-radius: 8px;
             overflow-x: auto;
+            overflow-y: auto;
+            max-height: 500px;
             margin: 1rem 0;
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.9rem;
             line-height: 1.5;
+            word-wrap: break-word;
+            white-space: pre-wrap;
         }
 
         .answer-text pre code {
@@ -1236,6 +1252,8 @@
             padding: 0;
             color: #f8f8f2;
             display: block;
+            word-wrap: break-word;
+            white-space: pre-wrap;
         }
 
         .code-block-header {
@@ -1253,11 +1271,15 @@
 
         .code-block-wrapper {
             margin: 0 0 1rem 0;
+            max-width: 100%;
+            overflow: hidden;
         }
 
         .code-block-wrapper pre {
             margin-top: 0;
             border-radius: 0 0 8px 8px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         /* Auth Required */
