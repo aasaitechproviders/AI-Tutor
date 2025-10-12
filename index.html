@@ -1406,29 +1406,62 @@
         function formatMarkdownContent(markdown) {
             if (!markdown) return '';
             
-            let html = '';
+            // Simple markdown parser that preserves LaTeX backslashes
+            let html = markdown;
             
-            // Parse markdown directly without LaTeX protection
-            // MathJax will handle the LaTeX after HTML is rendered
-            if (typeof marked !== 'undefined') {
-                try {
-                    // Configure marked to not escape HTML entities
-                    html = marked.parse(markdown, {
-                        breaks: true,
-                        gfm: true,
-                        headerIds: false,
-                        mangle: false
-                    });
-                } catch (error) {
-                    console.error('Markdown error:', error);
-                    html = markdown.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
-                    html = '<p>' + html + '</p>';
+            // Headers
+            html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
+            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            
+            // Bold
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            
+            // Italic
+            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            
+            // Lists - need to be careful not to break LaTeX
+            let lines = html.split('\n');
+            let inList = false;
+            let processedLines = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+                
+                // Check if line starts with list marker
+                if (line.match(/^[\s]*[-*]\s+/)) {
+                    if (!inList) {
+                        processedLines.push('<ul>');
+                        inList = true;
+                    }
+                    line = '<li>' + line.replace(/^[\s]*[-*]\s+/, '') + '</li>';
+                } else {
+                    if (inList) {
+                        processedLines.push('</ul>');
+                        inList = false;
+                    }
                 }
-            } else {
-                // Simple fallback
-                html = markdown.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
-                html = '<p>' + html + '</p>';
+                
+                processedLines.push(line);
             }
+            
+            if (inList) {
+                processedLines.push('</ul>');
+            }
+            
+            html = processedLines.join('\n');
+            
+            // Paragraphs - double line breaks
+            html = html.replace(/\n\n+/g, '</p><p>');
+            html = '<p>' + html + '</p>';
+            
+            // Single line breaks
+            html = html.replace(/\n/g, '<br>');
+            
+            // Clean up empty paragraphs
+            html = html.replace(/<p><\/p>/g, '');
+            html = html.replace(/<p><br>/g, '<p>');
             
             return html;
         }
