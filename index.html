@@ -1420,9 +1420,15 @@
             let html = markdown;
             
             // Protect display math \[ ... \] by wrapping in divs
-            html = html.replace(/\\\[([\s\S]*?)\\\]/g, function(match) {
-                return '<div class="math-display">' + match + '</div>';
+            // Match across newlines and handle whitespace
+            html = html.replace(/\\\[\s*([\s\S]*?)\s*\\\]/g, function(match, content) {
+                // Keep the original LaTeX delimiters
+                return '<div class="math-display">\\[' + content + '\\]</div>';
             });
+            
+            // Also handle display math on separate lines
+            html = html.replace(/^\\\[$/gm, '<div class="math-display">\\[');
+            html = html.replace(/^\\\]$/gm, '\\]</div>');
             
             // Headers
             html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
@@ -1430,11 +1436,11 @@
             html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
             html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
             
-            // Bold
+            // Bold (must come before italic to avoid conflicts)
             html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
             
-            // Italic
-            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            // Italic  
+            html = html.replace(/\*([^*]+?)\*/g, '<em>$1</em>');
             
             // Lists - need to be careful not to break LaTeX
             let lines = html.split('\n');
@@ -1445,7 +1451,7 @@
                 let line = lines[i];
                 
                 // Check if line starts with list marker
-                if (line.match(/^[\s]*[-*]\s+/)) {
+                if (line.match(/^[\s]*[-*]\s+/) && !line.includes('math-display')) {
                     if (!inList) {
                         processedLines.push('<ul>');
                         inList = true;
@@ -1467,16 +1473,28 @@
             
             html = processedLines.join('\n');
             
-            // Paragraphs - double line breaks
-            html = html.replace(/\n\n+/g, '</p><p>');
-            html = '<p>' + html + '</p>';
+            // Paragraphs - double line breaks (but not inside math-display)
+            let parts = html.split(/<div class="math-display">[\s\S]*?<\/div>/g);
+            let mathBlocks = html.match(/<div class="math-display">[\s\S]*?<\/div>/g) || [];
             
-            // Single line breaks
-            html = html.replace(/\n/g, '<br>');
+            let result = [];
+            for (let i = 0; i < parts.length; i++) {
+                // Process non-math parts
+                let part = parts[i];
+                part = part.replace(/\n\n+/g, '</p><p>');
+                part = '<p>' + part + '</p>';
+                part = part.replace(/\n/g, '<br>');
+                part = part.replace(/<p><\/p>/g, '');
+                part = part.replace(/<p><br>/g, '<p>');
+                result.push(part);
+                
+                // Add back the math block
+                if (mathBlocks[i]) {
+                    result.push(mathBlocks[i]);
+                }
+            }
             
-            // Clean up empty paragraphs
-            html = html.replace(/<p><\/p>/g, '');
-            html = html.replace(/<p><br>/g, '<p>');
+            html = result.join('');
             
             return html;
         }
