@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     
-    <title>Aasai Tech AI - Smart Learning Assistant for School Students</title>
-    <meta name="description" content="AI-powered learning assistant for school students aged 8-17. Get instant, easy-to-understand answers with proper formatting.">
+    <!-- SEO Meta Tags -->
+    <title>EduAI - AI-Powered Syllabus Assistant for School Students</title>
+    <meta name="description" content="Smart syllabus assistant for college students. Get instant AI answers from your course materials and access organized question banks by units and topics.">
+    <meta name="keywords" content="syllabus assistant, college students, AI education, question bank, study tool, academic help, course materials, RAG system">
+    <meta name="author" content="EduAI Team">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
     
     <!-- Marked.js for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -26,9 +32,7 @@
         };
     </script>
     
-    <!-- Google Sign-In -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    
     <style>
         :root {
             --primary: #4361ee;
@@ -135,6 +139,12 @@
             opacity: 0.8;
         }
         
+        .user-stats {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+        
         .sign-out-btn {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -149,6 +159,37 @@
         .sign-out-btn:hover {
             background: rgba(255, 255, 255, 0.3);
         }
+        
+        .google-signin-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .custom-google-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            color: #757575;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            padding: 0.6rem 1.2rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .custom-google-btn:hover {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+            background: #f8f9fa;
+        }
+        
+        .google-icon {
+            width: 18px;
+            height: 18px;
+        }
 
         /* Main content */
         main {
@@ -156,6 +197,156 @@
             padding: 2rem 0;
         }
 
+        .main-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Mode Toggle Section */
+        .mode-toggle-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .mode-toggle-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .mode-toggle-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .mode-toggle-subtitle {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        .mode-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .mode-btn {
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+            border: 2px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            position: relative;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .mode-btn.active {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, #e8f0ff 0%, #f8f9ff 100%);
+        }
+
+        .mode-btn.active::before {
+            content: '✓';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .mode-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .mode-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Course Selection Panel */
+        .course-selection-panel {
+            display: none;
+            background: var(--light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .course-selection-panel.show {
+            display: block;
+        }
+
+        .course-selection-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .selectors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .selector-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .selector-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-select {
+            padding: 0.75rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background-color: white;
+            transition: border-color 0.3s;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Search Section */
         .search-container {
             background: white;
             border-radius: 20px;
@@ -200,6 +391,10 @@
             font-size: 1.1rem;
             outline: none;
             background: white;
+        }
+
+        .search-input::placeholder {
+            color: var(--gray);
         }
 
         .search-btn {
@@ -256,7 +451,14 @@
             border: 2px solid var(--light-gray);
             border-radius: 16px;
             margin-bottom: 1rem;
+            transition: all 0.3s;
             background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+        }
+
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
         }
 
         .result-title {
@@ -269,8 +471,9 @@
         .result-meta {
             display: flex;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             font-size: 0.9rem;
+            color: var(--gray);
             flex-wrap: wrap;
         }
 
@@ -296,17 +499,8 @@
             color: #c5221f;
         }
 
-        .cache-indicator {
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-
         /* ========================================================================
-           FORMATTED CONTENT STYLES - THIS IS THE KEY SECTION
+           FORMATTED CONTENT STYLES - KEY SECTION FOR PROPER RENDERING
            ======================================================================== */
         .formatted-content {
             line-height: 1.8;
@@ -481,50 +675,9 @@
             color: var(--secondary);
         }
 
-        /* Math equations styling */
-        .formatted-content .MathJax {
-            font-size: 1.1em !important;
-        }
-
-        .formatted-content mjx-container {
-            margin: 0.5rem 0;
-        }
-
-        /* Loading spinner */
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 3rem;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--light-gray);
-            border-top: 5px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 3rem;
-            color: var(--gray);
-        }
-
-        /* Result actions */
         .result-actions {
             display: flex;
             gap: 1rem;
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--light-gray);
         }
 
         .action-btn {
@@ -537,17 +690,354 @@
             align-items: center;
             gap: 0.5rem;
             transition: all 0.3s;
-            padding: 0.7rem 1.2rem;
+            padding: 0.5rem 1rem;
             border-radius: 12px;
-            font-size: 0.95rem;
         }
 
         .action-btn:hover {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        .sources-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--light-gray);
+        }
+
+        .source-item {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .source-item:before {
+            content: "•";
+            color: var(--primary);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--light-gray);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .cache-indicator {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            background-color: var(--light);
+            color: var(--gray);
+        }
+
+        .cache-hit {
+            background-color: #e6f4ea;
+            color: #137333;
+        }
+
+        /* Chat History */
+        .chat-history-search {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .chat-history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chat-history-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .refresh-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--primary);
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: var(--light);
+        }
+
+        .chat-messages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .chat-message-item {
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .chat-message-item:hover {
+            background: #e8f0ff;
+            border-left-color: var(--primary);
+            transform: translateX(3px);
+        }
+
+        .chat-question {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-answer {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-message-meta {
+            font-size: 0.75rem;
+            color: var(--gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .confidence-mini {
+            padding: 0.1rem 0.3rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .no-chat-history {
+            text-align: center;
+            color: var(--gray);
+            font-style: italic;
+            padding: 2rem 0;
+            grid-column: 1/-1;
+        }
+
+        .load-more-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--light);
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .load-more-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Units Container */
+        .units-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .units-container.show {
+            display: block;
+        }
+
+        .units-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .units-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .course-info {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .course-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-info p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .units-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .unit-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+            border: 2px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .unit-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .unit-card.active {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, #e8f0ff 0%, #f8f9ff 100%);
+        }
+
+        .unit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .unit-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .unit-toggle {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .unit-toggle:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .unit-content {
+            display: none;
+        }
+
+        .unit-content.show {
+            display: block;
+        }
+
+        .question-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .question-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .question-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .question-type-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .question-count {
+            background: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .questions-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .question-item {
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .question-item:hover {
+            background: #f0f7ff;
+            transform: translateX(3px);
+        }
+
+        .question-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .question-meta {
+            font-size: 0.75rem;
+            color: var(--gray);
         }
 
         /* Auth Required */
@@ -578,14 +1068,13 @@
             top: 20px;
             right: 20px;
             padding: 1rem 1.5rem;
-            border-radius: 12px;
+            border-radius: 8px;
             color: white;
             font-weight: 500;
             z-index: 1000;
-            max-width: 350px;
+            max-width: 300px;
             transform: translateX(400px);
             transition: transform 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .notification.show {
@@ -593,11 +1082,11 @@
         }
 
         .notification.success {
-            background: #4caf50;
+            background: var(--success);
         }
 
         .notification.error {
-            background: #f44336;
+            background: var(--warning);
         }
 
         .notification.info {
@@ -609,7 +1098,7 @@
             background: var(--dark);
             color: white;
             padding: 2rem 0;
-            margin-top: 3rem;
+            margin-top: auto;
         }
 
         .footer-content {
@@ -635,9 +1124,18 @@
 
         /* Mobile Styles */
         @media screen and (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
             .header-content {
                 flex-direction: column;
                 gap: 1rem;
+                text-align: center;
+            }
+
+            .mode-buttons {
+                grid-template-columns: 1fr;
             }
 
             .search-box {
@@ -655,15 +1153,12 @@
             .footer-content {
                 flex-direction: column;
                 gap: 1rem;
+                text-align: center;
             }
 
-            .formatted-content table {
-                font-size: 0.85rem;
-            }
-
-            .formatted-content th,
-            .formatted-content td {
-                padding: 0.6rem;
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -672,16 +1167,31 @@
     <header>
         <div class="container header-content">
             <div class="logo">
-                <span class="logo-icon">🎓</span>
-                <span>Aasai Tech AI Tutor</span>
+                <span class="logo-icon">📚</span>
+                <span>Aasai SmartEDU</span>
             </div>
             <div class="auth-container">
-                <div id="google-signin-button"></div>
+                <div class="google-signin-container">
+                    <div id="google-signin-button"></div>
+                    <div id="custom-google-signin-btn" class="custom-google-btn" style="display: none;">
+                        <svg class="google-icon" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        Sign in
+                    </div>
+                </div>
                 <div id="user-profile" class="user-profile">
-                    <img id="user-avatar" class="user-avatar" src="" alt="User">
+                    <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
                     <div class="user-info">
                         <div id="user-name" class="user-name"></div>
                         <div id="user-email" class="user-email"></div>
+                        <div id="user-stats" class="user-stats">
+                            <span><span id="search-count">0</span>S</span> | 
+                            <span><span id="conversation-count">0</span>C</span>
+                        </div>
                     </div>
                     <button id="sign-out-btn" class="sign-out-btn">Sign Out</button>
                 </div>
@@ -691,36 +1201,123 @@
 
     <main class="container">
         <div id="auth-required" class="auth-required">
-            <h2>Welcome to Aasai Tech AI Tutor!</h2>
-            <p>Your friendly learning assistant for school students (Ages 8-17)</p>
-            <p>Please sign in with your Google account to start learning</p>
+            <h2>Welcome to EduAI Syllabus Assistant</h2>
+            <p>Please sign in with your Google account to access the syllabus search functionality and save your chat history.</p>
         </div>
 
-        <div id="main-layout" style="display: none;">
+        <div id="main-layout" class="main-layout" style="display: none;">
+            <!-- Mode Toggle Section -->
+            <div class="mode-toggle-section">
+                <div class="mode-toggle-header">
+                    <h2 class="mode-toggle-title">Choose Your Study Mode</h2>
+                    <p class="mode-toggle-subtitle">Select how you want to explore your syllabus content</p>
+                </div>
+                
+                <div class="mode-buttons">
+                    <div class="mode-btn active" id="ai-search-mode" onclick="switchMode('search')">
+                        <div class="mode-icon">🤖</div>
+                        <div class="mode-title">AI Search</div>
+                        <div class="mode-description">Ask questions and get instant answers from your syllabus using advanced AI with enhanced formatting for tables, math, and chemistry</div>
+                    </div>
+                    
+                    <div class="mode-btn" id="question-bank-mode" onclick="switchMode('questions')">
+                        <div class="mode-icon">📝</div>
+                        <div class="mode-title">Question Bank</div>
+                        <div class="mode-description">Browse organized questions by units, topics, and mark distributions</div>
+                    </div>
+                </div>
+                
+                <!-- Course Selection Panel -->
+                <div id="course-selection-panel" class="course-selection-panel">
+                    <h3 class="course-selection-title">Select Your Course Details</h3>
+                    <div class="selectors-grid">
+                        <div class="selector-group">
+                            <label for="department-select">Department</label>
+                            <select id="department-select" class="form-select">
+                                <option value="">Select Department</option>
+                                <option value="computer-science">Computer Science</option>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="chemistry">Chemistry</option>
+                            </select>
+                        </div>
+                        
+                        <div class="selector-group">
+                            <label for="semester-select">Semester</label>
+                            <select id="semester-select" class="form-select">
+                                <option value="">Select Semester</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                            </select>
+                        </div>
+                        
+                        <div class="selector-group">
+                            <label for="subject-select">Subject</label>
+                            <select id="subject-select" class="form-select">
+                                <option value="">Select Subject</option>
+                                <option value="intro-programming">Introduction to Programming</option>
+                                <option value="data-structures">Data Structures</option>
+                                <option value="calculus-1">Calculus I</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Search Section -->
             <div id="search-section" class="search-container show">
                 <div class="search-header">
-                    <h2 class="search-title">Ask Me Anything!</h2>
-                    <p class="search-subtitle">I'll explain it in a simple, easy-to-understand way 😊</p>
+                    <h2 class="search-title">Ask AI About Your Syllabus</h2>
+                    <p class="search-subtitle">Get instant, accurate answers from your course materials with enhanced formatting</p>
                 </div>
                 
                 <div class="search-box">
-                    <input type="text" class="search-input" id="question-input" 
-                           placeholder="What would you like to learn about today?">
-                    <button class="search-btn" id="search-button">Ask</button>
+                    <input type="text" class="search-input" id="question-input" placeholder="What would you like to know about your syllabus?">
+                    <button class="search-btn" id="search-button">Search</button>
                 </div>
 
                 <!-- Results Section -->
                 <div id="results-container" class="results-container">
                     <div class="results-header">
-                        <h2 class="results-title">Your Answer</h2>
-                        <span id="results-count"></span>
+                        <h2 class="results-title">Results</h2>
+                        <span id="results-count">0 results found</span>
                     </div>
                     <div id="results-content">
                         <div class="no-results">
-                            <p>Your answer will appear here</p>
+                            <p>Your search results will appear here</p>
                         </div>
                     </div>
+                </div>
+
+                <!-- Chat History -->
+                <div class="chat-history-search">
+                    <div class="chat-history-header">
+                        <h3 class="chat-history-title">Recent Searches</h3>
+                        <button id="refresh-history-btn" class="refresh-btn" title="Refresh">🔄</button>
+                    </div>
+                    
+                    <div id="chat-history-grid" class="chat-messages-grid">
+                        <div class="no-chat-history">
+                            <p>No search history yet</p>
+                        </div>
+                    </div>
+                    <button id="load-more-history-btn" class="load-more-btn" style="display: none;">Load More History</button>
+                </div>
+            </div>
+
+            <!-- Question Bank Section -->
+            <div id="units-container" class="units-container">
+                <div class="units-header">
+                    <h2 class="units-title">Unit-wise Question Bank</h2>
+                </div>
+                
+                <div class="course-info">
+                    <h4 id="selected-course">Select Course Details</h4>
+                    <p>Choose department, semester, and subject to view unit-wise questions</p>
+                </div>
+                
+                <div id="units-grid" class="units-grid">
+                    <!-- Units will be populated here -->
                 </div>
             </div>
         </div>
@@ -730,10 +1327,12 @@
 
     <footer>
         <div class="container footer-content">
-            <p>&copy; 2025 Aasai Tech - AI Learning Assistant for Students</p>
+            <p>&copy; 2025 Aasai SmartEDU - AI Syllabus Assistant.</p>
+            
             <div class="footer-links">
-                <a href="https://www.aasaitech.in">Website</a>
+                <a href="https://www.aasaitech.in">Company Website</a>
                 <a href="#">Privacy</a>
+                <a href="#">Terms</a>
                 <a href="#">Help</a>
             </div>
         </div>
@@ -744,17 +1343,22 @@
         const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com';
         const API_BASE_URL = 'https://musical-suitably-woodcock.ngrok-free.app';
         
-        // State
+        // State management
         let currentUser = null;
         let sessionToken = null;
+        let chatHistoryData = [];
+        let currentPage = 1;
+        let googleSignInInitialized = false;
+        let currentMode = 'search';
         let currentAnswerText = ''; // Store current answer for copying
 
-        // Initialize
+        // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             initializeGoogleSignIn();
             setupEventListeners();
+            switchMode('search');
             
-            // Configure marked.js options
+            // Configure marked.js if available
             if (typeof marked !== 'undefined') {
                 marked.setOptions({
                     breaks: true,
@@ -765,45 +1369,87 @@
             }
         });
 
+        // Setup event listeners
         function setupEventListeners() {
             document.getElementById('sign-out-btn').addEventListener('click', signOut);
+            document.getElementById('refresh-history-btn').addEventListener('click', refreshChatHistory);
             document.getElementById('search-button').addEventListener('click', performSearch);
+            
             document.getElementById('question-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    performSearch();
-                }
+                if (e.key === 'Enter') performSearch();
+            });
+            
+            document.getElementById('department-select').addEventListener('change', function() {
+                updateSubjectOptions();
+                checkCourseSelection();
+            });
+            
+            document.getElementById('semester-select').addEventListener('change', checkCourseSelection);
+            document.getElementById('subject-select').addEventListener('change', checkCourseSelection);
+            
+            document.getElementById('load-more-history-btn').addEventListener('click', function() {
+                loadChatMessages(currentPage + 1, true);
             });
         }
 
+        // Mode switching functionality
+        function switchMode(mode) {
+            currentMode = mode;
+            
+            // Update mode buttons
+            document.getElementById('ai-search-mode').classList.toggle('active', mode === 'search');
+            document.getElementById('question-bank-mode').classList.toggle('active', mode === 'questions');
+            
+            // Show/hide sections
+            document.getElementById('search-section').classList.toggle('show', mode === 'search');
+            document.getElementById('units-container').classList.toggle('show', mode === 'questions');
+            document.getElementById('course-selection-panel').classList.toggle('show', mode === 'questions');
+            
+            // Show notification
+            showNotification((mode === 'search' ? 'AI Search' : 'Question Bank') + ' mode activated', 'success');
+            
+            if (mode === 'questions') {
+                checkCourseSelection();
+            }
+        }
+
+        // Google Sign-In initialization
         function initializeGoogleSignIn() {
             if (typeof google === 'undefined') {
                 setTimeout(initializeGoogleSignIn, 100);
                 return;
             }
 
-            google.accounts.id.initialize({
-                client_id: GOOGLE_CLIENT_ID,
-                callback: handleCredentialResponse
-            });
+            try {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleCredentialResponse,
+                    auto_select: false
+                });
 
-            google.accounts.id.renderButton(
-                document.getElementById("google-signin-button"),
-                { theme: "outline", size: "large" }
-            );
+                google.accounts.id.renderButton(
+                    document.getElementById("google-signin-button"),
+                    { theme: "outline", size: "large", type: "standard" }
+                );
 
-            // Check existing session
-            const savedToken = localStorage.getItem('sessionToken');
-            const savedUser = localStorage.getItem('currentUser');
-            
-            if (savedToken && savedUser) {
-                sessionToken = savedToken;
-                currentUser = JSON.parse(savedUser);
-                showUserProfile(currentUser);
-                showMainLayout();
+                // Check for existing session
+                const savedToken = localStorage.getItem('sessionToken');
+                const savedUser = localStorage.getItem('currentUser');
+                
+                if (savedToken && savedUser) {
+                    sessionToken = savedToken;
+                    currentUser = JSON.parse(savedUser);
+                    showUserProfile(currentUser);
+                    showSearchSection();
+                    loadChatHistory();
+                }
+
+            } catch (error) {
+                console.error('Error initializing Google Sign-In:', error);
             }
         }
 
+        // Handle Google credential response
         async function handleCredentialResponse(response) {
             try {
                 showNotification('Signing you in...', 'info');
@@ -823,41 +1469,57 @@
                 localStorage.setItem('sessionToken', sessionToken);
                 
                 showUserProfile(currentUser);
-                showMainLayout();
-                showNotification('Welcome ' + currentUser.name + '! 🎉', 'success');
+                showSearchSection();
+                loadChatHistory();
+                showNotification('Welcome ' + currentUser.name + '!', 'success');
                 
             } catch (error) {
-                console.error('Sign-in error:', error);
+                console.error('Error processing Google sign-in:', error);
                 showNotification('Failed to sign in. Please try again.', 'error');
             }
         }
 
+        // Parse JWT token
         function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => 
-                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-            ).join(''));
-            return JSON.parse(jsonPayload);
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (error) {
+                console.error('Error parsing JWT:', error);
+                return null;
+            }
         }
 
+        // API Functions
         async function authenticateWithBackend(googleUserData) {
-            const response = await fetch(API_BASE_URL + '/auth/google', {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'ngrok-skip-browser-warning': 'true'
-                },
-                body: JSON.stringify({ googleUserData })
-            });
-            
-            if (!response.ok) throw new Error('Authentication failed');
-            return await response.json();
+            try {
+                const response = await fetch(API_BASE_URL + '/auth/google', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    },
+                    body: JSON.stringify({ googleUserData })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Authentication failed: ' + response.status);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Backend authentication error:', error);
+                throw error;
+            }
         }
 
         async function performSearch() {
             if (!currentUser) {
-                showNotification('Please sign in first', 'error');
+                showNotification('Please sign in to perform searches', 'error');
                 return;
             }
             
@@ -867,15 +1529,14 @@
                 return;
             }
             
-            const searchBtn = document.getElementById('search-button');
             const resultsContainer = document.getElementById('results-container');
             const resultsContent = document.getElementById('results-content');
+            const searchBtn = document.getElementById('search-button');
             
-            // Disable button and show loading
-            searchBtn.disabled = true;
-            searchBtn.textContent = 'Thinking...';
             resultsContainer.classList.add('show');
             resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            searchBtn.disabled = true;
+            searchBtn.textContent = 'Searching...';
             
             try {
                 const response = await fetch(API_BASE_URL + '/rag', {
@@ -888,61 +1549,73 @@
                     body: JSON.stringify({
                         question: question,
                         limit: 5,
-                        threshold: 0.5
+                        threshold: 0.75
                     })
                 });
                 
-                if (!response.ok) throw new Error('API error');
+                if (!response.ok) {
+                    throw new Error('API error: ' + response.status);
+                }
                 
                 const data = await response.json();
-                displayResults(data, question);
+                displayResults(data);
+                
+                // Update user stats
+                if (currentUser) {
+                    currentUser.searchCount = (currentUser.searchCount || 0) + 1;
+                    document.getElementById('search-count').textContent = currentUser.searchCount;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                }
+                
+                await refreshChatHistory();
                 document.getElementById('question-input').value = '';
                 
             } catch (error) {
-                console.error('Search error:', error);
-                resultsContent.innerHTML = '<div class="no-results"><p>😕 Oops! Something went wrong.</p><p>Please try again in a moment.</p></div>';
-                showNotification('Search failed. Please try again.', 'error');
+                console.error('Error fetching data:', error);
+                resultsContent.innerHTML = '<div class="no-results"><p>Error connecting to the server. Please check your backend connection.</p><p>Error details: ' + error.message + '</p></div>';
+                showNotification('Search failed', 'error');
             } finally {
                 searchBtn.disabled = false;
-                searchBtn.textContent = 'Ask';
+                searchBtn.textContent = 'Search';
             }
         }
 
-        function displayResults(data, question) {
+        function displayResults(data) {
             const resultsContent = document.getElementById('results-content');
             const resultsCount = document.getElementById('results-count');
             
             if (!data.answer) {
-                resultsContent.innerHTML = '<div class="no-results"><p>😕 I could not find information about that.</p><p>Try asking in a different way!</p></div>';
-                resultsCount.textContent = '';
+                resultsContent.innerHTML = '<div class="no-results"><p>No relevant information found for your question.</p><p>Try rephrasing or asking about a different topic.</p></div>';
+                resultsCount.textContent = '0 results found';
                 return;
             }
             
-            // Store the answer text for copying
+            // Store answer for copying
             currentAnswerText = data.answer;
             
-            // Determine confidence level
             let confidenceClass = 'confidence-low';
-            let confidenceText = 'Learning';
+            let confidenceText = 'Low confidence';
             
             if (data.confidence >= 0.8) {
                 confidenceClass = 'confidence-high';
-                confidenceText = 'Very Confident';
+                confidenceText = 'High confidence';
             } else if (data.confidence >= 0.5) {
                 confidenceClass = 'confidence-medium';
-                confidenceText = 'Confident';
+                confidenceText = 'Medium confidence';
             }
+            
+            const cacheIndicator = data.cached ? 
+                '<span class="cache-indicator cache-hit">Cached response</span>' : 
+                '<span class="cache-indicator">Live response</span>';
             
             // Format the answer using marked.js
             const formattedAnswer = formatMarkdownContent(data.answer);
             
             const resultHtml = '<div class="result-card">' +
-                '<h3 class="result-title">📚 Your Answer</h3>' +
+                '<h3 class="result-title">AI Answer</h3>' +
                 '<div class="result-meta">' +
-                    '<span class="confidence-badge ' + confidenceClass + '">' +
-                        confidenceText + ' (' + (data.confidence * 100).toFixed(0) + '%)' +
-                    '</span>' +
-                    (data.cached ? '<span class="cache-indicator">⚡ Instant</span>' : '<span class="cache-indicator">🤖 Fresh</span>') +
+                    '<span class="confidence-badge ' + confidenceClass + '">' + confidenceText + ' (' + (data.confidence * 100).toFixed(1) + '%)</span>' +
+                    cacheIndicator +
                 '</div>' +
                 '<div class="formatted-content">' +
                     formattedAnswer +
@@ -952,32 +1625,26 @@
                         '<span>📋</span>' +
                         '<span>Copy Answer</span>' +
                     '</button>' +
-                    '<button class="action-btn" onclick="askFollowUp(\'' + escapeHtml(question) + '\')">' +
-                        '<span>💬</span>' +
-                        '<span>Ask Follow-up</span>' +
-                    '</button>' +
                 '</div>' +
             '</div>';
             
             resultsContent.innerHTML = resultHtml;
-            resultsCount.textContent = '✅ Answer ready!';
+            resultsCount.textContent = '1 result found';
             
-            // Render MathJax if present
+            // Render MathJax if available
             if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise([resultsContent]).catch(function(err) {
-                    console.error('MathJax rendering error:', err);
+                    console.error('MathJax error:', err);
                 });
             }
         }
 
         /**
-         * Format Markdown content to HTML with proper styling
-         * This is the KEY function that fixes all formatting issues
+         * Format Markdown content to HTML - KEY FUNCTION FOR PROPER FORMATTING
          */
         function formatMarkdownContent(markdown) {
             if (!markdown) return '';
             
-            // Use marked.js to parse markdown to HTML
             let html = '';
             
             if (typeof marked !== 'undefined') {
@@ -985,75 +1652,17 @@
                     html = marked.parse(markdown);
                 } catch (error) {
                     console.error('Markdown parsing error:', error);
-                    html = parseMarkdownManually(markdown);
+                    html = markdown.replace(/\n/g, '<br>');
                 }
             } else {
-                // Fallback: basic markdown parsing
-                html = parseMarkdownManually(markdown);
+                // Fallback
+                html = markdown.replace(/\n/g, '<br>');
             }
             
             return html;
         }
 
-        /**
-         * Manual markdown parser (fallback if marked.js fails to load)
-         */
-        function parseMarkdownManually(text) {
-            let html = text;
-            
-            // Escape HTML to prevent injection
-            html = html.replace(/&/g, '&amp;')
-                       .replace(/</g, '&lt;')
-                       .replace(/>/g, '&gt;');
-            
-            // Headers (must be done before other replacements)
-            html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
-            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-            
-            // Bold
-            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-            html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
-            
-            // Italic
-            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-            html = html.replace(/_(.+?)_/g, '<em>$1</em>');
-            
-            // Code blocks
-            html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
-            
-            // Inline code
-            html = html.replace(/`(.+?)`/g, '<code>$1</code>');
-            
-            // Lists - Unordered
-            html = html.replace(/^\s*[-*+] (.+)$/gim, '<li>$1</li>');
-            html = html.replace(/(<li>.*?<\/li>)/s, '<ul>$1</ul>');
-            
-            // Line breaks
-            html = html.replace(/\n\n/g, '</p><p>');
-            html = html.replace(/\n/g, '<br>');
-            
-            // Wrap in paragraph if not already wrapped
-            if (!html.startsWith('<')) {
-                html = '<p>' + html + '</p>';
-            }
-            
-            return html;
-        }
-
-        /**
-         * Escape HTML for safe display
-         */
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML.replace(/'/g, '&#39;');
-        }
-
-        /**
-         * Copy the current answer to clipboard
-         */
+        // Copy function
         function copyCurrentAnswer() {
             if (!currentAnswerText) {
                 showNotification('No answer to copy', 'error');
@@ -1061,88 +1670,17 @@
             }
             
             navigator.clipboard.writeText(currentAnswerText).then(function() {
-                showNotification('✅ Copied to clipboard!', 'success', 2000);
+                showNotification('Copied to clipboard!', 'success', 2000);
             }).catch(function(err) {
                 console.error('Copy failed:', err);
-                
-                // Fallback method for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = currentAnswerText;
-                textArea.style.position = 'fixed';
-                textArea.style.left = '-999999px';
-                document.body.appendChild(textArea);
-                textArea.select();
-                
-                try {
-                    document.execCommand('copy');
-                    showNotification('✅ Copied to clipboard!', 'success', 2000);
-                } catch (err2) {
-                    showNotification('❌ Failed to copy', 'error');
-                }
-                
-                document.body.removeChild(textArea);
+                showNotification('Failed to copy to clipboard', 'error');
             });
         }
 
-        function askFollowUp(previousQuestion) {
-            const input = document.getElementById('question-input');
-            input.value = 'Can you explain more about: ' + previousQuestion;
-            input.focus();
-            showNotification('💡 You can now ask a follow-up question!', 'info', 2000);
-        }
-
-        function showUserProfile(user) {
-            document.getElementById('user-profile').classList.add('show');
-            document.getElementById('user-avatar').src = user.picture || 'https://via.placeholder.com/32';
-            document.getElementById('user-name').textContent = user.name || 'Student';
-            document.getElementById('user-email').textContent = user.email || '';
-        }
-
-        function showMainLayout() {
-            document.getElementById('auth-required').style.display = 'none';
-            document.getElementById('main-layout').style.display = 'block';
-        }
-
-        async function signOut() {
-            try {
-                showNotification('Signing out...', 'info');
-                
-                if (sessionToken) {
-                    await fetch(API_BASE_URL + '/auth/logout', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': 'Bearer ' + sessionToken,
-                            'ngrok-skip-browser-warning': 'true'
-                        }
-                    });
-                }
-                
-                clearUserSession();
-                showNotification('👋 Signed out successfully', 'success');
-                
-            } catch (error) {
-                console.error('Sign out error:', error);
-                clearUserSession();
-            }
-        }
-
-        function clearUserSession() {
-            currentUser = null;
-            sessionToken = null;
-            currentAnswerText = '';
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('sessionToken');
-            
-            document.getElementById('user-profile').classList.remove('show');
-            document.getElementById('auth-required').style.display = 'block';
-            document.getElementById('main-layout').style.display = 'none';
-            document.getElementById('results-container').classList.remove('show');
-        }
-
+        // Utility functions
         function showNotification(message, type, duration) {
             type = type || 'info';
             duration = duration || 3000;
-            
             const notification = document.getElementById('notification');
             notification.textContent = message;
             notification.className = 'notification ' + type;
@@ -1153,9 +1691,157 @@
             }, duration);
         }
 
+        function showUserProfile(user) {
+            document.getElementById('user-profile').classList.add('show');
+            document.getElementById('user-avatar').src = user.picture;
+            document.getElementById('user-name').textContent = user.name;
+            document.getElementById('user-email').textContent = user.email;
+            document.getElementById('search-count').textContent = user.searchCount || 0;
+        }
+
+        function showSearchSection() {
+            document.getElementById('auth-required').style.display = 'none';
+            document.getElementById('main-layout').style.display = 'flex';
+        }
+
+        async function signOut() {
+            try {
+                showNotification('Signing out...', 'info');
+                if (sessionToken) {
+                    await fetch(API_BASE_URL + '/auth/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + sessionToken,
+                            'ngrok-skip-browser-warning': 'true'
+                        }
+                    });
+                }
+                clearUserSession();
+                showNotification('Signed out successfully', 'success');
+            } catch (error) {
+                console.error('Error during sign out:', error);
+                clearUserSession();
+            }
+        }
+
+        function clearUserSession() {
+            currentUser = null;
+            sessionToken = null;
+            currentAnswerText = '';
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('sessionToken');
+            document.getElementById('user-profile').classList.remove('show');
+            document.getElementById('auth-required').style.display = 'block';
+            document.getElementById('main-layout').style.display = 'none';
+        }
+
+        // Chat history functions
+        async function loadChatHistory() {
+            if (!currentUser) return;
+            await loadChatMessages();
+        }
+
+        async function loadChatMessages(page, append) {
+            page = page || 1;
+            append = append || false;
+            try {
+                const response = await fetch(API_BASE_URL + '/user/chat-history?page=' + page + '&limit=20', {
+                    headers: {
+                        'Authorization': 'Bearer ' + sessionToken,
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
+                
+                if (!response.ok) return;
+                
+                const data = await response.json();
+                
+                if (!append) {
+                    chatHistoryData = data.chatHistory || [];
+                } else {
+                    chatHistoryData = chatHistoryData.concat(data.chatHistory || []);
+                }
+                
+                displayChatHistory();
+                
+            } catch (error) {
+                console.error('Error loading chat history:', error);
+            }
+        }
+
+        function displayChatHistory() {
+            const historyGrid = document.getElementById('chat-history-grid');
+            
+            if (chatHistoryData.length === 0) {
+                historyGrid.innerHTML = '<div class="no-chat-history"><p>No search history yet</p></div>';
+                return;
+            }
+            
+            const historyHTML = chatHistoryData.map(function(msg) {
+                return '<div class="chat-message-item" onclick="rerunSearch(\'' + escapeHtml(msg.question) + '\')">' +
+                    '<div class="chat-question">' + escapeHtml(msg.question) + '</div>' +
+                    '<div class="chat-answer">' + escapeHtml(msg.answer.substring(0, 100)) + '...</div>' +
+                    '<div class="chat-message-meta">' +
+                        '<span>' + new Date(msg.timestamp).toLocaleDateString() + '</span>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+            
+            historyGrid.innerHTML = historyHTML;
+        }
+
+        async function refreshChatHistory() {
+            await loadChatHistory();
+            showNotification('Chat history refreshed', 'success');
+        }
+
+        function rerunSearch(question) {
+            document.getElementById('question-input').value = question;
+            performSearch();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Question bank functions
+        function checkCourseSelection() {
+            const department = document.getElementById('department-select').value;
+            const semester = document.getElementById('semester-select').value;
+            const subject = document.getElementById('subject-select').value;
+            
+            if (department && semester && subject) {
+                displayUnitsSection(department, semester, subject);
+            }
+        }
+
+        function updateSubjectOptions() {
+            const department = document.getElementById('department-select').value;
+            const subjectSelect = document.getElementById('subject-select');
+            
+            subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+            
+            if (department === 'computer-science') {
+                subjectSelect.innerHTML += '<option value="intro-programming">Introduction to Programming</option><option value="data-structures">Data Structures</option>';
+            } else if (department === 'mathematics') {
+                subjectSelect.innerHTML += '<option value="calculus-1">Calculus I</option><option value="calculus-2">Calculus II</option>';
+            } else if (department === 'chemistry') {
+                subjectSelect.innerHTML += '<option value="organic-chem">Organic Chemistry</option>';
+            }
+        }
+
+        function displayUnitsSection(department, semester, subject) {
+            const unitsGrid = document.getElementById('units-grid');
+            unitsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray);"><h3>Question Bank Loading...</h3><p>Unit-wise questions will be displayed here for ' + department + ' - Semester ' + semester + ' - ' + subject + '</p></div>';
+        }
+
         // Make functions globally available
+        window.switchMode = switchMode;
+        window.performSearch = performSearch;
         window.copyCurrentAnswer = copyCurrentAnswer;
-        window.askFollowUp = askFollowUp;
+        window.rerunSearch = rerunSearch;
     </script>
 </body>
 </html>
