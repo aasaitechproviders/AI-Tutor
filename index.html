@@ -630,6 +630,16 @@
             color: var(--secondary);
         }
 
+        /* Math display styling */
+        .formatted-content .math-display {
+            text-align: center;
+            margin: 1.5rem 0;
+            font-size: 1.2em;
+            padding: 1rem;
+            background: #f8f9ff;
+            border-radius: 8px;
+        }
+
         .result-actions {
             display: flex;
             gap: 1rem;
@@ -1408,6 +1418,11 @@
             
             // Simple markdown parser that preserves LaTeX backslashes
             let html = markdown;
+            
+            // Protect display math \[ ... \] by wrapping in divs
+            html = html.replace(/\\\[([\s\S]*?)\\\]/g, function(match) {
+                return '<div class="math-display">' + match + '</div>';
+            });
             
             // Headers
             html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
