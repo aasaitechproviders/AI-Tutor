@@ -932,8 +932,185 @@
 
         .units-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr;
             gap: 1.5rem;
+        }
+
+        .unit-card {
+            background: white;
+            border: 2px solid var(--light-gray);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .unit-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15);
+        }
+
+        .unit-header {
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .unit-header:hover {
+            background: linear-gradient(135deg, #e8f0ff 0%, #f8f9ff 100%);
+        }
+
+        .unit-header.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-bottom-color: var(--primary);
+        }
+
+        .unit-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .unit-header.active .unit-title {
+            color: white;
+        }
+
+        .unit-icon {
+            font-size: 1.5rem;
+        }
+
+        .unit-toggle {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .unit-header.active .unit-toggle {
+            background: white;
+            color: var(--primary);
+            transform: rotate(180deg);
+        }
+
+        .unit-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+
+        .unit-content.show {
+            max-height: 3000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .question-section {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .question-section:last-child {
+            border-bottom: none;
+        }
+
+        .question-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .question-type-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .question-count {
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .question-item {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .question-item:hover {
+            background: #e8f0ff;
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .question-text {
+            flex: 1;
+            font-size: 0.95rem;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        .question-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.3rem;
+            flex-shrink: 0;
+        }
+
+        .mark-badge {
+            background: linear-gradient(135deg, var(--success), #3a86ff);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .question-item:hover .mark-badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+
+        .question-hint {
+            font-size: 0.7rem;
+            color: var(--gray);
+            white-space: nowrap;
         }
 
         /* Auth Required */
@@ -1265,17 +1442,57 @@
                 gap: 1rem;
             }
 
-            .unit-card {
+            .unit-header {
                 padding: 1rem;
             }
 
             .unit-title {
-                font-size: 1.1rem;
+                font-size: 1rem;
+            }
+
+            .unit-icon {
+                font-size: 1.2rem;
+            }
+
+            .unit-toggle {
+                width: 28px;
+                height: 28px;
+                font-size: 0.9rem;
+            }
+
+            .question-section {
+                padding: 1rem;
+            }
+
+            .question-type-title {
+                font-size: 0.9rem;
             }
 
             .question-item {
-                padding: 0.6rem;
+                padding: 0.8rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .question-text {
                 font-size: 0.85rem;
+            }
+
+            .question-meta {
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .mark-badge {
+                font-size: 0.7rem;
+                padding: 0.25rem 0.6rem;
+            }
+
+            .question-hint {
+                font-size: 0.65rem;
             }
 
             .footer-content {
@@ -2015,7 +2232,8 @@
                 'computer-science': {
                     'intro-programming': [
                         {
-                            unit: 'Unit 1: Introduction to Programming',
+                            unit: 'Introduction to Programming',
+                            icon: '💻',
                             sections: [
                                 {
                                     type: '2 Mark Questions',
@@ -2023,7 +2241,8 @@
                                         { text: 'What is a variable in programming?', marks: 2 },
                                         { text: 'Explain the difference between int and float data types', marks: 2 },
                                         { text: 'What is the purpose of comments in code?', marks: 2 },
-                                        { text: 'Define an algorithm', marks: 2 }
+                                        { text: 'Define an algorithm', marks: 2 },
+                                        { text: 'What is a syntax error?', marks: 2 }
                                     ]
                                 },
                                 {
@@ -2044,40 +2263,53 @@
                             ]
                         },
                         {
-                            unit: 'Unit 2: Data Structures',
+                            unit: 'Data Structures & Lists',
+                            icon: '📊',
                             sections: [
                                 {
                                     type: '2 Mark Questions',
                                     questions: [
                                         { text: 'What is a list in Python?', marks: 2 },
                                         { text: 'Define tuple and its properties', marks: 2 },
-                                        { text: 'What is the difference between list and tuple?', marks: 2 }
+                                        { text: 'What is the difference between list and tuple?', marks: 2 },
+                                        { text: 'Explain dictionary in Python', marks: 2 }
                                     ]
                                 },
                                 {
                                     type: '5 Mark Questions',
                                     questions: [
                                         { text: 'Explain list operations with examples', marks: 5 },
-                                        { text: 'Write a program to sort a list using built-in methods', marks: 5 }
+                                        { text: 'Write a program to sort a list using built-in methods', marks: 5 },
+                                        { text: 'Demonstrate list comprehension with examples', marks: 5 }
+                                    ]
+                                },
+                                {
+                                    type: '10 Mark Questions',
+                                    questions: [
+                                        { text: 'Create a program to manage student records using dictionaries', marks: 10 }
                                     ]
                                 }
                             ]
                         },
                         {
-                            unit: 'Unit 3: Functions',
+                            unit: 'Functions & Modules',
+                            icon: '⚙️',
                             sections: [
                                 {
                                     type: '2 Mark Questions',
                                     questions: [
                                         { text: 'What is a function?', marks: 2 },
-                                        { text: 'Explain function parameters', marks: 2 }
+                                        { text: 'Explain function parameters', marks: 2 },
+                                        { text: 'What is the return statement?', marks: 2 },
+                                        { text: 'Define scope of a variable', marks: 2 }
                                     ]
                                 },
                                 {
                                     type: '5 Mark Questions',
                                     questions: [
                                         { text: 'Write a recursive function to calculate factorial', marks: 5 },
-                                        { text: 'Explain the concept of lambda functions', marks: 5 }
+                                        { text: 'Explain the concept of lambda functions', marks: 5 },
+                                        { text: 'Demonstrate the use of default parameters', marks: 5 }
                                     ]
                                 }
                             ]
@@ -2085,13 +2317,22 @@
                     ],
                     'data-structures': [
                         {
-                            unit: 'Unit 1: Arrays and Linked Lists',
+                            unit: 'Arrays & Linked Lists',
+                            icon: '🔗',
                             sections: [
                                 {
                                     type: '2 Mark Questions',
                                     questions: [
                                         { text: 'What is an array?', marks: 2 },
-                                        { text: 'Define linked list', marks: 2 }
+                                        { text: 'Define linked list', marks: 2 },
+                                        { text: 'Difference between array and linked list', marks: 2 }
+                                    ]
+                                },
+                                {
+                                    type: '5 Mark Questions',
+                                    questions: [
+                                        { text: 'Explain operations on linked lists', marks: 5 },
+                                        { text: 'Write algorithm for insertion in linked list', marks: 5 }
                                     ]
                                 },
                                 {
@@ -2101,19 +2342,42 @@
                                     ]
                                 }
                             ]
+                        },
+                        {
+                            unit: 'Stacks & Queues',
+                            icon: '📚',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { text: 'What is a stack?', marks: 2 },
+                                        { text: 'Define queue data structure', marks: 2 },
+                                        { text: 'Explain LIFO and FIFO', marks: 2 }
+                                    ]
+                                },
+                                {
+                                    type: '5 Mark Questions',
+                                    questions: [
+                                        { text: 'Implement stack using arrays', marks: 5 },
+                                        { text: 'Explain circular queue with diagram', marks: 5 }
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 },
                 'mathematics': {
                     'calculus-1': [
                         {
-                            unit: 'Unit 1: Limits and Continuity',
+                            unit: 'Limits & Continuity',
+                            icon: '∞',
                             sections: [
                                 {
                                     type: '2 Mark Questions',
                                     questions: [
                                         { text: 'Define limit of a function', marks: 2 },
-                                        { text: 'What is continuity?', marks: 2 }
+                                        { text: 'What is continuity?', marks: 2 },
+                                        { text: 'State the limit laws', marks: 2 }
                                     ]
                                 },
                                 {
@@ -2126,19 +2390,50 @@
                             ]
                         },
                         {
-                            unit: 'Unit 2: Differentiation',
+                            unit: 'Differentiation',
+                            icon: '∂',
                             sections: [
                                 {
                                     type: '2 Mark Questions',
                                     questions: [
                                         { text: 'Define derivative', marks: 2 },
-                                        { text: 'State the chain rule', marks: 2 }
+                                        { text: 'State the chain rule', marks: 2 },
+                                        { text: 'What is the product rule?', marks: 2 }
+                                    ]
+                                },
+                                {
+                                    type: '5 Mark Questions',
+                                    questions: [
+                                        { text: 'Find the derivative of sin(x²)', marks: 5 },
+                                        { text: 'Apply quotient rule to find derivative', marks: 5 }
                                     ]
                                 },
                                 {
                                     type: '10 Mark Questions',
                                     questions: [
-                                        { text: 'Find the derivative of sin(x²) and explain the chain rule', marks: 10 }
+                                        { text: 'Find maxima and minima of a function using derivatives', marks: 10 }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    'calculus-2': [
+                        {
+                            unit: 'Integration',
+                            icon: '∫',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { text: 'Define indefinite integral', marks: 2 },
+                                        { text: 'What is a definite integral?', marks: 2 }
+                                    ]
+                                },
+                                {
+                                    type: '5 Mark Questions',
+                                    questions: [
+                                        { text: 'Evaluate the integral of x² dx', marks: 5 },
+                                        { text: 'Apply integration by parts', marks: 5 }
                                     ]
                                 }
                             ]
@@ -2148,13 +2443,42 @@
                 'chemistry': {
                     'organic-chem': [
                         {
-                            unit: 'Unit 1: Basic Concepts',
+                            unit: 'Basic Concepts',
+                            icon: '🧪',
                             sections: [
                                 {
                                     type: '2 Mark Questions',
                                     questions: [
                                         { text: 'What is organic chemistry?', marks: 2 },
-                                        { text: 'Define functional group', marks: 2 }
+                                        { text: 'Define functional group', marks: 2 },
+                                        { text: 'What is isomerism?', marks: 2 }
+                                    ]
+                                },
+                                {
+                                    type: '5 Mark Questions',
+                                    questions: [
+                                        { text: 'Explain different types of isomers', marks: 5 },
+                                        { text: 'Describe nomenclature of organic compounds', marks: 5 }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            unit: 'Hydrocarbons',
+                            icon: '⚛️',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { text: 'What are alkanes?', marks: 2 },
+                                        { text: 'Define alkenes and alkynes', marks: 2 }
+                                    ]
+                                },
+                                {
+                                    type: '5 Mark Questions',
+                                    questions: [
+                                        { text: 'Explain properties of alkanes', marks: 5 },
+                                        { text: 'Describe addition reactions in alkenes', marks: 5 }
                                     ]
                                 }
                             ]
@@ -2167,7 +2491,7 @@
             const units = questionBankData[department]?.[subject] || [];
             
             if (units.length === 0) {
-                unitsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray); grid-column: 1/-1;"><p>📚 No questions available yet for this course.</p><p>Questions will be added soon!</p></div>';
+                unitsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray);"><p>📚 No questions available yet for this course.</p><p>Questions will be added soon!</p></div>';
                 return;
             }
             
@@ -2176,8 +2500,8 @@
             units.forEach((unit, index) => {
                 const unitId = 'unit-' + index;
                 unitsHTML += '<div class="unit-card">';
-                unitsHTML += '<div class="unit-header" onclick="toggleUnit(\'' + unitId + '\')">';
-                unitsHTML += '<h3 class="unit-title">' + unit.unit + '</h3>';
+                unitsHTML += '<div class="unit-header" id="header-' + unitId + '" onclick="toggleUnit(\'' + unitId + '\')">';
+                unitsHTML += '<h3 class="unit-title"><span class="unit-icon">' + unit.icon + '</span>' + unit.unit + '</h3>';
                 unitsHTML += '<button class="unit-toggle" id="toggle-' + unitId + '">▼</button>';
                 unitsHTML += '</div>';
                 unitsHTML += '<div class="unit-content" id="' + unitId + '">';
@@ -2187,7 +2511,7 @@
                     unitsHTML += '<div class="question-section">';
                     unitsHTML += '<div class="question-section-header">';
                     unitsHTML += '<span class="question-type-title">' + section.type + '</span>';
-                    unitsHTML += '<span class="question-count">' + section.questions.length + '</span>';
+                    unitsHTML += '<span class="question-count">' + section.questions.length + ' Questions</span>';
                     unitsHTML += '</div>';
                     unitsHTML += '<div class="questions-list">';
                     
@@ -2196,7 +2520,7 @@
                         unitsHTML += '<div class="question-text">' + q.text + '</div>';
                         unitsHTML += '<div class="question-meta">';
                         unitsHTML += '<span class="mark-badge">' + q.marks + ' Marks</span>';
-                        unitsHTML += '<span>Click to get AI answer</span>';
+                        unitsHTML += '<span class="question-hint">Click for AI answer →</span>';
                         unitsHTML += '</div>';
                         unitsHTML += '</div>';
                     });
@@ -2214,13 +2538,16 @@
 
         function toggleUnit(unitId) {
             const unitContent = document.getElementById(unitId);
+            const unitHeader = document.getElementById('header-' + unitId);
             const toggleBtn = document.getElementById('toggle-' + unitId);
             
             if (unitContent.classList.contains('show')) {
                 unitContent.classList.remove('show');
+                unitHeader.classList.remove('active');
                 toggleBtn.textContent = '▼';
             } else {
                 unitContent.classList.add('show');
+                unitHeader.classList.add('active');
                 toggleBtn.textContent = '▲';
             }
         }
