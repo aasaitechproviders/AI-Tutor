@@ -993,12 +993,13 @@
             border: none;
             width: 32px;
             height: 32px;
-            border-radius: 50%;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.3rem;
+            font-weight: 300;
             transition: all 0.3s;
             flex-shrink: 0;
         }
@@ -1006,7 +1007,6 @@
         .unit-header.active .unit-toggle {
             background: white;
             color: var(--primary);
-            transform: rotate(180deg);
         }
 
         .unit-content {
@@ -1016,7 +1016,7 @@
         }
 
         .unit-content.show {
-            max-height: 3000px;
+            max-height: 5000px;
             transition: max-height 0.5s ease-in;
         }
 
@@ -1061,21 +1061,56 @@
 
         .question-item {
             background: var(--light);
-            padding: 1rem;
+            padding: 0;
             border-radius: 12px;
-            cursor: pointer;
             transition: all 0.3s;
             border: 2px solid transparent;
+            overflow: hidden;
+        }
+
+        .question-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.15);
+        }
+
+        .question-header {
+            padding: 1rem;
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 1rem;
+            background: var(--light);
+            transition: all 0.3s;
         }
 
-        .question-item:hover {
+        .question-header:hover {
             background: #e8f0ff;
-            border-color: var(--primary);
-            transform: translateX(5px);
+        }
+
+        .question-header.active {
+            background: #e8f0ff;
+        }
+
+        .question-left {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
         }
 
         .question-text {
@@ -1083,13 +1118,13 @@
             font-size: 0.95rem;
             color: var(--dark);
             line-height: 1.5;
+            font-weight: 500;
         }
 
-        .question-meta {
+        .question-right {
             display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 0.3rem;
+            align-items: center;
+            gap: 0.8rem;
             flex-shrink: 0;
         }
 
@@ -1103,14 +1138,85 @@
             white-space: nowrap;
         }
 
-        .question-item:hover .mark-badge {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+        .question-toggle {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 300;
+            transition: all 0.3s;
         }
 
-        .question-hint {
-            font-size: 0.7rem;
-            color: var(--gray);
-            white-space: nowrap;
+        .question-header.active .question-toggle {
+            background: var(--secondary);
+        }
+
+        .question-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: white;
+        }
+
+        .question-answer.show {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in;
+            border-top: 2px solid var(--light-gray);
+        }
+
+        .answer-content {
+            padding: 1.5rem;
+        }
+
+        .answer-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .answer-text {
+            color: var(--dark);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .answer-text p {
+            margin-bottom: 0.8rem;
+        }
+
+        .answer-text ul, .answer-text ol {
+            margin: 0.5rem 0 0.8rem 1.5rem;
+        }
+
+        .answer-text li {
+            margin-bottom: 0.4rem;
+        }
+
+        .answer-text strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .answer-text code {
+            background: #f5f5f5;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--secondary);
         }
 
         /* Auth Required */
@@ -1457,7 +1563,7 @@
             .unit-toggle {
                 width: 28px;
                 height: 28px;
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
 
             .question-section {
@@ -1468,22 +1574,27 @@
                 font-size: 0.9rem;
             }
 
-            .question-item {
+            .question-header {
                 padding: 0.8rem;
-                flex-direction: column;
-                align-items: flex-start;
+            }
+
+            .question-left {
                 gap: 0.5rem;
+            }
+
+            .question-number {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7rem;
             }
 
             .question-text {
                 font-size: 0.85rem;
             }
 
-            .question-meta {
-                flex-direction: row;
-                align-items: center;
-                width: 100%;
-                justify-content: space-between;
+            .question-right {
+                gap: 0.5rem;
+                flex-direction: column;
             }
 
             .mark-badge {
@@ -1491,8 +1602,22 @@
                 padding: 0.25rem 0.6rem;
             }
 
-            .question-hint {
-                font-size: 0.65rem;
+            .question-toggle {
+                width: 24px;
+                height: 24px;
+                font-size: 1rem;
+            }
+
+            .answer-content {
+                padding: 1rem;
+            }
+
+            .answer-label {
+                font-size: 0.75rem;
+            }
+
+            .answer-text {
+                font-size: 0.85rem;
             }
 
             .footer-content {
@@ -1526,7 +1651,7 @@
             }
 
             .units-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr;
             }
 
             .formatted-content table {
@@ -1894,7 +2019,6 @@
             
             currentAnswerText = data.answer;
             
-            // Get the original question from the input
             const originalQuestion = document.getElementById('question-input').value || 'Your question';
             
             let confidenceClass = 'confidence-low';
@@ -1932,33 +2056,27 @@
             resultsContent.innerHTML = resultHtml;
             resultsCount.textContent = '1 result';
             
-            // Enhanced MathJax rendering with better waiting
             renderMathJax(resultsContent);
         }
 
         function renderMathJax(element) {
             console.log('Starting MathJax render attempt...');
             
-            // Wait for MathJax to be fully loaded
             function tryRender(attempts) {
                 if (attempts > 100) {
                     console.error('❌ MathJax not loaded after 10 seconds');
-                    console.log('Window.MathJax exists?', !!window.MathJax);
                     return;
                 }
                 
                 if (window.MathJax && window.MathJax.typesetPromise) {
                     console.log('✅ MathJax found! Starting typeset...');
                     
-                    // Render the math
                     MathJax.typesetPromise([element]).then(function() {
                         console.log('✅ MathJax equations rendered successfully!');
-                        console.log('Content:', element.innerHTML.substring(0, 200));
                     }).catch(function(err) {
                         console.error('❌ MathJax rendering error:', err);
                     });
                 } else {
-                    // MathJax not ready yet, try again in 100ms
                     if (attempts % 10 === 0) {
                         console.log('Waiting for MathJax... attempt', attempts);
                     }
@@ -1968,40 +2086,29 @@
                 }
             }
             
-            // Start trying to render
             tryRender(0);
         }
 
         function formatMarkdownContent(markdown) {
             if (!markdown) return '';
             
-            // Simple markdown parser that preserves LaTeX backslashes
             let html = markdown;
             
-            // Protect display math \[ ... \] by wrapping in divs
-            // Match across newlines and handle whitespace
             html = html.replace(/\\\[\s*([\s\S]*?)\s*\\\]/g, function(match, content) {
-                // Keep the original LaTeX delimiters
                 return '<div class="math-display">\\[' + content + '\\]</div>';
             });
             
-            // Also handle display math on separate lines
             html = html.replace(/^\\\[$/gm, '<div class="math-display">\\[');
             html = html.replace(/^\\\]$/gm, '\\]</div>');
             
-            // Headers
             html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
             html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
             html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
             html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
             
-            // Bold (must come before italic to avoid conflicts)
             html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-            
-            // Italic  
             html = html.replace(/\*([^*]+?)\*/g, '<em>$1</em>');
             
-            // Lists - need to be careful not to break LaTeX
             let lines = html.split('\n');
             let inList = false;
             let processedLines = [];
@@ -2009,7 +2116,6 @@
             for (let i = 0; i < lines.length; i++) {
                 let line = lines[i];
                 
-                // Check if line starts with list marker
                 if (line.match(/^[\s]*[-*]\s+/) && !line.includes('math-display')) {
                     if (!inList) {
                         processedLines.push('<ul>');
@@ -2032,13 +2138,11 @@
             
             html = processedLines.join('\n');
             
-            // Paragraphs - double line breaks (but not inside math-display)
             let parts = html.split(/<div class="math-display">[\s\S]*?<\/div>/g);
             let mathBlocks = html.match(/<div class="math-display">[\s\S]*?<\/div>/g) || [];
             
             let result = [];
             for (let i = 0; i < parts.length; i++) {
-                // Process non-math parts
                 let part = parts[i];
                 part = part.replace(/\n\n+/g, '</p><p>');
                 part = '<p>' + part + '</p>';
@@ -2047,7 +2151,6 @@
                 part = part.replace(/<p><br>/g, '<p>');
                 result.push(part);
                 
-                // Add back the math block
                 if (mathBlocks[i]) {
                     result.push(mathBlocks[i]);
                 }
@@ -2089,7 +2192,6 @@
             document.getElementById('user-email').textContent = user.email;
             document.getElementById('search-count').textContent = user.searchCount || 0;
             
-            // Hide the Google sign-in button
             const signInContainer = document.getElementById('google-signin-container');
             if (signInContainer) {
                 signInContainer.style.display = 'none';
@@ -2131,7 +2233,6 @@
             document.getElementById('auth-required').style.display = 'block';
             document.getElementById('main-layout').style.display = 'none';
             
-            // Show the Google sign-in button again
             const signInContainer = document.getElementById('google-signin-container');
             if (signInContainer) {
                 signInContainer.style.display = 'flex';
@@ -2214,7 +2315,7 @@
             if (department === 'computer-science') {
                 subjectSelect.innerHTML += '<option value="intro-programming">Introduction to Programming</option><option value="data-structures">Data Structures</option>';
             } else if (department === 'mathematics') {
-                subjectSelect.innerHTML += '<option value="calculus-1">Calculus I</option><option value="calculus-2">Calculus II</option>';
+                subjectSelect.innerHTML += '<option value="calculus-1">Calculus I</option>';
             } else if (department === 'chemistry') {
                 subjectSelect.innerHTML += '<option value="organic-chem">Organic Chemistry</option>';
             }
@@ -2224,7 +2325,6 @@
             const unitsGrid = document.getElementById('units-grid');
             const courseInfo = document.getElementById('selected-course');
             
-            // Update course info
             courseInfo.textContent = department.replace(/-/g, ' ').toUpperCase() + ' - Semester ' + semester + ' - ' + subject.replace(/-/g, ' ').toUpperCase();
             
             // Sample question bank data
@@ -2238,128 +2338,16 @@
                                 {
                                     type: '2 Mark Questions',
                                     questions: [
-                                        { text: 'What is a variable in programming?', marks: 2 },
-                                        { text: 'Explain the difference between int and float data types', marks: 2 },
-                                        { text: 'What is the purpose of comments in code?', marks: 2 },
-                                        { text: 'Define an algorithm', marks: 2 },
-                                        { text: 'What is a syntax error?', marks: 2 }
-                                    ]
-                                },
-                                {
-                                    type: '5 Mark Questions',
-                                    questions: [
-                                        { text: 'Explain the structure of a Python program with an example', marks: 5 },
-                                        { text: 'Write a program to find the largest of three numbers', marks: 5 },
-                                        { text: 'Describe different types of operators in Python', marks: 5 }
-                                    ]
-                                },
-                                {
-                                    type: '10 Mark Questions',
-                                    questions: [
-                                        { text: 'Explain control structures in Python with examples', marks: 10 },
-                                        { text: 'Write a program to implement a simple calculator', marks: 10 }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            unit: 'Data Structures & Lists',
-                            icon: '📊',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { text: 'What is a list in Python?', marks: 2 },
-                                        { text: 'Define tuple and its properties', marks: 2 },
-                                        { text: 'What is the difference between list and tuple?', marks: 2 },
-                                        { text: 'Explain dictionary in Python', marks: 2 }
-                                    ]
-                                },
-                                {
-                                    type: '5 Mark Questions',
-                                    questions: [
-                                        { text: 'Explain list operations with examples', marks: 5 },
-                                        { text: 'Write a program to sort a list using built-in methods', marks: 5 },
-                                        { text: 'Demonstrate list comprehension with examples', marks: 5 }
-                                    ]
-                                },
-                                {
-                                    type: '10 Mark Questions',
-                                    questions: [
-                                        { text: 'Create a program to manage student records using dictionaries', marks: 10 }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            unit: 'Functions & Modules',
-                            icon: '⚙️',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { text: 'What is a function?', marks: 2 },
-                                        { text: 'Explain function parameters', marks: 2 },
-                                        { text: 'What is the return statement?', marks: 2 },
-                                        { text: 'Define scope of a variable', marks: 2 }
-                                    ]
-                                },
-                                {
-                                    type: '5 Mark Questions',
-                                    questions: [
-                                        { text: 'Write a recursive function to calculate factorial', marks: 5 },
-                                        { text: 'Explain the concept of lambda functions', marks: 5 },
-                                        { text: 'Demonstrate the use of default parameters', marks: 5 }
-                                    ]
-                                }
-                            ]
-                        }
-                    ],
-                    'data-structures': [
-                        {
-                            unit: 'Arrays & Linked Lists',
-                            icon: '🔗',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { text: 'What is an array?', marks: 2 },
-                                        { text: 'Define linked list', marks: 2 },
-                                        { text: 'Difference between array and linked list', marks: 2 }
-                                    ]
-                                },
-                                {
-                                    type: '5 Mark Questions',
-                                    questions: [
-                                        { text: 'Explain operations on linked lists', marks: 5 },
-                                        { text: 'Write algorithm for insertion in linked list', marks: 5 }
-                                    ]
-                                },
-                                {
-                                    type: '10 Mark Questions',
-                                    questions: [
-                                        { text: 'Implement a singly linked list with insertion and deletion', marks: 10 }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            unit: 'Stacks & Queues',
-                            icon: '📚',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { text: 'What is a stack?', marks: 2 },
-                                        { text: 'Define queue data structure', marks: 2 },
-                                        { text: 'Explain LIFO and FIFO', marks: 2 }
-                                    ]
-                                },
-                                {
-                                    type: '5 Mark Questions',
-                                    questions: [
-                                        { text: 'Implement stack using arrays', marks: 5 },
-                                        { text: 'Explain circular queue with diagram', marks: 5 }
+                                        { 
+                                            text: 'What is a variable in programming?', 
+                                            marks: 2,
+                                            answer: 'A variable is a named storage location in memory that holds a value. It has a name (identifier) and a data type that determines what kind of data it can store. Variables can be modified during program execution.'
+                                        },
+                                        { 
+                                            text: 'Explain the difference between int and float data types', 
+                                            marks: 2,
+                                            answer: '<strong>int (Integer):</strong> Stores whole numbers without decimal points (e.g., 5, -10, 100).<br><br><strong>float (Floating-point):</strong> Stores numbers with decimal points (e.g., 3.14, -0.5, 2.0).<br><br>Integers take less memory and operations are faster, while floats provide precision for decimal calculations.'
+                                        }
                                     ]
                                 }
                             ]
@@ -2375,65 +2363,11 @@
                                 {
                                     type: '2 Mark Questions',
                                     questions: [
-                                        { text: 'Define limit of a function', marks: 2 },
-                                        { text: 'What is continuity?', marks: 2 },
-                                        { text: 'State the limit laws', marks: 2 }
-                                    ]
-                                },
-                                {
-                                    type: '5 Mark Questions',
-                                    questions: [
-                                        { text: 'Evaluate the limit of (x²-1)/(x-1) as x approaches 1', marks: 5 },
-                                        { text: 'Prove that f(x) = x² is continuous at x = 2', marks: 5 }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            unit: 'Differentiation',
-                            icon: '∂',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { text: 'Define derivative', marks: 2 },
-                                        { text: 'State the chain rule', marks: 2 },
-                                        { text: 'What is the product rule?', marks: 2 }
-                                    ]
-                                },
-                                {
-                                    type: '5 Mark Questions',
-                                    questions: [
-                                        { text: 'Find the derivative of sin(x²)', marks: 5 },
-                                        { text: 'Apply quotient rule to find derivative', marks: 5 }
-                                    ]
-                                },
-                                {
-                                    type: '10 Mark Questions',
-                                    questions: [
-                                        { text: 'Find maxima and minima of a function using derivatives', marks: 10 }
-                                    ]
-                                }
-                            ]
-                        }
-                    ],
-                    'calculus-2': [
-                        {
-                            unit: 'Integration',
-                            icon: '∫',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { text: 'Define indefinite integral', marks: 2 },
-                                        { text: 'What is a definite integral?', marks: 2 }
-                                    ]
-                                },
-                                {
-                                    type: '5 Mark Questions',
-                                    questions: [
-                                        { text: 'Evaluate the integral of x² dx', marks: 5 },
-                                        { text: 'Apply integration by parts', marks: 5 }
+                                        { 
+                                            text: 'Define limit of a function', 
+                                            marks: 2,
+                                            answer: 'A limit describes the value that a function approaches as the input approaches some value. Mathematically: lim(x→a) f(x) = L means as x gets closer to a, f(x) gets closer to L.'
+                                        }
                                     ]
                                 }
                             ]
@@ -2449,36 +2383,11 @@
                                 {
                                     type: '2 Mark Questions',
                                     questions: [
-                                        { text: 'What is organic chemistry?', marks: 2 },
-                                        { text: 'Define functional group', marks: 2 },
-                                        { text: 'What is isomerism?', marks: 2 }
-                                    ]
-                                },
-                                {
-                                    type: '5 Mark Questions',
-                                    questions: [
-                                        { text: 'Explain different types of isomers', marks: 5 },
-                                        { text: 'Describe nomenclature of organic compounds', marks: 5 }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            unit: 'Hydrocarbons',
-                            icon: '⚛️',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { text: 'What are alkanes?', marks: 2 },
-                                        { text: 'Define alkenes and alkynes', marks: 2 }
-                                    ]
-                                },
-                                {
-                                    type: '5 Mark Questions',
-                                    questions: [
-                                        { text: 'Explain properties of alkanes', marks: 5 },
-                                        { text: 'Describe addition reactions in alkenes', marks: 5 }
+                                        { 
+                                            text: 'What is organic chemistry?', 
+                                            marks: 2,
+                                            answer: 'Organic chemistry is the branch of chemistry that studies carbon-containing compounds and their properties, structure, composition, reactions, and synthesis.'
+                                        }
                                     ]
                                 }
                             ]
@@ -2487,27 +2396,24 @@
                 }
             };
             
-            // Get questions for selected course
             const units = questionBankData[department]?.[subject] || [];
             
             if (units.length === 0) {
-                unitsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray);"><p>📚 No questions available yet for this course.</p><p>Questions will be added soon!</p></div>';
+                unitsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray);"><p>📚 No questions available yet for this course.</p></div>';
                 return;
             }
             
-            // Generate HTML for units
             let unitsHTML = '';
-            units.forEach((unit, index) => {
-                const unitId = 'unit-' + index;
+            units.forEach((unit, unitIndex) => {
+                const unitId = 'unit-' + unitIndex;
                 unitsHTML += '<div class="unit-card">';
                 unitsHTML += '<div class="unit-header" id="header-' + unitId + '" onclick="toggleUnit(\'' + unitId + '\')">';
                 unitsHTML += '<h3 class="unit-title"><span class="unit-icon">' + unit.icon + '</span>' + unit.unit + '</h3>';
-                unitsHTML += '<button class="unit-toggle" id="toggle-' + unitId + '">▼</button>';
+                unitsHTML += '<button class="unit-toggle" id="toggle-' + unitId + '">+</button>';
                 unitsHTML += '</div>';
                 unitsHTML += '<div class="unit-content" id="' + unitId + '">';
                 
-                // Add question sections
-                unit.sections.forEach(section => {
+                unit.sections.forEach((section, sectionIndex) => {
                     unitsHTML += '<div class="question-section">';
                     unitsHTML += '<div class="question-section-header">';
                     unitsHTML += '<span class="question-type-title">' + section.type + '</span>';
@@ -2515,13 +2421,27 @@
                     unitsHTML += '</div>';
                     unitsHTML += '<div class="questions-list">';
                     
-                    section.questions.forEach(q => {
-                        unitsHTML += '<div class="question-item" onclick="askQuestionFromBank(\'' + escapeHtml(q.text) + '\')">';
+                    section.questions.forEach((q, qIndex) => {
+                        const questionId = 'q-' + unitIndex + '-' + sectionIndex + '-' + qIndex;
+                        unitsHTML += '<div class="question-item">';
+                        unitsHTML += '<div class="question-header" id="header-' + questionId + '" onclick="toggleQuestion(\'' + questionId + '\')">';
+                        unitsHTML += '<div class="question-left">';
+                        unitsHTML += '<span class="question-number">' + (qIndex + 1) + '</span>';
                         unitsHTML += '<div class="question-text">' + q.text + '</div>';
-                        unitsHTML += '<div class="question-meta">';
-                        unitsHTML += '<span class="mark-badge">' + q.marks + ' Marks</span>';
-                        unitsHTML += '<span class="question-hint">Click for AI answer →</span>';
                         unitsHTML += '</div>';
+                        unitsHTML += '<div class="question-right">';
+                        unitsHTML += '<span class="mark-badge">' + q.marks + ' Marks</span>';
+                        unitsHTML += '<button class="question-toggle" id="toggle-' + questionId + '">+</button>';
+                        unitsHTML += '</div>';
+                        unitsHTML += '</div>';
+                        
+                        unitsHTML += '<div class="question-answer" id="' + questionId + '">';
+                        unitsHTML += '<div class="answer-content">';
+                        unitsHTML += '<div class="answer-label">📝 Answer:</div>';
+                        unitsHTML += '<div class="answer-text">' + q.answer + '</div>';
+                        unitsHTML += '</div>';
+                        unitsHTML += '</div>';
+                        
                         unitsHTML += '</div>';
                     });
                     
@@ -2544,33 +2464,35 @@
             if (unitContent.classList.contains('show')) {
                 unitContent.classList.remove('show');
                 unitHeader.classList.remove('active');
-                toggleBtn.textContent = '▼';
+                toggleBtn.textContent = '+';
             } else {
                 unitContent.classList.add('show');
                 unitHeader.classList.add('active');
-                toggleBtn.textContent = '▲';
+                toggleBtn.textContent = '−';
             }
         }
 
-        function askQuestionFromBank(question) {
-            // Switch to AI Search mode
-            switchMode('search');
+        function toggleQuestion(questionId) {
+            const questionAnswer = document.getElementById(questionId);
+            const questionHeader = document.getElementById('header-' + questionId);
+            const toggleBtn = document.getElementById('toggle-' + questionId);
             
-            // Set the question in the input
-            document.getElementById('question-input').value = question;
-            
-            // Scroll to search box
-            document.getElementById('search-section').scrollIntoView({ behavior: 'smooth' });
-            
-            // Show notification
-            showNotification('Question loaded! Click Search to get answer', 'info', 2000);
+            if (questionAnswer.classList.contains('show')) {
+                questionAnswer.classList.remove('show');
+                questionHeader.classList.remove('active');
+                toggleBtn.textContent = '+';
+            } else {
+                questionAnswer.classList.add('show');
+                questionHeader.classList.add('active');
+                toggleBtn.textContent = '−';
+            }
         }
 
         window.switchMode = switchMode;
         window.copyCurrentAnswer = copyCurrentAnswer;
         window.rerunSearch = rerunSearch;
         window.toggleUnit = toggleUnit;
-        window.askQuestionFromBank = askQuestionFromBank;
+        window.toggleQuestion = toggleQuestion;
     </script>
 </body>
 </html>
