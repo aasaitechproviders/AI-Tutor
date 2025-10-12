@@ -1401,46 +1401,28 @@
         function formatMarkdownContent(markdown) {
             if (!markdown) return '';
             
-            // Protect LaTeX from markdown processing
-            let tempLatex = [];
-            let counter = 0;
-            
-            markdown = markdown.replace(/\$\$[\s\S]*?\$\$/g, function(match) {
-                tempLatex[counter] = match;
-                return '___LATEX_DISPLAY_' + (counter++) + '___';
-            });
-            
-            markdown = markdown.replace(/\\\[[\s\S]*?\\\]/g, function(match) {
-                tempLatex[counter] = match;
-                return '___LATEX_DISPLAY_' + (counter++) + '___';
-            });
-            
-            markdown = markdown.replace(/\$([^\$\n]+?)\$/g, function(match) {
-                tempLatex[counter] = match;
-                return '___LATEX_INLINE_' + (counter++) + '___';
-            });
-            
-            markdown = markdown.replace(/\\\([\s\S]*?\\\)/g, function(match) {
-                tempLatex[counter] = match;
-                return '___LATEX_INLINE_' + (counter++) + '___';
-            });
-            
             let html = '';
+            
+            // Parse markdown directly without LaTeX protection
+            // MathJax will handle the LaTeX after HTML is rendered
             if (typeof marked !== 'undefined') {
                 try {
-                    html = marked.parse(markdown);
+                    // Configure marked to not escape HTML entities
+                    html = marked.parse(markdown, {
+                        breaks: true,
+                        gfm: true,
+                        headerIds: false,
+                        mangle: false
+                    });
                 } catch (error) {
                     console.error('Markdown error:', error);
-                    html = markdown.replace(/\n/g, '<br>');
+                    html = markdown.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
+                    html = '<p>' + html + '</p>';
                 }
             } else {
-                html = markdown.replace(/\n/g, '<br>');
-            }
-            
-            // Restore LaTeX
-            for (let i = 0; i < counter; i++) {
-                html = html.replace('___LATEX_DISPLAY_' + i + '___', tempLatex[i]);
-                html = html.replace('___LATEX_INLINE_' + i + '___', tempLatex[i]);
+                // Simple fallback
+                html = markdown.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
+                html = '<p>' + html + '</p>';
             }
             
             return html;
