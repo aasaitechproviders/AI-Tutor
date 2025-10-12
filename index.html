@@ -1219,6 +1219,47 @@
             color: var(--secondary);
         }
 
+        .answer-text pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .answer-text pre code {
+            background: transparent;
+            padding: 0;
+            color: #f8f8f2;
+            display: block;
+        }
+
+        .code-block-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .code-block-wrapper {
+            margin: 0 0 1rem 0;
+        }
+
+        .code-block-wrapper pre {
+            margin-top: 0;
+            border-radius: 0 0 8px 8px;
+        }
+
         /* Auth Required */
         .auth-required {
             text-align: center;
@@ -2341,12 +2382,17 @@
                                         { 
                                             text: 'What is a variable in programming?', 
                                             marks: 2,
-                                            answer: 'A variable is a named storage location in memory that holds a value. It has a name (identifier) and a data type that determines what kind of data it can store. Variables can be modified during program execution.'
+                                            answer: 'A variable is a named storage location in memory that holds a value. It has a name (identifier) and a data type that determines what kind of data it can store. Variables can be modified during program execution.<br><br><strong>Example:</strong><div class="code-block-wrapper"><div class="code-block-header">💻 Python</div><pre><code>age = 25          # Integer variable\nname = "John"     # String variable\nheight = 5.8      # Float variable</code></pre></div>'
                                         },
                                         { 
                                             text: 'Explain the difference between int and float data types', 
                                             marks: 2,
-                                            answer: '<strong>int (Integer):</strong> Stores whole numbers without decimal points (e.g., 5, -10, 100).<br><br><strong>float (Floating-point):</strong> Stores numbers with decimal points (e.g., 3.14, -0.5, 2.0).<br><br>Integers take less memory and operations are faster, while floats provide precision for decimal calculations.'
+                                            answer: '<strong>int (Integer):</strong> Stores whole numbers without decimal points (e.g., 5, -10, 100).<br><br><strong>float (Floating-point):</strong> Stores numbers with decimal points (e.g., 3.14, -0.5, 2.0).<br><br>Integers take less memory and operations are faster, while floats provide precision for decimal calculations.<br><br><strong>Example:</strong><div class="code-block-wrapper"><div class="code-block-header">💻 Python</div><pre><code>count = 42        # int\nprice = 19.99     # float\ntemp = -5         # int\npi = 3.14159      # float</code></pre></div>'
+                                        },
+                                        { 
+                                            text: 'Write a program to implement a simple calculator', 
+                                            marks: 10,
+                                            answer: '<strong>Simple Calculator Program:</strong><br><br>This program asks for two numbers and an operator, then calculates the answer. It prevents division by zero errors.<div class="code-block-wrapper"><div class="code-block-header">💻 Python - Simple Calculator</div><pre><code>print("Simple Calculator")\n\n# Get user inputs\na = float(input("Enter first number: "))\nop = input("Choose operator (+, -, *, /): ").strip()\nb = float(input("Enter second number: "))\n\n# Perform calculation\nif op == \'+\':\n    result = a + b\nelif op == \'-\':\n    result = a - b\nelif op == \'*\':\n    result = a * b\nelif op == \'/\':\n    if b == 0:\n        print("Error: Cannot divide by zero")\n        result = None\n    else:\n        result = a / b\nelse:\n    print("Invalid operator")\n    result = None\n\n# Display result\nif result is not None:\n    print(f"Result: {result}")</code></pre></div><br><strong>Features:</strong><ul><li>Takes two numbers as input</li><li>Performs basic arithmetic operations (+, -, *, /)</li><li>Handles division by zero error</li><li>Validates operator input</li><li>Displays formatted result</li></ul><br><strong>Example Usage:</strong><br>Input: a=12, b=3, operator="/" → Output: Result: 4.0'
                                         }
                                     ]
                                 }
