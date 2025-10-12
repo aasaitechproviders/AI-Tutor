@@ -357,7 +357,6 @@
             box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15);
             border-radius: 12px;
             overflow: hidden;
-            position: relative;
         }
 
         .search-input {
@@ -371,100 +370,6 @@
 
         .search-input::placeholder {
             color: var(--gray);
-        }
-
-        .mic-btn {
-            background: white;
-            border: none;
-            padding: 0 1.5rem;
-            cursor: pointer;
-            font-size: 1.5rem;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            border-left: 2px solid var(--light-gray);
-        }
-
-        .mic-btn:hover {
-            background: var(--light);
-            color: var(--secondary);
-        }
-
-        .mic-btn.listening {
-            background: linear-gradient(135deg, #ff6b6b, #ff0000);
-            color: white;
-            animation: pulse 1.5s infinite;
-        }
-
-        .mic-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.05);
-                opacity: 0.8;
-            }
-        }
-
-        .language-selector {
-            position: absolute;
-            bottom: -45px;
-            right: 0;
-            background: white;
-            border: 2px solid var(--primary);
-            border-radius: 8px;
-            padding: 0.5rem;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 10;
-        }
-
-        .language-selector.show {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .lang-option {
-            padding: 0.4rem 0.8rem;
-            border: 1px solid var(--light-gray);
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-            background: white;
-        }
-
-        .lang-option:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .lang-option.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .mic-status {
-            position: absolute;
-            bottom: -40px;
-            left: 0;
-            font-size: 0.85rem;
-            color: var(--primary);
-            display: none;
-        }
-
-        .mic-status.show {
-            display: block;
         }
 
         .search-btn {
@@ -1634,8 +1539,6 @@
             .search-box {
                 flex-direction: column;
                 border-radius: 8px;
-                position: relative;
-                padding-bottom: 50px;
             }
 
             .search-input {
@@ -1644,36 +1547,9 @@
                 border-bottom: 1px solid var(--light-gray);
             }
 
-            .mic-btn {
-                padding: 1rem;
-                font-size: 1.3rem;
-                border-left: none;
-                border-top: 1px solid var(--light-gray);
-            }
-
             .search-btn {
                 padding: 1rem;
                 font-size: 1rem;
-            }
-
-            .language-selector {
-                bottom: -80px;
-                right: 50%;
-                transform: translateX(50%);
-                flex-wrap: wrap;
-                max-width: 90%;
-            }
-
-            .lang-option {
-                font-size: 0.75rem;
-                padding: 0.3rem 0.6rem;
-            }
-
-            .mic-status {
-                bottom: -70px;
-                left: 50%;
-                transform: translateX(-50%);
-                white-space: nowrap;
             }
 
             .result-card {
@@ -2019,19 +1895,7 @@
                 
                 <div class="search-box">
                     <input type="text" class="search-input" id="question-input" placeholder="What would you like to know?">
-                    <button class="mic-btn" id="mic-button" title="Voice input">🎤</button>
                     <button class="search-btn" id="search-button">Search</button>
-                    
-                    <div class="language-selector" id="language-selector">
-                        <button class="lang-option active" data-lang="en-US">English</button>
-                        <button class="lang-option" data-lang="ta-IN">தமிழ்</button>
-                        <button class="lang-option" data-lang="hi-IN">हिंदी</button>
-                        <button class="lang-option" data-lang="te-IN">తెలుగు</button>
-                        <button class="lang-option" data-lang="kn-IN">ಕನ್ನಡ</button>
-                        <button class="lang-option" data-lang="ml-IN">മലയാളം</button>
-                    </div>
-                    
-                    <div class="mic-status" id="mic-status"></div>
                 </div>
 
                 <!-- Results Section -->
@@ -2107,15 +1971,11 @@
         let currentAnswerText = '';
         let currentChatId = null;
         let searchStartTime = null;
-        let recognition = null;
-        let isListening = false;
-        let selectedLanguage = 'en-US';
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             initializeGoogleSignIn();
             setupEventListeners();
-            initializeSpeechRecognition();
             
             if (typeof marked !== 'undefined') {
                 marked.setOptions({
@@ -2131,7 +1991,6 @@
             document.getElementById('sign-out-btn').addEventListener('click', signOut);
             document.getElementById('refresh-history-btn').addEventListener('click', refreshChatHistory);
             document.getElementById('search-button').addEventListener('click', performSearch);
-            document.getElementById('mic-button').addEventListener('click', toggleVoiceRecognition);
             document.getElementById('question-input').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') performSearch();
             });
@@ -2144,157 +2003,9 @@
             document.getElementById('load-more-history-btn').addEventListener('click', function() {
                 loadChatMessages(currentPage + 1, true);
             });
-            
-            // Language selector listeners
-            document.querySelectorAll('.lang-option').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    selectedLanguage = this.dataset.lang;
-                    document.querySelectorAll('.lang-option').forEach(function(b) {
-                        b.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    if (recognition) {
-                        recognition.lang = selectedLanguage;
-                    }
-                    showNotification('Language changed to ' + this.textContent, 'info', 1500);
-                });
-            });
         }
 
-        function initializeSpeechRecognition() {
-            // Check if browser supports speech recognition
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            
-            if (!SpeechRecognition) {
-                console.log('Speech recognition not supported in this browser');
-                const micBtn = document.getElementById('mic-button');
-                if (micBtn) {
-                    micBtn.style.display = 'none';
-                }
-                return;
-            }
-            
-            recognition = new SpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = true;
-            recognition.lang = selectedLanguage;
-            
-            recognition.onstart = function() {
-                isListening = true;
-                const micBtn = document.getElementById('mic-button');
-                const micStatus = document.getElementById('mic-status');
-                const langSelector = document.getElementById('language-selector');
-                
-                micBtn.classList.add('listening');
-                micBtn.innerHTML = '🎙️';
-                micStatus.textContent = '🎤 Listening... Speak now';
-                micStatus.classList.add('show');
-                langSelector.classList.remove('show');
-                
-                console.log('Speech recognition started');
-            };
-            
-            recognition.onresult = function(event) {
-                let interimTranscript = '';
-                let finalTranscript = '';
-                
-                for (let i = event.resultIndex; i < event.results.length; i++) {
-                    const transcript = event.results[i][0].transcript;
-                    if (event.results[i].isFinal) {
-                        finalTranscript += transcript + ' ';
-                    } else {
-                        interimTranscript += transcript;
-                    }
-                }
-                
-                const questionInput = document.getElementById('question-input');
-                
-                if (finalTranscript) {
-                    questionInput.value = finalTranscript.trim();
-                    console.log('Final transcript:', finalTranscript);
-                } else if (interimTranscript) {
-                    questionInput.value = interimTranscript;
-                    console.log('Interim transcript:', interimTranscript);
-                }
-            };
-            
-            recognition.onerror = function(event) {
-                console.error('Speech recognition error:', event.error);
-                stopListening();
-                
-                let errorMessage = 'Speech recognition error';
-                
-                switch(event.error) {
-                    case 'no-speech':
-                        errorMessage = 'No speech detected. Please try again.';
-                        break;
-                    case 'audio-capture':
-                        errorMessage = 'No microphone found. Please check your device.';
-                        break;
-                    case 'not-allowed':
-                        errorMessage = 'Microphone access denied. Please allow access.';
-                        break;
-                    case 'network':
-                        errorMessage = 'Network error. Please check your connection.';
-                        break;
-                    default:
-                        errorMessage = 'Error: ' + event.error;
-                }
-                
-                showNotification(errorMessage, 'error', 3000);
-            };
-            
-            recognition.onend = function() {
-                stopListening();
-                console.log('Speech recognition ended');
-            };
-        }
-        
-        function toggleVoiceRecognition() {
-            if (!recognition) {
-                showNotification('Speech recognition not supported in this browser', 'error');
-                return;
-            }
-            
-            if (isListening) {
-                recognition.stop();
-            } else {
-                const langSelector = document.getElementById('language-selector');
-                langSelector.classList.toggle('show');
-                
-                // Start recognition after a short delay if language selector is shown
-                if (langSelector.classList.contains('show')) {
-                    setTimeout(function() {
-                        if (langSelector.classList.contains('show')) {
-                            langSelector.classList.remove('show');
-                            startListening();
-                        }
-                    }, 3000);
-                } else {
-                    startListening();
-                }
-            }
-        }
-        
-        function startListening() {
-            try {
-                recognition.lang = selectedLanguage;
-                recognition.start();
-            } catch (error) {
-                console.error('Error starting recognition:', error);
-                showNotification('Failed to start voice recognition', 'error');
-            }
-        }
-        
-        function stopListening() {
-            isListening = false;
-            const micBtn = document.getElementById('mic-button');
-            const micStatus = document.getElementById('mic-status');
-            
-            micBtn.classList.remove('listening');
-            micBtn.innerHTML = '🎤';
-            micStatus.classList.remove('show');
-        }
+        function switchMode(mode) {
             currentMode = mode;
             document.getElementById('ai-search-mode').classList.toggle('active', mode === 'search');
             document.getElementById('question-bank-mode').classList.toggle('active', mode === 'questions');
