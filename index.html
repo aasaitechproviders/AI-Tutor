@@ -475,7 +475,7 @@
 
         /* FORMATTED CONTENT STYLES */
         .formatted-content {
-            line-height: 1.8;
+            line-height: 1.6;
             color: var(--dark);
             font-size: 1.05rem;
         }
@@ -484,48 +484,58 @@
             font-size: 2rem;
             font-weight: 700;
             color: var(--primary);
-            margin: 1.5rem 0 1rem 0;
+            margin: 1.2rem 0 0.8rem 0;
             padding-bottom: 0.5rem;
             border-bottom: 3px solid var(--primary);
+            line-height: 1.3;
         }
 
         .formatted-content h2 {
             font-size: 1.6rem;
             font-weight: 600;
             color: var(--secondary);
-            margin: 1.3rem 0 0.8rem 0;
+            margin: 1rem 0 0.6rem 0;
             padding-bottom: 0.3rem;
             border-bottom: 2px solid var(--light-gray);
+            line-height: 1.3;
         }
 
         .formatted-content h3 {
             font-size: 1.3rem;
             font-weight: 600;
             color: var(--accent);
-            margin: 1.2rem 0 0.7rem 0;
+            margin: 0.8rem 0 0.5rem 0;
+            line-height: 1.3;
         }
 
         .formatted-content h4 {
             font-size: 1.1rem;
             font-weight: 600;
             color: var(--primary);
-            margin: 1rem 0 0.6rem 0;
+            margin: 0.7rem 0 0.4rem 0;
+            line-height: 1.3;
         }
 
         .formatted-content p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .formatted-content br {
+            display: block;
+            content: "";
+            margin: 0.3rem 0;
         }
 
         .formatted-content ul,
         .formatted-content ol {
-            margin: 1rem 0 1rem 2rem;
+            margin: 0.8rem 0 0.8rem 2rem;
             padding-left: 1rem;
         }
 
         .formatted-content li {
-            margin-bottom: 0.5rem;
-            line-height: 1.7;
+            margin-bottom: 0.4rem;
+            line-height: 1.5;
         }
 
         .formatted-content ul li {
