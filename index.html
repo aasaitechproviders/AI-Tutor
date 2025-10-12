@@ -720,6 +720,8 @@
             margin-top: 1.5rem;
             padding-top: 1rem;
             border-top: 1px solid var(--light-gray);
+            flex-wrap: wrap;
+            align-items: center;
         }
 
         .action-btn {
@@ -740,6 +742,61 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+        }
+
+        .feedback-btn {
+            background: white;
+            border: 2px solid var(--light-gray);
+            color: var(--gray);
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+
+        .feedback-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .feedback-btn.active-like {
+            background: #e6f4ea;
+            border-color: #137333;
+            color: #137333;
+        }
+
+        .feedback-btn.active-dislike {
+            background: #fce8e6;
+            border-color: #c5221f;
+            color: #c5221f;
+        }
+
+        .feedback-btn.active-report {
+            background: #fff8e1;
+            border-color: #f57c00;
+            color: #f57c00;
+        }
+
+        .feedback-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .response-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+            padding: 0.3rem 0.6rem;
+            background: var(--light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
         }
 
         .no-results {
@@ -1673,6 +1730,8 @@
 
             .answer-content {
                 padding: 1rem;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
             }
 
             .answer-label {
@@ -1681,6 +1740,21 @@
 
             .answer-text {
                 font-size: 0.85rem;
+            }
+
+            .answer-text pre {
+                padding: 1rem;
+                font-size: 0.8rem;
+                max-height: 400px;
+            }
+
+            .code-block-wrapper {
+                max-width: 100%;
+            }
+
+            .code-block-header {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.8rem;
             }
 
             .footer-content {
