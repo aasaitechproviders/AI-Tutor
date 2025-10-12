@@ -327,6 +327,7 @@
             padding: 2rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             display: none;
+            min-height: 400px;
         }
 
         .search-container.show {
@@ -435,6 +436,30 @@
             border-color: var(--primary);
         }
 
+        .result-question {
+            background: #f0f7ff;
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .result-question-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
         .result-title {
             font-size: 1.3rem;
             font-weight: 600;
@@ -539,11 +564,50 @@
         }
 
         .formatted-content ul li {
-            list-style-type: disc;
+            list-style-type: none;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .formatted-content ul li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(67, 97, 238, 0.3);
         }
 
         .formatted-content ol li {
-            list-style-type: decimal;
+            list-style-type: none;
+            position: relative;
+            padding-left: 2rem;
+            counter-increment: item;
+        }
+
+        .formatted-content ol {
+            counter-reset: item;
+        }
+
+        .formatted-content ol li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(67, 97, 238, 0.3);
         }
 
         .formatted-content table {
@@ -1210,7 +1274,9 @@
                 <span>Aasai SmartEDU</span>
             </div>
             <div class="auth-container">
-                <div id="google-signin-button"></div>
+                <div class="google-signin-container" id="google-signin-container">
+                    <div id="google-signin-button"></div>
+                </div>
                 <div id="user-profile" class="user-profile">
                     <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
                     <div class="user-info">
@@ -1559,6 +1625,9 @@
             
             currentAnswerText = data.answer;
             
+            // Get the original question from the input
+            const originalQuestion = document.getElementById('question-input').value || 'Your question';
+            
             let confidenceClass = 'confidence-low';
             let confidenceText = 'Low';
             if (data.confidence >= 0.8) {
@@ -1576,6 +1645,10 @@
             const formattedAnswer = formatMarkdownContent(data.answer);
             
             const resultHtml = '<div class="result-card">' +
+                '<div class="result-question">' +
+                    '<div class="result-question-label">Question</div>' +
+                    '<div class="result-question-text">' + escapeHtml(originalQuestion) + '</div>' +
+                '</div>' +
                 '<h3 class="result-title">AI Answer</h3>' +
                 '<div class="result-meta">' +
                     '<span class="confidence-badge ' + confidenceClass + '">' + confidenceText + ' (' + (data.confidence * 100).toFixed(1) + '%)</span>' +
@@ -1746,6 +1819,12 @@
             document.getElementById('user-name').textContent = user.name;
             document.getElementById('user-email').textContent = user.email;
             document.getElementById('search-count').textContent = user.searchCount || 0;
+            
+            // Hide the Google sign-in button
+            const signInContainer = document.getElementById('google-signin-container');
+            if (signInContainer) {
+                signInContainer.style.display = 'none';
+            }
         }
 
         function showSearchSection() {
@@ -1782,6 +1861,12 @@
             document.getElementById('user-profile').classList.remove('show');
             document.getElementById('auth-required').style.display = 'block';
             document.getElementById('main-layout').style.display = 'none';
+            
+            // Show the Google sign-in button again
+            const signInContainer = document.getElementById('google-signin-container');
+            if (signInContainer) {
+                signInContainer.style.display = 'flex';
+            }
         }
 
         async function loadChatHistory() {
