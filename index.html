@@ -1298,31 +1298,13 @@
         }
 
         .question-text {
-            flex: 1;
-            font-size: 0.95rem;
-            color: var(--dark);
-            line-height: 1.5;
+            font-size: 0.9rem;
             font-weight: 500;
+            color: var(--dark);
+            line-height: 1.4;
             overflow-wrap: break-word;
             word-wrap: break-word;
             min-width: 0;
-        }
-
-        .question-right {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            flex-shrink: 0;
-        }
-
-        .mark-badge {
-            background: linear-gradient(135deg, var(--success), #3a86ff);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            white-space: nowrap;
         }
 
         .question-toggle {
@@ -1336,789 +1318,673 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 300;
             transition: all 0.3s;
+            flex-shrink: 0;
         }
 
         .question-header.active .question-toggle {
             background: var(--secondary);
+            transform: rotate(180deg);
         }
 
         .question-answer {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-out;
+            transition: max-height 0.3s ease-out;
             background: white;
         }
 
         .question-answer.show {
-            max-height: 3000px;
+            max-height: 10000px;
             transition: max-height 0.5s ease-in;
-            border-top: 2px solid var(--light-gray);
         }
 
         .answer-content {
             padding: 1.5rem;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
+            border-top: 2px solid var(--light-gray);
         }
 
-        .answer-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.8rem;
+        .answer-actions {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .answer-text {
-            color: var(--dark);
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-
-        .answer-text p {
-            margin-bottom: 0.8rem;
-        }
-
-        .answer-text ul, .answer-text ol {
-            margin: 0.5rem 0 0.8rem 1.5rem;
-        }
-
-        .answer-text li {
-            margin-bottom: 0.4rem;
-        }
-
-        .answer-text strong {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .answer-text code {
-            background: #f5f5f5;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-            color: var(--secondary);
-        }
-
-        .answer-text pre {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 1.5rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            overflow-y: auto;
-            max-height: 500px;
-            margin: 1rem 0;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-
-        .answer-text pre code {
-            background: transparent;
-            padding: 0;
-            color: #f8f8f2;
-            display: block;
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-
-        .code-block-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px 8px 0 0;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
             margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--light-gray);
+            flex-wrap: wrap;
         }
 
-        .code-block-wrapper {
-            margin: 0 0 1rem 0;
-            max-width: 100%;
-            overflow: hidden;
-        }
-
-        .code-block-wrapper pre {
-            margin-top: 0;
-            border-radius: 0 0 8px 8px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        /* Auth Required */
-        .auth-required {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            margin: 2rem 0;
-        }
-
-        .auth-required h2 {
+        .answer-action-btn {
+            background: var(--light);
+            border: 1px solid var(--light-gray);
             color: var(--primary);
-            margin-bottom: 1rem;
-            font-size: 2rem;
-        }
-
-        .auth-required p {
-            color: var(--gray);
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            color: white;
+            cursor: pointer;
             font-weight: 500;
-            z-index: 1000;
-            max-width: 300px;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.3s;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
         }
 
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.success {
-            background: var(--success);
-        }
-
-        .notification.error {
-            background: var(--warning);
-        }
-
-        .notification.info {
+        .answer-action-btn:hover {
             background: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
 
         /* Footer */
         footer {
-            background: var(--dark);
+            background: linear-gradient(135deg, var(--secondary), var(--dark));
             color: white;
             padding: 2rem 0;
-            margin-top: auto;
+            margin-top: 3rem;
         }
 
         .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-section p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.6;
         }
 
         .footer-links {
-            display: flex;
-            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
         }
 
         .footer-links a {
             color: white;
+            opacity: 0.8;
             text-decoration: none;
             transition: opacity 0.3s;
         }
 
         .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .mode-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .selectors-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                border-radius: 12px 12px 0 0;
+            }
+            
+            .voice-btn, .search-btn {
+                padding: 1rem;
+                border-radius: 0 0 12px 12px;
+            }
+            
+            .result-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .chat-messages-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: white;
+            color: var(--dark);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            max-width: 400px;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.3s ease-out;
+            border-left: 4px solid var(--primary);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left-color: #28a745;
+        }
+
+        .toast.error {
+            border-left-color: #dc3545;
+        }
+
+        .toast.warning {
+            border-left-color: #ffc107;
+        }
+
+        .toast.info {
+            border-left-color: var(--primary);
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .toast-message {
+            font-size: 0.9rem;
             opacity: 0.8;
         }
 
-        /* Mobile Styles */
-        @media screen and (max-width: 768px) {
-            .container {
-                padding: 0 12px;
-            }
-
-            .header-content {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                gap: 0.5rem;
-                padding: 0.5rem 0;
-                flex-wrap: nowrap;
-            }
-
-            .logo {
-                font-size: 1.1rem;
-                flex-shrink: 0;
-            }
-
-            .logo-icon {
-                font-size: 1.3rem;
-                margin-right: 6px;
-            }
-
-            .user-profile {
-                padding: 0.3rem 0.6rem;
-                font-size: 0.75rem;
-                gap: 0.5rem;
-                flex-shrink: 1;
-                min-width: 0;
-            }
-
-            .user-info {
-                display: none;
-            }
-
-            .user-avatar {
-                width: 32px;
-                height: 32px;
-                flex-shrink: 0;
-            }
-
-            .user-stats {
-                font-size: 0.7rem;
-                white-space: nowrap;
-            }
-
-            .sign-out-btn {
-                padding: 0.4rem 0.7rem;
-                font-size: 0.75rem;
-                white-space: nowrap;
-            }
-
-            main {
-                padding: 1rem 0;
-            }
-
-            .main-layout {
-                gap: 1rem;
-            }
-
-            .mode-toggle-section,
-            .search-container,
-            .results-container,
-            .units-container {
-                padding: 1rem;
-                border-radius: 12px;
-            }
-
-            .mode-toggle-title,
-            .search-title,
-            .results-title,
-            .units-title {
-                font-size: 1.3rem;
-            }
-
-            .mode-toggle-subtitle,
-            .search-subtitle {
-                font-size: 0.9rem;
-            }
-
-            .mode-buttons {
-                grid-template-columns: 1fr 1fr;
-                gap: 1rem;
-            }
-
-            .mode-btn {
-                padding: 1rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .mode-icon {
-                font-size: 2rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .mode-title {
-                font-size: 0.95rem;
-                margin-bottom: 0.3rem;
-            }
-
-            .mode-description {
-                font-size: 0.75rem;
-                text-align: center;
-            }
-
-            .selectors-grid {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-            }
-
-            .language-selector {
-                flex-direction: column;
-                gap: 0.5rem;
-                padding: 0.8rem;
-            }
-
-            .search-box {
-                flex-direction: column;
-                border-radius: 8px;
-            }
-
-            .search-input {
-                padding: 1rem;
-                font-size: 1rem;
-                border-bottom: 1px solid var(--light-gray);
-            }
-
-            .voice-btn {
-                padding: 1rem;
-                font-size: 1.3rem;
-                border-bottom: 1px solid var(--light-gray);
-            }
-
-            .search-btn {
-                padding: 1rem;
-                font-size: 1rem;
-            }
-
-            .result-card {
-                padding: 1rem;
-            }
-
-            .result-title {
-                font-size: 1.1rem;
-            }
-
-            .result-meta {
-                font-size: 0.85rem;
-                gap: 0.5rem;
-            }
-
-            .formatted-content {
-                font-size: 0.95rem;
-            }
-
-            .formatted-content h1 {
-                font-size: 1.5rem;
-            }
-
-            .formatted-content h2 {
-                font-size: 1.3rem;
-            }
-
-            .formatted-content h3 {
-                font-size: 1.1rem;
-            }
-
-            .formatted-content h4 {
-                font-size: 1rem;
-            }
-
-            .formatted-content ul,
-            .formatted-content ol {
-                margin: 0.8rem 0 0.8rem 0.5rem;
-                padding-left: 0.5rem;
-            }
-
-            .formatted-content ul li {
-                padding-left: 1.2rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .formatted-content ul li::before {
-                left: 0;
-                top: 0.5rem;
-                width: 6px;
-                height: 6px;
-            }
-
-            .formatted-content ol li {
-                padding-left: 1.5rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .formatted-content ol li::before {
-                left: 0;
-                top: 0.1rem;
-                width: 20px;
-                height: 20px;
-                font-size: 0.7rem;
-            }
-
-            .formatted-content table {
-                font-size: 0.85rem;
-                overflow-x: auto;
-                display: block;
-            }
-
-            .formatted-content th,
-            .formatted-content td {
-                padding: 0.5rem;
-                font-size: 0.8rem;
-            }
-
-            .formatted-content .math-display {
-                font-size: 1em;
-                padding: 0.8rem;
-                overflow-x: auto;
-            }
-
-            .result-actions {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .action-btn, .speaker-btn {
-                width: 100%;
-                justify-content: center;
-                padding: 0.7rem;
-            }
-
-            .chat-history-search {
-                margin-top: 1rem;
-                padding-top: 1rem;
-            }
-
-            .chat-history-title {
-                font-size: 1.1rem;
-            }
-
-            .chat-messages-grid {
-                grid-template-columns: 1fr;
-                max-height: 300px;
-            }
-
-            .chat-message-item {
-                padding: 0.8rem;
-            }
-
-            .units-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .unit-header {
-                padding: 1rem;
-            }
-
-            .unit-title {
-                font-size: 1rem;
-            }
-
-            .unit-icon {
-                font-size: 1.2rem;
-            }
-
-            .unit-toggle {
-                width: 28px;
-                height: 28px;
-                font-size: 1rem;
-            }
-
-            .question-section {
-                padding: 1rem;
-            }
-
-            .question-type-title {
-                font-size: 0.9rem;
-            }
-
-            .question-header {
-                padding: 0.8rem;
-            }
-
-            .question-left {
-                gap: 0.5rem;
-            }
-
-            .question-number {
-                width: 24px;
-                height: 24px;
-                font-size: 0.7rem;
-            }
-
-            .question-text {
-                font-size: 0.85rem;
-            }
-
-            .question-right {
-                gap: 0.5rem;
-                flex-direction: column;
-            }
-
-            .mark-badge {
-                font-size: 0.7rem;
-                padding: 0.25rem 0.6rem;
-            }
-
-            .question-toggle {
-                width: 24px;
-                height: 24px;
-                font-size: 1rem;
-            }
-
-            .answer-content {
-                padding: 1rem;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-            }
-
-            .answer-label {
-                font-size: 0.75rem;
-            }
-
-            .answer-text {
-                font-size: 0.85rem;
-            }
-
-            .answer-text pre {
-                padding: 1rem;
-                font-size: 0.8rem;
-                max-height: 400px;
-            }
-
-            .code-block-wrapper {
-                max-width: 100%;
-            }
-
-            .code-block-header {
-                font-size: 0.75rem;
-                padding: 0.4rem 0.8rem;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-                font-size: 0.85rem;
-            }
-
-            .footer-links {
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-
-            .notification {
-                max-width: 90%;
-                right: 5%;
-                font-size: 0.9rem;
-            }
+        .toast-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
         }
 
-        /* Tablet Styles */
-        @media screen and (min-width: 769px) and (max-width: 1024px) {
-            .container {
-                padding: 0 16px;
-            }
+        .toast-close:hover {
+            opacity: 1;
+        }
 
-            .mode-buttons {
-                grid-template-columns: 1fr 1fr;
-            }
+        /* Welcome Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
 
-            .units-grid {
-                grid-template-columns: 1fr;
-            }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
 
-            .formatted-content table {
-                font-size: 0.9rem;
-            }
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        .modal-content {
+            margin-bottom: 2rem;
+        }
+
+        .modal-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .modal-features li {
+            padding: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .modal-features li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-btn.primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .modal-btn.primary:hover {
+            background: var(--secondary);
+        }
+
+        .modal-btn.secondary {
+            background: var(--light);
+            color: var(--primary);
+            border: 2px solid var(--light-gray);
+        }
+
+        .modal-btn.secondary:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Utility classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-1 {
+            margin-top: 1rem;
+        }
+
+        .mt-2 {
+            margin-top: 2rem;
+        }
+
+        .mb-1 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+
+        .p-1 {
+            padding: 1rem;
+        }
+
+        .p-2 {
+            padding: 2rem;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container header-content">
-            <div class="logo">
-                <span class="logo-icon">📚</span>
-                <span>Aasai SmartEDU</span>
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+
+    <!-- Welcome Modal -->
+    <div class="modal-overlay" id="welcomeModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Welcome to Aasai SmartEDU!</h2>
+                <p class="modal-subtitle">Your AI-powered learning assistant</p>
             </div>
-            <div class="auth-container">
-                <div class="google-signin-container" id="google-signin-container">
-                    <div id="google-signin-button"></div>
+            <div class="modal-content">
+                <p>Get ready to transform your learning experience with our intelligent assistant that can:</p>
+                <ul class="modal-features">
+                    <li>
+                        <span class="feature-icon">✓</span>
+                        <span>Answer questions across all subjects</span>
+                    </li>
+                    <li>
+                        <span class="feature-icon">✓</span>
+                        <span>Provide detailed explanations with examples</span>
+                    </li>
+                    <li>
+                        <span class="feature-icon">✓</span>
+                        <span>Read answers aloud in multiple languages</span>
+                    </li>
+                    <li>
+                        <span class="feature-icon">✓</span>
+                        <span>Access your course curriculum</span>
+                    </li>
+                    <li>
+                        <span class="feature-icon">✓</span>
+                        <span>Remember your learning history</span>
+                    </li>
+                </ul>
+                <p>Sign in to get started and personalize your learning journey!</p>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn primary" id="getStartedBtn">Get Started</button>
+                <button class="modal-btn secondary" id="exploreBtn">Explore First</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🧠</span>
+                    <span>Aasai SmartEDU</span>
                 </div>
-                <div id="user-profile" class="user-profile">
-                    <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
-                    <div class="user-info">
-                        <div id="user-name" class="user-name"></div>
-                        <div id="user-email" class="user-email"></div>
-                        <div id="user-stats" class="user-stats">
-                            <span><span id="search-count">0</span>S</span> | 
-                            <span><span id="conversation-count">0</span>C</span>
-                        </div>
+                <div class="auth-container">
+                    <div id="g_id_onload"
+                         data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                         data-context="signin"
+                         data-ux_mode="popup"
+                         data-callback="handleGoogleSignIn"
+                         data-auto_prompt="false">
                     </div>
-                    <button id="sign-out-btn" class="sign-out-btn">Sign Out</button>
+
+                    <div class="g_id_signin"
+                         data-type="standard"
+                         data-shape="pill"
+                         data-theme="filled_blue"
+                         data-text="signin_with"
+                         data-size="large"
+                         data-logo_alignment="left">
+                    </div>
+                    
+                    <div class="user-profile" id="userProfile">
+                        <img class="user-avatar" id="userAvatar" src="" alt="User Avatar">
+                        <div class="user-info">
+                            <div class="user-name" id="userName">User Name</div>
+                            <div class="user-email" id="userEmail">user@example.com</div>
+                            <div class="user-stats" id="userStats">Questions: 0</div>
+                        </div>
+                        <button class="sign-out-btn" id="signOutBtn">Sign Out</button>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="container">
-        <div id="auth-required" class="auth-required">
-            <h2>Welcome to Aasai SmartEDU</h2>
-            <p>Please sign in with your Google account to start learning</p>
-        </div>
-
-        <div id="main-layout" class="main-layout" style="display: none;">
-            <!-- Mode Toggle Section -->
-            <div class="mode-toggle-section">
-                <div class="mode-toggle-header">
-                    <h2 class="mode-toggle-title">Choose Your Study Mode</h2>
-                    <p class="mode-toggle-subtitle">Select how you want to explore your syllabus content</p>
-                </div>
-                
-                <div class="mode-buttons">
-                    <div class="mode-btn active" id="ai-search-mode" onclick="switchMode('search')">
-                        <div class="mode-icon">🤖</div>
-                        <div class="mode-title">AI Search</div>
-                        <div class="mode-description">Ask questions and get instant answers from your syllabus</div>
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="main-layout">
+                <!-- Mode Toggle Section -->
+                <section class="mode-toggle-section">
+                    <div class="mode-toggle-header">
+                        <h1 class="mode-toggle-title">How would you like to learn today?</h1>
+                        <p class="mode-toggle-subtitle">Choose your preferred learning mode</p>
                     </div>
                     
-                    <div class="mode-btn" id="question-bank-mode" onclick="switchMode('questions')">
-                        <div class="mode-icon">📝</div>
-                        <div class="mode-title">Question Bank</div>
-                        <div class="mode-description">Browse organized questions by units and topics</div>
-                    </div>
-                </div>
-                
-                <!-- Course Selection Panel -->
-                <div id="course-selection-panel" class="course-selection-panel">
-                    <h3 class="course-selection-title">Select Your Course Details</h3>
-                    <div class="selectors-grid">
-                        <div class="selector-group">
-                            <label for="department-select">Department</label>
-                            <select id="department-select" class="form-select">
-                                <option value="">Select Department</option>
-                                <option value="computer-science">Computer Science</option>
-                                <option value="mathematics">Mathematics</option>
-                                <option value="chemistry">Chemistry</option>
-                            </select>
+                    <div class="mode-buttons">
+                        <div class="mode-btn active" id="modeAiAssistant">
+                            <div class="mode-icon">🤖</div>
+                            <h3 class="mode-title">AI Assistant</h3>
+                            <p class="mode-description">Ask any question and get detailed explanations with examples. Perfect for exploring topics freely.</p>
                         </div>
-                        
-                        <div class="selector-group">
-                            <label for="semester-select">Semester</label>
-                            <select id="semester-select" class="form-select">
-                                <option value="">Select Semester</option>
-                                <option value="1">Semester 1</option>
-                                <option value="2">Semester 2</option>
-                                <option value="3">Semester 3</option>
-                            </select>
-                        </div>
-                        
-                        <div class="selector-group">
-                            <label for="subject-select">Subject</label>
-                            <select id="subject-select" class="form-select">
-                                <option value="">Select Subject</option>
-                            </select>
+                        <div class="mode-btn" id="modeCourseCurriculum">
+                            <div class="mode-icon">📚</div>
+                            <h3 class="mode-title">Course Curriculum</h3>
+                            <p class="mode-description">Access structured learning materials, units, and questions from your school curriculum.</p>
                         </div>
                     </div>
-                </div>
-            </div>
+                    
+                    <!-- Course Selection Panel -->
+                    <div class="course-selection-panel" id="courseSelectionPanel">
+                        <h3 class="course-selection-title">Select Your Course Details</h3>
+                        <div class="selectors-grid">
+                            <div class="selector-group">
+                                <label for="gradeSelect">Grade</label>
+                                <select class="form-select" id="gradeSelect">
+                                    <option value="">Select Grade</option>
+                                    <option value="8">Grade 8</option>
+                                    <option value="9">Grade 9</option>
+                                    <option value="10">Grade 10</option>
+                                    <option value="11">Grade 11</option>
+                                    <option value="12">Grade 12</option>
+                                </select>
+                            </div>
+                            <div class="selector-group">
+                                <label for="subjectSelect">Subject</label>
+                                <select class="form-select" id="subjectSelect">
+                                    <option value="">Select Subject</option>
+                                    <option value="math">Mathematics</option>
+                                    <option value="science">Science</option>
+                                    <option value="english">English</option>
+                                    <option value="social">Social Studies</option>
+                                    <option value="tamil">Tamil</option>
+                                </select>
+                            </div>
+                            <div class="selector-group">
+                                <label for="boardSelect">Education Board</label>
+                                <select class="form-select" id="boardSelect">
+                                    <option value="">Select Board</option>
+                                    <option value="state">State Board</option>
+                                    <option value="cbse">CBSE</option>
+                                    <option value="icse">ICSE</option>
+                                    <option value="matric">Matriculation</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
-            <!-- Search Section -->
-            <div id="search-section" class="search-container show">
-                <div class="search-header">
-                    <h2 class="search-title">Ask AI About Your Syllabus</h2>
-                    <p class="search-subtitle">Get instant answers with proper formatting</p>
-                </div>
-                
-                <!-- Language Selector -->
-                <div class="language-selector">
-                    <label for="language-select">🌐 Language:</label>
-                    <select id="language-select" class="language-select">
-                        <option value="en-US">English</option>
-                        <option value="hi-IN">Hindi (हिंदी)</option>
-                        <option value="ta-IN">Tamil (தமிழ்)</option>
-                        <option value="te-IN">Telugu (తెలుగు)</option>
-                        <option value="kn-IN">Kannada (ಕನ್ನಡ)</option>
-                        <option value="ml-IN">Malayalam (മലയാളം)</option>
-                        <option value="mr-IN">Marathi (मराठी)</option>
-                        <option value="gu-IN">Gujarati (ગુજરાતી)</option>
-                        <option value="bn-IN">Bengali (বাংলা)</option>
-                        <option value="pa-IN">Punjabi (ਪੰਜਾਬੀ)</option>
-                        <option value="es-ES">Spanish (Español)</option>
-                        <option value="fr-FR">French (Français)</option>
-                        <option value="de-DE">German (Deutsch)</option>
-                        <option value="ja-JP">Japanese (日本語)</option>
-                        <option value="zh-CN">Chinese (中文)</option>
-                        <option value="ar-SA">Arabic (العربية)</option>
-                    </select>
-                </div>
+                <!-- Search Section -->
+                <section class="search-container" id="searchContainer">
+                    <div class="search-header">
+                        <h2 class="search-title">Ask Me Anything</h2>
+                        <p class="search-subtitle">I can help with any subject or topic. Ask your question below!</p>
+                    </div>
+                    
+                    <!-- Language Selector -->
+                    <div class="language-selector">
+                        <label for="languageSelect">Answer Language:</label>
+                        <select class="language-select" id="languageSelect">
+                            <option value="english">English</option>
+                            <option value="tamil">தமிழ் (Tamil)</option>
+                            <option value="hindi">हिंदी (Hindi)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Type your question here...">
+                        <button class="voice-btn" id="voiceBtn" title="Voice Search">
+                            🎤
+                        </button>
+                        <button class="search-btn" id="searchBtn" disabled>
+                            Search
+                        </button>
+                    </div>
+                    
+                    <div class="voice-status" id="voiceStatus"></div>
+                </section>
 
-                <!-- Voice Status -->
-                <div id="voice-status" class="voice-status">
-                    <span id="voice-status-text"></span>
-                </div>
-                
-                <div class="search-box">
-                    <input type="text" class="search-input" id="question-input" placeholder="What would you like to know?">
-                    <button class="voice-btn" id="voice-btn" title="Voice Input">🎤</button>
-                    <button class="search-btn" id="search-button">Search</button>
-                </div>
+                <!-- Units Container -->
+                <section class="units-container" id="unitsContainer">
+                    <div class="units-header">
+                        <h2 class="units-title">Course Curriculum</h2>
+                        <p class="search-subtitle">Browse through your course materials and practice questions</p>
+                    </div>
+                    
+                    <div class="course-info" id="courseInfo">
+                        <h4>Select your grade, subject, and board to view curriculum</h4>
+                        <p>Choose from the options above to get started</p>
+                    </div>
+                    
+                    <div class="units-grid" id="unitsGrid">
+                        <!-- Units will be dynamically populated here -->
+                    </div>
+                </section>
 
                 <!-- Results Section -->
-                <div id="results-container" class="results-container">
+                <section class="results-container" id="resultsContainer">
                     <div class="results-header">
-                        <h2 class="results-title">Results</h2>
-                        <span id="results-count"></span>
-                    </div>
-                    <div id="results-content">
-                        <div class="no-results">
-                            <p>Your search results will appear here</p>
+                        <h2 class="results-title">Answer</h2>
+                        <div class="response-time" id="responseTime">
+                            <span>⏱️</span>
+                            <span id="responseTimeText">0s</span>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Chat History -->
-                <div class="chat-history-search">
-                    <div class="chat-history-header">
-                        <h3 class="chat-history-title">Recent Searches</h3>
-                        <button id="refresh-history-btn" class="refresh-btn" title="Refresh">🔄</button>
                     </div>
                     
-                    <div id="chat-history-grid" class="chat-messages-grid">
-                        <div class="no-chat-history">
-                            <p>No search history yet</p>
-                        </div>
+                    <div class="results-content" id="resultsContent">
+                        <!-- Results will be dynamically populated here -->
                     </div>
-                    <button id="load-more-history-btn" class="load-more-btn" style="display: none;">Load More</button>
-                </div>
-            </div>
-
-            <!-- Question Bank Section -->
-            <div id="units-container" class="units-container">
-                <div class="units-header">
-                    <h2 class="units-title">Unit-wise Question Bank</h2>
-                </div>
-                
-                <div class="course-info">
-                    <h4 id="selected-course">Select Course Details</h4>
-                    <p>Choose department, semester, and subject</p>
-                </div>
-                
-                <div id="units-grid" class="units-grid"></div>
+                    
+                    <!-- Chat History -->
+                    <div class="chat-history-search" id="chatHistorySection">
+                        <div class="chat-history-header">
+                            <h3 class="chat-history-title">Recent Questions</h3>
+                            <button class="refresh-btn" id="refreshHistoryBtn" title="Refresh History">↻</button>
+                        </div>
+                        <div class="chat-messages-grid" id="chatMessagesGrid">
+                            <!-- Chat history will be populated here -->
+                        </div>
+                        <button class="load-more-btn" id="loadMoreBtn">Load More</button>
+                    </div>
+                </section>
             </div>
         </div>
     </main>
 
-    <div id="notification" class="notification"></div>
-
+    <!-- Footer -->
     <footer>
-        <div class="container footer-content">
-            <p>&copy; 2025 Aasai SmartEDU - AI Syllabus Assistant</p>
-            <div class="footer-links">
-                <a href="https://www.aasaitech.in">Company Website</a>
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-                <a href="#">Help</a>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Aasai SmartEDU</h4>
+                    <p>An AI-powered learning assistant designed to help students aged 8-17 learn more effectively and efficiently.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Aasai SmartEDU. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-  <script>
+    <script>
         // Configuration
         const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com';
         const API_BASE_URL = 'https://musical-suitably-woodcock.ngrok-free.app';
