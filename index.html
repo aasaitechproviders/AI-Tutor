@@ -2310,7 +2310,7 @@
             voiceStatus.classList.remove('show');
         }
 
-        // ==================== TEXT-TO-SPEECH ====================
+        // ==================== IMPROVED TEXT-TO-SPEECH ====================
         function speakText(text) {
             // Stop any ongoing speech
             if (isSpeaking) {
@@ -2324,103 +2324,15 @@
                 return;
             }
             
-            // Advanced text cleaning for better speech output
-            let cleanText = text;
+            // Get available voices
+            const voices = speechSynthesis.getVoices();
             
-            // Remove code blocks entirely (everything between ``` or inside <pre><code>)
-            cleanText = cleanText.replace(/```[\s\S]*?```/g, '. Code block omitted. ');
-            cleanText = cleanText.replace(/<pre>[\s\S]*?<\/pre>/gi, '. Code block omitted. ');
-            cleanText = cleanText.replace(/<code>[\s\S]*?<\/code>/gi, '');
+            // Enhanced text cleaning that preserves Tamil characters
+            let cleanText = cleanTextForSpeech(text, selectedLanguage);
             
-            // Remove mathematical expressions
-            cleanText = cleanText.replace(/\\\[[\s\S]*?\\\]/g, '. Mathematical equation omitted. ');
-            cleanText = cleanText.replace(/\\\([\s\S]*?\\\)/g, '');
-            cleanText = cleanText.replace(/\$\$[\s\S]*?\$\$/g, '. Mathematical equation omitted. ');
-            cleanText = cleanText.replace(/\$[^$]+\$/g, '');
-            
-            // Remove HTML tags but preserve content
-            cleanText = cleanText.replace(/<br\s*\/?>/gi, '. ');
-            cleanText = cleanText.replace(/<\/p>/gi, '. ');
-            cleanText = cleanText.replace(/<\/h[1-6]>/gi, '. ');
-            cleanText = cleanText.replace(/<\/li>/gi, '. ');
-            cleanText = cleanText.replace(/<[^>]*>/g, ' ');
-            
-            // Remove markdown formatting
-            cleanText = cleanText.replace(/#{1,6}\s+/g, ''); // Headers
-            cleanText = cleanText.replace(/\*\*(.+?)\*\*/g, '$1'); // Bold
-            cleanText = cleanText.replace(/\*(.+?)\*/g, '$1'); // Italic
-            cleanText = cleanText.replace(/__(.+?)__/g, '$1'); // Bold
-            cleanText = cleanText.replace(/_(.+?)_/g, '$1'); // Italic
-            cleanText = cleanText.replace(/~~(.+?)~~/g, '$1'); // Strikethrough
-            cleanText = cleanText.replace(/`([^`]+)`/g, '$1'); // Inline code
-            
-            // Remove special characters that sound bad when read
-            cleanText = cleanText.replace(/[→←↑↓]/g, ' to ');
-            cleanText = cleanText.replace(/[≤]/g, ' less than or equal to ');
-            cleanText = cleanText.replace(/[≥]/g, ' greater than or equal to ');
-            cleanText = cleanText.replace(/[≠]/g, ' not equal to ');
-            cleanText = cleanText.replace(/[×]/g, ' times ');
-            cleanText = cleanText.replace(/[÷]/g, ' divided by ');
-            cleanText = cleanText.replace(/[∞]/g, ' infinity ');
-            cleanText = cleanText.replace(/[π]/g, ' pi ');
-            cleanText = cleanText.replace(/[°]/g, ' degrees ');
-            cleanText = cleanText.replace(/[±]/g, ' plus or minus ');
-            cleanText = cleanText.replace(/[√]/g, ' square root of ');
-            
-            // Remove URLs
-            cleanText = cleanText.replace(/https?:\/\/[^\s]+/g, '');
-            
-            // Remove brackets and parentheses content that are likely references
-            cleanText = cleanText.replace(/\[[\d,\s]+\]/g, ''); // [1, 2, 3]
-            cleanText = cleanText.replace(/\([\d,\s]+\)/g, ''); // (1, 2, 3)
-            
-            // Remove bullet points and list markers
-            cleanText = cleanText.replace(/^[\s]*[-*+]\s+/gm, '');
-            cleanText = cleanText.replace(/^[\s]*\d+\.\s+/gm, '');
-            
-            // Decode HTML entities
-            cleanText = cleanText.replace(/&nbsp;/g, ' ');
-            cleanText = cleanText.replace(/&lt;/g, '<');
-            cleanText = cleanText.replace(/&gt;/g, '>');
-            cleanText = cleanText.replace(/&amp;/g, '&');
-            cleanText = cleanText.replace(/&quot;/g, '"');
-            cleanText = cleanText.replace(/&#39;/g, "'");
-            
-            // Replace multiple newlines with periods
-            cleanText = cleanText.replace(/\n{2,}/g, '. ');
-            cleanText = cleanText.replace(/\n/g, ' ');
-            
-            // Fix spacing around punctuation
-            cleanText = cleanText.replace(/\s+([.,!?;:])/g, '$1');
-            cleanText = cleanText.replace(/([.,!?;:])\s*/g, '$1 ');
-            
-            // Remove multiple spaces
-            cleanText = cleanText.replace(/\s+/g, ' ');
-            
-            // Remove multiple periods
-            cleanText = cleanText.replace(/\.{2,}/g, '.');
-            
-            // Fix sentences - ensure space after period
-            cleanText = cleanText.replace(/\.([A-Z])/g, '. $1');
-            
-            // Remove leading/trailing whitespace
-            cleanText = cleanText.trim();
-            
-            // Remove any remaining special characters that might sound weird
-            cleanText = cleanText.replace(/[\\\/\|\[\]\{\}<>]/g, ' ');
-            
-            // Final cleanup
-            cleanText = cleanText.replace(/\s+/g, ' ').trim();
-            
-            if (!cleanText || cleanText.length < 5) {
-                showNotification('No readable text available', 'error');
+            if (!cleanText) {
+                showNotification('No text to read', 'error');
                 return;
-            }
-            
-            // Limit text length to avoid very long speeches (optional)
-            const maxLength = 5000;
-            if (cleanText.length > maxLength) {
-                cleanText = cleanText.substring(0, maxLength) + '... Text truncated for speech.';
             }
             
             currentUtterance = new SpeechSynthesisUtterance(cleanText);
@@ -2428,25 +2340,29 @@
             // Set language based on selected language
             currentUtterance.lang = selectedLanguage;
             
+            // Enhanced voice selection for Indian languages
+            const selectedVoice = findBestVoice(voices, selectedLanguage);
+            if (selectedVoice) {
+                currentUtterance.voice = selectedVoice;
+                console.log('Using voice:', selectedVoice.name, 'for language:', selectedLanguage);
+            } else {
+                console.warn('No matching voice found for language:', selectedLanguage);
+                showNotification('No voice available for ' + getLanguageName(selectedLanguage) + '. Using default voice.', 'info', 3000);
+            }
+            
             // Set voice properties
-            currentUtterance.rate = 0.9; // Slightly slower for clarity
+            currentUtterance.rate = 0.9;
             currentUtterance.pitch = 1.0;
             currentUtterance.volume = 1.0;
-            
-            // Try to find a voice that matches the selected language
-            const voices = speechSynthesis.getVoices();
-            const matchingVoice = voices.find(voice => voice.lang.startsWith(selectedLanguage.split('-')[0]));
-            if (matchingVoice) {
-                currentUtterance.voice = matchingVoice;
-            }
             
             currentUtterance.onstart = function() {
                 isSpeaking = true;
                 const speakerBtn = document.getElementById('speaker-btn');
                 if (speakerBtn) {
                     speakerBtn.classList.add('speaking');
-                    speakerBtn.innerHTML = '⏸️ Stop';
+                    speakerBtn.innerHTML = '⏸️ Pause';
                 }
+                showNotification('Reading text in ' + getLanguageName(selectedLanguage), 'info', 2000);
             };
             
             currentUtterance.onend = function() {
@@ -2466,11 +2382,110 @@
                     speakerBtn.classList.remove('speaking');
                     speakerBtn.innerHTML = '🔊 Read Aloud';
                 }
-                showNotification('Error reading text', 'error');
+                
+                let errorMsg = 'Error reading text';
+                if (event.error === 'language-not-supported') {
+                    errorMsg = 'Language not supported for text-to-speech: ' + getLanguageName(selectedLanguage);
+                }
+                showNotification(errorMsg, 'error');
             };
             
             speechSynthesis.speak(currentUtterance);
-            showNotification('Reading answer aloud...', 'info', 2000);
+        }
+
+        function cleanTextForSpeech(text, language) {
+            if (!text) return '';
+            
+            let cleanText = text;
+            
+            // Remove math expressions (preserve text content)
+            cleanText = cleanText.replace(/\\\[[\s\S]*?\\\]/g, '');
+            cleanText = cleanText.replace(/\\\([\s\S]*?\\\)/g, '');
+            
+            // Remove HTML tags but keep content
+            cleanText = cleanText.replace(/<[^>]*>/g, ' ');
+            
+            // Remove markdown symbols but keep text
+            cleanText = cleanText.replace(/[#*_`~]/g, '');
+            
+            // Remove code blocks but keep the text inside
+            cleanText = cleanText.replace(/```[\s\S]*?```/g, ' ');
+            cleanText = cleanText.replace(/`[^`]*`/g, ' ');
+            
+            // Remove URLs
+            cleanText = cleanText.replace(/https?:\/\/[^\s]+/g, '');
+            
+            // Normalize whitespace
+            cleanText = cleanText.replace(/\n+/g, ' ');
+            cleanText = cleanText.replace(/\s+/g, ' ');
+            
+            // For Indian languages, preserve special characters
+            if (language.startsWith('hi-') || // Hindi
+                language.startsWith('ta-') || // Tamil
+                language.startsWith('te-') || // Telugu
+                language.startsWith('kn-') || // Kannada
+                language.startsWith('ml-') || // Malayalam
+                language.startsWith('mr-') || // Marathi
+                language.startsWith('gu-') || // Gujarati
+                language.startsWith('bn-') || // Bengali
+                language.startsWith('pa-')) { // Punjabi
+                // Keep all characters including Indian script characters
+                cleanText = cleanText.replace(/[^\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7F\w\s.,!?;:()-]/g, '');
+            } else {
+                // For other languages, keep basic punctuation
+                cleanText = cleanText.replace(/[^\w\s.,!?;:()-]/g, '');
+            }
+            
+            return cleanText.trim();
+        }
+
+        function findBestVoice(voices, targetLang) {
+            if (!voices || voices.length === 0) return null;
+            
+            const targetLangBase = targetLang.split('-')[0];
+            
+            // First try: Exact match
+            let exactMatch = voices.find(voice => voice.lang === targetLang);
+            if (exactMatch) return exactMatch;
+            
+            // Second try: Base language match
+            let baseMatch = voices.find(voice => {
+                const voiceLangBase = voice.lang.split('-')[0];
+                return voiceLangBase === targetLangBase;
+            });
+            if (baseMatch) return baseMatch;
+            
+            // Third try: Any voice that includes the target language in its name
+            let nameMatch = voices.find(voice => 
+                voice.name.toLowerCase().includes(targetLangBase) ||
+                voice.name.toLowerCase().includes(getLanguageName(targetLang).toLowerCase())
+            );
+            if (nameMatch) return nameMatch;
+            
+            // Fallback: First available voice
+            return voices[0];
+        }
+
+        function getLanguageName(langCode) {
+            const languageNames = {
+                'en-US': 'English',
+                'hi-IN': 'Hindi',
+                'ta-IN': 'Tamil',
+                'te-IN': 'Telugu',
+                'kn-IN': 'Kannada',
+                'ml-IN': 'Malayalam',
+                'mr-IN': 'Marathi',
+                'gu-IN': 'Gujarati',
+                'bn-IN': 'Bengali',
+                'pa-IN': 'Punjabi',
+                'es-ES': 'Spanish',
+                'fr-FR': 'French',
+                'de-DE': 'German',
+                'ja-JP': 'Japanese',
+                'zh-CN': 'Chinese',
+                'ar-SA': 'Arabic'
+            };
+            return languageNames[langCode] || langCode;
         }
 
         function stopSpeaking() {
@@ -2487,9 +2502,17 @@
 
         // Load voices when they become available
         if (speechSynthesis) {
+            // Load voices immediately if available
+            const voices = speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                console.log('Voices available on load:', voices.map(v => v.name + ' (' + v.lang + ')'));
+            }
+            
+            // Also listen for voices changed event
             speechSynthesis.onvoiceschanged = function() {
                 const voices = speechSynthesis.getVoices();
-                console.log('Available voices:', voices.length);
+                console.log('Voices changed, available:', voices.length);
+                console.log('Available voices:', voices.map(v => v.name + ' (' + v.lang + ')'));
             };
         }
 
