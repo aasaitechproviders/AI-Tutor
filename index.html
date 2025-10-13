@@ -426,10 +426,14 @@
         }
 
         .results-card-mobile {
-            display: none;
+            display: none !important;
         }
 
         .results-card-desktop {
+            display: none;
+        }
+
+        .results-card-desktop.show {
             display: block;
         }
 
@@ -693,15 +697,15 @@
             }
 
             .sidebar {
-                order: 1;
-            }
-
-            .content-area {
                 order: 2;
             }
 
+            .content-area {
+                order: 1;
+            }
+
             .search-card-desktop {
-                display: none;
+                display: none !important;
             }
 
             .search-card-mobile {
@@ -713,11 +717,11 @@
             }
 
             .results-card-mobile {
-                display: none;
+                display: none !important;
             }
 
             .results-card-mobile.show {
-                display: block;
+                display: block !important;
             }
 
             .header-container {
@@ -1028,9 +1032,7 @@
             if (typeof google === 'undefined') {
                 setTimeout(initGoogleSignIn, 100);
                 return;
-            }
-
-            google.accounts.id.initialize({
+            }google.accounts.id.initialize({
                 client_id: CONFIG.CLIENT_ID,
                 callback: handleSignIn
             });
@@ -1089,17 +1091,20 @@
         }
 
         function saveSession() {
-            localStorage.setItem('user', JSON.stringify(state.user));
-            localStorage.setItem('token', state.token);
+            const sessionData = {
+                user: state.user,
+                token: state.token
+            };
+            sessionStorage.setItem('aasai_session', JSON.stringify(sessionData));
         }
 
         function restoreSession() {
-            const savedUser = localStorage.getItem('user');
-            const savedToken = localStorage.getItem('token');
+            const savedSession = sessionStorage.getItem('aasai_session');
             
-            if (savedUser && savedToken) {
-                state.user = JSON.parse(savedUser);
-                state.token = savedToken;
+            if (savedSession) {
+                const sessionData = JSON.parse(savedSession);
+                state.user = sessionData.user;
+                state.token = sessionData.token;
                 showUserProfile();
                 showMainContent();
                 loadHistory();
@@ -1124,7 +1129,7 @@
             
             state.user = null;
             state.token = null;
-            localStorage.clear();
+            sessionStorage.removeItem('aasai_session');
             
             document.getElementById('user-profile').classList.remove('active');
             document.getElementById('sign-out-btn').style.display = 'none';
@@ -1151,14 +1156,16 @@
 
         function savePreferences() {
             if (state.user) {
-                localStorage.setItem(`prefs_${state.user.id}`, JSON.stringify(state.preferences));
+                const prefsKey = `prefs_${state.user.id}`;
+                sessionStorage.setItem(prefsKey, JSON.stringify(state.preferences));
                 showNotification('Preferences saved', 'success', 1500);
             }
         }
 
         function loadPreferences() {
             if (state.user) {
-                const saved = localStorage.getItem(`prefs_${state.user.id}`);
+                const prefsKey = `prefs_${state.user.id}`;
+                const saved = sessionStorage.getItem(prefsKey);
                 if (saved) {
                     state.preferences = JSON.parse(saved);
                     document.getElementById('standard-select').value = state.preferences.standard || '';
@@ -1250,23 +1257,12 @@
             }
         }
 
-        function showVoiceStatus(text, type) {
-            const status = document.getElementById('voice-status');
-            status.textContent = text;
-            status.className = `voice-status ${type} show`;
-        }
-
-        function hideVoiceStatus() {
-            document.getElementById('voice-status').classList.remove('show');
-        }
-
         async function performSearch() {
             if (!state.user) {
                 showNotification('Please sign in first', 'error');
                 return;
             }
             
-            // Get question from either desktop or mobile input
             const desktopInput = document.getElementById('search-input').value.trim();
             const mobileInput = document.getElementById('search-input-mobile').value.trim();
             const question = desktopInput || mobileInput;
@@ -1281,21 +1277,15 @@
                 return;
             }
             
-            const resultsCard = document.getElementById('results-card');
-            const resultsCardMobile = document.getElementById('results-card-mobile');
-            const resultsContent = document.getElementById('results-content');
-            const resultsContentMobile = document.getElementById('results-content-mobile');
-            const searchBtn = document.getElementById('search-btn');
-            const searchBtnMobile = document.getElementById('search-btn-mobile');
+            const isMobile = window.innerWidth <= 968;
+            const resultsCard = isMobile ? document.getElementById('results-card-mobile') : document.getElementById('results-card');
+            const resultsContent = isMobile ? document.getElementById('results-content-mobile') : document.getElementById('results-content');
+            const searchBtn = isMobile ? document.getElementById('search-btn-mobile') : document.getElementById('search-btn');
             
             resultsCard.classList.add('show');
-            resultsCardMobile.classList.add('show');
             resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-            resultsContentMobile.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
             searchBtn.disabled = true;
-            searchBtnMobile.disabled = true;
             searchBtn.textContent = 'Searching...';
-            searchBtnMobile.textContent = 'Searching...';
             
             const startTime = Date.now();
             
@@ -1336,32 +1326,25 @@
                 document.getElementById('search-input-mobile').value = '';
                 
                 setTimeout(() => {
-                    const isMobile = window.innerWidth <= 968;
-                    const targetCard = isMobile ? resultsCardMobile : resultsCard;
-                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    resultsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, 100);
                 
             } catch (error) {
                 console.error('Search error:', error);
                 resultsContent.innerHTML = '<div class="no-history">Search failed. Please try again.</div>';
-                resultsContentMobile.innerHTML = '<div class="no-history">Search failed. Please try again.</div>';
                 showNotification('Search failed', 'error');
             } finally {
                 searchBtn.disabled = false;
-                searchBtnMobile.disabled = false;
                 searchBtn.textContent = 'Search';
-                searchBtnMobile.textContent = 'Search';
             }
         }
 
         function displayResults(data, question, responseTime) {
-            const resultsContent = document.getElementById('results-content');
-            const resultsContentMobile = document.getElementById('results-content-mobile');
+            const isMobile = window.innerWidth <= 968;
+            const resultsContent = isMobile ? document.getElementById('results-content-mobile') : document.getElementById('results-content');
             
             if (!data.answer) {
-                const noDataHTML = '<div class="no-history">No information found</div>';
-                resultsContent.innerHTML = noDataHTML;
-                resultsContentMobile.innerHTML = noDataHTML;
+                resultsContent.innerHTML = '<div class="no-history">No information found</div>';
                 return;
             }
             
@@ -1401,8 +1384,6 @@
             `;
             
             resultsContent.innerHTML = resultHTML;
-            resultsContentMobile.innerHTML = resultHTML;
-            
             renderMath();
         }
 
@@ -1557,7 +1538,12 @@
         }
 
         function rerunSearch(question) {
-            document.getElementById('search-input').value = question;
+            const isMobile = window.innerWidth <= 968;
+            if (isMobile) {
+                document.getElementById('search-input-mobile').value = question;
+            } else {
+                document.getElementById('search-input').value = question;
+            }
             performSearch();
         }
 
