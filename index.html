@@ -2187,6 +2187,19 @@
                 if (recognition) {
                     recognition.lang = selectedLanguage;
                 }
+                
+                // Log available voices for debugging
+                if (speechSynthesis) {
+                    const voices = speechSynthesis.getVoices();
+                    console.log('Language changed to:', selectedLanguage);
+                    console.log('Available voices for this language:');
+                    voices.forEach(function(voice) {
+                        if (voice.lang.startsWith(selectedLanguage.split('-')[0])) {
+                            console.log('  -', voice.name, '(' + voice.lang + ')');
+                        }
+                    });
+                }
+                
                 showNotification('Language changed to ' + getLanguageName(selectedLanguage), 'success', 2000);
             });
         }
@@ -2362,11 +2375,17 @@
                 availableVoices = speechSynthesis.getVoices();
             }
             
+            console.log('Original text length:', text.length);
+            console.log('Selected language:', selectedLanguage);
+            
             // Clean the text for speech
             let cleanText = cleanTextForSpeech(text, selectedLanguage);
             
+            console.log('Cleaned text length:', cleanText.length);
+            console.log('Cleaned text preview:', cleanText.substring(0, 200));
+            
             if (!cleanText || cleanText.length < 3) {
-                showNotification('No text to read', 'error');
+                showNotification('No readable text found', 'error');
                 return;
             }
             
@@ -2374,17 +2393,20 @@
             const selectedVoice = findBestNativeVoice(availableVoices, selectedLanguage);
             
             if (!selectedVoice) {
+                console.warn('No native voice found for', selectedLanguage);
                 showNotification(
-                    'No native voice found for ' + getLanguageName(selectedLanguage) + 
-                    '. Please ensure your device has the language installed in system settings.',
+                    'No ' + getLanguageName(selectedLanguage) + ' voice found. Install ' + getLanguageName(selectedLanguage) + ' text-to-speech in your device settings for better pronunciation.',
                     'warning',
                     5000
                 );
-                // Continue anyway with default voice
+            } else {
+                console.log('Selected voice:', selectedVoice.name, '(' + selectedVoice.lang + ')');
             }
             
-            // Split text into chunks if too long (some browsers have limits)
+            // Split text into chunks if too long
             const chunks = splitTextIntoChunks(cleanText, 200);
+            console.log('Split into', chunks.length, 'chunks');
+            
             let currentChunkIndex = 0;
             
             function speakNextChunk() {
@@ -2395,10 +2417,14 @@
                         speakerBtn.classList.remove('speaking');
                         speakerBtn.innerHTML = '🔊 Read Aloud';
                     }
+                    console.log('Finished speaking all chunks');
                     return;
                 }
                 
-                currentUtterance = new SpeechSynthesisUtterance(chunks[currentChunkIndex]);
+                const chunkText = chunks[currentChunkIndex];
+                console.log('Speaking chunk', currentChunkIndex + 1, 'of', chunks.length + ':', chunkText.substring(0, 50) + '...');
+                
+                currentUtterance = new SpeechSynthesisUtterance(chunkText);
                 
                 // Set language
                 currentUtterance.lang = selectedLanguage;
@@ -2406,13 +2432,11 @@
                 // Set the best voice
                 if (selectedVoice) {
                     currentUtterance.voice = selectedVoice;
-                    console.log('Speaking with voice:', selectedVoice.name, '(' + selectedVoice.lang + ')');
                 }
                 
-                // Adjust speech parameters for better clarity
+                // Adjust speech parameters
                 if (isIndicLanguage(selectedLanguage)) {
-                    // Slower rate for Indian languages for better pronunciation
-                    currentUtterance.rate = 0.8;
+                    currentUtterance.rate = 0.85;  // Slightly slower for better Tamil pronunciation
                     currentUtterance.pitch = 1.0;
                 } else {
                     currentUtterance.rate = 0.9;
@@ -2426,7 +2450,7 @@
                         const speakerBtn = document.getElementById('speaker-btn');
                         if (speakerBtn) {
                             speakerBtn.classList.add('speaking');
-                            speakerBtn.innerHTML = '⏸️ Pause';
+                            speakerBtn.innerHTML = '⏸️ Stop';
                         }
                         
                         let voiceInfo = 'Reading in ' + getLanguageName(selectedLanguage);
@@ -2435,15 +2459,17 @@
                         }
                         showNotification(voiceInfo, 'info', 3000);
                     }
+                    console.log('Started speaking chunk', currentChunkIndex + 1);
                 };
                 
                 currentUtterance.onend = function() {
+                    console.log('Finished chunk', currentChunkIndex + 1);
                     currentChunkIndex++;
                     speakNextChunk();
                 };
                 
                 currentUtterance.onerror = function(event) {
-                    console.error('Speech synthesis error:', event);
+                    console.error('Speech error:', event.error, 'at chunk', currentChunkIndex + 1);
                     isSpeaking = false;
                     const speakerBtn = document.getElementById('speaker-btn');
                     if (speakerBtn) {
@@ -2453,19 +2479,26 @@
                     
                     let errorMsg = 'Error reading text';
                     if (event.error === 'language-not-supported') {
-                        errorMsg = 'Language not supported: ' + getLanguageName(selectedLanguage);
+                        errorMsg = getLanguageName(selectedLanguage) + ' language not supported on this device';
                     } else if (event.error === 'synthesis-failed') {
-                        errorMsg = 'Speech synthesis failed. Try a shorter text.';
+                        errorMsg = 'Speech synthesis failed. The text might be too complex.';
+                    } else if (event.error === 'network') {
+                        errorMsg = 'Network error. Check your internet connection.';
                     }
-                    showNotification(errorMsg, 'error');
+                    showNotification(errorMsg, 'error', 4000);
                 };
                 
-                // Cancel any ongoing speech before starting new one
+                // Cancel any ongoing speech
                 speechSynthesis.cancel();
                 
-                // Small delay to ensure previous speech is cancelled
+                // Small delay to ensure cancellation completes
                 setTimeout(function() {
-                    speechSynthesis.speak(currentUtterance);
+                    try {
+                        speechSynthesis.speak(currentUtterance);
+                    } catch (error) {
+                        console.error('Error speaking:', error);
+                        showNotification('Failed to start speech', 'error');
+                    }
                 }, 50);
             }
             
@@ -2510,21 +2543,31 @@
             let cleanText = text;
             
             // Remove math expressions
-            cleanText = cleanText.replace(/\\\[[\s\S]*?\\\]/g, ' ');
+            cleanText = cleanText.replace(/\\\[[\s\S]*?\\\]/g, ' mathematical expression ');
             cleanText = cleanText.replace(/\\\([\s\S]*?\\\)/g, ' ');
-            cleanText = cleanText.replace(/\$\$[\s\S]*?\$\$/g, ' ');
+            cleanText = cleanText.replace(/\$\$[\s\S]*?\$\$/g, ' mathematical expression ');
             cleanText = cleanText.replace(/\$[^$]*\$/g, ' ');
             
             // Remove HTML tags but keep content
-            cleanText = cleanText.replace(/<[^>]*>/g, ' ');
+            cleanText = cleanText.replace(/<br\s*\/?>/gi, ' ');
+            cleanText = cleanText.replace(/<\/p>/gi, ' ');
+            cleanText = cleanText.replace(/<p>/gi, '');
+            cleanText = cleanText.replace(/<[^>]*>/g, '');
             
             // Remove markdown symbols but keep text
-            cleanText = cleanText.replace(/[#*_`~]/g, '');
-            cleanText = cleanText.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1'); // Convert links to text
+            cleanText = cleanText.replace(/####\s*/g, '');
+            cleanText = cleanText.replace(/###\s*/g, '');
+            cleanText = cleanText.replace(/##\s*/g, '');
+            cleanText = cleanText.replace(/#\s*/g, '');
+            cleanText = cleanText.replace(/\*\*/g, '');
+            cleanText = cleanText.replace(/\*/g, '');
+            cleanText = cleanText.replace(/_/g, '');
+            cleanText = cleanText.replace(/`/g, '');
+            cleanText = cleanText.replace(/~/g, '');
+            cleanText = cleanText.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
             
             // Remove code blocks
             cleanText = cleanText.replace(/```[\s\S]*?```/g, ' ');
-            cleanText = cleanText.replace(/`[^`]*`/g, ' ');
             
             // Remove URLs
             cleanText = cleanText.replace(/https?:\/\/[^\s]+/g, '');
@@ -2532,17 +2575,31 @@
             // Normalize whitespace
             cleanText = cleanText.replace(/\n+/g, ' ');
             cleanText = cleanText.replace(/\s+/g, ' ');
+            cleanText = cleanText.replace(/\t+/g, ' ');
             
-            // For Indian languages, preserve special characters and punctuation
+            // For Indian languages, keep the text as is (minimal cleaning)
             if (isIndicLanguage(language)) {
-                // Keep Devanagari, Tamil, Telugu, Kannada, Malayalam, Bengali scripts and punctuation
-                cleanText = cleanText.replace(/[^\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\w\s.,!?;:()।॥-]/g, '');
+                // Only remove truly problematic characters, keep Tamil/Hindi/etc text
+                // Tamil Unicode range: \u0B80-\u0BFF
+                // Devanagari (Hindi): \u0900-\u097F
+                // Telugu: \u0C00-\u0C7F
+                // Kannada: \u0C80-\u0CFF
+                // Malayalam: \u0D00-\u0D7F
+                // Bengali: \u0980-\u09FF
+                // Gujarati: \u0A80-\u0AFF
+                // Punjabi (Gurmukhi): \u0A00-\u0A7F
+                // Keep English alphanumeric, spaces, punctuation, and all Indic scripts
+                cleanText = cleanText.replace(/[^\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7Fa-zA-Z0-9\s.,!?;:()\[\]।॥-]/g, '');
             } else {
-                // For other languages, keep alphanumeric and basic punctuation
-                cleanText = cleanText.replace(/[^\w\s.,!?;:()-]/g, '');
+                // For English, keep alphanumeric and basic punctuation
+                cleanText = cleanText.replace(/[^a-zA-Z0-9\s.,!?;:()\[\]-]/g, '');
             }
             
-            return cleanText.trim();
+            // Final cleanup
+            cleanText = cleanText.replace(/\s+/g, ' ');
+            cleanText = cleanText.trim();
+            
+            return cleanText;
         }
 
         function findBestNativeVoice(voices, targetLang) {
@@ -2623,13 +2680,7 @@
                 'mr-IN': 'Marathi',
                 'gu-IN': 'Gujarati',
                 'bn-IN': 'Bengali',
-                'pa-IN': 'Punjabi',
-                'es-ES': 'Spanish',
-                'fr-FR': 'French',
-                'de-DE': 'German',
-                'ja-JP': 'Japanese',
-                'zh-CN': 'Chinese',
-                'ar-SA': 'Arabic'
+                'pa-IN': 'Punjabi'
             };
             return languageNames[langCode] || langCode;
         }
