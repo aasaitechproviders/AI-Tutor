@@ -45,10 +45,21 @@ const VOICE_PREFERENCES = {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    initializeGoogleSignIn();
+    console.log('DOM Content Loaded');
+    console.log('Google API available?', typeof google !== 'undefined');
+    
+    // Check if elements exist
+    console.log('google-signin-button exists?', document.getElementById('google-signin-button') !== null);
+    console.log('google-signin-container exists?', document.getElementById('google-signin-container') !== null);
+    
     setupEventListeners();
     initializeVoiceRecognition();
     loadVoices();
+    
+    // Initialize Google Sign-In with delay to ensure script is loaded
+    setTimeout(function() {
+        initializeGoogleSignIn();
+    }, 500);
     
     if (typeof marked !== 'undefined') {
         marked.setOptions({
@@ -834,30 +845,72 @@ function switchMode(mode) {
 
 // ==================== GOOGLE SIGN-IN ====================
 function initializeGoogleSignIn() {
+    console.log('🔄 Initializing Google Sign-In...');
+    console.log('Google object available?', typeof google !== 'undefined');
+    
     if (typeof google === 'undefined') {
-        setTimeout(initializeGoogleSignIn, 100);
+        console.log('⏳ Google API not loaded yet, retrying in 200ms...');
+        setTimeout(initializeGoogleSignIn, 200);
         return;
     }
 
-    google.accounts.id.initialize({
-        client_id: GOOGLE_CLIENT_ID,
-        callback: handleCredentialResponse
-    });
-
-    google.accounts.id.renderButton(
-        document.getElementById("google-signin-button"),
-        { theme: "outline", size: "large" }
-    );
-
-    const savedToken = localStorage.getItem('sessionToken');
-    const savedUser = localStorage.getItem('currentUser');
+    console.log('✅ Google API loaded');
     
-    if (savedToken && savedUser) {
-        sessionToken = savedToken;
-        currentUser = JSON.parse(savedUser);
-        showUserProfile(currentUser);
-        showSearchSection();
-        loadChatHistory();
+    try {
+        // Check if button element exists
+        const signInButton = document.getElementById("google-signin-button");
+        const signInContainer = document.getElementById("google-signin-container");
+        
+        console.log('Button element:', signInButton);
+        console.log('Container element:', signInContainer);
+        
+        if (!signInButton) {
+            console.error('❌ google-signin-button element not found in DOM');
+            return;
+        }
+
+        console.log('🔧 Initializing Google Identity Services...');
+        
+        google.accounts.id.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: handleCredentialResponse,
+            auto_select: false,
+            cancel_on_tap_outside: true
+        });
+
+        console.log('🎨 Rendering sign-in button...');
+        
+        google.accounts.id.renderButton(
+            signInButton,
+            { 
+                theme: "outline", 
+                size: "large",
+                text: "signin_with",
+                shape: "rectangular",
+                logo_alignment: "left"
+            }
+        );
+        
+        console.log('✅ Google Sign-In button rendered successfully');
+
+        // Check for saved session
+        const savedToken = localStorage.getItem('sessionToken');
+        const savedUser = localStorage.getItem('currentUser');
+        
+        if (savedToken && savedUser) {
+            console.log('🔐 Found saved session, auto-signing in...');
+            sessionToken = savedToken;
+            currentUser = JSON.parse(savedUser);
+            showUserProfile(currentUser);
+            showSearchSection();
+            loadChatHistory();
+        } else {
+            console.log('📝 No saved session found - user needs to sign in');
+        }
+    } catch (error) {
+        console.error('❌ Error initializing Google Sign-In:', error);
+        console.error('Error details:', error.message);
+        console.error('Error stack:', error.stack);
     }
 }
 
