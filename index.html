@@ -291,6 +291,14 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
+        .search-card-mobile {
+            display: none;
+        }
+
+        .search-card-desktop {
+            display: block;
+        }
+
         .search-header {
             text-align: center;
             margin-bottom: 1.5rem;
@@ -684,6 +692,14 @@
                 order: 2;
             }
 
+            .search-card-desktop {
+                display: none;
+            }
+
+            .search-card-mobile {
+                display: block;
+            }
+
             .header-container {
                 padding: 1rem;
             }
@@ -820,7 +836,48 @@
                         </div>
                     </div>
 
-                    <div class="search-card">
+                    <!-- Search card for mobile only -->
+                    <div class="search-card search-card-mobile">
+                        <div class="search-header">
+                            <h2>🔍 Ask Your Question</h2>
+                            <p>Type or speak your question</p>
+                        </div>
+
+                        <div class="language-select-wrapper">
+                            <label>🎤 Voice:</label>
+                            <select id="language-select-mobile" class="language-select">
+                                <option value="en-US">English</option>
+                                <option value="hi-IN">Hindi</option>
+                                <option value="ta-IN">Tamil</option>
+                                <option value="te-IN">Telugu</option>
+                                <option value="kn-IN">Kannada</option>
+                                <option value="ml-IN">Malayalam</option>
+                            </select>
+                        </div>
+
+                        <div id="voice-status-mobile" class="voice-status"></div>
+
+                        <div class="search-box">
+                            <input type="text" id="search-input-mobile" class="search-input" placeholder="Ask any question...">
+                            <button id="voice-btn-mobile" class="voice-btn">🎤</button>
+                            <button id="search-btn-mobile" class="search-btn">Search</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="history-header">
+                            <div class="card-title">📖 Recent</div>
+                            <button id="refresh-history" class="refresh-btn">🔄</button>
+                        </div>
+                        <div id="history-list" class="history-list">
+                            <div class="no-history">No history yet</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-area">
+                    <!-- Search card for desktop only -->
+                    <div class="search-card search-card-desktop">
                         <div class="search-header">
                             <h2>🔍 Ask Your Question</h2>
                             <p>Type or speak your question</p>
@@ -847,18 +904,6 @@
                         </div>
                     </div>
 
-                    <div class="card">
-                        <div class="history-header">
-                            <div class="card-title">📖 Recent</div>
-                            <button id="refresh-history" class="refresh-btn">🔄</button>
-                        </div>
-                        <div id="history-list" class="history-list">
-                            <div class="no-history">No history yet</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="content-area">
                     <div id="results-card" class="results-card">
                         <div class="results-header">
                             <h3>💡 Answer</h3>
@@ -910,10 +955,17 @@
         function setupEventListeners() {
             document.getElementById('sign-out-btn').addEventListener('click', signOut);
             document.getElementById('search-btn').addEventListener('click', performSearch);
+            document.getElementById('search-btn-mobile').addEventListener('click', performSearch);
+            
             document.getElementById('search-input').addEventListener('keypress', e => {
                 if (e.key === 'Enter') performSearch();
             });
+            document.getElementById('search-input-mobile').addEventListener('keypress', e => {
+                if (e.key === 'Enter') performSearch();
+            });
+            
             document.getElementById('voice-btn').addEventListener('click', toggleVoice);
+            document.getElementById('voice-btn-mobile').addEventListener('click', () => toggleVoice(true));
             document.getElementById('refresh-history').addEventListener('click', loadHistory);
             
             document.getElementById('standard-select').addEventListener('change', e => {
@@ -933,6 +985,12 @@
             
             document.getElementById('language-select').addEventListener('change', e => {
                 state.selectedLanguage = e.target.value;
+                if (state.recognition) state.recognition.lang = e.target.value;
+            });
+            
+            document.getElementById('language-select-mobile').addEventListener('change', e => {
+                state.selectedLanguage = e.target.value;
+                document.getElementById('language-select').value = e.target.value;
                 if (state.recognition) state.recognition.lang = e.target.value;
             });
         }
@@ -1087,6 +1145,7 @@
             if (!SpeechRecognition) {
                 console.warn('Speech recognition not supported');
                 document.getElementById('voice-btn').disabled = true;
+                document.getElementById('voice-btn-mobile').disabled = true;
                 return;
             }
             
@@ -1094,11 +1153,18 @@
             state.recognition.continuous = false;
             state.recognition.interimResults = true;
             state.recognition.lang = state.selectedLanguage;
+            state.currentVoiceTarget = 'desktop';
             
             state.recognition.onstart = () => {
                 state.isRecording = true;
-                document.getElementById('voice-btn').classList.add('recording');
-                showVoiceStatus('Listening... Speak now', 'listening');
+                const voiceBtn = state.currentVoiceTarget === 'mobile' ? 
+                    document.getElementById('voice-btn-mobile') : document.getElementById('voice-btn');
+                const voiceStatus = state.currentVoiceTarget === 'mobile' ?
+                    document.getElementById('voice-status-mobile') : document.getElementById('voice-status');
+                    
+                voiceBtn.classList.add('recording');
+                voiceStatus.textContent = 'Listening... Speak now';
+                voiceStatus.className = 'voice-status listening show';
             };
             
             state.recognition.onresult = (event) => {
@@ -1106,25 +1172,37 @@
                 for (let i = event.resultIndex; i < event.results.length; i++) {
                     transcript += event.results[i][0].transcript;
                 }
-                document.getElementById('search-input').value = transcript;
+                const input = state.currentVoiceTarget === 'mobile' ?
+                    document.getElementById('search-input-mobile') : document.getElementById('search-input');
+                input.value = transcript;
             };
             
             state.recognition.onerror = (event) => {
                 console.error('Speech error:', event.error);
                 state.isRecording = false;
-                document.getElementById('voice-btn').classList.remove('recording');
-                hideVoiceStatus();
+                const voiceBtn = state.currentVoiceTarget === 'mobile' ?
+                    document.getElementById('voice-btn-mobile') : document.getElementById('voice-btn');
+                const voiceStatus = state.currentVoiceTarget === 'mobile' ?
+                    document.getElementById('voice-status-mobile') : document.getElementById('voice-status');
+                    
+                voiceBtn.classList.remove('recording');
+                voiceStatus.classList.remove('show');
                 showNotification('Voice input error', 'error');
             };
             
             state.recognition.onend = () => {
                 state.isRecording = false;
-                document.getElementById('voice-btn').classList.remove('recording');
-                hideVoiceStatus();
+                const voiceBtn = state.currentVoiceTarget === 'mobile' ?
+                    document.getElementById('voice-btn-mobile') : document.getElementById('voice-btn');
+                const voiceStatus = state.currentVoiceTarget === 'mobile' ?
+                    document.getElementById('voice-status-mobile') : document.getElementById('voice-status');
+                    
+                voiceBtn.classList.remove('recording');
+                voiceStatus.classList.remove('show');
             };
         }
 
-        function toggleVoice() {
+        function toggleVoice(isMobile = false) {
             if (!state.recognition) {
                 showNotification('Voice not supported', 'error');
                 return;
@@ -1134,6 +1212,7 @@
                 state.recognition.stop();
             } else {
                 state.recognition.lang = state.selectedLanguage;
+                state.currentVoiceTarget = isMobile ? 'mobile' : 'desktop';
                 try {
                     state.recognition.start();
                 } catch (error) {
@@ -1158,7 +1237,11 @@
                 return;
             }
             
-            const question = document.getElementById('search-input').value.trim();
+            // Get question from either desktop or mobile input
+            const desktopInput = document.getElementById('search-input').value.trim();
+            const mobileInput = document.getElementById('search-input-mobile').value.trim();
+            const question = desktopInput || mobileInput;
+            
             if (!question) {
                 showNotification('Please enter a question', 'warning');
                 return;
@@ -1172,11 +1255,14 @@
             const resultsCard = document.getElementById('results-card');
             const resultsContent = document.getElementById('results-content');
             const searchBtn = document.getElementById('search-btn');
+            const searchBtnMobile = document.getElementById('search-btn-mobile');
             
             resultsCard.classList.add('show');
             resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
             searchBtn.disabled = true;
+            searchBtnMobile.disabled = true;
             searchBtn.textContent = 'Searching...';
+            searchBtnMobile.textContent = 'Searching...';
             
             const startTime = Date.now();
             
@@ -1214,6 +1300,7 @@
                 
                 loadHistory();
                 document.getElementById('search-input').value = '';
+                document.getElementById('search-input-mobile').value = '';
                 
                 setTimeout(() => {
                     resultsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -1225,7 +1312,9 @@
                 showNotification('Search failed', 'error');
             } finally {
                 searchBtn.disabled = false;
+                searchBtnMobile.disabled = false;
                 searchBtn.textContent = 'Search';
+                searchBtnMobile.textContent = 'Search';
             }
         }
 
