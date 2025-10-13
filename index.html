@@ -1298,36 +1298,18 @@
         }
 
         .question-text {
-            flex: 1;
-            font-size: 0.95rem;
-            color: var(--dark);
-            line-height: 1.5;
+            font-size: 0.9rem;
             font-weight: 500;
+            color: var(--dark);
+            line-height: 1.4;
             overflow-wrap: break-word;
             word-wrap: break-word;
             min-width: 0;
         }
 
-        .question-right {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            flex-shrink: 0;
-        }
-
-        .mark-badge {
-            background: linear-gradient(135deg, var(--success), #3a86ff);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
         .question-toggle {
-            background: var(--primary);
-            color: white;
+            background: var(--light-gray);
+            color: var(--dark);
             border: none;
             width: 28px;
             height: 28px;
@@ -1336,180 +1318,52 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 300;
             transition: all 0.3s;
+            flex-shrink: 0;
         }
 
         .question-header.active .question-toggle {
-            background: var(--secondary);
+            background: var(--primary);
+            color: white;
         }
 
         .question-answer {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-out;
+            transition: max-height 0.3s ease-out;
             background: white;
+            border-top: 1px solid var(--light-gray);
         }
 
         .question-answer.show {
-            max-height: 3000px;
+            max-height: 10000px;
             transition: max-height 0.5s ease-in;
-            border-top: 2px solid var(--light-gray);
         }
 
         .answer-content {
             padding: 1.5rem;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-        }
-
-        .answer-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .answer-text {
             color: var(--dark);
-            line-height: 1.7;
-            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
-        .answer-text p {
-            margin-bottom: 0.8rem;
-        }
-
-        .answer-text ul, .answer-text ol {
-            margin: 0.5rem 0 0.8rem 1.5rem;
-        }
-
-        .answer-text li {
-            margin-bottom: 0.4rem;
-        }
-
-        .answer-text strong {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .answer-text code {
-            background: #f5f5f5;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-            color: var(--secondary);
-        }
-
-        .answer-text pre {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 1.5rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            overflow-y: auto;
-            max-height: 500px;
-            margin: 1rem 0;
-            font-family: 'Courier New', Courier, monospace;
+        .answer-content .formatted-content {
             font-size: 0.9rem;
-            line-height: 1.5;
-            word-wrap: break-word;
-            white-space: pre-wrap;
         }
 
-        .answer-text pre code {
-            background: transparent;
-            padding: 0;
-            color: #f8f8f2;
-            display: block;
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-
-        .code-block-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px 8px 0 0;
-            font-size: 0.85rem;
-            font-weight: 600;
+        .answer-actions {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
             margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--light-gray);
+            flex-wrap: wrap;
         }
 
-        .code-block-wrapper {
-            margin: 0 0 1rem 0;
-            max-width: 100%;
-            overflow: hidden;
-        }
-
-        .code-block-wrapper pre {
-            margin-top: 0;
-            border-radius: 0 0 8px 8px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        /* Auth Required */
-        .auth-required {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            margin: 2rem 0;
-        }
-
-        .auth-required h2 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            font-size: 2rem;
-        }
-
-        .auth-required p {
-            color: var(--gray);
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            z-index: 1000;
-            max-width: 300px;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.success {
-            background: var(--success);
-        }
-
-        .notification.error {
-            background: var(--warning);
-        }
-
-        .notification.info {
-            background: var(--primary);
+        .answer-actions .action-btn {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
         }
 
         /* Footer */
@@ -1517,7 +1371,7 @@
             background: var(--dark);
             color: white;
             padding: 2rem 0;
-            margin-top: auto;
+            margin-top: 2rem;
         }
 
         .footer-content {
@@ -1526,1722 +1380,1302 @@
             align-items: center;
         }
 
+        .footer-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
         .footer-links {
             display: flex;
             gap: 1.5rem;
         }
 
-        .footer-links a {
+        .footer-link {
             color: white;
             text-decoration: none;
+            font-size: 0.9rem;
             transition: opacity 0.3s;
         }
 
-        .footer-links a:hover {
+        .footer-link:hover {
             opacity: 0.8;
         }
 
-        /* Mobile Styles */
-        @media screen and (max-width: 768px) {
-            .container {
-                padding: 0 12px;
-            }
-
+        /* Responsive Design */
+        @media (max-width: 768px) {
             .header-content {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                gap: 0.5rem;
-                padding: 0.5rem 0;
-                flex-wrap: nowrap;
-            }
-
-            .logo {
-                font-size: 1.1rem;
-                flex-shrink: 0;
-            }
-
-            .logo-icon {
-                font-size: 1.3rem;
-                margin-right: 6px;
-            }
-
-            .user-profile {
-                padding: 0.3rem 0.6rem;
-                font-size: 0.75rem;
-                gap: 0.5rem;
-                flex-shrink: 1;
-                min-width: 0;
-            }
-
-            .user-info {
-                display: none;
-            }
-
-            .user-avatar {
-                width: 32px;
-                height: 32px;
-                flex-shrink: 0;
-            }
-
-            .user-stats {
-                font-size: 0.7rem;
-                white-space: nowrap;
-            }
-
-            .sign-out-btn {
-                padding: 0.4rem 0.7rem;
-                font-size: 0.75rem;
-                white-space: nowrap;
-            }
-
-            main {
-                padding: 1rem 0;
-            }
-
-            .main-layout {
+                flex-direction: column;
                 gap: 1rem;
             }
-
-            .mode-toggle-section,
-            .search-container,
-            .results-container,
-            .units-container {
-                padding: 1rem;
-                border-radius: 12px;
-            }
-
-            .mode-toggle-title,
-            .search-title,
-            .results-title,
-            .units-title {
-                font-size: 1.3rem;
-            }
-
-            .mode-toggle-subtitle,
-            .search-subtitle {
-                font-size: 0.9rem;
-            }
-
-            .mode-buttons {
-                grid-template-columns: 1fr 1fr;
-                gap: 1rem;
-            }
-
-            .mode-btn {
-                padding: 1rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .mode-icon {
-                font-size: 2rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .mode-title {
-                font-size: 0.95rem;
-                margin-bottom: 0.3rem;
-            }
-
-            .mode-description {
-                font-size: 0.75rem;
-                text-align: center;
-            }
-
-            .selectors-grid {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-            }
-
-            .language-selector {
-                flex-direction: column;
-                gap: 0.5rem;
-                padding: 0.8rem;
-            }
-
-            .search-box {
-                flex-direction: column;
-                border-radius: 8px;
-            }
-
-            .search-input {
-                padding: 1rem;
-                font-size: 1rem;
-                border-bottom: 1px solid var(--light-gray);
-            }
-
-            .voice-btn {
-                padding: 1rem;
-                font-size: 1.3rem;
-                border-bottom: 1px solid var(--light-gray);
-            }
-
-            .search-btn {
-                padding: 1rem;
-                font-size: 1rem;
-            }
-
-            .result-card {
-                padding: 1rem;
-            }
-
-            .result-title {
-                font-size: 1.1rem;
-            }
-
-            .result-meta {
-                font-size: 0.85rem;
-                gap: 0.5rem;
-            }
-
-            .formatted-content {
-                font-size: 0.95rem;
-            }
-
-            .formatted-content h1 {
-                font-size: 1.5rem;
-            }
-
-            .formatted-content h2 {
-                font-size: 1.3rem;
-            }
-
-            .formatted-content h3 {
-                font-size: 1.1rem;
-            }
-
-            .formatted-content h4 {
-                font-size: 1rem;
-            }
-
-            .formatted-content ul,
-            .formatted-content ol {
-                margin: 0.8rem 0 0.8rem 0.5rem;
-                padding-left: 0.5rem;
-            }
-
-            .formatted-content ul li {
-                padding-left: 1.2rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .formatted-content ul li::before {
-                left: 0;
-                top: 0.5rem;
-                width: 6px;
-                height: 6px;
-            }
-
-            .formatted-content ol li {
-                padding-left: 1.5rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .formatted-content ol li::before {
-                left: 0;
-                top: 0.1rem;
-                width: 20px;
-                height: 20px;
-                font-size: 0.7rem;
-            }
-
-            .formatted-content table {
-                font-size: 0.85rem;
-                overflow-x: auto;
-                display: block;
-            }
-
-            .formatted-content th,
-            .formatted-content td {
-                padding: 0.5rem;
-                font-size: 0.8rem;
-            }
-
-            .formatted-content .math-display {
-                font-size: 1em;
-                padding: 0.8rem;
-                overflow-x: auto;
-            }
-
-            .result-actions {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .action-btn, .speaker-btn {
+            
+            .auth-container {
                 width: 100%;
                 justify-content: center;
-                padding: 0.7rem;
             }
-
-            .chat-history-search {
-                margin-top: 1rem;
-                padding-top: 1rem;
-            }
-
-            .chat-history-title {
-                font-size: 1.1rem;
-            }
-
-            .chat-messages-grid {
+            
+            .mode-buttons {
                 grid-template-columns: 1fr;
-                max-height: 300px;
             }
-
-            .chat-message-item {
-                padding: 0.8rem;
-            }
-
-            .units-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .unit-header {
-                padding: 1rem;
-            }
-
-            .unit-title {
-                font-size: 1rem;
-            }
-
-            .unit-icon {
-                font-size: 1.2rem;
-            }
-
-            .unit-toggle {
-                width: 28px;
-                height: 28px;
-                font-size: 1rem;
-            }
-
-            .question-section {
-                padding: 1rem;
-            }
-
-            .question-type-title {
-                font-size: 0.9rem;
-            }
-
-            .question-header {
-                padding: 0.8rem;
-            }
-
-            .question-left {
-                gap: 0.5rem;
-            }
-
-            .question-number {
-                width: 24px;
-                height: 24px;
-                font-size: 0.7rem;
-            }
-
-            .question-text {
-                font-size: 0.85rem;
-            }
-
-            .question-right {
-                gap: 0.5rem;
+            
+            .search-box {
                 flex-direction: column;
             }
-
-            .mark-badge {
-                font-size: 0.7rem;
-                padding: 0.25rem 0.6rem;
+            
+            .search-input, .voice-btn, .search-btn {
+                width: 100%;
+                border-radius: 0;
             }
-
-            .question-toggle {
-                width: 24px;
-                height: 24px;
-                font-size: 1rem;
+            
+            .search-input {
+                border-radius: 12px 12px 0 0;
             }
-
-            .answer-content {
-                padding: 1rem;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
+            
+            .search-btn {
+                border-radius: 0 0 12px 12px;
             }
-
-            .answer-label {
-                font-size: 0.75rem;
+            
+            .voice-btn {
+                order: -1;
+                border-radius: 12px 12px 0 0;
             }
-
-            .answer-text {
-                font-size: 0.85rem;
+            
+            .result-actions {
+                flex-direction: column;
+                align-items: flex-start;
             }
-
-            .answer-text pre {
-                padding: 1rem;
-                font-size: 0.8rem;
-                max-height: 400px;
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
             }
-
-            .code-block-wrapper {
-                max-width: 100%;
-            }
-
-            .code-block-header {
-                font-size: 0.75rem;
-                padding: 0.4rem 0.8rem;
-            }
-
+            
             .footer-content {
                 flex-direction: column;
                 gap: 1rem;
                 text-align: center;
-                font-size: 0.85rem;
             }
-
+            
             .footer-links {
-                justify-content: center;
                 flex-wrap: wrap;
-                gap: 1rem;
-            }
-
-            .notification {
-                max-width: 90%;
-                right: 5%;
-                font-size: 0.9rem;
+                justify-content: center;
             }
         }
 
-        /* Tablet Styles */
-        @media screen and (min-width: 769px) and (max-width: 1024px) {
-            .container {
-                padding: 0 16px;
+        /* Print Styles */
+        @media print {
+            header, footer, .mode-toggle-section, .search-container, .result-actions, .chat-history-search {
+                display: none !important;
             }
-
-            .mode-buttons {
-                grid-template-columns: 1fr 1fr;
+            
+            .results-container, .units-container {
+                box-shadow: none;
+                border: 1px solid #ddd;
             }
-
-            .units-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .formatted-content table {
-                font-size: 0.9rem;
+            
+            body {
+                background: white;
+                color: black;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header>
-        <div class="container header-content">
-            <div class="logo">
-                <span class="logo-icon">📚</span>
-                <span>Aasai SmartEDU</span>
-            </div>
-            <div class="auth-container">
-                <div class="google-signin-container" id="google-signin-container">
-                    <div id="google-signin-button"></div>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🧠</span>
+                    <span>Aasai SmartEDU</span>
                 </div>
-                <div id="user-profile" class="user-profile">
-                    <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
-                    <div class="user-info">
-                        <div id="user-name" class="user-name"></div>
-                        <div id="user-email" class="user-email"></div>
-                        <div id="user-stats" class="user-stats">
-                            <span><span id="search-count">0</span>S</span> | 
-                            <span><span id="conversation-count">0</span>C</span>
-                        </div>
+                
+                <div class="auth-container">
+                    <div id="g_id_onload"
+                         data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                         data-context="signin"
+                         data-ux_mode="popup"
+                         data-callback="handleGoogleSignIn"
+                         data-auto_prompt="false">
                     </div>
-                    <button id="sign-out-btn" class="sign-out-btn">Sign Out</button>
+
+                    <div class="g_id_signin"
+                         data-type="standard"
+                         data-shape="rectangular"
+                         data-theme="filled_blue"
+                         data-text="signin_with"
+                         data-size="large"
+                         data-logo_alignment="left">
+                    </div>
+                    
+                    <div class="user-profile" id="userProfile">
+                        <img class="user-avatar" id="userAvatar" src="" alt="User Avatar">
+                        <div class="user-info">
+                            <div class="user-name" id="userName">User Name</div>
+                            <div class="user-email" id="userEmail">user@example.com</div>
+                            <div class="user-stats" id="userStats">Questions: 0 | Points: 0</div>
+                        </div>
+                        <button class="sign-out-btn" id="signOutBtn">Sign Out</button>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="container">
-        <div id="auth-required" class="auth-required">
-            <h2>Welcome to Aasai SmartEDU</h2>
-            <p>Please sign in with your Google account to start learning</p>
-        </div>
-
-        <div id="main-layout" class="main-layout" style="display: none;">
-            <!-- Mode Toggle Section -->
-            <div class="mode-toggle-section">
-                <div class="mode-toggle-header">
-                    <h2 class="mode-toggle-title">Choose Your Study Mode</h2>
-                    <p class="mode-toggle-subtitle">Select how you want to explore your syllabus content</p>
-                </div>
-                
-                <div class="mode-buttons">
-                    <div class="mode-btn active" id="ai-search-mode" onclick="switchMode('search')">
-                        <div class="mode-icon">🤖</div>
-                        <div class="mode-title">AI Search</div>
-                        <div class="mode-description">Ask questions and get instant answers from your syllabus</div>
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="main-layout">
+                <!-- Mode Toggle Section -->
+                <section class="mode-toggle-section">
+                    <div class="mode-toggle-header">
+                        <h2 class="mode-toggle-title">Choose Your Learning Mode</h2>
+                        <p class="mode-toggle-subtitle">Select how you'd like to interact with Aasai SmartEDU</p>
                     </div>
                     
-                    <div class="mode-btn" id="question-bank-mode" onclick="switchMode('questions')">
-                        <div class="mode-icon">📝</div>
-                        <div class="mode-title">Question Bank</div>
-                        <div class="mode-description">Browse organized questions by units and topics</div>
-                    </div>
-                </div>
-                
-                <!-- Course Selection Panel -->
-                <div id="course-selection-panel" class="course-selection-panel">
-                    <h3 class="course-selection-title">Select Your Course Details</h3>
-                    <div class="selectors-grid">
-                        <div class="selector-group">
-                            <label for="department-select">Department</label>
-                            <select id="department-select" class="form-select">
-                                <option value="">Select Department</option>
-                                <option value="computer-science">Computer Science</option>
-                                <option value="mathematics">Mathematics</option>
-                                <option value="chemistry">Chemistry</option>
-                            </select>
+                    <div class="mode-buttons">
+                        <div class="mode-btn active" id="searchModeBtn">
+                            <div class="mode-icon">🔍</div>
+                            <h3 class="mode-title">Search Mode</h3>
+                            <p class="mode-description">Ask any question and get detailed explanations with examples and step-by-step solutions.</p>
                         </div>
                         
-                        <div class="selector-group">
-                            <label for="semester-select">Semester</label>
-                            <select id="semester-select" class="form-select">
-                                <option value="">Select Semester</option>
-                                <option value="1">Semester 1</option>
-                                <option value="2">Semester 2</option>
-                                <option value="3">Semester 3</option>
-                            </select>
+                        <div class="mode-btn" id="unitsModeBtn">
+                            <div class="mode-icon">📚</div>
+                            <h3 class="mode-title">Units Mode</h3>
+                            <p class="mode-description">Browse through organized curriculum units and questions by grade, subject, and chapter.</p>
                         </div>
-                        
-                        <div class="selector-group">
-                            <label for="subject-select">Subject</label>
-                            <select id="subject-select" class="form-select">
-                                <option value="">Select Subject</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Search Section -->
-            <div id="search-section" class="search-container show">
-                <div class="search-header">
-                    <h2 class="search-title">Ask AI About Your Syllabus</h2>
-                    <p class="search-subtitle">Get instant answers with proper formatting</p>
-                </div>
-                
-                <!-- Language Selector -->
-                <div class="language-selector">
-                    <label for="language-select">🌐 Language:</label>
-                    <select id="language-select" class="language-select">
-                        <option value="en-US">English</option>
-                        <option value="hi-IN">Hindi (हिंदी)</option>
-                        <option value="ta-IN">Tamil (தமிழ்)</option>
-                        <option value="te-IN">Telugu (తెలుగు)</option>
-                        <option value="kn-IN">Kannada (ಕನ್ನಡ)</option>
-                        <option value="ml-IN">Malayalam (മലയാളം)</option>
-                        <option value="mr-IN">Marathi (मराठी)</option>
-                        <option value="gu-IN">Gujarati (ગુજરાતી)</option>
-                        <option value="bn-IN">Bengali (বাংলা)</option>
-                        <option value="pa-IN">Punjabi (ਪੰਜਾਬੀ)</option>
-                        <option value="es-ES">Spanish (Español)</option>
-                        <option value="fr-FR">French (Français)</option>
-                        <option value="de-DE">German (Deutsch)</option>
-                        <option value="ja-JP">Japanese (日本語)</option>
-                        <option value="zh-CN">Chinese (中文)</option>
-                        <option value="ar-SA">Arabic (العربية)</option>
-                    </select>
-                </div>
-
-                <!-- Voice Status -->
-                <div id="voice-status" class="voice-status">
-                    <span id="voice-status-text"></span>
-                </div>
-                
-                <div class="search-box">
-                    <input type="text" class="search-input" id="question-input" placeholder="What would you like to know?">
-                    <button class="voice-btn" id="voice-btn" title="Voice Input">🎤</button>
-                    <button class="search-btn" id="search-button">Search</button>
-                </div>
-
-                <!-- Results Section -->
-                <div id="results-container" class="results-container">
-                    <div class="results-header">
-                        <h2 class="results-title">Results</h2>
-                        <span id="results-count"></span>
-                    </div>
-                    <div id="results-content">
-                        <div class="no-results">
-                            <p>Your search results will appear here</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Chat History -->
-                <div class="chat-history-search">
-                    <div class="chat-history-header">
-                        <h3 class="chat-history-title">Recent Searches</h3>
-                        <button id="refresh-history-btn" class="refresh-btn" title="Refresh">🔄</button>
                     </div>
                     
-                    <div id="chat-history-grid" class="chat-messages-grid">
-                        <div class="no-chat-history">
-                            <p>No search history yet</p>
+                    <!-- Course Selection Panel -->
+                    <div class="course-selection-panel" id="courseSelectionPanel">
+                        <h3 class="course-selection-title">Select Your Course</h3>
+                        <div class="selectors-grid">
+                            <div class="selector-group">
+                                <label for="gradeSelect">Grade</label>
+                                <select class="form-select" id="gradeSelect">
+                                    <option value="">Select Grade</option>
+                                    <option value="8">Grade 8</option>
+                                    <option value="9">Grade 9</option>
+                                    <option value="10">Grade 10</option>
+                                    <option value="11">Grade 11</option>
+                                    <option value="12">Grade 12</option>
+                                </select>
+                            </div>
+                            
+                            <div class="selector-group">
+                                <label for="subjectSelect">Subject</label>
+                                <select class="form-select" id="subjectSelect">
+                                    <option value="">Select Subject</option>
+                                    <option value="math">Mathematics</option>
+                                    <option value="science">Science</option>
+                                    <option value="english">English</option>
+                                    <option value="social">Social Studies</option>
+                                    <option value="tamil">Tamil</option>
+                                    <option value="malayalam">Malayalam</option>
+                                </select>
+                            </div>
+                            
+                            <div class="selector-group">
+                                <label for="chapterSelect">Chapter</label>
+                                <select class="form-select" id="chapterSelect">
+                                    <option value="">Select Chapter</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <button id="load-more-history-btn" class="load-more-btn" style="display: none;">Load More</button>
-                </div>
-            </div>
-
-            <!-- Question Bank Section -->
-            <div id="units-container" class="units-container">
-                <div class="units-header">
-                    <h2 class="units-title">Unit-wise Question Bank</h2>
-                </div>
+                </section>
                 
-                <div class="course-info">
-                    <h4 id="selected-course">Select Course Details</h4>
-                    <p>Choose department, semester, and subject</p>
-                </div>
+                <!-- Search Section -->
+                <section class="search-container show" id="searchContainer">
+                    <div class="search-header">
+                        <h2 class="search-title">Ask Aasai SmartEDU</h2>
+                        <p class="search-subtitle">Get detailed explanations for any question in your curriculum</p>
+                    </div>
+                    
+                    <div class="language-selector">
+                        <label for="languageSelect">Language:</label>
+                        <select class="language-select" id="languageSelect">
+                            <option value="en">English</option>
+                            <option value="ta">Tamil</option>
+                            <option value="ml">Malayalam</option>
+                            <option value="hi">Hindi</option>
+                            <option value="te">Telugu</option>
+                            <option value="kn">Kannada</option>
+                        </select>
+                    </div>
+                    
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Ask any question...">
+                        <button class="voice-btn" id="voiceBtn">🎤</button>
+                        <button class="search-btn" id="searchBtn">Search</button>
+                    </div>
+                    
+                    <div class="voice-status" id="voiceStatus"></div>
+                    
+                    <div class="loading" id="searchLoading" style="display: none;">
+                        <div class="spinner"></div>
+                    </div>
+                    
+                    <div class="results-container" id="resultsContainer">
+                        <div class="results-header">
+                            <h3 class="results-title">Answer</h3>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-question">
+                                <div class="result-question-label">Your Question</div>
+                                <div class="result-question-text" id="resultQuestionText">What is photosynthesis?</div>
+                            </div>
+                            
+                            <div class="result-meta">
+                                <div class="confidence-badge confidence-high" id="confidenceBadge">High Confidence</div>
+                                <div class="response-time" id="responseTime">
+                                    <span>⏱️</span>
+                                    <span>1.2s</span>
+                                </div>
+                                <div class="cache-indicator" id="cacheIndicator">Cache Hit</div>
+                            </div>
+                            
+                            <div class="formatted-content" id="resultContent">
+                                <p>Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize foods from carbon dioxide and water. Photosynthesis in plants generally involves the green pigment chlorophyll and generates oxygen as a byproduct.</p>
+                            </div>
+                            
+                            <div class="result-actions">
+                                <button class="speaker-btn" id="speakerBtn">
+                                    <span>🔊</span>
+                                    <span>Listen</span>
+                                </button>
+                                <button class="action-btn" id="copyBtn">
+                                    <span>📋</span>
+                                    <span>Copy</span>
+                                </button>
+                                <button class="feedback-btn" id="likeBtn">
+                                    <span>👍</span>
+                                    <span>Like</span>
+                                </button>
+                                <button class="feedback-btn" id="dislikeBtn">
+                                    <span>👎</span>
+                                    <span>Dislike</span>
+                                </button>
+                                <button class="feedback-btn" id="reportBtn">
+                                    <span>⚠️</span>
+                                    <span>Report</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-history-search" id="chatHistorySearch">
+                            <div class="chat-history-header">
+                                <h3 class="chat-history-title">Recent Questions</h3>
+                                <button class="refresh-btn" id="refreshHistoryBtn">🔄</button>
+                            </div>
+                            
+                            <div class="chat-messages-grid" id="chatMessagesGrid">
+                                <div class="no-chat-history" id="noChatHistory">No recent questions found. Start by asking a question!</div>
+                            </div>
+                            
+                            <button class="load-more-btn" id="loadMoreBtn" style="display: none;">Load More</button>
+                        </div>
+                    </div>
+                </section>
                 
-                <div id="units-grid" class="units-grid"></div>
+                <!-- Units Section -->
+                <section class="units-container" id="unitsContainer">
+                    <div class="units-header">
+                        <h2 class="units-title">Curriculum Units</h2>
+                        <p class="units-subtitle">Browse questions by chapter and topic</p>
+                    </div>
+                    
+                    <div class="course-info" id="courseInfo">
+                        <h4>Grade 10 - Mathematics</h4>
+                        <p>Chapter 1: Real Numbers</p>
+                    </div>
+                    
+                    <div class="units-grid" id="unitsGrid">
+                        <!-- Units will be dynamically populated here -->
+                    </div>
+                </section>
             </div>
         </div>
     </main>
 
-    <div id="notification" class="notification"></div>
-
+    <!-- Footer -->
     <footer>
-        <div class="container footer-content">
-            <p>&copy; 2025 Aasai SmartEDU - AI Syllabus Assistant</p>
-            <div class="footer-links">
-                <a href="https://www.aasaitech.in">Company Website</a>
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-                <a href="#">Help</a>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Aasai SmartEDU</div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="#" class="footer-link">Contact Us</a>
+                </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // Configuration
-        const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com';
-        const API_BASE_URL = 'https://musical-suitably-woodcock.ngrok-free.app';
-        
-        // State
-        let currentUser = null;
-        let sessionToken = null;
-        let chatHistoryData = [];
-        let currentPage = 1;
+        // DOM Elements
+        const modeToggleSection = document.querySelector('.mode-toggle-section');
+        const searchModeBtn = document.getElementById('searchModeBtn');
+        const unitsModeBtn = document.getElementById('unitsModeBtn');
+        const courseSelectionPanel = document.getElementById('courseSelectionPanel');
+        const searchContainer = document.getElementById('searchContainer');
+        const unitsContainer = document.getElementById('unitsContainer');
+        const gradeSelect = document.getElementById('gradeSelect');
+        const subjectSelect = document.getElementById('subjectSelect');
+        const chapterSelect = document.getElementById('chapterSelect');
+        const languageSelect = document.getElementById('languageSelect');
+        const searchInput = document.getElementById('searchInput');
+        const voiceBtn = document.getElementById('voiceBtn');
+        const searchBtn = document.getElementById('searchBtn');
+        const voiceStatus = document.getElementById('voiceStatus');
+        const searchLoading = document.getElementById('searchLoading');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const resultQuestionText = document.getElementById('resultQuestionText');
+        const resultContent = document.getElementById('resultContent');
+        const confidenceBadge = document.getElementById('confidenceBadge');
+        const responseTime = document.getElementById('responseTime');
+        const cacheIndicator = document.getElementById('cacheIndicator');
+        const speakerBtn = document.getElementById('speakerBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const likeBtn = document.getElementById('likeBtn');
+        const dislikeBtn = document.getElementById('dislikeBtn');
+        const reportBtn = document.getElementById('reportBtn');
+        const chatHistorySearch = document.getElementById('chatHistorySearch');
+        const chatMessagesGrid = document.getElementById('chatMessagesGrid');
+        const noChatHistory = document.getElementById('noChatHistory');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const refreshHistoryBtn = document.getElementById('refreshHistoryBtn');
+        const courseInfo = document.getElementById('courseInfo');
+        const unitsGrid = document.getElementById('unitsGrid');
+        const userProfile = document.getElementById('userProfile');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const userStats = document.getElementById('userStats');
+        const signOutBtn = document.getElementById('signOutBtn');
+
+        // Voice Synthesis Configuration
+        const voiceConfig = {
+            'en': {
+                voiceName: 'Google UK English Male',
+                rate: 1.0,
+                pitch: 1.0,
+                volume: 1.0
+            },
+            'ta': {
+                voiceName: 'Microsoft Valluvar - Tamil (India)',
+                rate: 0.9,
+                pitch: 1.0,
+                volume: 1.0
+            },
+            'ml': {
+                voiceName: 'Microsoft Ananth - Malayalam (India)',
+                rate: 0.9,
+                pitch: 1.0,
+                volume: 1.0
+            },
+            'hi': {
+                voiceName: 'Microsoft Madhur - Hindi (India)',
+                rate: 0.9,
+                pitch: 1.0,
+                volume: 1.0
+            },
+            'te': {
+                voiceName: 'Microsoft Chitra - Telugu (India)',
+                rate: 0.9,
+                pitch: 1.0,
+                volume: 1.0
+            },
+            'kn': {
+                voiceName: 'Microsoft Gagan - Kannada (India)',
+                rate: 0.9,
+                pitch: 1.0,
+                volume: 1.0
+            }
+        };
+
+        // App State
         let currentMode = 'search';
-        let currentAnswerText = '';
-        let currentChatId = null;
-        let searchStartTime = null;
-        
-        // Voice Recognition State
+        let isListening = false;
         let recognition = null;
-        let isRecording = false;
-        let selectedLanguage = 'en-US';
-        
-        // Text-to-Speech State
-        let speechSynthesis = window.speechSynthesis;
         let currentUtterance = null;
         let isSpeaking = false;
+        let user = null;
+        let chatHistory = [];
+        let currentUnits = [];
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeGoogleSignIn();
+        // Initialize the app
+        function initApp() {
             setupEventListeners();
-            initializeVoiceRecognition();
+            loadChatHistory();
+            checkUserAuth();
+            initializeSpeechRecognition();
+            initializeSpeechSynthesis();
             
-            if (typeof marked !== 'undefined') {
-                marked.setOptions({
-                    breaks: true,
-                    gfm: true,
-                    headerIds: false,
-                    mangle: false
-                });
-            }
-        });
+            // Set initial mode
+            setMode('search');
+        }
 
+        // Set up event listeners
         function setupEventListeners() {
-            document.getElementById('sign-out-btn').addEventListener('click', signOut);
-            document.getElementById('refresh-history-btn').addEventListener('click', refreshChatHistory);
-            document.getElementById('search-button').addEventListener('click', performSearch);
-            document.getElementById('question-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') performSearch();
+            // Mode toggle
+            searchModeBtn.addEventListener('click', () => setMode('search'));
+            unitsModeBtn.addEventListener('click', () => setMode('units'));
+            
+            // Course selection
+            gradeSelect.addEventListener('change', updateCourseSelection);
+            subjectSelect.addEventListener('change', updateCourseSelection);
+            chapterSelect.addEventListener('change', updateCourseSelection);
+            
+            // Search functionality
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
             });
-            document.getElementById('department-select').addEventListener('change', function() {
-                updateSubjectOptions();
-                checkCourseSelection();
-            });
-            document.getElementById('semester-select').addEventListener('change', checkCourseSelection);
-            document.getElementById('subject-select').addEventListener('change', checkCourseSelection);
-            document.getElementById('load-more-history-btn').addEventListener('click', function() {
-                loadChatMessages(currentPage + 1, true);
-            });
             
-            // Voice button
-            document.getElementById('voice-btn').addEventListener('click', toggleVoiceRecognition);
+            // Voice recognition
+            voiceBtn.addEventListener('click', toggleVoiceRecognition);
             
-            // Language selector
-            document.getElementById('language-select').addEventListener('change', function(e) {
-                selectedLanguage = e.target.value;
-                if (recognition) {
-                    recognition.lang = selectedLanguage;
-                }
-                showNotification('Language changed to ' + e.target.options[e.target.selectedIndex].text, 'success', 2000);
-            });
+            // Result actions
+            speakerBtn.addEventListener('click', toggleSpeech);
+            copyBtn.addEventListener('click', copyResult);
+            likeBtn.addEventListener('click', () => handleFeedback('like'));
+            dislikeBtn.addEventListener('click', () => handleFeedback('dislike'));
+            reportBtn.addEventListener('click', () => handleFeedback('report'));
+            
+            // Chat history
+            refreshHistoryBtn.addEventListener('click', loadChatHistory);
+            loadMoreBtn.addEventListener('click', loadMoreHistory);
+            
+            // Sign out
+            signOutBtn.addEventListener('click', handleSignOut);
         }
 
-        // ==================== VOICE RECOGNITION ====================
-        function initializeVoiceRecognition() {
-            // Check browser support
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            
-            if (!SpeechRecognition) {
-                console.warn('Speech recognition not supported in this browser');
-                document.getElementById('voice-btn').disabled = true;
-                document.getElementById('voice-btn').title = 'Voice input not supported in this browser';
-                return;
-            }
-            
-            recognition = new SpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = true;
-            recognition.lang = selectedLanguage;
-            recognition.maxAlternatives = 1;
-            
-            recognition.onstart = function() {
-                isRecording = true;
-                document.getElementById('voice-btn').classList.add('recording');
-                showVoiceStatus('Listening... Speak now', 'listening');
-            };
-            
-            recognition.onresult = function(event) {
-                let interimTranscript = '';
-                let finalTranscript = '';
-                
-                for (let i = event.resultIndex; i < event.results.length; i++) {
-                    const transcript = event.results[i][0].transcript;
-                    if (event.results[i].isFinal) {
-                        finalTranscript += transcript;
-                    } else {
-                        interimTranscript += transcript;
-                    }
-                }
-                
-                // Update input with interim results
-                if (interimTranscript) {
-                    document.getElementById('question-input').value = finalTranscript + interimTranscript;
-                }
-                
-                // Set final result
-                if (finalTranscript) {
-                    document.getElementById('question-input').value = finalTranscript;
-                    showVoiceStatus('Voice input received!', 'processing');
-                    setTimeout(hideVoiceStatus, 2000);
-                }
-            };
-            
-            recognition.onerror = function(event) {
-                console.error('Speech recognition error:', event.error);
-                isRecording = false;
-                document.getElementById('voice-btn').classList.remove('recording');
-                
-                let errorMessage = 'Voice input error';
-                switch(event.error) {
-                    case 'no-speech':
-                        errorMessage = 'No speech detected. Please try again.';
-                        break;
-                    case 'audio-capture':
-                        errorMessage = 'Microphone not found or not accessible.';
-                        break;
-                    case 'not-allowed':
-                        errorMessage = 'Microphone permission denied.';
-                        break;
-                    case 'network':
-                        errorMessage = 'Network error. Please check your connection.';
-                        break;
-                    default:
-                        errorMessage = 'Voice input error: ' + event.error;
-                }
-                
-                showNotification(errorMessage, 'error');
-                hideVoiceStatus();
-            };
-            
-            recognition.onend = function() {
-                isRecording = false;
-                document.getElementById('voice-btn').classList.remove('recording');
-                hideVoiceStatus();
-            };
-        }
-
-        function toggleVoiceRecognition() {
-            if (!recognition) {
-                showNotification('Voice recognition not supported', 'error');
-                return;
-            }
-            
-            if (isRecording) {
-                recognition.stop();
-                isRecording = false;
-                document.getElementById('voice-btn').classList.remove('recording');
-                hideVoiceStatus();
-            } else {
-                // Update language before starting
-                recognition.lang = selectedLanguage;
-                
-                try {
-                    recognition.start();
-                } catch (error) {
-                    console.error('Error starting recognition:', error);
-                    showNotification('Could not start voice input', 'error');
-                }
-            }
-        }
-
-        function showVoiceStatus(text, type) {
-            const voiceStatus = document.getElementById('voice-status');
-            const voiceStatusText = document.getElementById('voice-status-text');
-            
-            voiceStatusText.textContent = text;
-            voiceStatus.className = 'voice-status show ' + type;
-        }
-
-        function hideVoiceStatus() {
-            const voiceStatus = document.getElementById('voice-status');
-            voiceStatus.classList.remove('show');
-        }
-
-        // ==================== IMPROVED TEXT-TO-SPEECH ====================
-        function speakText(text) {
-            // Stop any ongoing speech
-            if (isSpeaking) {
-                stopSpeaking();
-                return;
-            }
-            
-            // Check browser support
-            if (!speechSynthesis) {
-                showNotification('Text-to-speech not supported in this browser', 'error');
-                return;
-            }
-            
-            // Get available voices
-            const voices = speechSynthesis.getVoices();
-            
-            // Enhanced text cleaning that preserves Tamil characters
-            let cleanText = cleanTextForSpeech(text, selectedLanguage);
-            
-            if (!cleanText) {
-                showNotification('No text to read', 'error');
-                return;
-            }
-            
-            currentUtterance = new SpeechSynthesisUtterance(cleanText);
-            
-            // Set language based on selected language
-            currentUtterance.lang = selectedLanguage;
-            
-            // Enhanced voice selection for Indian languages
-            const selectedVoice = findBestVoice(voices, selectedLanguage);
-            if (selectedVoice) {
-                currentUtterance.voice = selectedVoice;
-                console.log('Using voice:', selectedVoice.name, 'for language:', selectedLanguage);
-            } else {
-                console.warn('No matching voice found for language:', selectedLanguage);
-                showNotification('No voice available for ' + getLanguageName(selectedLanguage) + '. Using default voice.', 'info', 3000);
-            }
-            
-            // Set voice properties
-            currentUtterance.rate = 0.9;
-            currentUtterance.pitch = 1.0;
-            currentUtterance.volume = 1.0;
-            
-            currentUtterance.onstart = function() {
-                isSpeaking = true;
-                const speakerBtn = document.getElementById('speaker-btn');
-                if (speakerBtn) {
-                    speakerBtn.classList.add('speaking');
-                    speakerBtn.innerHTML = '⏸️ Pause';
-                }
-                showNotification('Reading text in ' + getLanguageName(selectedLanguage), 'info', 2000);
-            };
-            
-            currentUtterance.onend = function() {
-                isSpeaking = false;
-                const speakerBtn = document.getElementById('speaker-btn');
-                if (speakerBtn) {
-                    speakerBtn.classList.remove('speaking');
-                    speakerBtn.innerHTML = '🔊 Read Aloud';
-                }
-            };
-            
-            currentUtterance.onerror = function(event) {
-                console.error('Speech synthesis error:', event);
-                isSpeaking = false;
-                const speakerBtn = document.getElementById('speaker-btn');
-                if (speakerBtn) {
-                    speakerBtn.classList.remove('speaking');
-                    speakerBtn.innerHTML = '🔊 Read Aloud';
-                }
-                
-                let errorMsg = 'Error reading text';
-                if (event.error === 'language-not-supported') {
-                    errorMsg = 'Language not supported for text-to-speech: ' + getLanguageName(selectedLanguage);
-                }
-                showNotification(errorMsg, 'error');
-            };
-            
-            speechSynthesis.speak(currentUtterance);
-        }
-
-        function cleanTextForSpeech(text, language) {
-            if (!text) return '';
-            
-            let cleanText = text;
-            
-            // Remove math expressions (preserve text content)
-            cleanText = cleanText.replace(/\\\[[\s\S]*?\\\]/g, '');
-            cleanText = cleanText.replace(/\\\([\s\S]*?\\\)/g, '');
-            
-            // Remove HTML tags but keep content
-            cleanText = cleanText.replace(/<[^>]*>/g, ' ');
-            
-            // Remove markdown symbols but keep text
-            cleanText = cleanText.replace(/[#*_`~]/g, '');
-            
-            // Remove code blocks but keep the text inside
-            cleanText = cleanText.replace(/```[\s\S]*?```/g, ' ');
-            cleanText = cleanText.replace(/`[^`]*`/g, ' ');
-            
-            // Remove URLs
-            cleanText = cleanText.replace(/https?:\/\/[^\s]+/g, '');
-            
-            // Normalize whitespace
-            cleanText = cleanText.replace(/\n+/g, ' ');
-            cleanText = cleanText.replace(/\s+/g, ' ');
-            
-            // For Indian languages, preserve special characters
-            if (language.startsWith('hi-') || // Hindi
-                language.startsWith('ta-') || // Tamil
-                language.startsWith('te-') || // Telugu
-                language.startsWith('kn-') || // Kannada
-                language.startsWith('ml-') || // Malayalam
-                language.startsWith('mr-') || // Marathi
-                language.startsWith('gu-') || // Gujarati
-                language.startsWith('bn-') || // Bengali
-                language.startsWith('pa-')) { // Punjabi
-                // Keep all characters including Indian script characters
-                cleanText = cleanText.replace(/[^\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7F\w\s.,!?;:()-]/g, '');
-            } else {
-                // For other languages, keep basic punctuation
-                cleanText = cleanText.replace(/[^\w\s.,!?;:()-]/g, '');
-            }
-            
-            return cleanText.trim();
-        }
-
-        function findBestVoice(voices, targetLang) {
-            if (!voices || voices.length === 0) return null;
-            
-            const targetLangBase = targetLang.split('-')[0];
-            
-            // First try: Exact match
-            let exactMatch = voices.find(voice => voice.lang === targetLang);
-            if (exactMatch) return exactMatch;
-            
-            // Second try: Base language match
-            let baseMatch = voices.find(voice => {
-                const voiceLangBase = voice.lang.split('-')[0];
-                return voiceLangBase === targetLangBase;
-            });
-            if (baseMatch) return baseMatch;
-            
-            // Third try: Any voice that includes the target language in its name
-            let nameMatch = voices.find(voice => 
-                voice.name.toLowerCase().includes(targetLangBase) ||
-                voice.name.toLowerCase().includes(getLanguageName(targetLang).toLowerCase())
-            );
-            if (nameMatch) return nameMatch;
-            
-            // Fallback: First available voice
-            return voices[0];
-        }
-
-        function getLanguageName(langCode) {
-            const languageNames = {
-                'en-US': 'English',
-                'hi-IN': 'Hindi',
-                'ta-IN': 'Tamil',
-                'te-IN': 'Telugu',
-                'kn-IN': 'Kannada',
-                'ml-IN': 'Malayalam',
-                'mr-IN': 'Marathi',
-                'gu-IN': 'Gujarati',
-                'bn-IN': 'Bengali',
-                'pa-IN': 'Punjabi',
-                'es-ES': 'Spanish',
-                'fr-FR': 'French',
-                'de-DE': 'German',
-                'ja-JP': 'Japanese',
-                'zh-CN': 'Chinese',
-                'ar-SA': 'Arabic'
-            };
-            return languageNames[langCode] || langCode;
-        }
-
-        function stopSpeaking() {
-            if (speechSynthesis) {
-                speechSynthesis.cancel();
-            }
-            isSpeaking = false;
-            const speakerBtn = document.getElementById('speaker-btn');
-            if (speakerBtn) {
-                speakerBtn.classList.remove('speaking');
-                speakerBtn.innerHTML = '🔊 Read Aloud';
-            }
-        }
-
-        // Load voices when they become available
-        if (speechSynthesis) {
-            // Load voices immediately if available
-            const voices = speechSynthesis.getVoices();
-            if (voices.length > 0) {
-                console.log('Voices available on load:', voices.map(v => v.name + ' (' + v.lang + ')'));
-            }
-            
-            // Also listen for voices changed event
-            speechSynthesis.onvoiceschanged = function() {
-                const voices = speechSynthesis.getVoices();
-                console.log('Voices changed, available:', voices.length);
-                console.log('Available voices:', voices.map(v => v.name + ' (' + v.lang + ')'));
-            };
-        }
-
-        function switchMode(mode) {
+        // Set the current mode
+        function setMode(mode) {
             currentMode = mode;
-            document.getElementById('ai-search-mode').classList.toggle('active', mode === 'search');
-            document.getElementById('question-bank-mode').classList.toggle('active', mode === 'questions');
-            document.getElementById('search-section').classList.toggle('show', mode === 'search');
-            document.getElementById('units-container').classList.toggle('show', mode === 'questions');
-            document.getElementById('course-selection-panel').classList.toggle('show', mode === 'questions');
-            showNotification((mode === 'search' ? 'AI Search' : 'Question Bank') + ' mode activated', 'success');
-            if (mode === 'questions') checkCourseSelection();
-        }
-
-        function initializeGoogleSignIn() {
-            if (typeof google === 'undefined') {
-                setTimeout(initializeGoogleSignIn, 100);
-                return;
-            }
-
-            google.accounts.id.initialize({
-                client_id: GOOGLE_CLIENT_ID,
-                callback: handleCredentialResponse
-            });
-
-            google.accounts.id.renderButton(
-                document.getElementById("google-signin-button"),
-                { theme: "outline", size: "large" }
-            );
-
-            const savedToken = localStorage.getItem('sessionToken');
-            const savedUser = localStorage.getItem('currentUser');
             
-            if (savedToken && savedUser) {
-                sessionToken = savedToken;
-                currentUser = JSON.parse(savedUser);
-                showUserProfile(currentUser);
-                showSearchSection();
-                loadChatHistory();
+            // Update UI
+            searchModeBtn.classList.toggle('active', mode === 'search');
+            unitsModeBtn.classList.toggle('active', mode === 'units');
+            
+            courseSelectionPanel.classList.toggle('show', mode === 'units');
+            searchContainer.classList.toggle('show', mode === 'search');
+            unitsContainer.classList.toggle('show', mode === 'units');
+            
+            if (mode === 'units') {
+                loadUnitsData();
             }
         }
 
-        async function handleCredentialResponse(response) {
-            try {
-                showNotification('Signing you in...', 'info');
-                const userInfo = parseJwt(response.credential);
-                const authResult = await authenticateWithBackend({
-                    id: userInfo.sub,
-                    email: userInfo.email,
-                    name: userInfo.name,
-                    picture: userInfo.picture
-                });
+        // Update course selection
+        function updateCourseSelection() {
+            const grade = gradeSelect.value;
+            const subject = subjectSelect.value;
+            
+            if (grade && subject) {
+                // Update chapter options based on grade and subject
+                updateChapterOptions(grade, subject);
                 
-                currentUser = authResult.user;
-                sessionToken = authResult.sessionToken;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                localStorage.setItem('sessionToken', sessionToken);
-                showUserProfile(currentUser);
-                showSearchSection();
-                loadChatHistory();
-                showNotification('Welcome ' + currentUser.name + '!', 'success');
-            } catch (error) {
-                console.error('Sign-in error:', error);
-                showNotification('Failed to sign in', 'error');
-            }
-        }
-
-        function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => 
-                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-            ).join(''));
-            return JSON.parse(jsonPayload);
-        }
-
-        async function authenticateWithBackend(googleUserData) {
-            const response = await fetch(API_BASE_URL + '/auth/google', {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'ngrok-skip-browser-warning': 'true'
-                },
-                body: JSON.stringify({ googleUserData })
-            });
-            if (!response.ok) throw new Error('Auth failed');
-            return await response.json();
-        }
-
-        async function performSearch() {
-            if (!currentUser) {
-                showNotification('Please sign in first', 'error');
-                return;
-            }
-            
-            const question = document.getElementById('question-input').value.trim();
-            if (!question) {
-                showNotification('Please enter a question', 'error');
-                return;
-            }
-            
-            const resultsContainer = document.getElementById('results-container');
-            const resultsContent = document.getElementById('results-content');
-            const searchBtn = document.getElementById('search-button');
-            
-            resultsContainer.classList.add('show');
-            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-            searchBtn.disabled = true;
-            searchBtn.textContent = 'Searching...';
-            
-            searchStartTime = Date.now();
-            
-            try {
-                const response = await fetch(API_BASE_URL + '/rag', {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json', 
-                        'ngrok-skip-browser-warning': 'true',
-                        'Authorization': 'Bearer ' + sessionToken
-                    },
-                    body: JSON.stringify({ question: question, limit: 5, threshold: 0.75 })
-                });
+                // Update course info display
+                courseInfo.innerHTML = `
+                    <h4>Grade ${grade} - ${getSubjectName(subject)}</h4>
+                    <p>Chapter ${chapterSelect.value}: ${chapterSelect.options[chapterSelect.selectedIndex]?.text || 'Select Chapter'}</p>
+                `;
                 
-                if (!response.ok) throw new Error('API error');
-                
-                const data = await response.json();
-                
-                const responseTime = ((Date.now() - searchStartTime) / 1000).toFixed(2);
-                
-                currentChatId = data.chatId || null;
-                
-                displayResults(data, responseTime);
-                
-                if (currentUser) {
-                    currentUser.searchCount = (currentUser.searchCount || 0) + 1;
-                    document.getElementById('search-count').textContent = currentUser.searchCount;
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                }
-                
-                await refreshChatHistory();
-                document.getElementById('question-input').value = '';
-            } catch (error) {
-                console.error('Error:', error);
-                resultsContent.innerHTML = '<div class="no-results"><p>Error: ' + error.message + '</p></div>';
-                showNotification('Search failed', 'error');
-            } finally {
-                searchBtn.disabled = false;
-                searchBtn.textContent = 'Search';
-            }
-        }
-
-        function displayResults(data, responseTime) {
-            const resultsContent = document.getElementById('results-content');
-            const resultsCount = document.getElementById('results-count');
-            
-            if (!data.answer) {
-                resultsContent.innerHTML = '<div class="no-results"><p>No information found</p></div>';
-                resultsCount.textContent = '';
-                return;
-            }
-            
-            currentAnswerText = data.answer;
-            
-            const originalQuestion = document.getElementById('question-input').value || 'Your question';
-            
-            let confidenceClass = 'confidence-low';
-            let confidenceText = 'Low';
-            if (data.confidence >= 0.8) {
-                confidenceClass = 'confidence-high';
-                confidenceText = 'High';
-            } else if (data.confidence >= 0.5) {
-                confidenceClass = 'confidence-medium';
-                confidenceText = 'Medium';
-            }
-            
-            const cacheIndicator = data.cached ? 
-                '<span class="cache-indicator cache-hit">Cached</span>' : 
-                '<span class="cache-indicator">Live</span>';
-            
-            const responseTimeDisplay = responseTime ? 
-                '<span class="response-time">⏱️ ' + responseTime + 's</span>' : '';
-            
-            const formattedAnswer = formatMarkdownContent(data.answer);
-            
-            const resultHtml = '<div class="result-card">' +
-                '<div class="result-question">' +
-                    '<div class="result-question-label">Question</div>' +
-                    '<div class="result-question-text">' + escapeHtml(originalQuestion) + '</div>' +
-                '</div>' +
-                '<h3 class="result-title">AI Answer</h3>' +
-                '<div class="result-meta">' +
-                    '<span class="confidence-badge ' + confidenceClass + '">' + confidenceText + ' (' + (data.confidence * 100).toFixed(1) + '%)</span>' +
-                    cacheIndicator +
-                    responseTimeDisplay +
-                '</div>' +
-                '<div class="formatted-content">' + formattedAnswer + '</div>' +
-                '<div class="result-actions">' +
-                    '<button class="speaker-btn" id="speaker-btn" onclick="speakText(currentAnswerText)">🔊 Read Aloud</button>' +
-                    '<button class="action-btn" onclick="copyCurrentAnswer()">📋 Copy</button>' +
-                    '<button class="feedback-btn" id="like-btn" onclick="submitFeedback(\'like\')">👍 Like</button>' +
-                    '<button class="feedback-btn" id="dislike-btn" onclick="submitFeedback(\'dislike\')">👎 Dislike</button>' +
-                    '<button class="feedback-btn" id="report-btn" onclick="submitFeedback(\'report\')">🚩 Report</button>' +
-                '</div>' +
-            '</div>';
-            
-            resultsContent.innerHTML = resultHtml;
-            resultsCount.textContent = '1 result';
-            
-            renderMathJax(resultsContent);
-        }
-
-        function renderMathJax(element) {
-            console.log('Starting MathJax render attempt...');
-            
-            function tryRender(attempts) {
-                if (attempts > 100) {
-                    console.error('❌ MathJax not loaded after 10 seconds');
-                    return;
-                }
-                
-                if (window.MathJax && window.MathJax.typesetPromise) {
-                    console.log('✅ MathJax found! Starting typeset...');
-                    
-                    MathJax.typesetPromise([element]).then(function() {
-                        console.log('✅ MathJax equations rendered successfully!');
-                    }).catch(function(err) {
-                        console.error('❌ MathJax rendering error:', err);
-                    });
-                } else {
-                    if (attempts % 10 === 0) {
-                        console.log('Waiting for MathJax... attempt', attempts);
-                    }
-                    setTimeout(function() {
-                        tryRender(attempts + 1);
-                    }, 100);
+                // Load units if chapter is selected
+                if (chapterSelect.value) {
+                    loadUnitsData();
                 }
             }
-            
-            tryRender(0);
         }
 
-        function formatMarkdownContent(markdown) {
-            if (!markdown) return '';
+        // Update chapter options based on grade and subject
+        function updateChapterOptions(grade, subject) {
+            // Clear existing options
+            chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
             
-            let html = markdown;
+            // Add mock chapters based on grade and subject
+            const chapters = getChaptersForSubject(grade, subject);
             
-            html = html.replace(/\\\[\s*([\s\S]*?)\s*\\\]/g, function(match, content) {
-                return '<div class="math-display">\\[' + content + '\\]</div>';
-            });
-            
-            html = html.replace(/^\\\[$/gm, '<div class="math-display">\\[');
-            html = html.replace(/^\\\]$/gm, '\\]</div>');
-            
-            html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
-            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
-            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
-            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-            
-            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-            html = html.replace(/\*([^*]+?)\*/g, '<em>$1</em>');
-            
-            let lines = html.split('\n');
-            let inList = false;
-            let processedLines = [];
-            
-            for (let i = 0; i < lines.length; i++) {
-                let line = lines[i];
-                
-                if (line.match(/^[\s]*[-*]\s+/) && !line.includes('math-display')) {
-                    if (!inList) {
-                        processedLines.push('<ul>');
-                        inList = true;
-                    }
-                    line = '<li>' + line.replace(/^[\s]*[-*]\s+/, '') + '</li>';
-                } else {
-                    if (inList) {
-                        processedLines.push('</ul>');
-                        inList = false;
-                    }
-                }
-                
-                processedLines.push(line);
-            }
-            
-            if (inList) {
-                processedLines.push('</ul>');
-            }
-            
-            html = processedLines.join('\n');
-            
-            let parts = html.split(/<div class="math-display">[\s\S]*?<\/div>/g);
-            let mathBlocks = html.match(/<div class="math-display">[\s\S]*?<\/div>/g) || [];
-            
-            let result = [];
-            for (let i = 0; i < parts.length; i++) {
-                let part = parts[i];
-                part = part.replace(/\n\n+/g, '</p><p>');
-                part = '<p>' + part + '</p>';
-                part = part.replace(/\n/g, '<br>');
-                part = part.replace(/<p><\/p>/g, '');
-                part = part.replace(/<p><br>/g, '<p>');
-                result.push(part);
-                
-                if (mathBlocks[i]) {
-                    result.push(mathBlocks[i]);
-                }
-            }
-            
-            html = result.join('');
-            
-            return html;
-        }
-
-        function copyCurrentAnswer() {
-            if (!currentAnswerText) {
-                showNotification('No answer to copy', 'error');
-                return;
-            }
-            navigator.clipboard.writeText(currentAnswerText).then(function() {
-                showNotification('Copied!', 'success', 2000);
-            }).catch(function() {
-                showNotification('Copy failed', 'error');
+            chapters.forEach(chapter => {
+                const option = document.createElement('option');
+                option.value = chapter.number;
+                option.textContent = `${chapter.number}: ${chapter.title}`;
+                chapterSelect.appendChild(option);
             });
         }
 
-        async function submitFeedback(feedbackType) {
-            if (!currentChatId) {
-                showNotification('No chat session found', 'error');
-                return;
-            }
-
-            if (!sessionToken) {
-                showNotification('Please sign in to submit feedback', 'error');
-                return;
-            }
-
-            const likeBtn = document.getElementById('like-btn');
-            const dislikeBtn = document.getElementById('dislike-btn');
-            const reportBtn = document.getElementById('report-btn');
-
-            likeBtn.classList.remove('active-like');
-            dislikeBtn.classList.remove('active-dislike');
-            reportBtn.classList.remove('active-report');
-
-            if (feedbackType === 'like') {
-                likeBtn.classList.add('active-like');
-            } else if (feedbackType === 'dislike') {
-                dislikeBtn.classList.add('active-dislike');
-            } else if (feedbackType === 'report') {
-                reportBtn.classList.add('active-report');
-            }
-
-            likeBtn.disabled = true;
-            dislikeBtn.disabled = true;
-            reportBtn.disabled = true;
-
-            try {
-                const response = await fetch(API_BASE_URL + '/feedback', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + sessionToken,
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify({
-                        chatId: currentChatId,
-                        feedbackType: feedbackType,
-                        timestamp: new Date().toISOString()
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to submit feedback');
-                }
-
-                const result = await response.json();
-                
-                let message = 'Thank you for your feedback!';
-                if (feedbackType === 'like') {
-                    message = '👍 Thanks! Glad we could help!';
-                } else if (feedbackType === 'dislike') {
-                    message = '👎 Feedback noted. We\'ll improve!';
-                } else if (feedbackType === 'report') {
-                    message = '🚩 Issue reported. We\'ll review it!';
-                }
-                
-                showNotification(message, 'success', 2000);
-            } catch (error) {
-                console.error('Feedback error:', error);
-                showNotification('Failed to submit feedback', 'error');
-                
-                likeBtn.classList.remove('active-like');
-                dislikeBtn.classList.remove('active-dislike');
-                reportBtn.classList.remove('active-report');
-            } finally {
-                likeBtn.disabled = false;
-                dislikeBtn.disabled = false;
-                reportBtn.disabled = false;
-            }
-        }
-
-        function showNotification(message, type, duration) {
-            type = type || 'info';
-            duration = duration || 3000;
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = 'notification ' + type;
-            notification.classList.add('show');
-            setTimeout(function() {
-                notification.classList.remove('show');
-            }, duration);
-        }
-
-        function showUserProfile(user) {
-            document.getElementById('user-profile').classList.add('show');
-            document.getElementById('user-avatar').src = user.picture;
-            document.getElementById('user-name').textContent = user.name;
-            document.getElementById('user-email').textContent = user.email;
-            document.getElementById('search-count').textContent = user.searchCount || 0;
-            
-            const signInContainer = document.getElementById('google-signin-container');
-            if (signInContainer) {
-                signInContainer.style.display = 'none';
-            }
-        }
-
-        function showSearchSection() {
-            document.getElementById('auth-required').style.display = 'none';
-            document.getElementById('main-layout').style.display = 'flex';
-        }
-
-        async function signOut() {
-            try {
-                showNotification('Signing out...', 'info');
-                if (sessionToken) {
-                    await fetch(API_BASE_URL + '/auth/logout', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': 'Bearer ' + sessionToken,
-                            'ngrok-skip-browser-warning': 'true'
-                        }
-                    });
-                }
-                clearUserSession();
-                showNotification('Signed out', 'success');
-            } catch (error) {
-                console.error('Sign out error:', error);
-                clearUserSession();
-            }
-        }
-
-        function clearUserSession() {
-            currentUser = null;
-            sessionToken = null;
-            currentAnswerText = '';
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('sessionToken');
-            document.getElementById('user-profile').classList.remove('show');
-            document.getElementById('auth-required').style.display = 'block';
-            document.getElementById('main-layout').style.display = 'none';
-            
-            const signInContainer = document.getElementById('google-signin-container');
-            if (signInContainer) {
-                signInContainer.style.display = 'flex';
-            }
-        }
-
-        async function loadChatHistory() {
-            if (!currentUser) return;
-            await loadChatMessages();
-        }
-
-        async function loadChatMessages(page, append) {
-            page = page || 1;
-            append = append || false;
-            try {
-                const response = await fetch(API_BASE_URL + '/user/chat-history?page=' + page + '&limit=20', {
-                    headers: {
-                        'Authorization': 'Bearer ' + sessionToken,
-                        'ngrok-skip-browser-warning': 'true'
-                    }
-                });
-                if (!response.ok) return;
-                const data = await response.json();
-                if (!append) {
-                    chatHistoryData = data.chatHistory || [];
-                } else {
-                    chatHistoryData = chatHistoryData.concat(data.chatHistory || []);
-                }
-                displayChatHistory();
-            } catch (error) {
-                console.error('Chat history error:', error);
-            }
-        }
-
-        function displayChatHistory() {
-            const historyGrid = document.getElementById('chat-history-grid');
-            if (chatHistoryData.length === 0) {
-                historyGrid.innerHTML = '<div class="no-chat-history"><p>No history yet</p></div>';
-                return;
-            }
-            const historyHTML = chatHistoryData.map(function(msg) {
-                return '<div class="chat-message-item" onclick="rerunSearch(\'' + escapeHtml(msg.question) + '\')">' +
-                    '<div class="chat-question">' + escapeHtml(msg.question) + '</div>' +
-                    '<div class="chat-answer">' + escapeHtml(msg.answer.substring(0, 100)) + '...</div>' +
-                    '<div class="chat-message-meta"><span>' + new Date(msg.timestamp).toLocaleDateString() + '</span></div>' +
-                '</div>';
-            }).join('');
-            historyGrid.innerHTML = historyHTML;
-        }
-
-        async function refreshChatHistory() {
-            await loadChatHistory();
-            showNotification('Refreshed', 'success', 1500);
-        }
-
-        function rerunSearch(question) {
-            document.getElementById('question-input').value = question;
-            performSearch();
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function checkCourseSelection() {
-            const department = document.getElementById('department-select').value;
-            const semester = document.getElementById('semester-select').value;
-            const subject = document.getElementById('subject-select').value;
-            if (department && semester && subject) {
-                displayUnitsSection(department, semester, subject);
-            }
-        }
-
-        function updateSubjectOptions() {
-            const department = document.getElementById('department-select').value;
-            const subjectSelect = document.getElementById('subject-select');
-            subjectSelect.innerHTML = '<option value="">Select Subject</option>';
-            if (department === 'computer-science') {
-                subjectSelect.innerHTML += '<option value="intro-programming">Introduction to Programming</option><option value="data-structures">Data Structures</option>';
-            } else if (department === 'mathematics') {
-                subjectSelect.innerHTML += '<option value="calculus-1">Calculus I</option>';
-            } else if (department === 'chemistry') {
-                subjectSelect.innerHTML += '<option value="organic-chem">Organic Chemistry</option>';
-            }
-        }
-
-        function displayUnitsSection(department, semester, subject) {
-            const unitsGrid = document.getElementById('units-grid');
-            const courseInfo = document.getElementById('selected-course');
-            
-            courseInfo.textContent = department.replace(/-/g, ' ').toUpperCase() + ' - Semester ' + semester + ' - ' + subject.replace(/-/g, ' ').toUpperCase();
-            
-            // Sample question bank data
-            const questionBankData = {
-                'computer-science': {
-                    'intro-programming': [
-                        {
-                            unit: 'Introduction to Programming',
-                            icon: '💻',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { 
-                                            text: 'What is a variable in programming?', 
-                                            marks: 2,
-                                            answer: 'A variable is a named storage location in memory that holds a value. It has a name (identifier) and a data type that determines what kind of data it can store. Variables can be modified during program execution.<br><br><strong>Example:</strong><div class="code-block-wrapper"><div class="code-block-header">💻 Python</div><pre><code>age = 25          # Integer variable\nname = "John"     # String variable\nheight = 5.8      # Float variable</code></pre></div>'
-                                        },
-                                        { 
-                                            text: 'Explain the difference between int and float data types', 
-                                            marks: 2,
-                                            answer: '<strong>int (Integer):</strong> Stores whole numbers without decimal points (e.g., 5, -10, 100).<br><br><strong>float (Floating-point):</strong> Stores numbers with decimal points (e.g., 3.14, -0.5, 2.0).<br><br>Integers take less memory and operations are faster, while floats provide precision for decimal calculations.<br><br><strong>Example:</strong><div class="code-block-wrapper"><div class="code-block-header">💻 Python</div><pre><code>count = 42        # int\nprice = 19.99     # float\ntemp = -5         # int\npi = 3.14159      # float</code></pre></div>'
-                                        },
-                                        { 
-                                            text: 'Write a program to implement a simple calculator', 
-                                            marks: 10,
-                                            answer: '<strong>Simple Calculator Program:</strong><br><br>This program asks for two numbers and an operator, then calculates the answer. It prevents division by zero errors.<div class="code-block-wrapper"><div class="code-block-header">💻 Python - Simple Calculator</div><pre><code>print("Simple Calculator")\n\n# Get user inputs\na = float(input("Enter first number: "))\nop = input("Choose operator (+, -, *, /): ").strip()\nb = float(input("Enter second number: "))\n\n# Perform calculation\nif op == \'+\':\n    result = a + b\nelif op == \'-\':\n    result = a - b\nelif op == \'*\':\n    result = a * b\nelif op == \'/\':\n    if b == 0:\n        print("Error: Cannot divide by zero")\n        result = None\n    else:\n        result = a / b\nelse:\n    print("Invalid operator")\n    result = None\n\n# Display result\nif result is not None:\n    print(f"Result: {result}")</code></pre></div><br><strong>Features:</strong><ul><li>Takes two numbers as input</li><li>Performs basic arithmetic operations (+, -, *, /)</li><li>Handles division by zero error</li><li>Validates operator input</li><li>Displays formatted result</li></ul><br><strong>Example Usage:</strong><br>Input: a=12, b=3, operator="/" → Output: Result: 4.0'
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                'mathematics': {
-                    'calculus-1': [
-                        {
-                            unit: 'Limits & Continuity',
-                            icon: '∞',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { 
-                                            text: 'Define limit of a function', 
-                                            marks: 2,
-                                            answer: 'A limit describes the value that a function approaches as the input approaches some value. Mathematically: lim(x→a) f(x) = L means as x gets closer to a, f(x) gets closer to L.'
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                'chemistry': {
-                    'organic-chem': [
-                        {
-                            unit: 'Basic Concepts',
-                            icon: '🧪',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { 
-                                            text: 'What is organic chemistry?', 
-                                            marks: 2,
-                                            answer: 'Organic chemistry is the branch of chemistry that studies carbon-containing compounds and their properties, structure, composition, reactions, and synthesis.'
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
+        // Get subject name from value
+        function getSubjectName(subject) {
+            const subjects = {
+                'math': 'Mathematics',
+                'science': 'Science',
+                'english': 'English',
+                'social': 'Social Studies',
+                'tamil': 'Tamil',
+                'malayalam': 'Malayalam'
             };
             
-            const units = questionBankData[department]?.[subject] || [];
+            return subjects[subject] || subject;
+        }
+
+        // Get mock chapters for a subject
+        function getChaptersForSubject(grade, subject) {
+            // This is mock data - in a real app, this would come from an API
+            const chapters = {
+                'math': [
+                    { number: 1, title: 'Real Numbers' },
+                    { number: 2, title: 'Polynomials' },
+                    { number: 3, title: 'Pair of Linear Equations' },
+                    { number: 4, title: 'Quadratic Equations' },
+                    { number: 5, title: 'Arithmetic Progressions' }
+                ],
+                'science': [
+                    { number: 1, title: 'Chemical Reactions' },
+                    { number: 2, title: 'Acids, Bases and Salts' },
+                    { number: 3, title: 'Metals and Non-metals' },
+                    { number: 4, title: 'Carbon and its Compounds' },
+                    { number: 5, title: 'Periodic Classification' }
+                ],
+                'tamil': [
+                    { number: 1, title: 'தமிழ் மொழி' },
+                    { number: 2, title: 'இலக்கணம்' },
+                    { number: 3, title: 'இலக்கியம்' },
+                    { number: 4, title: 'கவிதைகள்' },
+                    { number: 5, title: 'கட்டுரைகள்' }
+                ],
+                'malayalam': [
+                    { number: 1, title: 'മലയാളം ഭാഷ' },
+                    { number: 2, title: 'വ്യാകരണം' },
+                    { number: 3, title: 'സാഹിത്യം' },
+                    { number: 4, title: 'കവിതകൾ' },
+                    { number: 5, title: 'ലേഖനങ്ങൾ' }
+                ]
+            };
             
-            if (units.length === 0) {
-                unitsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray);"><p>📚 No questions available yet for this course.</p></div>';
+            return chapters[subject] || [
+                { number: 1, title: 'Chapter 1' },
+                { number: 2, title: 'Chapter 2' },
+                { number: 3, title: 'Chapter 3' }
+            ];
+        }
+
+        // Load units data
+        function loadUnitsData() {
+            const grade = gradeSelect.value;
+            const subject = subjectSelect.value;
+            const chapter = chapterSelect.value;
+            
+            if (!grade || !subject || !chapter) {
+                unitsGrid.innerHTML = '<div class="no-results">Please select grade, subject, and chapter to view units.</div>';
                 return;
             }
             
-            let unitsHTML = '';
-            units.forEach((unit, unitIndex) => {
-                const unitId = 'unit-' + unitIndex;
-                unitsHTML += '<div class="unit-card">';
-                unitsHTML += '<div class="unit-header" id="header-' + unitId + '" onclick="toggleUnit(\'' + unitId + '\')">';
-                unitsHTML += '<h3 class="unit-title"><span class="unit-icon">' + unit.icon + '</span>' + unit.unit + '</h3>';
-                unitsHTML += '<button class="unit-toggle" id="toggle-' + unitId + '">+</button>';
-                unitsHTML += '</div>';
-                unitsHTML += '<div class="unit-content" id="' + unitId + '">';
-                
-                unit.sections.forEach((section, sectionIndex) => {
-                    unitsHTML += '<div class="question-section">';
-                    unitsHTML += '<div class="question-section-header">';
-                    unitsHTML += '<span class="question-type-title">' + section.type + '</span>';
-                    unitsHTML += '<span class="question-count">' + section.questions.length + ' Questions</span>';
-                    unitsHTML += '</div>';
-                    unitsHTML += '<div class="questions-list">';
-                    
-                    section.questions.forEach((q, qIndex) => {
-                        const questionId = 'q-' + unitIndex + '-' + sectionIndex + '-' + qIndex;
-                        unitsHTML += '<div class="question-item">';
-                        unitsHTML += '<div class="question-header" id="header-' + questionId + '" onclick="toggleQuestion(\'' + questionId + '\')">';
-                        unitsHTML += '<div class="question-left">';
-                        unitsHTML += '<span class="question-number">' + (qIndex + 1) + '</span>';
-                        unitsHTML += '<div class="question-text">' + q.text + '</div>';
-                        unitsHTML += '</div>';
-                        unitsHTML += '<div class="question-right">';
-                        unitsHTML += '<span class="mark-badge">' + q.marks + ' Marks</span>';
-                        unitsHTML += '<button class="question-toggle" id="toggle-' + questionId + '">+</button>';
-                        unitsHTML += '</div>';
-                        unitsHTML += '</div>';
-                        
-                        unitsHTML += '<div class="question-answer" id="' + questionId + '">';
-                        unitsHTML += '<div class="answer-content">';
-                        unitsHTML += '<div class="answer-label">📝 Answer:</div>';
-                        unitsHTML += '<div class="answer-text">' + q.answer + '</div>';
-                        unitsHTML += '</div>';
-                        unitsHTML += '</div>';
-                        
-                        unitsHTML += '</div>';
-                    });
-                    
-                    unitsHTML += '</div>';
-                    unitsHTML += '</div>';
-                });
-                
-                unitsHTML += '</div>';
-                unitsHTML += '</div>';
-            });
+            // Show loading
+            unitsGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
             
-            unitsGrid.innerHTML = unitsHTML;
+            // Simulate API call with timeout
+            setTimeout(() => {
+                // Mock units data
+                currentUnits = generateMockUnits(grade, subject, chapter);
+                renderUnits();
+            }, 1000);
         }
 
-        function toggleUnit(unitId) {
-            const unitContent = document.getElementById(unitId);
-            const unitHeader = document.getElementById('header-' + unitId);
-            const toggleBtn = document.getElementById('toggle-' + unitId);
+        // Generate mock units data
+        function generateMockUnits(grade, subject, chapter) {
+            // This is mock data - in a real app, this would come from an API
+            return [
+                {
+                    id: 1,
+                    title: 'Introduction',
+                    icon: '📖',
+                    questions: [
+                        {
+                            id: 101,
+                            type: 'definition',
+                            text: 'What is the definition of this concept?',
+                            answer: 'This concept refers to the fundamental principles that govern this topic. It includes key elements such as...'
+                        },
+                        {
+                            id: 102,
+                            type: 'example',
+                            text: 'Can you provide an example of this concept?',
+                            answer: 'Sure! Here is a practical example: [detailed example with step-by-step explanation]'
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: 'Key Concepts',
+                    icon: '🔑',
+                    questions: [
+                        {
+                            id: 201,
+                            type: 'explanation',
+                            text: 'Explain the main principles involved.',
+                            answer: 'The main principles include: 1) First principle, 2) Second principle, 3) Third principle. Each of these plays a crucial role in...'
+                        },
+                        {
+                            id: 202,
+                            type: 'application',
+                            text: 'How is this applied in real-world scenarios?',
+                            answer: 'This concept is applied in various real-world scenarios such as: [detailed applications with examples]'
+                        },
+                        {
+                            id: 203,
+                            type: 'comparison',
+                            text: 'Compare this concept with similar ones.',
+                            answer: 'When comparing this concept with similar ones, we find key differences in: [detailed comparison table]'
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: 'Problem Solving',
+                    icon: '🧮',
+                    questions: [
+                        {
+                            id: 301,
+                            type: 'calculation',
+                            text: 'Solve this sample problem step by step.',
+                            answer: 'Let\'s solve this problem step by step:\n\nStep 1: Identify the given values\nStep 2: Apply the formula\nStep 3: Calculate the result\nStep 4: Verify the answer\n\n[Detailed solution with calculations]'
+                        },
+                        {
+                            id: 302,
+                            type: 'proof',
+                            text: 'Prove this theorem or formula.',
+                            answer: 'To prove this theorem, we will follow these steps:\n\n1. State the given conditions\n2. Apply relevant principles\n3. Derive the conclusion\n4. Verify the proof\n\n[Detailed proof with mathematical expressions]'
+                        }
+                    ]
+                }
+            ];
+        }
+
+        // Render units to the UI
+        function renderUnits() {
+            if (currentUnits.length === 0) {
+                unitsGrid.innerHTML = '<div class="no-results">No units found for the selected criteria.</div>';
+                return;
+            }
+            
+            let html = '';
+            
+            currentUnits.forEach(unit => {
+                let questionsHtml = '';
+                
+                // Group questions by type
+                const questionsByType = {};
+                unit.questions.forEach(question => {
+                    if (!questionsByType[question.type]) {
+                        questionsByType[question.type] = [];
+                    }
+                    questionsByType[question.type].push(question);
+                });
+                
+                // Generate HTML for each question type section
+                Object.keys(questionsByType).forEach(type => {
+                    const questions = questionsByType[type];
+                    const typeTitle = getQuestionTypeTitle(type);
+                    
+                    let typeQuestionsHtml = '';
+                    
+                    questions.forEach((question, index) => {
+                        typeQuestionsHtml += `
+                            <div class="question-item">
+                                <div class="question-header" onclick="toggleQuestionAnswer(${question.id})">
+                                    <div class="question-left">
+                                        <div class="question-number">${index + 1}</div>
+                                        <div class="question-text">${question.text}</div>
+                                    </div>
+                                    <button class="question-toggle">+</button>
+                                </div>
+                                <div class="question-answer" id="answer-${question.id}">
+                                    <div class="answer-content">
+                                        <div class="formatted-content">${formatAnswer(question.answer)}</div>
+                                        <div class="answer-actions">
+                                            <button class="speaker-btn" onclick="speakAnswer('${question.answer.replace(/'/g, "\\'")}')">
+                                                <span>🔊</span>
+                                                <span>Listen</span>
+                                            </button>
+                                            <button class="action-btn" onclick="copyAnswer('${question.answer.replace(/'/g, "\\'")}')">
+                                                <span>📋</span>
+                                                <span>Copy</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    questionsHtml += `
+                        <div class="question-section">
+                            <div class="question-section-header">
+                                <div class="question-type-title">${typeTitle}</div>
+                                <div class="question-count">${questions.length} Questions</div>
+                            </div>
+                            <div class="questions-list">
+                                ${typeQuestionsHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                    <div class="unit-card">
+                        <div class="unit-header" onclick="toggleUnitContent(${unit.id})">
+                            <h3 class="unit-title">
+                                <span class="unit-icon">${unit.icon}</span>
+                                <span>${unit.title}</span>
+                            </h3>
+                            <button class="unit-toggle">+</button>
+                        </div>
+                        <div class="unit-content" id="unit-${unit.id}">
+                            ${questionsHtml}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            unitsGrid.innerHTML = html;
+        }
+
+        // Get question type title
+        function getQuestionTypeTitle(type) {
+            const titles = {
+                'definition': 'Definitions',
+                'example': 'Examples',
+                'explanation': 'Explanations',
+                'application': 'Applications',
+                'comparison': 'Comparisons',
+                'calculation': 'Calculations',
+                'proof': 'Proofs'
+            };
+            
+            return titles[type] || type;
+        }
+
+        // Toggle unit content
+        function toggleUnitContent(unitId) {
+            const unitContent = document.getElementById(`unit-${unitId}`);
+            const unitToggle = unitContent.previousElementSibling.querySelector('.unit-toggle');
+            const unitHeader = unitContent.previousElementSibling;
             
             if (unitContent.classList.contains('show')) {
                 unitContent.classList.remove('show');
+                unitToggle.textContent = '+';
                 unitHeader.classList.remove('active');
-                toggleBtn.textContent = '+';
             } else {
                 unitContent.classList.add('show');
+                unitToggle.textContent = '−';
                 unitHeader.classList.add('active');
-                toggleBtn.textContent = '−';
             }
         }
 
-        function toggleQuestion(questionId) {
-            const questionAnswer = document.getElementById(questionId);
-            const questionHeader = document.getElementById('header-' + questionId);
-            const toggleBtn = document.getElementById('toggle-' + questionId);
+        // Toggle question answer
+        function toggleQuestionAnswer(questionId) {
+            const answer = document.getElementById(`answer-${questionId}`);
+            const questionToggle = answer.previousElementSibling.querySelector('.question-toggle');
+            const questionHeader = answer.previousElementSibling;
             
-            if (questionAnswer.classList.contains('show')) {
-                questionAnswer.classList.remove('show');
+            if (answer.classList.contains('show')) {
+                answer.classList.remove('show');
+                questionToggle.textContent = '+';
                 questionHeader.classList.remove('active');
-                toggleBtn.textContent = '+';
             } else {
-                questionAnswer.classList.add('show');
+                answer.classList.add('show');
+                questionToggle.textContent = '−';
                 questionHeader.classList.add('active');
-                toggleBtn.textContent = '−';
             }
         }
 
-        // Make functions globally accessible
-        window.switchMode = switchMode;
-        window.copyCurrentAnswer = copyCurrentAnswer;
-        window.submitFeedback = submitFeedback;
-        window.rerunSearch = rerunSearch;
-        window.toggleUnit = toggleUnit;
-        window.toggleQuestion = toggleQuestion;
-        window.speakText = speakText;
+        // Format answer text
+        function formatAnswer(text) {
+            // Simple formatting for demonstration
+            // In a real app, you would use a more sophisticated formatting system
+            return text.replace(/\n/g, '<br>');
+        }
+
+        // Speak answer text
+        function speakAnswer(text) {
+            const language = languageSelect.value;
+            speakText(text, language);
+        }
+
+        // Copy answer text
+        function copyAnswer(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show success feedback
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<span>✓</span><span>Copied!</span>';
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        // Perform search
+        function performSearch() {
+            const query = searchInput.value.trim();
+            const language = languageSelect.value;
+            
+            if (!query) {
+                alert('Please enter a question to search.');
+                return;
+            }
+            
+            // Show loading
+            searchLoading.style.display = 'flex';
+            resultsContainer.classList.remove('show');
+            
+            // Simulate API call with timeout
+            setTimeout(() => {
+                // Generate mock response
+                const response = generateMockResponse(query, language);
+                
+                // Update UI with response
+                resultQuestionText.textContent = query;
+                resultContent.innerHTML = formatResponse(response.answer);
+                confidenceBadge.textContent = response.confidence;
+                confidenceBadge.className = `confidence-badge confidence-${response.confidence.toLowerCase()}`;
+                responseTime.querySelector('span:last-child').textContent = `${response.responseTime}s`;
+                cacheIndicator.textContent = response.cacheHit ? 'Cache Hit' : 'Cache Miss';
+                cacheIndicator.classList.toggle('cache-hit', response.cacheHit);
+                
+                // Add to chat history
+                addToChatHistory(query, response.answer);
+                
+                // Hide loading and show results
+                searchLoading.style.display = 'none';
+                resultsContainer.classList.add('show');
+                
+                // Scroll to results
+                resultsContainer.scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
+        }
+
+        // Generate mock response
+        function generateMockResponse(query, language) {
+            // This is mock data - in a real app, this would come from an API
+            const responses = {
+                'en': {
+                    answer: `**${query}**\n\nThis is a detailed explanation for your question. In simple terms, the answer involves several key concepts that are important to understand.\n\n### Key Points:\n- First important point with detailed explanation\n- Second important point with examples\n- Third important point with practical applications\n\n### Step-by-Step Explanation:\n1. **Step One**: Begin with the basics and foundational concepts.\n2. **Step Two**: Build upon these concepts with more detailed information.\n3. **Step Three**: Apply the concepts to practical scenarios.\n4. **Step Four**: Review and summarize the key takeaways.\n\n### Example:\nHere's a practical example to illustrate the concept:\n\n\\[ \\text{Example Formula: } E = mc^2 \\]\n\nThis famous equation demonstrates the relationship between energy and mass.\n\n### Additional Resources:\n- Related concepts you might find helpful\n- Further reading suggestions\n- Practice problems to test your understanding`,
+                    confidence: 'High',
+                    responseTime: (Math.random() * 2 + 0.5).toFixed(1),
+                    cacheHit: Math.random() > 0.5
+                },
+                'ta': {
+                    answer: `**${query}**\n\nஇது உங்கள் கேள்விக்கான விரிவான விளக்கம். இந்த கருத்தை புரிந்துகொள்வதற்கு பல முக்கிய கருத்துகள் உள்ளன.\n\n### முக்கிய புள்ளிகள்:\n- முதல் முக்கிய புள்ளி விளக்கத்துடன்\n- இரண்டாவது முக்கிய புள்ளி எடுத்துக்காட்டுகளுடன்\n- மூன்றாவது முக்கிய புள்ளி நடைமுறை பயன்பாடுகளுடன்\n\n### படிப்படியான விளக்கம்:\n1. **முதல் படி**: அடிப்படை கருத்துகளுடன் தொடங்கவும்\n2. **இரண்டாம் படி**: இந்த கருத்துகளின் மேல் விரிவான தகவல்களை கட்டமைக்கவும்\n3. **மூன்றாம் படி**: நடைமுறை சூழ்நிலைகளில் கருத்துகளை பயன்படுத்தவும்\n4. **நான்காம் படி**: முக்கிய கருத்துகளை மதிப்பாய்வு செய்து சுருக்கவும்\n\n### எடுத்துக்காட்டு:\nகருத்தை விளக்க ஒரு நடைமுறை எடுத்துக்காட்டு:\n\n\\[ E = mc^2 \\]\n\nஇந்த பிரபலமான சமன்பாடு ஆற்றல் மற்றும் நிறைக்கு இடையே உள்ள தொடர்பை காட்டுகிறது.`,
+                    confidence: 'High',
+                    responseTime: (Math.random() * 2 + 0.5).toFixed(1),
+                    cacheHit: Math.random() > 0.5
+                },
+                'ml': {
+                    answer: `**${query}**\n\nഇത് നിങ്ങളുടെ ചോദ്യത്തിനുള്ള വിശദമായ വിശദീകരണമാണ്. ഈ ആശയം മനസ്സിലാക്കുന്നതിന് നിരവധി പ്രധാന ആശയങ്ങൾ ഉണ്ട്.\n\n### പ്രധാന പോയിന്റുകൾ:\n- വിശദീകരണത്തോടെയുള്ള ആദ്യത്തെ പ്രധാന പോയിന്റ്\n- ഉദാഹരണങ്ങളോടെയുള്ള രണ്ടാമത്തെ പ്രധാന പോയിന്റ്\n- പ്രായോഗിക ആപ്ലിക്കേഷനുകളോടെയുള്ള മൂന്നാമത്തെ പ്രധാന പോയിന്റ്\n\n### ഘട്ടം ഘട്ടമായുള്ള വിശദീകരണം:\n1. **ആദ്യ ഘട്ടം**: അടിസ്ഥാന ആശയങ്ങളിൽ നിന്ന് ആരംഭിക്കുക\n2. **രണ്ടാം ഘട്ടം**: കൂടുതൽ വിശദമായ വിവരങ്ങൾ ഉപയോഗിച്ച് ഈ ആശയങ്ങൾ നിർമ്മിക്കുക\n3. **മൂന്നാം ഘട്ടം**: പ്രായോഗിക സാഹചര്യങ്ങളിൽ ആശയങ്ങൾ പ്രയോഗിക്കുക\n4. **നാലാം ഘട്ടം**: പ്രധാന ആശയങ്ങൾ അവലോകനം ചെയ്ത് സംഗ്രഹിക്കുക\n\n### ഉദാഹരണം:\nആശയം വിശദീകരിക്കാൻ ഒരു പ്രായോഗിക ഉദാഹരണം:\n\n\\[ E = mc^2 \\]\n\nഈ പ്രശസ്തമായ സമവാക്യം ഊർജ്ജത്തിനും പിണ്ഡത്തിനും ഇടയിലുള്ള ബന്ധം കാണിക്കുന്നു.`,
+                    confidence: 'High',
+                    responseTime: (Math.random() * 2 + 0.5).toFixed(1),
+                    cacheHit: Math.random() > 0.5
+                }
+            };
+            
+            return responses[language] || responses['en'];
+        }
+
+        // Format response text
+        function formatResponse(text) {
+            // Use marked.js to parse markdown
+            return marked.parse(text);
+        }
+
+        // Add to chat history
+        function addToChatHistory(question, answer) {
+            const chatItem = {
+                id: Date.now(),
+                question,
+                answer: answer.substring(0, 100) + '...',
+                timestamp: new Date().toLocaleString()
+            };
+            
+            chatHistory.unshift(chatItem);
+            
+            // Keep only last 20 items
+            if (chatHistory.length > 20) {
+                chatHistory = chatHistory.slice(0, 20);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('aasaiChatHistory', JSON.stringify(chatHistory));
+            
+            // Update UI
+            renderChatHistory();
+        }
+
+        // Load chat history
+        function loadChatHistory() {
+            const savedHistory = localStorage.getItem('aasaiChatHistory');
+            
+            if (savedHistory) {
+                chatHistory = JSON.parse(savedHistory);
+            }
+            
+            renderChatHistory();
+        }
+
+        // Render chat history
+        function renderChatHistory() {
+            if (chatHistory.length === 0) {
+                noChatHistory.style.display = 'block';
+                chatMessagesGrid.innerHTML = '';
+                loadMoreBtn.style.display = 'none';
+                return;
+            }
+            
+            noChatHistory.style.display = 'none';
+            
+            let html = '';
+            const itemsToShow = Math.min(chatHistory.length, 6);
+            
+            for (let i = 0; i < itemsToShow; i++) {
+                const item = chatHistory[i];
+                html += `
+                    <div class="chat-message-item" onclick="loadChatItem(${item.id})">
+                        <div class="chat-question">${item.question}</div>
+                        <div class="chat-answer">${item.answer}</div>
+                        <div class="chat-message-meta">
+                            <span>${item.timestamp}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            chatMessagesGrid.innerHTML = html;
+            
+            // Show load more button if there are more items
+            if (chatHistory.length > 6) {
+                loadMoreBtn.style.display = 'block';
+            } else {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+
+        // Load more chat history
+        function loadMoreHistory() {
+            const currentCount = chatMessagesGrid.children.length;
+            const itemsToShow = Math.min(chatHistory.length, currentCount + 6);
+            
+            let html = chatMessagesGrid.innerHTML;
+            
+            for (let i = currentCount; i < itemsToShow; i++) {
+                const item = chatHistory[i];
+                html += `
+                    <div class="chat-message-item" onclick="loadChatItem(${item.id})">
+                        <div class="chat-question">${item.question}</div>
+                        <div class="chat-answer">${item.answer}</div>
+                        <div class="chat-message-meta">
+                            <span>${item.timestamp}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            chatMessagesGrid.innerHTML = html;
+            
+            // Hide load more button if all items are shown
+            if (itemsToShow >= chatHistory.length) {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+
+        // Load chat item
+        function loadChatItem(id) {
+            const item = chatHistory.find(chat => chat.id === id);
+            
+            if (item) {
+                searchInput.value = item.question;
+                performSearch();
+            }
+        }
+
+        // Initialize speech recognition
+        function initializeSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+                
+                recognition.onstart = function() {
+                    isListening = true;
+                    voiceBtn.classList.add('recording');
+                    voiceStatus.textContent = 'Listening... Speak now';
+                    voiceStatus.className = 'voice-status show listening';
+                };
+                
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    searchInput.value = transcript;
+                    isListening = false;
+                    voiceBtn.classList.remove('recording');
+                    voiceStatus.textContent = 'Processing...';
+                    voiceStatus.className = 'voice-status show processing';
+                    
+                    // Perform search after a short delay
+                    setTimeout(() => {
+                        performSearch();
+                        voiceStatus.classList.remove('show');
+                    }, 1000);
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error', event.error);
+                    isListening = false;
+                    voiceBtn.classList.remove('recording');
+                    voiceStatus.textContent = `Error: ${event.error}`;
+                    voiceStatus.className = 'voice-status show';
+                    
+                    setTimeout(() => {
+                        voiceStatus.classList.remove('show');
+                    }, 3000);
+                };
+                
+                recognition.onend = function() {
+                    isListening = false;
+                    voiceBtn.classList.remove('recording');
+                    
+                    if (voiceStatus.textContent === 'Listening... Speak now') {
+                        voiceStatus.textContent = 'No speech detected';
+                        setTimeout(() => {
+                            voiceStatus.classList.remove('show');
+                        }, 2000);
+                    }
+                };
+            } else {
+                voiceBtn.disabled = true;
+                voiceBtn.title = 'Speech recognition not supported in this browser';
+            }
+        }
+
+        // Toggle voice recognition
+        function toggleVoiceRecognition() {
+            if (!recognition) {
+                alert('Speech recognition is not supported in your browser.');
+                return;
+            }
+            
+            if (isListening) {
+                recognition.stop();
+            } else {
+                // Set language based on selection
+                const language = languageSelect.value;
+                recognition.lang = getSpeechRecognitionLanguage(language);
+                recognition.start();
+            }
+        }
+
+        // Get speech recognition language code
+        function getSpeechRecognitionLanguage(language) {
+            const languages = {
+                'en': 'en-US',
+                'ta': 'ta-IN',
+                'ml': 'ml-IN',
+                'hi': 'hi-IN',
+                'te': 'te-IN',
+                'kn': 'kn-IN'
+            };
+            
+            return languages[language] || 'en-US';
+        }
+
+        // Initialize speech synthesis
+        function initializeSpeechSynthesis() {
+            // Check if speech synthesis is supported
+            if (!('speechSynthesis' in window)) {
+                speakerBtn.disabled = true;
+                speakerBtn.title = 'Text-to-speech not supported in this browser';
+            }
+        }
+
+        // Speak text
+        function speakText(text, language) {
+            if (!('speechSynthesis' in window)) {
+                alert('Text-to-speech is not supported in your browser.');
+                return;
+            }
+            
+            // Cancel any ongoing speech
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                speakerBtn.classList.remove('speaking');
+                return;
+            }
+            
+            // Create a new utterance
+            const utterance = new SpeechSynthesisUtterance(text);
+            
+            // Configure voice based on language
+            const config = voiceConfig[language] || voiceConfig['en'];
+            
+            utterance.rate = config.rate;
+            utterance.pitch = config.pitch;
+            utterance.volume = config.volume;
+            
+            // Try to find a suitable voice
+            const voices = window.speechSynthesis.getVoices();
+            let voice = voices.find(v => v.name === config.voiceName);
+            
+            if (!voice) {
+                // Fallback to any voice that matches the language
+                voice = voices.find(v => v.lang.startsWith(language));
+            }
+            
+            if (voice) {
+                utterance.voice = voice;
+            }
+            
+            // Set up event handlers
+            utterance.onstart = function() {
+                isSpeaking = true;
+                speakerBtn.classList.add('speaking');
+            };
+            
+            utterance.onend = function() {
+                isSpeaking = false;
+                speakerBtn.classList.remove('speaking');
+            };
+            
+            utterance.onerror = function(event) {
+                console.error('Speech synthesis error', event);
+                isSpeaking = false;
+                speakerBtn.classList.remove('speaking');
+                alert('Error with text-to-speech. Please try again.');
+            };
+            
+            // Start speaking
+            window.speechSynthesis.speak(utterance);
+            currentUtterance = utterance;
+        }
+
+        // Toggle speech
+        function toggleSpeech() {
+            const text = resultContent.textContent || resultContent.innerText;
+            const language = languageSelect.value;
+            
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                speakerBtn.classList.remove('speaking');
+            } else {
+                speakText(text, language);
+            }
+        }
+
+        // Copy result
+        function copyResult() {
+            const text = resultContent.textContent || resultContent.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                // Show success feedback
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<span>✓</span><span>Copied!</span>';
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        // Handle feedback
+        function handleFeedback(type) {
+            const buttons = {
+                'like': likeBtn,
+                'dislike': dislikeBtn,
+                'report': reportBtn
+            };
+            
+            const button = buttons[type];
+            
+            // Toggle active state
+            if (button.classList.contains(`active-${type}`)) {
+                button.classList.remove(`active-${type}`);
+            } else {
+                // Remove active state from all feedback buttons
+                likeBtn.classList.remove('active-like');
+                dislikeBtn.classList.remove('active-dislike');
+                reportBtn.classList.remove('active-report');
+                
+                // Add active state to clicked button
+                button.classList.add(`active-${type}`);
+            }
+            
+            // In a real app, you would send this feedback to your backend
+            console.log(`Feedback: ${type}`);
+        }
+
+        // Check user authentication
+        function checkUserAuth() {
+            // In a real app, you would check if the user is authenticated
+            // For demo purposes, we'll simulate a logged-out state
+            user = null;
+            userProfile.classList.remove('show');
+        }
+
+        // Handle Google Sign-In
+        function handleGoogleSignIn(response) {
+            // This would be handled by your backend in a real app
+            console.log('Google Sign-In response:', response);
+            
+            // For demo purposes, we'll simulate a successful login
+            user = {
+                name: 'Demo User',
+                email: 'demo@aasai.com',
+                avatar: 'https://via.placeholder.com/32',
+                questions: 15,
+                points: 120
+            };
+            
+            updateUserProfile();
+        }
+
+        // Update user profile
+        function updateUserProfile() {
+            if (user) {
+                userAvatar.src = user.avatar;
+                userName.textContent = user.name;
+                userEmail.textContent = user.email;
+                userStats.textContent = `Questions: ${user.questions} | Points: ${user.points}`;
+                userProfile.classList.add('show');
+            } else {
+                userProfile.classList.remove('show');
+            }
+        }
+
+        // Handle sign out
+        function handleSignOut() {
+            // In a real app, you would sign out from Google
+            user = null;
+            userProfile.classList.remove('show');
+        }
+
+        // Initialize the app when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        // Make functions available globally for onclick handlers
+        window.toggleUnitContent = toggleUnitContent;
+        window.toggleQuestionAnswer = toggleQuestionAnswer;
+        window.speakAnswer = speakAnswer;
+        window.copyAnswer = copyAnswer;
+        window.loadChatItem = loadChatItem;
     </script>
 </body>
 </html>
