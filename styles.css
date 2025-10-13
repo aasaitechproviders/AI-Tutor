@@ -69,15 +69,22 @@ header {
 }
 
 .google-signin-container {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
+    min-width: 200px;
+    min-height: 40px;
 }
 
 #google-signin-button {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
+    min-width: 200px;
+}
+
+#google-signin-button > div {
+    display: flex !important;
 }
 
 .user-profile {
