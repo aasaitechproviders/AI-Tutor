@@ -65,7 +65,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 20px;
         }
@@ -168,10 +168,26 @@
             padding: 2rem 0;
         }
 
+        /* TWO COLUMN LAYOUT */
         .main-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* Left Column - Preferences */
+        .left-column {
             display: flex;
             flex-direction: column;
             gap: 2rem;
+        }
+
+        /* Right Column - Search & Results */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
         /* Preferences Section */
@@ -180,15 +196,17 @@
             border-radius: 20px;
             padding: 2rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 100px;
         }
 
         .preferences-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .preferences-title {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 600;
             color: var(--primary);
             margin-bottom: 0.5rem;
@@ -196,13 +214,13 @@
 
         .preferences-subtitle {
             color: var(--gray);
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .preferences-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
         }
 
         .preference-group {
@@ -211,17 +229,17 @@
         }
 
         .preference-group label {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: var(--dark);
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.6rem;
         }
 
         .form-select {
-            padding: 0.9rem 1rem;
+            padding: 0.8rem;
             border: 2px solid var(--light-gray);
             border-radius: 12px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             background-color: white;
             transition: all 0.3s;
             cursor: pointer;
@@ -243,12 +261,11 @@
             border-radius: 20px;
             padding: 2rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            min-height: 400px;
         }
 
         .search-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .search-title {
@@ -301,7 +318,6 @@
             box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15);
             border-radius: 12px;
             overflow: hidden;
-            position: relative;
         }
 
         .search-input {
@@ -438,13 +454,12 @@
             color: #0c5460;
         }
 
-        /* Results Section */
+        /* Results Section - NOW APPEARS BELOW SEARCH */
         .results-container {
             background: white;
             border-radius: 20px;
             padding: 2rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            margin-top: 2rem;
             display: none;
         }
 
@@ -462,7 +477,7 @@
         }
 
         .results-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 600;
             color: var(--primary);
         }
@@ -471,13 +486,11 @@
             padding: 2rem;
             border: 2px solid var(--light-gray);
             border-radius: 16px;
-            margin-bottom: 1rem;
             transition: all 0.3s;
             background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
         }
 
         .result-card:hover {
-            transform: translateY(-3px);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
             border-color: var(--primary);
         }
@@ -802,9 +815,10 @@
 
         /* Chat History */
         .chat-history-search {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--light-gray);
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .chat-history-header {
@@ -837,7 +851,7 @@
 
         .chat-messages-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr;
             gap: 1rem;
             max-height: 400px;
             overflow-y: auto;
@@ -883,7 +897,6 @@
             color: var(--gray);
             font-style: italic;
             padding: 2rem 0;
-            grid-column: 1/-1;
         }
 
         .load-more-btn {
@@ -992,18 +1005,25 @@
         }
 
         /* Mobile Styles */
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 968px) {
             .container {
                 padding: 0 12px;
             }
 
+            /* STACK VERTICALLY ON MOBILE */
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .preferences-section {
+                position: static;
+            }
+
             .header-content {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
+                flex-wrap: nowrap;
                 gap: 0.5rem;
                 padding: 0.5rem 0;
-                flex-wrap: nowrap;
             }
 
             .logo {
@@ -1049,21 +1069,18 @@
                 padding: 1rem 0;
             }
 
-            .main-layout {
-                gap: 1rem;
-            }
-
             .preferences-section,
             .search-container,
-            .results-container {
-                padding: 1rem;
-                border-radius: 12px;
+            .results-container,
+            .chat-history-search {
+                padding: 1.5rem;
+                border-radius: 16px;
             }
 
             .preferences-title,
             .search-title,
             .results-title {
-                font-size: 1.3rem;
+                font-size: 1.4rem;
             }
 
             .preferences-subtitle,
@@ -1072,7 +1089,6 @@
             }
 
             .preferences-grid {
-                grid-template-columns: 1fr;
                 gap: 1rem;
             }
 
@@ -1105,11 +1121,11 @@
             }
 
             .result-card {
-                padding: 1rem;
+                padding: 1.5rem;
             }
 
             .result-title {
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
 
             .result-meta {
@@ -1138,27 +1154,20 @@
             }
 
             .result-actions {
-                flex-direction: column;
                 gap: 0.5rem;
             }
 
-            .action-btn {
-                width: 100%;
-                justify-content: center;
-                padding: 0.7rem;
-            }
-
-            .chat-history-search {
-                margin-top: 1rem;
-                padding-top: 1rem;
+            .action-btn,
+            .feedback-btn {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
             }
 
             .chat-history-title {
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
 
             .chat-messages-grid {
-                grid-template-columns: 1fr;
                 max-height: 300px;
             }
 
@@ -1187,13 +1196,14 @@
         }
 
         /* Tablet Styles */
-        @media screen and (min-width: 769px) and (max-width: 1024px) {
-            .container {
-                padding: 0 16px;
+        @media screen and (min-width: 969px) and (max-width: 1200px) {
+            .main-layout {
+                grid-template-columns: 320px 1fr;
+                gap: 1.5rem;
             }
 
-            .preferences-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .preferences-section {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -1241,106 +1251,67 @@
 
             <!-- Main Layout (Hidden until signed in) -->
             <div id="main-layout" class="main-layout" style="display: none;">
-                <!-- Preferences Section -->
-                <section class="preferences-section">
-                    <div class="preferences-header">
-                        <h2 class="preferences-title">📋 Your Learning Preferences</h2>
-                        <p class="preferences-subtitle">Set your standard, subject, and preferred language</p>
-                    </div>
-                    <div class="preferences-grid">
-                        <div class="preference-group">
-                            <label for="standard-select">Standard / Class</label>
-                            <select id="standard-select" class="form-select">
-                                <option value="">Select Standard</option>
-                                <option value="1">Class 1</option>
-                                <option value="2">Class 2</option>
-                                <option value="3">Class 3</option>
-                                <option value="4">Class 4</option>
-                                <option value="5">Class 5</option>
-                                <option value="6">Class 6</option>
-                                <option value="7">Class 7</option>
-                                <option value="8">Class 8</option>
-                                <option value="9">Class 9</option>
-                                <option value="10">Class 10</option>
-                                <option value="11">Class 11</option>
-                                <option value="12">Class 12</option>
-                            </select>
+                <!-- LEFT COLUMN: Preferences & Chat History -->
+                <div class="left-column">
+                    <!-- Preferences Section -->
+                    <section class="preferences-section">
+                        <div class="preferences-header">
+                            <h2 class="preferences-title">📋 Preferences</h2>
+                            <p class="preferences-subtitle">Set your learning profile</p>
                         </div>
-                        <div class="preference-group">
-                            <label for="subject-select">Subject</label>
-                            <select id="subject-select" class="form-select">
-                                <option value="">Select Subject</option>
-                                <option value="mathematics">Mathematics</option>
-                                <option value="science">Science</option>
-                                <option value="physics">Physics</option>
-                                <option value="chemistry">Chemistry</option>
-                                <option value="biology">Biology</option>
-                                <option value="english">English</option>
-                                <option value="social_science">Social Science</option>
-                                <option value="history">History</option>
-                                <option value="geography">Geography</option>
-                                <option value="civics">Civics</option>
-                                <option value="economics">Economics</option>
-                                <option value="computer_science">Computer Science</option>
-                            </select>
+                        <div class="preferences-grid">
+                            <div class="preference-group">
+                                <label for="standard-select">Standard / Class</label>
+                                <select id="standard-select" class="form-select">
+                                    <option value="">Select Standard</option>
+                                    <option value="1">Class 1</option>
+                                    <option value="2">Class 2</option>
+                                    <option value="3">Class 3</option>
+                                    <option value="4">Class 4</option>
+                                    <option value="5">Class 5</option>
+                                    <option value="6">Class 6</option>
+                                    <option value="7">Class 7</option>
+                                    <option value="8">Class 8</option>
+                                    <option value="9">Class 9</option>
+                                    <option value="10">Class 10</option>
+                                    <option value="11">Class 11</option>
+                                    <option value="12">Class 12</option>
+                                </select>
+                            </div>
+                            <div class="preference-group">
+                                <label for="subject-select">Subject</label>
+                                <select id="subject-select" class="form-select">
+                                    <option value="">Select Subject</option>
+                                    <option value="mathematics">Mathematics</option>
+                                    <option value="science">Science</option>
+                                    <option value="physics">Physics</option>
+                                    <option value="chemistry">Chemistry</option>
+                                    <option value="biology">Biology</option>
+                                    <option value="english">English</option>
+                                    <option value="social_science">Social Science</option>
+                                    <option value="history">History</option>
+                                    <option value="geography">Geography</option>
+                                    <option value="civics">Civics</option>
+                                    <option value="economics">Economics</option>
+                                    <option value="computer_science">Computer Science</option>
+                                </select>
+                            </div>
+                            <div class="preference-group">
+                                <label for="medium-select">Language Medium</label>
+                                <select id="medium-select" class="form-select">
+                                    <option value="english">English</option>
+                                    <option value="tamil">Tamil</option>
+                                    <option value="hindi">Hindi</option>
+                                    <option value="kannada">Kannada</option>
+                                    <option value="telugu">Telugu</option>
+                                    <option value="malayalam">Malayalam</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="preference-group">
-                            <label for="medium-select">Language Medium</label>
-                            <select id="medium-select" class="form-select">
-                                <option value="english">English</option>
-                                <option value="tamil">Tamil</option>
-                                <option value="hindi">Hindi</option>
-                                <option value="kannada">Kannada</option>
-                                <option value="telugu">Telugu</option>
-                                <option value="malayalam">Malayalam</option>
-                            </select>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Search Section -->
-                <section class="search-container">
-                    <div class="search-header">
-                        <h2 class="search-title">🔍 Ask Your Question</h2>
-                        <p class="search-subtitle">Type or speak your question to get instant AI-powered answers</p>
-                    </div>
-
-                    <!-- Language Selector for Voice -->
-                    <div class="language-selector">
-                        <label for="language-select">🎤 Voice Language:</label>
-                        <select id="language-select" class="language-select">
-                            <option value="en-US">English</option>
-                            <option value="hi-IN">Hindi</option>
-                            <option value="ta-IN">Tamil</option>
-                            <option value="te-IN">Telugu</option>
-                            <option value="kn-IN">Kannada</option>
-                            <option value="ml-IN">Malayalam</option>
-                            <option value="mr-IN">Marathi</option>
-                            <option value="gu-IN">Gujarati</option>
-                            <option value="bn-IN">Bengali</option>
-                            <option value="pa-IN">Punjabi</option>
-                        </select>
-                    </div>
-
-                    <!-- Voice Status -->
-                    <div id="voice-status" class="voice-status">
-                        <span id="voice-status-text"></span>
-                    </div>
-
-                    <!-- Search Box -->
-                    <div class="search-box">
-                        <input 
-                            type="text" 
-                            id="question-input" 
-                            class="search-input" 
-                            placeholder="Ask any question from your syllabus..."
-                        >
-                        <button id="voice-btn" class="voice-btn" title="Click to speak">🎤</button>
-                        <button id="search-button" class="search-btn">Search</button>
-                    </div>
+                    </section>
 
                     <!-- Chat History -->
-                    <div class="chat-history-search">
+                    <section class="chat-history-search">
                         <div class="chat-history-header">
                             <h3 class="chat-history-title">📖 Recent Questions</h3>
                             <button id="refresh-history-btn" class="refresh-btn" title="Refresh history">🔄</button>
@@ -1349,17 +1320,62 @@
                             <div class="no-chat-history"><p>No history yet</p></div>
                         </div>
                         <button id="load-more-history-btn" class="load-more-btn">Load More</button>
-                    </div>
-                </section>
+                    </section>
+                </div>
 
-                <!-- Results Section -->
-                <section id="results-container" class="results-container">
-                    <div class="results-header">
-                        <h2 class="results-title">💡 Answer</h2>
-                        <span id="results-count"></span>
-                    </div>
-                    <div id="results-content"></div>
-                </section>
+                <!-- RIGHT COLUMN: Search & Results -->
+                <div class="right-column">
+                    <!-- Search Section -->
+                    <section class="search-container">
+                        <div class="search-header">
+                            <h2 class="search-title">🔍 Ask Your Question</h2>
+                            <p class="search-subtitle">Type or speak your question to get instant AI-powered answers</p>
+                        </div>
+
+                        <!-- Language Selector for Voice -->
+                        <div class="language-selector">
+                            <label for="language-select">🎤 Voice Language:</label>
+                            <select id="language-select" class="language-select">
+                                <option value="en-US">English</option>
+                                <option value="hi-IN">Hindi</option>
+                                <option value="ta-IN">Tamil</option>
+                                <option value="te-IN">Telugu</option>
+                                <option value="kn-IN">Kannada</option>
+                                <option value="ml-IN">Malayalam</option>
+                                <option value="mr-IN">Marathi</option>
+                                <option value="gu-IN">Gujarati</option>
+                                <option value="bn-IN">Bengali</option>
+                                <option value="pa-IN">Punjabi</option>
+                            </select>
+                        </div>
+
+                        <!-- Voice Status -->
+                        <div id="voice-status" class="voice-status">
+                            <span id="voice-status-text"></span>
+                        </div>
+
+                        <!-- Search Box -->
+                        <div class="search-box">
+                            <input 
+                                type="text" 
+                                id="question-input" 
+                                class="search-input" 
+                                placeholder="Ask any question from your syllabus..."
+                            >
+                            <button id="voice-btn" class="voice-btn" title="Click to speak">🎤</button>
+                            <button id="search-button" class="search-btn">Search</button>
+                        </div>
+                    </section>
+
+                    <!-- Results Section - APPEARS BELOW SEARCH -->
+                    <section id="results-container" class="results-container">
+                        <div class="results-header">
+                            <h2 class="results-title">💡 Answer</h2>
+                            <span id="results-count"></span>
+                        </div>
+                        <div id="results-content"></div>
+                    </section>
+                </div>
             </div>
         </div>
     </main>
@@ -1733,7 +1749,7 @@
 
         function showSearchSection() {
             document.getElementById('auth-required').style.display = 'none';
-            document.getElementById('main-layout').style.display = 'flex';
+            document.getElementById('main-layout').style.display = 'grid';
         }
 
         // ==================== SEARCH ====================
@@ -1763,6 +1779,11 @@
             resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
             searchBtn.disabled = true;
             searchBtn.textContent = 'Searching...';
+            
+            // Scroll to results smoothly
+            setTimeout(() => {
+                resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
             
             searchStartTime = Date.now();
             
