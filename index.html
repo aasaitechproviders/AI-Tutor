@@ -364,7 +364,7 @@
 
         .voice-btn {
             padding: 1rem 1.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
             color: white;
             border: none;
             cursor: pointer;
@@ -746,6 +746,7 @@
         <div class="header-container">
             <div class="logo">📚 Aasai SmartEDU</div>
             <div class="user-section">
+                <div id="google-signin-button"></div>
                 <div id="user-profile" class="user-profile">
                     <img id="user-avatar" class="user-avatar" src="" alt="">
                     <div class="user-details">
@@ -763,7 +764,7 @@
             <div id="auth-screen" class="auth-screen">
                 <h2>Welcome to Aasai SmartEDU</h2>
                 <p>Your AI-powered learning assistant for school students</p>
-                <div id="google-signin-button"></div>
+                <p style="color: var(--primary); font-weight: 500;">Please sign in using the button in the top right corner</p>
             </div>
 
             <div id="main-content" class="main-content" style="display:none">
@@ -1040,6 +1041,7 @@
             
             document.getElementById('user-profile').classList.remove('active');
             document.getElementById('sign-out-btn').style.display = 'none';
+            document.getElementById('google-signin-button').style.display = 'block';
             document.getElementById('auth-screen').style.display = 'block';
             document.getElementById('main-content').style.display = 'none';
             
@@ -1052,6 +1054,7 @@
             document.getElementById('search-count').textContent = state.user.searchCount || 0;
             document.getElementById('user-profile').classList.add('active');
             document.getElementById('sign-out-btn').style.display = 'block';
+            document.getElementById('google-signin-button').style.display = 'none';
         }
 
         function showMainContent() {
