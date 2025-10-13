@@ -36,10 +36,1898 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <!-- Google Sign-In -->
-    <script src="https://accounts.google.com/gsi/client" async defer onload="console.log('Google GSI loaded')"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fb 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 60px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .auth-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-profile {
+            display: none;
+            align-items: center;
+            gap: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+        
+        .user-profile.show {
+            display: flex;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .user-email {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+        
+        .user-stats {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+        
+        .sign-out-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        
+        .sign-out-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Main content */
+        main {
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        .main-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Mode Toggle Section */
+        .mode-toggle-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .mode-toggle-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .mode-toggle-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .mode-toggle-subtitle {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        .mode-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .mode-btn {
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+            border: 2px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            position: relative;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .mode-btn.active {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, #e8f0ff 0%, #f8f9ff 100%);
+        }
+
+        .mode-btn.active::before {
+            content: '✓';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .mode-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .mode-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Course Selection Panel */
+        .course-selection-panel {
+            display: none;
+            background: var(--light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .course-selection-panel.show {
+            display: block;
+        }
+
+        .course-selection-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .selectors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .selector-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .selector-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-select {
+            padding: 0.75rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background-color: white;
+            transition: border-color 0.3s;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Search Section */
+        .search-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: none;
+            min-height: 400px;
+        }
+
+        .search-container.show {
+            display: block;
+        }
+
+        .search-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .search-subtitle {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 12px;
+        }
+
+        .language-selector label {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .language-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .language-select:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .search-box {
+            display: flex;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            border: none;
+            font-size: 1.1rem;
+            outline: none;
+            background: white;
+        }
+
+        .search-input::placeholder {
+            color: var(--gray);
+        }
+
+        /* Voice Button */
+        .voice-btn {
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-btn:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+
+        .voice-btn.recording {
+            background: var(--warning);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+        }
+
+        .search-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Voice Status */
+        .voice-status {
+            text-align: center;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .voice-status.show {
+            display: block;
+        }
+
+        .voice-status.listening {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .voice-status.processing {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Results Section */
+        .results-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .results-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .result-card {
+            padding: 2rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+        }
+
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .result-question {
+            background: #f0f7ff;
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .result-question-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .result-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+            flex-wrap: wrap;
+        }
+
+        .confidence-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .confidence-high {
+            background-color: #e6f4ea;
+            color: #137333;
+        }
+
+        .confidence-medium {
+            background-color: #fff8e1;
+            color: #f57c00;
+        }
+
+        .confidence-low {
+            background-color: #fce8e6;
+            color: #c5221f;
+        }
+
+        /* FORMATTED CONTENT STYLES */
+        .formatted-content {
+            line-height: 1.6;
+            color: var(--dark);
+            font-size: 1.05rem;
+        }
+
+        .formatted-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1.2rem 0 0.8rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary);
+            line-height: 1.3;
+        }
+
+        .formatted-content h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin: 1rem 0 0.6rem 0;
+            padding-bottom: 0.3rem;
+            border-bottom: 2px solid var(--light-gray);
+            line-height: 1.3;
+        }
+
+        .formatted-content h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 0.8rem 0 0.5rem 0;
+            line-height: 1.3;
+        }
+
+        .formatted-content h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0.7rem 0 0.4rem 0;
+            line-height: 1.3;
+        }
+
+        .formatted-content p {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .formatted-content br {
+            display: block;
+            content: "";
+            margin: 0.3rem 0;
+        }
+
+        .formatted-content ul,
+        .formatted-content ol {
+            margin: 0.8rem 0 0.8rem 2rem;
+            padding-left: 1rem;
+        }
+
+        .formatted-content li {
+            margin-bottom: 0.4rem;
+            line-height: 1.5;
+        }
+
+        .formatted-content ul li {
+            list-style-type: none;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .formatted-content ul li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(67, 97, 238, 0.3);
+        }
+
+        .formatted-content ol li {
+            list-style-type: none;
+            position: relative;
+            padding-left: 2rem;
+            counter-increment: item;
+        }
+
+        .formatted-content ol {
+            counter-reset: item;
+        }
+
+        .formatted-content ol li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(67, 97, 238, 0.3);
+        }
+
+        .formatted-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .formatted-content thead {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .formatted-content th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .formatted-content td {
+            padding: 0.9rem 1rem;
+            border: 1px solid var(--light-gray);
+        }
+
+        .formatted-content tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .formatted-content tbody tr:hover {
+            background-color: #e8f0ff;
+        }
+
+        .formatted-content strong {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .formatted-content em {
+            font-style: italic;
+            color: var(--secondary);
+        }
+
+        .formatted-content code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+
+        .formatted-content pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .formatted-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        .formatted-content blockquote {
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            background: #f0f7ff;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: var(--gray);
+        }
+
+        .formatted-content hr {
+            border: none;
+            border-top: 2px solid var(--light-gray);
+            margin: 2rem 0;
+        }
+
+        .formatted-content a {
+            color: var(--primary);
+            text-decoration: underline;
+            transition: color 0.3s;
+        }
+
+        .formatted-content a:hover {
+            color: var(--secondary);
+        }
+
+        /* Math display styling */
+        .formatted-content .math-display {
+            text-align: center;
+            margin: 1.5rem 0;
+            font-size: 1.2em;
+            padding: 1rem;
+            background: #f8f9ff;
+            border-radius: 8px;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--light-gray);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .action-btn {
+            background: var(--light);
+            border: 2px solid var(--light-gray);
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Speaker Button */
+        .speaker-btn {
+            background: linear-gradient(135deg, var(--success), #3a86ff);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+
+        .speaker-btn:hover {
+            background: linear-gradient(135deg, #3a86ff, var(--success));
+            transform: translateY(-2px);
+        }
+
+        .speaker-btn.speaking {
+            background: var(--warning);
+            animation: pulse 1.5s infinite;
+        }
+
+        .speaker-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .feedback-btn {
+            background: white;
+            border: 2px solid var(--light-gray);
+            color: var(--gray);
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+
+        .feedback-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .feedback-btn.active-like {
+            background: #e6f4ea;
+            border-color: #137333;
+            color: #137333;
+        }
+
+        .feedback-btn.active-dislike {
+            background: #fce8e6;
+            border-color: #c5221f;
+            color: #c5221f;
+        }
+
+        .feedback-btn.active-report {
+            background: #fff8e1;
+            border-color: #f57c00;
+            color: #f57c00;
+        }
+
+        .feedback-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .response-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+            padding: 0.3rem 0.6rem;
+            background: var(--light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--light-gray);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .cache-indicator {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            background-color: var(--light);
+            color: var(--gray);
+        }
+
+        .cache-hit {
+            background-color: #e6f4ea;
+            color: #137333;
+        }
+
+        /* Chat History */
+        .chat-history-search {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .chat-history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chat-history-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .refresh-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--primary);
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: var(--light);
+        }
+
+        .chat-messages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .chat-message-item {
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .chat-message-item:hover {
+            background: #e8f0ff;
+            border-left-color: var(--primary);
+            transform: translateX(3px);
+        }
+
+        .chat-question {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-answer {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-message-meta {
+            font-size: 0.75rem;
+            color: var(--gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .no-chat-history {
+            text-align: center;
+            color: var(--gray);
+            font-style: italic;
+            padding: 2rem 0;
+            grid-column: 1/-1;
+        }
+
+        .load-more-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--light);
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .load-more-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Units Container */
+        .units-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .units-container.show {
+            display: block;
+        }
+
+        .units-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .units-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .course-info {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .course-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-info p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .units-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .unit-card {
+            background: white;
+            border: 2px solid var(--light-gray);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+            max-width: 100%;
+        }
+
+        .unit-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15);
+        }
+
+        .unit-header {
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .unit-header:hover {
+            background: linear-gradient(135deg, #e8f0ff 0%, #f8f9ff 100%);
+        }
+
+        .unit-header.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-bottom-color: var(--primary);
+        }
+
+        .unit-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            min-width: 0;
+        }
+
+        .unit-header.active .unit-title {
+            color: white;
+        }
+
+        .unit-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .unit-toggle {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 300;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .unit-header.active .unit-toggle {
+            background: white;
+            color: var(--primary);
+        }
+
+        .unit-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+
+        .unit-content.show {
+            max-height: 10000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .question-section {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .question-section:last-child {
+            border-bottom: none;
+        }
+
+        .question-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .question-type-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .question-count {
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .question-item {
+            background: var(--light);
+            padding: 0;
+            border-radius: 12px;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .question-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.15);
+        }
+
+        .question-header {
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            background: var(--light);
+            transition: all 0.3s;
+        }
+
+        .question-header:hover {
+            background: #e8f0ff;
+        }
+
+        .question-header.active {
+            background: #e8f0ff;
+        }
+
+        .question-left {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            min-width: 0;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .question-text {
+            flex: 1;
+            font-size: 0.95rem;
+            color: var(--dark);
+            line-height: 1.5;
+            font-weight: 500;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            min-width: 0;
+        }
+
+        .question-right {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .mark-badge {
+            background: linear-gradient(135deg, var(--success), #3a86ff);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .question-toggle {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 300;
+            transition: all 0.3s;
+        }
+
+        .question-header.active .question-toggle {
+            background: var(--secondary);
+        }
+
+        .question-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: white;
+        }
+
+        .question-answer.show {
+            max-height: 3000px;
+            transition: max-height 0.5s ease-in;
+            border-top: 2px solid var(--light-gray);
+        }
+
+        .answer-content {
+            padding: 1.5rem;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        .answer-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .answer-text {
+            color: var(--dark);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .answer-text p {
+            margin-bottom: 0.8rem;
+        }
+
+        .answer-text ul, .answer-text ol {
+            margin: 0.5rem 0 0.8rem 1.5rem;
+        }
+
+        .answer-text li {
+            margin-bottom: 0.4rem;
+        }
+
+        .answer-text strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .answer-text code {
+            background: #f5f5f5;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--secondary);
+        }
+
+        .answer-text pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 500px;
+            margin: 1rem 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        .answer-text pre code {
+            background: transparent;
+            padding: 0;
+            color: #f8f8f2;
+            display: block;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        .code-block-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .code-block-wrapper {
+            margin: 0 0 1rem 0;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .code-block-wrapper pre {
+            margin-top: 0;
+            border-radius: 0 0 8px 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Auth Required */
+        .auth-required {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+
+        .auth-required h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .auth-required p {
+            color: var(--gray);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            max-width: 300px;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: var(--success);
+        }
+
+        .notification.error {
+            background: var(--warning);
+        }
+
+        .notification.info {
+            background: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Mobile Styles */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 0 12px;
+            }
+
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem 0;
+                flex-wrap: nowrap;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+                flex-shrink: 0;
+            }
+
+            .logo-icon {
+                font-size: 1.3rem;
+                margin-right: 6px;
+            }
+
+            .user-profile {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.75rem;
+                gap: 0.5rem;
+                flex-shrink: 1;
+                min-width: 0;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .user-avatar {
+                width: 32px;
+                height: 32px;
+                flex-shrink: 0;
+            }
+
+            .user-stats {
+                font-size: 0.7rem;
+                white-space: nowrap;
+            }
+
+            .sign-out-btn {
+                padding: 0.4rem 0.7rem;
+                font-size: 0.75rem;
+                white-space: nowrap;
+            }
+
+            main {
+                padding: 1rem 0;
+            }
+
+            .main-layout {
+                gap: 1rem;
+            }
+
+            .mode-toggle-section,
+            .search-container,
+            .results-container,
+            .units-container {
+                padding: 1rem;
+                border-radius: 12px;
+            }
+
+            .mode-toggle-title,
+            .search-title,
+            .results-title,
+            .units-title {
+                font-size: 1.3rem;
+            }
+
+            .mode-toggle-subtitle,
+            .search-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .mode-buttons {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .mode-btn {
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .mode-icon {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .mode-title {
+                font-size: 0.95rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .mode-description {
+                font-size: 0.75rem;
+                text-align: center;
+            }
+
+            .selectors-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .language-selector {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 0.8rem;
+            }
+
+            .search-box {
+                flex-direction: column;
+                border-radius: 8px;
+            }
+
+            .search-input {
+                padding: 1rem;
+                font-size: 1rem;
+                border-bottom: 1px solid var(--light-gray);
+            }
+
+            .voice-btn {
+                padding: 1rem;
+                font-size: 1.3rem;
+                border-bottom: 1px solid var(--light-gray);
+            }
+
+            .search-btn {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+
+            .result-card {
+                padding: 1rem;
+            }
+
+            .result-title {
+                font-size: 1.1rem;
+            }
+
+            .result-meta {
+                font-size: 0.85rem;
+                gap: 0.5rem;
+            }
+
+            .formatted-content {
+                font-size: 0.95rem;
+            }
+
+            .formatted-content h1 {
+                font-size: 1.5rem;
+            }
+
+            .formatted-content h2 {
+                font-size: 1.3rem;
+            }
+
+            .formatted-content h3 {
+                font-size: 1.1rem;
+            }
+
+            .formatted-content h4 {
+                font-size: 1rem;
+            }
+
+            .formatted-content ul,
+            .formatted-content ol {
+                margin: 0.8rem 0 0.8rem 0.5rem;
+                padding-left: 0.5rem;
+            }
+
+            .formatted-content ul li {
+                padding-left: 1.2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .formatted-content ul li::before {
+                left: 0;
+                top: 0.5rem;
+                width: 6px;
+                height: 6px;
+            }
+
+            .formatted-content ol li {
+                padding-left: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .formatted-content ol li::before {
+                left: 0;
+                top: 0.1rem;
+                width: 20px;
+                height: 20px;
+                font-size: 0.7rem;
+            }
+
+            .formatted-content table {
+                font-size: 0.85rem;
+                overflow-x: auto;
+                display: block;
+            }
+
+            .formatted-content th,
+            .formatted-content td {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+
+            .formatted-content .math-display {
+                font-size: 1em;
+                padding: 0.8rem;
+                overflow-x: auto;
+            }
+
+            .result-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .action-btn, .speaker-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 0.7rem;
+            }
+
+            .chat-history-search {
+                margin-top: 1rem;
+                padding-top: 1rem;
+            }
+
+            .chat-history-title {
+                font-size: 1.1rem;
+            }
+
+            .chat-messages-grid {
+                grid-template-columns: 1fr;
+                max-height: 300px;
+            }
+
+            .chat-message-item {
+                padding: 0.8rem;
+            }
+
+            .units-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .unit-header {
+                padding: 1rem;
+            }
+
+            .unit-title {
+                font-size: 1rem;
+            }
+
+            .unit-icon {
+                font-size: 1.2rem;
+            }
+
+            .unit-toggle {
+                width: 28px;
+                height: 28px;
+                font-size: 1rem;
+            }
+
+            .question-section {
+                padding: 1rem;
+            }
+
+            .question-type-title {
+                font-size: 0.9rem;
+            }
+
+            .question-header {
+                padding: 0.8rem;
+            }
+
+            .question-left {
+                gap: 0.5rem;
+            }
+
+            .question-number {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7rem;
+            }
+
+            .question-text {
+                font-size: 0.85rem;
+            }
+
+            .question-right {
+                gap: 0.5rem;
+                flex-direction: column;
+            }
+
+            .mark-badge {
+                font-size: 0.7rem;
+                padding: 0.25rem 0.6rem;
+            }
+
+            .question-toggle {
+                width: 24px;
+                height: 24px;
+                font-size: 1rem;
+            }
+
+            .answer-content {
+                padding: 1rem;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+            }
+
+            .answer-label {
+                font-size: 0.75rem;
+            }
+
+            .answer-text {
+                font-size: 0.85rem;
+            }
+
+            .answer-text pre {
+                padding: 1rem;
+                font-size: 0.8rem;
+                max-height: 400px;
+            }
+
+            .code-block-wrapper {
+                max-width: 100%;
+            }
+
+            .code-block-header {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+                font-size: 0.85rem;
+            }
+
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .notification {
+                max-width: 90%;
+                right: 5%;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Tablet Styles */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .mode-buttons {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .units-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .formatted-content table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -49,7 +1937,7 @@
                 <span>Aasai SmartEDU</span>
             </div>
             <div class="auth-container">
-                <div class="google-signin-container" id="google-signin-container" style="display: flex;">
+                <div class="google-signin-container" id="google-signin-container">
                     <div id="google-signin-button"></div>
                 </div>
                 <div id="user-profile" class="user-profile">
@@ -230,7 +2118,1130 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <script src="app.js"></script>
+    <script>
+        // Configuration
+        const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com';
+        const API_BASE_URL = 'https://musical-suitably-woodcock.ngrok-free.app';
+        
+        // State
+        let currentUser = null;
+        let sessionToken = null;
+        let chatHistoryData = [];
+        let currentPage = 1;
+        let currentMode = 'search';
+        let currentAnswerText = '';
+        let currentChatId = null;
+        let searchStartTime = null;
+        
+        // Voice Recognition State
+        let recognition = null;
+        let isRecording = false;
+        let selectedLanguage = 'en-US';
+        
+        // Text-to-Speech State
+        let speechSynthesis = window.speechSynthesis;
+        let currentUtterance = null;
+        let isSpeaking = false;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGoogleSignIn();
+            setupEventListeners();
+            initializeVoiceRecognition();
+            
+            if (typeof marked !== 'undefined') {
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true,
+                    headerIds: false,
+                    mangle: false
+                });
+            }
+        });
+
+        function setupEventListeners() {
+            document.getElementById('sign-out-btn').addEventListener('click', signOut);
+            document.getElementById('refresh-history-btn').addEventListener('click', refreshChatHistory);
+            document.getElementById('search-button').addEventListener('click', performSearch);
+            document.getElementById('question-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch();
+            });
+            document.getElementById('department-select').addEventListener('change', function() {
+                updateSubjectOptions();
+                checkCourseSelection();
+            });
+            document.getElementById('semester-select').addEventListener('change', checkCourseSelection);
+            document.getElementById('subject-select').addEventListener('change', checkCourseSelection);
+            document.getElementById('load-more-history-btn').addEventListener('click', function() {
+                loadChatMessages(currentPage + 1, true);
+            });
+            
+            // Voice button
+            document.getElementById('voice-btn').addEventListener('click', toggleVoiceRecognition);
+            
+            // Language selector
+            document.getElementById('language-select').addEventListener('change', function(e) {
+                selectedLanguage = e.target.value;
+                if (recognition) {
+                    recognition.lang = selectedLanguage;
+                }
+                showNotification('Language changed to ' + e.target.options[e.target.selectedIndex].text, 'success', 2000);
+            });
+        }
+
+        // ==================== VOICE RECOGNITION ====================
+        function initializeVoiceRecognition() {
+            // Check browser support
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            if (!SpeechRecognition) {
+                console.warn('Speech recognition not supported in this browser');
+                document.getElementById('voice-btn').disabled = true;
+                document.getElementById('voice-btn').title = 'Voice input not supported in this browser';
+                return;
+            }
+            
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.lang = selectedLanguage;
+            recognition.maxAlternatives = 1;
+            
+            recognition.onstart = function() {
+                isRecording = true;
+                document.getElementById('voice-btn').classList.add('recording');
+                showVoiceStatus('Listening... Speak now', 'listening');
+            };
+            
+            recognition.onresult = function(event) {
+                let interimTranscript = '';
+                let finalTranscript = '';
+                
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript;
+                    } else {
+                        interimTranscript += transcript;
+                    }
+                }
+                
+                // Update input with interim results
+                if (interimTranscript) {
+                    document.getElementById('question-input').value = finalTranscript + interimTranscript;
+                }
+                
+                // Set final result
+                if (finalTranscript) {
+                    document.getElementById('question-input').value = finalTranscript;
+                    showVoiceStatus('Voice input received!', 'processing');
+                    setTimeout(hideVoiceStatus, 2000);
+                }
+            };
+            
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+                isRecording = false;
+                document.getElementById('voice-btn').classList.remove('recording');
+                
+                let errorMessage = 'Voice input error';
+                switch(event.error) {
+                    case 'no-speech':
+                        errorMessage = 'No speech detected. Please try again.';
+                        break;
+                    case 'audio-capture':
+                        errorMessage = 'Microphone not found or not accessible.';
+                        break;
+                    case 'not-allowed':
+                        errorMessage = 'Microphone permission denied.';
+                        break;
+                    case 'network':
+                        errorMessage = 'Network error. Please check your connection.';
+                        break;
+                    default:
+                        errorMessage = 'Voice input error: ' + event.error;
+                }
+                
+                showNotification(errorMessage, 'error');
+                hideVoiceStatus();
+            };
+            
+            recognition.onend = function() {
+                isRecording = false;
+                document.getElementById('voice-btn').classList.remove('recording');
+                hideVoiceStatus();
+            };
+        }
+
+        function toggleVoiceRecognition() {
+            if (!recognition) {
+                showNotification('Voice recognition not supported', 'error');
+                return;
+            }
+            
+            if (isRecording) {
+                recognition.stop();
+                isRecording = false;
+                document.getElementById('voice-btn').classList.remove('recording');
+                hideVoiceStatus();
+            } else {
+                // Update language before starting
+                recognition.lang = selectedLanguage;
+                
+                try {
+                    recognition.start();
+                } catch (error) {
+                    console.error('Error starting recognition:', error);
+                    showNotification('Could not start voice input', 'error');
+                }
+            }
+        }
+
+        function showVoiceStatus(text, type) {
+            const voiceStatus = document.getElementById('voice-status');
+            const voiceStatusText = document.getElementById('voice-status-text');
+            
+            voiceStatusText.textContent = text;
+            voiceStatus.className = 'voice-status show ' + type;
+        }
+
+        function hideVoiceStatus() {
+            const voiceStatus = document.getElementById('voice-status');
+            voiceStatus.classList.remove('show');
+        }
+
+        // ==================== IMPROVED TEXT-TO-SPEECH ====================
+        function speakText(text) {
+            // Stop any ongoing speech
+            if (isSpeaking) {
+                stopSpeaking();
+                return;
+            }
+            
+            // Check browser support
+            if (!speechSynthesis) {
+                showNotification('Text-to-speech not supported in this browser', 'error');
+                return;
+            }
+            
+            // Get available voices
+            const voices = speechSynthesis.getVoices();
+            
+            // Enhanced text cleaning that preserves Tamil characters
+            let cleanText = cleanTextForSpeech(text, selectedLanguage);
+            
+            if (!cleanText) {
+                showNotification('No text to read', 'error');
+                return;
+            }
+            
+            currentUtterance = new SpeechSynthesisUtterance(cleanText);
+            
+            // Set language based on selected language
+            currentUtterance.lang = selectedLanguage;
+            
+            // Enhanced voice selection for Indian languages
+            const selectedVoice = findBestVoice(voices, selectedLanguage);
+            if (selectedVoice) {
+                currentUtterance.voice = selectedVoice;
+                console.log('Using voice:', selectedVoice.name, 'for language:', selectedLanguage);
+            } else {
+                console.warn('No matching voice found for language:', selectedLanguage);
+                showNotification('No voice available for ' + getLanguageName(selectedLanguage) + '. Using default voice.', 'info', 3000);
+            }
+            
+            // Set voice properties
+            currentUtterance.rate = 0.9;
+            currentUtterance.pitch = 1.0;
+            currentUtterance.volume = 1.0;
+            
+            currentUtterance.onstart = function() {
+                isSpeaking = true;
+                const speakerBtn = document.getElementById('speaker-btn');
+                if (speakerBtn) {
+                    speakerBtn.classList.add('speaking');
+                    speakerBtn.innerHTML = '⏸️ Pause';
+                }
+                showNotification('Reading text in ' + getLanguageName(selectedLanguage), 'info', 2000);
+            };
+            
+            currentUtterance.onend = function() {
+                isSpeaking = false;
+                const speakerBtn = document.getElementById('speaker-btn');
+                if (speakerBtn) {
+                    speakerBtn.classList.remove('speaking');
+                    speakerBtn.innerHTML = '🔊 Read Aloud';
+                }
+            };
+            
+            currentUtterance.onerror = function(event) {
+                console.error('Speech synthesis error:', event);
+                isSpeaking = false;
+                const speakerBtn = document.getElementById('speaker-btn');
+                if (speakerBtn) {
+                    speakerBtn.classList.remove('speaking');
+                    speakerBtn.innerHTML = '🔊 Read Aloud';
+                }
+                
+                let errorMsg = 'Error reading text';
+                if (event.error === 'language-not-supported') {
+                    errorMsg = 'Language not supported for text-to-speech: ' + getLanguageName(selectedLanguage);
+                }
+                showNotification(errorMsg, 'error');
+            };
+            
+            speechSynthesis.speak(currentUtterance);
+        }
+
+        function cleanTextForSpeech(text, language) {
+            if (!text) return '';
+            
+            let cleanText = text;
+            
+            // Remove math expressions (preserve text content)
+            cleanText = cleanText.replace(/\\\[[\s\S]*?\\\]/g, '');
+            cleanText = cleanText.replace(/\\\([\s\S]*?\\\)/g, '');
+            
+            // Remove HTML tags but keep content
+            cleanText = cleanText.replace(/<[^>]*>/g, ' ');
+            
+            // Remove markdown symbols but keep text
+            cleanText = cleanText.replace(/[#*_`~]/g, '');
+            
+            // Remove code blocks but keep the text inside
+            cleanText = cleanText.replace(/```[\s\S]*?```/g, ' ');
+            cleanText = cleanText.replace(/`[^`]*`/g, ' ');
+            
+            // Remove URLs
+            cleanText = cleanText.replace(/https?:\/\/[^\s]+/g, '');
+            
+            // Normalize whitespace
+            cleanText = cleanText.replace(/\n+/g, ' ');
+            cleanText = cleanText.replace(/\s+/g, ' ');
+            
+            // For Indian languages, preserve special characters
+            if (language.startsWith('hi-') || // Hindi
+                language.startsWith('ta-') || // Tamil
+                language.startsWith('te-') || // Telugu
+                language.startsWith('kn-') || // Kannada
+                language.startsWith('ml-') || // Malayalam
+                language.startsWith('mr-') || // Marathi
+                language.startsWith('gu-') || // Gujarati
+                language.startsWith('bn-') || // Bengali
+                language.startsWith('pa-')) { // Punjabi
+                // Keep all characters including Indian script characters
+                cleanText = cleanText.replace(/[^\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7F\w\s.,!?;:()-]/g, '');
+            } else {
+                // For other languages, keep basic punctuation
+                cleanText = cleanText.replace(/[^\w\s.,!?;:()-]/g, '');
+            }
+            
+            return cleanText.trim();
+        }
+
+        function findBestVoice(voices, targetLang) {
+            if (!voices || voices.length === 0) return null;
+            
+            const targetLangBase = targetLang.split('-')[0];
+            
+            // First try: Exact match
+            let exactMatch = voices.find(voice => voice.lang === targetLang);
+            if (exactMatch) return exactMatch;
+            
+            // Second try: Base language match
+            let baseMatch = voices.find(voice => {
+                const voiceLangBase = voice.lang.split('-')[0];
+                return voiceLangBase === targetLangBase;
+            });
+            if (baseMatch) return baseMatch;
+            
+            // Third try: Any voice that includes the target language in its name
+            let nameMatch = voices.find(voice => 
+                voice.name.toLowerCase().includes(targetLangBase) ||
+                voice.name.toLowerCase().includes(getLanguageName(targetLang).toLowerCase())
+            );
+            if (nameMatch) return nameMatch;
+            
+            // Fallback: First available voice
+            return voices[0];
+        }
+
+        function getLanguageName(langCode) {
+            const languageNames = {
+                'en-US': 'English',
+                'hi-IN': 'Hindi',
+                'ta-IN': 'Tamil',
+                'te-IN': 'Telugu',
+                'kn-IN': 'Kannada',
+                'ml-IN': 'Malayalam',
+                'mr-IN': 'Marathi',
+                'gu-IN': 'Gujarati',
+                'bn-IN': 'Bengali',
+                'pa-IN': 'Punjabi',
+                'es-ES': 'Spanish',
+                'fr-FR': 'French',
+                'de-DE': 'German',
+                'ja-JP': 'Japanese',
+                'zh-CN': 'Chinese',
+                'ar-SA': 'Arabic'
+            };
+            return languageNames[langCode] || langCode;
+        }
+
+        function stopSpeaking() {
+            if (speechSynthesis) {
+                speechSynthesis.cancel();
+            }
+            isSpeaking = false;
+            const speakerBtn = document.getElementById('speaker-btn');
+            if (speakerBtn) {
+                speakerBtn.classList.remove('speaking');
+                speakerBtn.innerHTML = '🔊 Read Aloud';
+            }
+        }
+
+        // Load voices when they become available
+        if (speechSynthesis) {
+            // Load voices immediately if available
+            const voices = speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                console.log('Voices available on load:', voices.map(v => v.name + ' (' + v.lang + ')'));
+            }
+            
+            // Also listen for voices changed event
+            speechSynthesis.onvoiceschanged = function() {
+                const voices = speechSynthesis.getVoices();
+                console.log('Voices changed, available:', voices.length);
+                console.log('Available voices:', voices.map(v => v.name + ' (' + v.lang + ')'));
+            };
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.getElementById('ai-search-mode').classList.toggle('active', mode === 'search');
+            document.getElementById('question-bank-mode').classList.toggle('active', mode === 'questions');
+            document.getElementById('search-section').classList.toggle('show', mode === 'search');
+            document.getElementById('units-container').classList.toggle('show', mode === 'questions');
+            document.getElementById('course-selection-panel').classList.toggle('show', mode === 'questions');
+            showNotification((mode === 'search' ? 'AI Search' : 'Question Bank') + ' mode activated', 'success');
+            if (mode === 'questions') checkCourseSelection();
+        }
+
+        function initializeGoogleSignIn() {
+            if (typeof google === 'undefined') {
+                setTimeout(initializeGoogleSignIn, 100);
+                return;
+            }
+
+            google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleCredentialResponse
+            });
+
+            google.accounts.id.renderButton(
+                document.getElementById("google-signin-button"),
+                { theme: "outline", size: "large" }
+            );
+
+            const savedToken = localStorage.getItem('sessionToken');
+            const savedUser = localStorage.getItem('currentUser');
+            
+            if (savedToken && savedUser) {
+                sessionToken = savedToken;
+                currentUser = JSON.parse(savedUser);
+                showUserProfile(currentUser);
+                showSearchSection();
+                loadChatHistory();
+            }
+        }
+
+        async function handleCredentialResponse(response) {
+            try {
+                showNotification('Signing you in...', 'info');
+                const userInfo = parseJwt(response.credential);
+                const authResult = await authenticateWithBackend({
+                    id: userInfo.sub,
+                    email: userInfo.email,
+                    name: userInfo.name,
+                    picture: userInfo.picture
+                });
+                
+                currentUser = authResult.user;
+                sessionToken = authResult.sessionToken;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                localStorage.setItem('sessionToken', sessionToken);
+                showUserProfile(currentUser);
+                showSearchSection();
+                loadChatHistory();
+                showNotification('Welcome ' + currentUser.name + '!', 'success');
+            } catch (error) {
+                console.error('Sign-in error:', error);
+                showNotification('Failed to sign in', 'error');
+            }
+        }
+
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => 
+                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+            ).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        async function authenticateWithBackend(googleUserData) {
+            const response = await fetch(API_BASE_URL + '/auth/google', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
+                },
+                body: JSON.stringify({ googleUserData })
+            });
+            if (!response.ok) throw new Error('Auth failed');
+            return await response.json();
+        }
+
+        async function performSearch() {
+            if (!currentUser) {
+                showNotification('Please sign in first', 'error');
+                return;
+            }
+            
+            const question = document.getElementById('question-input').value.trim();
+            if (!question) {
+                showNotification('Please enter a question', 'error');
+                return;
+            }
+            
+            const resultsContainer = document.getElementById('results-container');
+            const resultsContent = document.getElementById('results-content');
+            const searchBtn = document.getElementById('search-button');
+            
+            resultsContainer.classList.add('show');
+            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            searchBtn.disabled = true;
+            searchBtn.textContent = 'Searching...';
+            
+            searchStartTime = Date.now();
+            
+            try {
+                const response = await fetch(API_BASE_URL + '/rag', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json', 
+                        'ngrok-skip-browser-warning': 'true',
+                        'Authorization': 'Bearer ' + sessionToken
+                    },
+                    body: JSON.stringify({ question: question, limit: 5, threshold: 0.75 })
+                });
+                
+                if (!response.ok) throw new Error('API error');
+                
+                const data = await response.json();
+                
+                const responseTime = ((Date.now() - searchStartTime) / 1000).toFixed(2);
+                
+                currentChatId = data.chatId || null;
+                
+                displayResults(data, responseTime);
+                
+                if (currentUser) {
+                    currentUser.searchCount = (currentUser.searchCount || 0) + 1;
+                    document.getElementById('search-count').textContent = currentUser.searchCount;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                }
+                
+                await refreshChatHistory();
+                document.getElementById('question-input').value = '';
+            } catch (error) {
+                console.error('Error:', error);
+                resultsContent.innerHTML = '<div class="no-results"><p>Error: ' + error.message + '</p></div>';
+                showNotification('Search failed', 'error');
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.textContent = 'Search';
+            }
+        }
+
+        function displayResults(data, responseTime) {
+            const resultsContent = document.getElementById('results-content');
+            const resultsCount = document.getElementById('results-count');
+            
+            if (!data.answer) {
+                resultsContent.innerHTML = '<div class="no-results"><p>No information found</p></div>';
+                resultsCount.textContent = '';
+                return;
+            }
+            
+            currentAnswerText = data.answer;
+            
+            const originalQuestion = document.getElementById('question-input').value || 'Your question';
+            
+            let confidenceClass = 'confidence-low';
+            let confidenceText = 'Low';
+            if (data.confidence >= 0.8) {
+                confidenceClass = 'confidence-high';
+                confidenceText = 'High';
+            } else if (data.confidence >= 0.5) {
+                confidenceClass = 'confidence-medium';
+                confidenceText = 'Medium';
+            }
+            
+            const cacheIndicator = data.cached ? 
+                '<span class="cache-indicator cache-hit">Cached</span>' : 
+                '<span class="cache-indicator">Live</span>';
+            
+            const responseTimeDisplay = responseTime ? 
+                '<span class="response-time">⏱️ ' + responseTime + 's</span>' : '';
+            
+            const formattedAnswer = formatMarkdownContent(data.answer);
+            
+            const resultHtml = '<div class="result-card">' +
+                '<div class="result-question">' +
+                    '<div class="result-question-label">Question</div>' +
+                    '<div class="result-question-text">' + escapeHtml(originalQuestion) + '</div>' +
+                '</div>' +
+                '<h3 class="result-title">AI Answer</h3>' +
+                '<div class="result-meta">' +
+                    '<span class="confidence-badge ' + confidenceClass + '">' + confidenceText + ' (' + (data.confidence * 100).toFixed(1) + '%)</span>' +
+                    cacheIndicator +
+                    responseTimeDisplay +
+                '</div>' +
+                '<div class="formatted-content">' + formattedAnswer + '</div>' +
+                '<div class="result-actions">' +
+                    '<button class="speaker-btn" id="speaker-btn" onclick="speakText(currentAnswerText)">🔊 Read Aloud</button>' +
+                    '<button class="action-btn" onclick="copyCurrentAnswer()">📋 Copy</button>' +
+                    '<button class="feedback-btn" id="like-btn" onclick="submitFeedback(\'like\')">👍 Like</button>' +
+                    '<button class="feedback-btn" id="dislike-btn" onclick="submitFeedback(\'dislike\')">👎 Dislike</button>' +
+                    '<button class="feedback-btn" id="report-btn" onclick="submitFeedback(\'report\')">🚩 Report</button>' +
+                '</div>' +
+            '</div>';
+            
+            resultsContent.innerHTML = resultHtml;
+            resultsCount.textContent = '1 result';
+            
+            renderMathJax(resultsContent);
+        }
+
+        function renderMathJax(element) {
+            console.log('Starting MathJax render attempt...');
+            
+            function tryRender(attempts) {
+                if (attempts > 100) {
+                    console.error('❌ MathJax not loaded after 10 seconds');
+                    return;
+                }
+                
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    console.log('✅ MathJax found! Starting typeset...');
+                    
+                    MathJax.typesetPromise([element]).then(function() {
+                        console.log('✅ MathJax equations rendered successfully!');
+                    }).catch(function(err) {
+                        console.error('❌ MathJax rendering error:', err);
+                    });
+                } else {
+                    if (attempts % 10 === 0) {
+                        console.log('Waiting for MathJax... attempt', attempts);
+                    }
+                    setTimeout(function() {
+                        tryRender(attempts + 1);
+                    }, 100);
+                }
+            }
+            
+            tryRender(0);
+        }
+
+        function formatMarkdownContent(markdown) {
+            if (!markdown) return '';
+            
+            let html = markdown;
+            
+            html = html.replace(/\\\[\s*([\s\S]*?)\s*\\\]/g, function(match, content) {
+                return '<div class="math-display">\\[' + content + '\\]</div>';
+            });
+            
+            html = html.replace(/^\\\[$/gm, '<div class="math-display">\\[');
+            html = html.replace(/^\\\]$/gm, '\\]</div>');
+            
+            html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
+            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*([^*]+?)\*/g, '<em>$1</em>');
+            
+            let lines = html.split('\n');
+            let inList = false;
+            let processedLines = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+                
+                if (line.match(/^[\s]*[-*]\s+/) && !line.includes('math-display')) {
+                    if (!inList) {
+                        processedLines.push('<ul>');
+                        inList = true;
+                    }
+                    line = '<li>' + line.replace(/^[\s]*[-*]\s+/, '') + '</li>';
+                } else {
+                    if (inList) {
+                        processedLines.push('</ul>');
+                        inList = false;
+                    }
+                }
+                
+                processedLines.push(line);
+            }
+            
+            if (inList) {
+                processedLines.push('</ul>');
+            }
+            
+            html = processedLines.join('\n');
+            
+            let parts = html.split(/<div class="math-display">[\s\S]*?<\/div>/g);
+            let mathBlocks = html.match(/<div class="math-display">[\s\S]*?<\/div>/g) || [];
+            
+            let result = [];
+            for (let i = 0; i < parts.length; i++) {
+                let part = parts[i];
+                part = part.replace(/\n\n+/g, '</p><p>');
+                part = '<p>' + part + '</p>';
+                part = part.replace(/\n/g, '<br>');
+                part = part.replace(/<p><\/p>/g, '');
+                part = part.replace(/<p><br>/g, '<p>');
+                result.push(part);
+                
+                if (mathBlocks[i]) {
+                    result.push(mathBlocks[i]);
+                }
+            }
+            
+            html = result.join('');
+            
+            return html;
+        }
+
+        function copyCurrentAnswer() {
+            if (!currentAnswerText) {
+                showNotification('No answer to copy', 'error');
+                return;
+            }
+            navigator.clipboard.writeText(currentAnswerText).then(function() {
+                showNotification('Copied!', 'success', 2000);
+            }).catch(function() {
+                showNotification('Copy failed', 'error');
+            });
+        }
+
+        async function submitFeedback(feedbackType) {
+            if (!currentChatId) {
+                showNotification('No chat session found', 'error');
+                return;
+            }
+
+            if (!sessionToken) {
+                showNotification('Please sign in to submit feedback', 'error');
+                return;
+            }
+
+            const likeBtn = document.getElementById('like-btn');
+            const dislikeBtn = document.getElementById('dislike-btn');
+            const reportBtn = document.getElementById('report-btn');
+
+            likeBtn.classList.remove('active-like');
+            dislikeBtn.classList.remove('active-dislike');
+            reportBtn.classList.remove('active-report');
+
+            if (feedbackType === 'like') {
+                likeBtn.classList.add('active-like');
+            } else if (feedbackType === 'dislike') {
+                dislikeBtn.classList.add('active-dislike');
+            } else if (feedbackType === 'report') {
+                reportBtn.classList.add('active-report');
+            }
+
+            likeBtn.disabled = true;
+            dislikeBtn.disabled = true;
+            reportBtn.disabled = true;
+
+            try {
+                const response = await fetch(API_BASE_URL + '/feedback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + sessionToken,
+                        'ngrok-skip-browser-warning': 'true'
+                    },
+                    body: JSON.stringify({
+                        chatId: currentChatId,
+                        feedbackType: feedbackType,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to submit feedback');
+                }
+
+                const result = await response.json();
+                
+                let message = 'Thank you for your feedback!';
+                if (feedbackType === 'like') {
+                    message = '👍 Thanks! Glad we could help!';
+                } else if (feedbackType === 'dislike') {
+                    message = '👎 Feedback noted. We\'ll improve!';
+                } else if (feedbackType === 'report') {
+                    message = '🚩 Issue reported. We\'ll review it!';
+                }
+                
+                showNotification(message, 'success', 2000);
+            } catch (error) {
+                console.error('Feedback error:', error);
+                showNotification('Failed to submit feedback', 'error');
+                
+                likeBtn.classList.remove('active-like');
+                dislikeBtn.classList.remove('active-dislike');
+                reportBtn.classList.remove('active-report');
+            } finally {
+                likeBtn.disabled = false;
+                dislikeBtn.disabled = false;
+                reportBtn.disabled = false;
+            }
+        }
+
+        function showNotification(message, type, duration) {
+            type = type || 'info';
+            duration = duration || 3000;
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification ' + type;
+            notification.classList.add('show');
+            setTimeout(function() {
+                notification.classList.remove('show');
+            }, duration);
+        }
+
+        function showUserProfile(user) {
+            document.getElementById('user-profile').classList.add('show');
+            document.getElementById('user-avatar').src = user.picture;
+            document.getElementById('user-name').textContent = user.name;
+            document.getElementById('user-email').textContent = user.email;
+            document.getElementById('search-count').textContent = user.searchCount || 0;
+            
+            const signInContainer = document.getElementById('google-signin-container');
+            if (signInContainer) {
+                signInContainer.style.display = 'none';
+            }
+        }
+
+        function showSearchSection() {
+            document.getElementById('auth-required').style.display = 'none';
+            document.getElementById('main-layout').style.display = 'flex';
+        }
+
+        async function signOut() {
+            try {
+                showNotification('Signing out...', 'info');
+                if (sessionToken) {
+                    await fetch(API_BASE_URL + '/auth/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + sessionToken,
+                            'ngrok-skip-browser-warning': 'true'
+                        }
+                    });
+                }
+                clearUserSession();
+                showNotification('Signed out', 'success');
+            } catch (error) {
+                console.error('Sign out error:', error);
+                clearUserSession();
+            }
+        }
+
+        function clearUserSession() {
+            currentUser = null;
+            sessionToken = null;
+            currentAnswerText = '';
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('sessionToken');
+            document.getElementById('user-profile').classList.remove('show');
+            document.getElementById('auth-required').style.display = 'block';
+            document.getElementById('main-layout').style.display = 'none';
+            
+            const signInContainer = document.getElementById('google-signin-container');
+            if (signInContainer) {
+                signInContainer.style.display = 'flex';
+            }
+        }
+
+        async function loadChatHistory() {
+            if (!currentUser) return;
+            await loadChatMessages();
+        }
+
+        async function loadChatMessages(page, append) {
+            page = page || 1;
+            append = append || false;
+            try {
+                const response = await fetch(API_BASE_URL + '/user/chat-history?page=' + page + '&limit=20', {
+                    headers: {
+                        'Authorization': 'Bearer ' + sessionToken,
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
+                if (!response.ok) return;
+                const data = await response.json();
+                if (!append) {
+                    chatHistoryData = data.chatHistory || [];
+                } else {
+                    chatHistoryData = chatHistoryData.concat(data.chatHistory || []);
+                }
+                displayChatHistory();
+            } catch (error) {
+                console.error('Chat history error:', error);
+            }
+        }
+
+        function displayChatHistory() {
+            const historyGrid = document.getElementById('chat-history-grid');
+            if (chatHistoryData.length === 0) {
+                historyGrid.innerHTML = '<div class="no-chat-history"><p>No history yet</p></div>';
+                return;
+            }
+            const historyHTML = chatHistoryData.map(function(msg) {
+                return '<div class="chat-message-item" onclick="rerunSearch(\'' + escapeHtml(msg.question) + '\')">' +
+                    '<div class="chat-question">' + escapeHtml(msg.question) + '</div>' +
+                    '<div class="chat-answer">' + escapeHtml(msg.answer.substring(0, 100)) + '...</div>' +
+                    '<div class="chat-message-meta"><span>' + new Date(msg.timestamp).toLocaleDateString() + '</span></div>' +
+                '</div>';
+            }).join('');
+            historyGrid.innerHTML = historyHTML;
+        }
+
+        async function refreshChatHistory() {
+            await loadChatHistory();
+            showNotification('Refreshed', 'success', 1500);
+        }
+
+        function rerunSearch(question) {
+            document.getElementById('question-input').value = question;
+            performSearch();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function checkCourseSelection() {
+            const department = document.getElementById('department-select').value;
+            const semester = document.getElementById('semester-select').value;
+            const subject = document.getElementById('subject-select').value;
+            if (department && semester && subject) {
+                displayUnitsSection(department, semester, subject);
+            }
+        }
+
+        function updateSubjectOptions() {
+            const department = document.getElementById('department-select').value;
+            const subjectSelect = document.getElementById('subject-select');
+            subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+            if (department === 'computer-science') {
+                subjectSelect.innerHTML += '<option value="intro-programming">Introduction to Programming</option><option value="data-structures">Data Structures</option>';
+            } else if (department === 'mathematics') {
+                subjectSelect.innerHTML += '<option value="calculus-1">Calculus I</option>';
+            } else if (department === 'chemistry') {
+                subjectSelect.innerHTML += '<option value="organic-chem">Organic Chemistry</option>';
+            }
+        }
+
+        function displayUnitsSection(department, semester, subject) {
+            const unitsGrid = document.getElementById('units-grid');
+            const courseInfo = document.getElementById('selected-course');
+            
+            courseInfo.textContent = department.replace(/-/g, ' ').toUpperCase() + ' - Semester ' + semester + ' - ' + subject.replace(/-/g, ' ').toUpperCase();
+            
+            // Sample question bank data
+            const questionBankData = {
+                'computer-science': {
+                    'intro-programming': [
+                        {
+                            unit: 'Introduction to Programming',
+                            icon: '💻',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { 
+                                            text: 'What is a variable in programming?', 
+                                            marks: 2,
+                                            answer: 'A variable is a named storage location in memory that holds a value. It has a name (identifier) and a data type that determines what kind of data it can store. Variables can be modified during program execution.<br><br><strong>Example:</strong><div class="code-block-wrapper"><div class="code-block-header">💻 Python</div><pre><code>age = 25          # Integer variable\nname = "John"     # String variable\nheight = 5.8      # Float variable</code></pre></div>'
+                                        },
+                                        { 
+                                            text: 'Explain the difference between int and float data types', 
+                                            marks: 2,
+                                            answer: '<strong>int (Integer):</strong> Stores whole numbers without decimal points (e.g., 5, -10, 100).<br><br><strong>float (Floating-point):</strong> Stores numbers with decimal points (e.g., 3.14, -0.5, 2.0).<br><br>Integers take less memory and operations are faster, while floats provide precision for decimal calculations.<br><br><strong>Example:</strong><div class="code-block-wrapper"><div class="code-block-header">💻 Python</div><pre><code>count = 42        # int\nprice = 19.99     # float\ntemp = -5         # int\npi = 3.14159      # float</code></pre></div>'
+                                        },
+                                        { 
+                                            text: 'Write a program to implement a simple calculator', 
+                                            marks: 10,
+                                            answer: '<strong>Simple Calculator Program:</strong><br><br>This program asks for two numbers and an operator, then calculates the answer. It prevents division by zero errors.<div class="code-block-wrapper"><div class="code-block-header">💻 Python - Simple Calculator</div><pre><code>print("Simple Calculator")\n\n# Get user inputs\na = float(input("Enter first number: "))\nop = input("Choose operator (+, -, *, /): ").strip()\nb = float(input("Enter second number: "))\n\n# Perform calculation\nif op == \'+\':\n    result = a + b\nelif op == \'-\':\n    result = a - b\nelif op == \'*\':\n    result = a * b\nelif op == \'/\':\n    if b == 0:\n        print("Error: Cannot divide by zero")\n        result = None\n    else:\n        result = a / b\nelse:\n    print("Invalid operator")\n    result = None\n\n# Display result\nif result is not None:\n    print(f"Result: {result}")</code></pre></div><br><strong>Features:</strong><ul><li>Takes two numbers as input</li><li>Performs basic arithmetic operations (+, -, *, /)</li><li>Handles division by zero error</li><li>Validates operator input</li><li>Displays formatted result</li></ul><br><strong>Example Usage:</strong><br>Input: a=12, b=3, operator="/" → Output: Result: 4.0'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                'mathematics': {
+                    'calculus-1': [
+                        {
+                            unit: 'Limits & Continuity',
+                            icon: '∞',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { 
+                                            text: 'Define limit of a function', 
+                                            marks: 2,
+                                            answer: 'A limit describes the value that a function approaches as the input approaches some value. Mathematically: lim(x→a) f(x) = L means as x gets closer to a, f(x) gets closer to L.'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                'chemistry': {
+                    'organic-chem': [
+                        {
+                            unit: 'Basic Concepts',
+                            icon: '🧪',
+                            sections: [
+                                {
+                                    type: '2 Mark Questions',
+                                    questions: [
+                                        { 
+                                            text: 'What is organic chemistry?', 
+                                            marks: 2,
+                                            answer: 'Organic chemistry is the branch of chemistry that studies carbon-containing compounds and their properties, structure, composition, reactions, and synthesis.'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            };
+            
+            const units = questionBankData[department]?.[subject] || [];
+            
+            if (units.length === 0) {
+                unitsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray);"><p>📚 No questions available yet for this course.</p></div>';
+                return;
+            }
+            
+            let unitsHTML = '';
+            units.forEach((unit, unitIndex) => {
+                const unitId = 'unit-' + unitIndex;
+                unitsHTML += '<div class="unit-card">';
+                unitsHTML += '<div class="unit-header" id="header-' + unitId + '" onclick="toggleUnit(\'' + unitId + '\')">';
+                unitsHTML += '<h3 class="unit-title"><span class="unit-icon">' + unit.icon + '</span>' + unit.unit + '</h3>';
+                unitsHTML += '<button class="unit-toggle" id="toggle-' + unitId + '">+</button>';
+                unitsHTML += '</div>';
+                unitsHTML += '<div class="unit-content" id="' + unitId + '">';
+                
+                unit.sections.forEach((section, sectionIndex) => {
+                    unitsHTML += '<div class="question-section">';
+                    unitsHTML += '<div class="question-section-header">';
+                    unitsHTML += '<span class="question-type-title">' + section.type + '</span>';
+                    unitsHTML += '<span class="question-count">' + section.questions.length + ' Questions</span>';
+                    unitsHTML += '</div>';
+                    unitsHTML += '<div class="questions-list">';
+                    
+                    section.questions.forEach((q, qIndex) => {
+                        const questionId = 'q-' + unitIndex + '-' + sectionIndex + '-' + qIndex;
+                        unitsHTML += '<div class="question-item">';
+                        unitsHTML += '<div class="question-header" id="header-' + questionId + '" onclick="toggleQuestion(\'' + questionId + '\')">';
+                        unitsHTML += '<div class="question-left">';
+                        unitsHTML += '<span class="question-number">' + (qIndex + 1) + '</span>';
+                        unitsHTML += '<div class="question-text">' + q.text + '</div>';
+                        unitsHTML += '</div>';
+                        unitsHTML += '<div class="question-right">';
+                        unitsHTML += '<span class="mark-badge">' + q.marks + ' Marks</span>';
+                        unitsHTML += '<button class="question-toggle" id="toggle-' + questionId + '">+</button>';
+                        unitsHTML += '</div>';
+                        unitsHTML += '</div>';
+                        
+                        unitsHTML += '<div class="question-answer" id="' + questionId + '">';
+                        unitsHTML += '<div class="answer-content">';
+                        unitsHTML += '<div class="answer-label">📝 Answer:</div>';
+                        unitsHTML += '<div class="answer-text">' + q.answer + '</div>';
+                        unitsHTML += '</div>';
+                        unitsHTML += '</div>';
+                        
+                        unitsHTML += '</div>';
+                    });
+                    
+                    unitsHTML += '</div>';
+                    unitsHTML += '</div>';
+                });
+                
+                unitsHTML += '</div>';
+                unitsHTML += '</div>';
+            });
+            
+            unitsGrid.innerHTML = unitsHTML;
+        }
+
+        function toggleUnit(unitId) {
+            const unitContent = document.getElementById(unitId);
+            const unitHeader = document.getElementById('header-' + unitId);
+            const toggleBtn = document.getElementById('toggle-' + unitId);
+            
+            if (unitContent.classList.contains('show')) {
+                unitContent.classList.remove('show');
+                unitHeader.classList.remove('active');
+                toggleBtn.textContent = '+';
+            } else {
+                unitContent.classList.add('show');
+                unitHeader.classList.add('active');
+                toggleBtn.textContent = '−';
+            }
+        }
+
+        function toggleQuestion(questionId) {
+            const questionAnswer = document.getElementById(questionId);
+            const questionHeader = document.getElementById('header-' + questionId);
+            const toggleBtn = document.getElementById('toggle-' + questionId);
+            
+            if (questionAnswer.classList.contains('show')) {
+                questionAnswer.classList.remove('show');
+                questionHeader.classList.remove('active');
+                toggleBtn.textContent = '+';
+            } else {
+                questionAnswer.classList.add('show');
+                questionHeader.classList.add('active');
+                toggleBtn.textContent = '−';
+            }
+        }
+
+        // Make functions globally accessible
+        window.switchMode = switchMode;
+        window.copyCurrentAnswer = copyCurrentAnswer;
+        window.submitFeedback = submitFeedback;
+        window.rerunSearch = rerunSearch;
+        window.toggleUnit = toggleUnit;
+        window.toggleQuestion = toggleQuestion;
+        window.speakText = speakText;
+    </script>
 </body>
 </html>
