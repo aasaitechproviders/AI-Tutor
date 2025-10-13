@@ -170,6 +170,14 @@
             gap: 1.5rem;
         }
 
+        .preferences-card {
+            order: 1;
+        }
+
+        .history-card {
+            order: 3;
+        }
+
         .card {
             background: white;
             border-radius: 16px;
@@ -669,14 +677,20 @@
         @media (max-width: 968px) {
             .main-content {
                 grid-template-columns: 1fr;
+                display: flex;
+                flex-direction: column;
             }
 
-            .sidebar {
+            .preferences-card {
                 order: 1;
             }
 
             .content-area {
                 order: 2;
+            }
+
+            .history-card {
+                order: 3;
             }
 
             .header-container {
@@ -693,6 +707,7 @@
 
             .user-section {
                 position: relative;
+                min-height: 40px;
             }
 
             #google-signin-button {
@@ -700,6 +715,7 @@
                 right: 0;
                 top: 50%;
                 transform: translateY(-50%);
+                z-index: 10;
             }
 
             .auth-screen {
@@ -785,7 +801,7 @@
 
             <div id="main-content" class="main-content" style="display:none">
                 <div class="sidebar">
-                    <div class="card">
+                    <div class="card preferences-card">
                         <div class="card-title">⚙️ Preferences</div>
                         <div class="form-group">
                             <label>Standard / Class</label>
@@ -836,7 +852,7 @@
                         </div>
                     </div>
 
-                    <div class="card">
+                    <div class="card history-card">
                         <div class="history-header">
                             <div class="card-title">📖 Recent</div>
                             <button id="refresh-history" class="refresh-btn">🔄</button>
