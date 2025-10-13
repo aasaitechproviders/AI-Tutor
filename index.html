@@ -76,6 +76,7 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex-shrink: 0;
         }
 
         .user-profile {
@@ -85,6 +86,7 @@
             padding: 0.5rem 1rem;
             background: var(--light);
             border-radius: 25px;
+            flex-shrink: 0;
         }
 
         .user-profile.active {
@@ -168,14 +170,6 @@
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-        }
-
-        .preferences-card {
-            order: 1;
-        }
-
-        .history-card {
-            order: 3;
         }
 
         .card {
@@ -681,16 +675,12 @@
                 flex-direction: column;
             }
 
-            .preferences-card {
+            .sidebar {
                 order: 1;
             }
 
             .content-area {
                 order: 2;
-            }
-
-            .history-card {
-                order: 3;
             }
 
             .header-container {
@@ -706,31 +696,7 @@
             }
 
             .user-section {
-                position: relative;
-                min-height: 40px;
-            }
-
-            #google-signin-button {
-                position: absolute;
-                right: 0;
-                top: 50%;
-                transform: translateY(-50%);
-                z-index: 10;
-            }
-
-            .auth-screen {
-                padding: 2rem 1.5rem;
-                margin: 1rem;
-            }
-
-            .auth-screen h2 {
-                font-size: 1.5rem;
-                margin-bottom: 0.75rem;
-            }
-
-            .auth-screen p {
-                font-size: 0.9rem;
-                margin-bottom: 1.5rem;
+                gap: 0.5rem;
             }
 
             main {
@@ -801,7 +767,7 @@
 
             <div id="main-content" class="main-content" style="display:none">
                 <div class="sidebar">
-                    <div class="card preferences-card">
+                    <div class="card">
                         <div class="card-title">⚙️ Preferences</div>
                         <div class="form-group">
                             <label>Standard / Class</label>
@@ -852,7 +818,7 @@
                         </div>
                     </div>
 
-                    <div class="card history-card">
+                    <div class="card">
                         <div class="history-header">
                             <div class="card-title">📖 Recent</div>
                             <button id="refresh-history" class="refresh-btn">🔄</button>
