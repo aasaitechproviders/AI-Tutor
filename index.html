@@ -425,6 +425,14 @@
             display: block;
         }
 
+        .results-card-mobile {
+            display: none;
+        }
+
+        .results-card-desktop {
+            display: block;
+        }
+
         .results-header {
             display: flex;
             justify-content: space-between;
@@ -700,6 +708,18 @@
                 display: block;
             }
 
+            .results-card-desktop {
+                display: none !important;
+            }
+
+            .results-card-mobile {
+                display: none;
+            }
+
+            .results-card-mobile.show {
+                display: block;
+            }
+
             .header-container {
                 padding: 1rem;
             }
@@ -864,6 +884,14 @@
                         </div>
                     </div>
 
+                    <!-- Results card for mobile only -->
+                    <div id="results-card-mobile" class="results-card results-card-mobile">
+                        <div class="results-header">
+                            <h3>💡 Answer</h3>
+                        </div>
+                        <div id="results-content-mobile"></div>
+                    </div>
+
                     <div class="card">
                         <div class="history-header">
                             <div class="card-title">📖 Recent</div>
@@ -904,7 +932,8 @@
                         </div>
                     </div>
 
-                    <div id="results-card" class="results-card">
+                    <!-- Results card for desktop only -->
+                    <div id="results-card" class="results-card results-card-desktop">
                         <div class="results-header">
                             <h3>💡 Answer</h3>
                         </div>
@@ -1253,12 +1282,16 @@
             }
             
             const resultsCard = document.getElementById('results-card');
+            const resultsCardMobile = document.getElementById('results-card-mobile');
             const resultsContent = document.getElementById('results-content');
+            const resultsContentMobile = document.getElementById('results-content-mobile');
             const searchBtn = document.getElementById('search-btn');
             const searchBtnMobile = document.getElementById('search-btn-mobile');
             
             resultsCard.classList.add('show');
+            resultsCardMobile.classList.add('show');
             resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            resultsContentMobile.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
             searchBtn.disabled = true;
             searchBtnMobile.disabled = true;
             searchBtn.textContent = 'Searching...';
@@ -1295,7 +1328,7 @@
                 if (state.user) {
                     state.user.searchCount = (state.user.searchCount || 0) + 1;
                     document.getElementById('search-count').textContent = state.user.searchCount;
-                    localStorage.setItem('user', JSON.stringify(state.user));
+                    saveSession();
                 }
                 
                 loadHistory();
@@ -1303,12 +1336,15 @@
                 document.getElementById('search-input-mobile').value = '';
                 
                 setTimeout(() => {
-                    resultsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    const isMobile = window.innerWidth <= 968;
+                    const targetCard = isMobile ? resultsCardMobile : resultsCard;
+                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, 100);
                 
             } catch (error) {
                 console.error('Search error:', error);
                 resultsContent.innerHTML = '<div class="no-history">Search failed. Please try again.</div>';
+                resultsContentMobile.innerHTML = '<div class="no-history">Search failed. Please try again.</div>';
                 showNotification('Search failed', 'error');
             } finally {
                 searchBtn.disabled = false;
@@ -1320,9 +1356,12 @@
 
         function displayResults(data, question, responseTime) {
             const resultsContent = document.getElementById('results-content');
+            const resultsContentMobile = document.getElementById('results-content-mobile');
             
             if (!data.answer) {
-                resultsContent.innerHTML = '<div class="no-history">No information found</div>';
+                const noDataHTML = '<div class="no-history">No information found</div>';
+                resultsContent.innerHTML = noDataHTML;
+                resultsContentMobile.innerHTML = noDataHTML;
                 return;
             }
             
@@ -1338,7 +1377,7 @@
             
             const formattedAnswer = formatMarkdown(data.answer);
             
-            resultsContent.innerHTML = `
+            const resultHTML = `
                 <div class="result-item">
                     <div class="result-question-box">
                         <div class="result-question-label">Your Question</div>
@@ -1360,6 +1399,9 @@
                     </div>
                 </div>
             `;
+            
+            resultsContent.innerHTML = resultHTML;
+            resultsContentMobile.innerHTML = resultHTML;
             
             renderMath();
         }
