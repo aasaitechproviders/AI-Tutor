@@ -2310,7 +2310,7 @@
             voiceStatus.classList.remove('show');
         }
 
-        // ==================== IMPROVED TEXT-TO-SPEECH ====================
+        // ==================== TEXT-TO-SPEECH ====================
         function speakText(text) {
             // Stop any ongoing speech
             if (isSpeaking) {
@@ -2324,11 +2324,15 @@
                 return;
             }
             
-            // Get available voices
-            const voices = speechSynthesis.getVoices();
-            
-            // Enhanced text cleaning that preserves Tamil characters
-            let cleanText = cleanTextForSpeech(text, selectedLanguage);
+            // Clean the text (remove markdown, HTML, math expressions)
+            let cleanText = text
+                .replace(/\\\[[\s\S]*?\\\]/g, '') // Remove display math
+                .replace(/\\\([\s\S]*?\\\)/g, '') // Remove inline math
+                .replace(/<[^>]*>/g, '') // Remove HTML tags
+                .replace(/[*_#`]/g, '') // Remove markdown symbols
+                .replace(/\n+/g, ' ') // Replace newlines with spaces
+                .replace(/\s+/g, ' ') // Normalize whitespace
+                .trim();
             
             if (!cleanText) {
                 showNotification('No text to read', 'error');
@@ -2340,20 +2344,17 @@
             // Set language based on selected language
             currentUtterance.lang = selectedLanguage;
             
-            // Enhanced voice selection for Indian languages
-            const selectedVoice = findBestVoice(voices, selectedLanguage);
-            if (selectedVoice) {
-                currentUtterance.voice = selectedVoice;
-                console.log('Using voice:', selectedVoice.name, 'for language:', selectedLanguage);
-            } else {
-                console.warn('No matching voice found for language:', selectedLanguage);
-                showNotification('No voice available for ' + getLanguageName(selectedLanguage) + '. Using default voice.', 'info', 3000);
-            }
-            
             // Set voice properties
-            currentUtterance.rate = 0.9;
+            currentUtterance.rate = 0.9; // Slightly slower for clarity
             currentUtterance.pitch = 1.0;
             currentUtterance.volume = 1.0;
+            
+            // Try to find a voice that matches the selected language
+            const voices = speechSynthesis.getVoices();
+            const matchingVoice = voices.find(voice => voice.lang.startsWith(selectedLanguage.split('-')[0]));
+            if (matchingVoice) {
+                currentUtterance.voice = matchingVoice;
+            }
             
             currentUtterance.onstart = function() {
                 isSpeaking = true;
@@ -2362,7 +2363,6 @@
                     speakerBtn.classList.add('speaking');
                     speakerBtn.innerHTML = '⏸️ Pause';
                 }
-                showNotification('Reading text in ' + getLanguageName(selectedLanguage), 'info', 2000);
             };
             
             currentUtterance.onend = function() {
@@ -2382,110 +2382,10 @@
                     speakerBtn.classList.remove('speaking');
                     speakerBtn.innerHTML = '🔊 Read Aloud';
                 }
-                
-                let errorMsg = 'Error reading text';
-                if (event.error === 'language-not-supported') {
-                    errorMsg = 'Language not supported for text-to-speech: ' + getLanguageName(selectedLanguage);
-                }
-                showNotification(errorMsg, 'error');
+                showNotification('Error reading text', 'error');
             };
             
             speechSynthesis.speak(currentUtterance);
-        }
-
-        function cleanTextForSpeech(text, language) {
-            if (!text) return '';
-            
-            let cleanText = text;
-            
-            // Remove math expressions (preserve text content)
-            cleanText = cleanText.replace(/\\\[[\s\S]*?\\\]/g, '');
-            cleanText = cleanText.replace(/\\\([\s\S]*?\\\)/g, '');
-            
-            // Remove HTML tags but keep content
-            cleanText = cleanText.replace(/<[^>]*>/g, ' ');
-            
-            // Remove markdown symbols but keep text
-            cleanText = cleanText.replace(/[#*_`~]/g, '');
-            
-            // Remove code blocks but keep the text inside
-            cleanText = cleanText.replace(/```[\s\S]*?```/g, ' ');
-            cleanText = cleanText.replace(/`[^`]*`/g, ' ');
-            
-            // Remove URLs
-            cleanText = cleanText.replace(/https?:\/\/[^\s]+/g, '');
-            
-            // Normalize whitespace
-            cleanText = cleanText.replace(/\n+/g, ' ');
-            cleanText = cleanText.replace(/\s+/g, ' ');
-            
-            // For Indian languages, preserve special characters
-            if (language.startsWith('hi-') || // Hindi
-                language.startsWith('ta-') || // Tamil
-                language.startsWith('te-') || // Telugu
-                language.startsWith('kn-') || // Kannada
-                language.startsWith('ml-') || // Malayalam
-                language.startsWith('mr-') || // Marathi
-                language.startsWith('gu-') || // Gujarati
-                language.startsWith('bn-') || // Bengali
-                language.startsWith('pa-')) { // Punjabi
-                // Keep all characters including Indian script characters
-                cleanText = cleanText.replace(/[^\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7F\w\s.,!?;:()-]/g, '');
-            } else {
-                // For other languages, keep basic punctuation
-                cleanText = cleanText.replace(/[^\w\s.,!?;:()-]/g, '');
-            }
-            
-            return cleanText.trim();
-        }
-
-        function findBestVoice(voices, targetLang) {
-            if (!voices || voices.length === 0) return null;
-            
-            const targetLangBase = targetLang.split('-')[0];
-            
-            // First try: Exact match
-            let exactMatch = voices.find(voice => voice.lang === targetLang);
-            if (exactMatch) return exactMatch;
-            
-            // Second try: Base language match
-            let baseMatch = voices.find(voice => {
-                const voiceLangBase = voice.lang.split('-')[0];
-                return voiceLangBase === targetLangBase;
-            });
-            if (baseMatch) return baseMatch;
-            
-            // Third try: Any voice that includes the target language in its name
-            let nameMatch = voices.find(voice => 
-                voice.name.toLowerCase().includes(targetLangBase) ||
-                voice.name.toLowerCase().includes(getLanguageName(targetLang).toLowerCase())
-            );
-            if (nameMatch) return nameMatch;
-            
-            // Fallback: First available voice
-            return voices[0];
-        }
-
-        function getLanguageName(langCode) {
-            const languageNames = {
-                'en-US': 'English',
-                'hi-IN': 'Hindi',
-                'ta-IN': 'Tamil',
-                'te-IN': 'Telugu',
-                'kn-IN': 'Kannada',
-                'ml-IN': 'Malayalam',
-                'mr-IN': 'Marathi',
-                'gu-IN': 'Gujarati',
-                'bn-IN': 'Bengali',
-                'pa-IN': 'Punjabi',
-                'es-ES': 'Spanish',
-                'fr-FR': 'French',
-                'de-DE': 'German',
-                'ja-JP': 'Japanese',
-                'zh-CN': 'Chinese',
-                'ar-SA': 'Arabic'
-            };
-            return languageNames[langCode] || langCode;
         }
 
         function stopSpeaking() {
@@ -2502,17 +2402,9 @@
 
         // Load voices when they become available
         if (speechSynthesis) {
-            // Load voices immediately if available
-            const voices = speechSynthesis.getVoices();
-            if (voices.length > 0) {
-                console.log('Voices available on load:', voices.map(v => v.name + ' (' + v.lang + ')'));
-            }
-            
-            // Also listen for voices changed event
             speechSynthesis.onvoiceschanged = function() {
                 const voices = speechSynthesis.getVoices();
-                console.log('Voices changed, available:', voices.length);
-                console.log('Available voices:', voices.map(v => v.name + ' (' + v.lang + ')'));
+                console.log('Available voices:', voices.length);
             };
         }
 
