@@ -7,7 +7,7 @@
     <title>Aasai SmartEDU - AI Learning Assistant</title>
     <meta name="description" content="AI-powered learning assistant for school students aged 8-17.">
     
-    <!-- MathJax Configuration - MUST come before loading MathJax -->
+    <!-- MathJax Configuration -->
     <script>
     window.MathJax = {
         tex: {
@@ -31,9 +31,6 @@
     
     <!-- Load MathJax -->
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
-    
-    <!-- Marked.js for Markdown parsing -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <!-- Google Sign-In -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -177,146 +174,66 @@
             gap: 2rem;
         }
 
-        /* Mode Toggle Section */
-        .mode-toggle-section {
+        /* Preferences Section */
+        .preferences-section {
             background: white;
             border-radius: 20px;
             padding: 2rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
-        .mode-toggle-header {
+        .preferences-header {
             text-align: center;
             margin-bottom: 2rem;
         }
 
-        .mode-toggle-title {
+        .preferences-title {
             font-size: 1.8rem;
             font-weight: 600;
             color: var(--primary);
             margin-bottom: 0.5rem;
         }
 
-        .mode-toggle-subtitle {
+        .preferences-subtitle {
             color: var(--gray);
             font-size: 1rem;
         }
 
-        .mode-buttons {
+        .preferences-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
         }
 
-        .mode-btn {
-            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
-            border: 2px solid var(--light-gray);
-            border-radius: 16px;
-            padding: 2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            position: relative;
-        }
-
-        .mode-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary);
-        }
-
-        .mode-btn.active {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, #e8f0ff 0%, #f8f9ff 100%);
-        }
-
-        .mode-btn.active::before {
-            content: '✓';
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--primary);
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .mode-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .mode-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .mode-description {
-            color: var(--gray);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* Course Selection Panel */
-        .course-selection-panel {
-            display: none;
-            background: var(--light);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .course-selection-panel.show {
-            display: block;
-        }
-
-        .course-selection-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--secondary);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .selectors-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .selector-group {
+        .preference-group {
             display: flex;
             flex-direction: column;
         }
 
-        .selector-group label {
-            font-size: 0.9rem;
-            font-weight: 500;
+        .preference-group label {
+            font-size: 1rem;
+            font-weight: 600;
             color: var(--dark);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
         }
 
         .form-select {
-            padding: 0.75rem;
+            padding: 0.9rem 1rem;
             border: 2px solid var(--light-gray);
-            border-radius: 8px;
-            font-size: 0.9rem;
+            border-radius: 12px;
+            font-size: 1rem;
             background-color: white;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
             cursor: pointer;
         }
 
         .form-select:focus {
             outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .form-select:hover {
             border-color: var(--primary);
         }
 
@@ -326,12 +243,7 @@
             border-radius: 20px;
             padding: 2rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            display: none;
             min-height: 400px;
-        }
-
-        .search-container.show {
-            display: block;
         }
 
         .search-header {
@@ -407,33 +319,78 @@
 
         /* Voice Button */
         .voice-btn {
-            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 0 1.5rem;
+            padding: 0 2rem;
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .voice-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .voice-btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .voice-btn:hover {
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
 
         .voice-btn.recording {
-            background: var(--warning);
-            animation: pulse 1.5s infinite;
+            background: linear-gradient(135deg, #f72585 0%, #b5179e 100%);
+            animation: pulse-glow 1.5s infinite;
         }
 
-        @keyframes pulse {
+        .voice-btn.recording::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: recording-dot 1s infinite;
+        }
+
+        @keyframes pulse-glow {
             0%, 100% {
-                opacity: 1;
+                box-shadow: 0 0 20px rgba(247, 37, 133, 0.5), 0 0 40px rgba(247, 37, 133, 0.3);
             }
             50% {
-                opacity: 0.7;
+                box-shadow: 0 0 30px rgba(247, 37, 133, 0.8), 0 0 60px rgba(247, 37, 133, 0.5);
+            }
+        }
+
+        @keyframes recording-dot {
+            0%, 100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(0.8);
             }
         }
 
@@ -699,41 +656,6 @@
             box-shadow: 0 2px 6px rgba(67, 97, 238, 0.3);
         }
 
-        .formatted-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .formatted-content thead {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-
-        .formatted-content th {
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .formatted-content td {
-            padding: 0.9rem 1rem;
-            border: 1px solid var(--light-gray);
-        }
-
-        .formatted-content tbody tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-
-        .formatted-content tbody tr:hover {
-            background-color: #e8f0ff;
-        }
-
         .formatted-content strong {
             font-weight: 700;
             color: var(--primary);
@@ -741,55 +663,6 @@
 
         .formatted-content em {
             font-style: italic;
-            color: var(--secondary);
-        }
-
-        .formatted-content code {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9em;
-        }
-
-        .formatted-content pre {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 1.5rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 1rem 0;
-        }
-
-        .formatted-content pre code {
-            background: transparent;
-            padding: 0;
-        }
-
-        .formatted-content blockquote {
-            border-left: 4px solid var(--primary);
-            padding: 1rem 1.5rem;
-            margin: 1rem 0;
-            background: #f0f7ff;
-            border-radius: 0 8px 8px 0;
-            font-style: italic;
-            color: var(--gray);
-        }
-
-        .formatted-content hr {
-            border: none;
-            border-top: 2px solid var(--light-gray);
-            margin: 2rem 0;
-        }
-
-        .formatted-content a {
-            color: var(--primary);
-            text-decoration: underline;
-            transition: color 0.3s;
-        }
-
-        .formatted-content a:hover {
             color: var(--secondary);
         }
 
@@ -831,37 +704,6 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
-        }
-
-        /* Speaker Button */
-        .speaker-btn {
-            background: linear-gradient(135deg, var(--success), #3a86ff);
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-            font-size: 0.9rem;
-        }
-
-        .speaker-btn:hover {
-            background: linear-gradient(135deg, #3a86ff, var(--success));
-            transform: translateY(-2px);
-        }
-
-        .speaker-btn.speaking {
-            background: var(--warning);
-            animation: pulse 1.5s infinite;
-        }
-
-        .speaker-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
 
         .feedback-btn {
@@ -1063,402 +905,6 @@
             border-color: var(--primary);
         }
 
-        /* Units Container */
-        .units-container {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            display: none;
-        }
-
-        .units-container.show {
-            display: block;
-        }
-
-        .units-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .units-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .course-info {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1rem;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .course-info h4 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .course-info p {
-            opacity: 0.9;
-            font-size: 0.9rem;
-        }
-
-        .units-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        .unit-card {
-            background: white;
-            border: 2px solid var(--light-gray);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.3s;
-            max-width: 100%;
-        }
-
-        .unit-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15);
-        }
-
-        .unit-header {
-            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
-            padding: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-            border-bottom: 2px solid transparent;
-        }
-
-        .unit-header:hover {
-            background: linear-gradient(135deg, #e8f0ff 0%, #f8f9ff 100%);
-        }
-
-        .unit-header.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-bottom-color: var(--primary);
-        }
-
-        .unit-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            min-width: 0;
-        }
-
-        .unit-header.active .unit-title {
-            color: white;
-        }
-
-        .unit-icon {
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .unit-toggle {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            font-weight: 300;
-            transition: all 0.3s;
-            flex-shrink: 0;
-        }
-
-        .unit-header.active .unit-toggle {
-            background: white;
-            color: var(--primary);
-        }
-
-        .unit-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out;
-        }
-
-        .unit-content.show {
-            max-height: 10000px;
-            transition: max-height 0.5s ease-in;
-        }
-
-        .question-section {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .question-section:last-child {
-            border-bottom: none;
-        }
-
-        .question-section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--light-gray);
-        }
-
-        .question-type-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--secondary);
-        }
-
-        .question-count {
-            background: var(--primary);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .questions-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .question-item {
-            background: var(--light);
-            padding: 0;
-            border-radius: 12px;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            overflow: hidden;
-            max-width: 100%;
-        }
-
-        .question-item:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.15);
-        }
-
-        .question-header {
-            padding: 1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            background: var(--light);
-            transition: all 0.3s;
-        }
-
-        .question-header:hover {
-            background: #e8f0ff;
-        }
-
-        .question-header.active {
-            background: #e8f0ff;
-        }
-
-        .question-left {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            min-width: 0;
-        }
-
-        .question-number {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            flex-shrink: 0;
-        }
-
-        .question-text {
-            flex: 1;
-            font-size: 0.95rem;
-            color: var(--dark);
-            line-height: 1.5;
-            font-weight: 500;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            min-width: 0;
-        }
-
-        .question-right {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            flex-shrink: 0;
-        }
-
-        .mark-badge {
-            background: linear-gradient(135deg, var(--success), #3a86ff);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .question-toggle {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: 300;
-            transition: all 0.3s;
-        }
-
-        .question-header.active .question-toggle {
-            background: var(--secondary);
-        }
-
-        .question-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out;
-            background: white;
-        }
-
-        .question-answer.show {
-            max-height: 3000px;
-            transition: max-height 0.5s ease-in;
-            border-top: 2px solid var(--light-gray);
-        }
-
-        .answer-content {
-            padding: 1.5rem;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-        }
-
-        .answer-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .answer-text {
-            color: var(--dark);
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-
-        .answer-text p {
-            margin-bottom: 0.8rem;
-        }
-
-        .answer-text ul, .answer-text ol {
-            margin: 0.5rem 0 0.8rem 1.5rem;
-        }
-
-        .answer-text li {
-            margin-bottom: 0.4rem;
-        }
-
-        .answer-text strong {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .answer-text code {
-            background: #f5f5f5;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-            color: var(--secondary);
-        }
-
-        .answer-text pre {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 1.5rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            overflow-y: auto;
-            max-height: 500px;
-            margin: 1rem 0;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-
-        .answer-text pre code {
-            background: transparent;
-            padding: 0;
-            color: #f8f8f2;
-            display: block;
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-
-        .code-block-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px 8px 0 0;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .code-block-wrapper {
-            margin: 0 0 1rem 0;
-            max-width: 100%;
-            overflow: hidden;
-        }
-
-        .code-block-wrapper pre {
-            margin-top: 0;
-            border-radius: 0 0 8px 8px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
         /* Auth Required */
         .auth-required {
             text-align: center;
@@ -1510,6 +956,10 @@
 
         .notification.info {
             background: var(--primary);
+        }
+
+        .notification.warning {
+            background: #f57c00;
         }
 
         /* Footer */
@@ -1603,57 +1053,27 @@
                 gap: 1rem;
             }
 
-            .mode-toggle-section,
+            .preferences-section,
             .search-container,
-            .results-container,
-            .units-container {
+            .results-container {
                 padding: 1rem;
                 border-radius: 12px;
             }
 
-            .mode-toggle-title,
+            .preferences-title,
             .search-title,
-            .results-title,
-            .units-title {
+            .results-title {
                 font-size: 1.3rem;
             }
 
-            .mode-toggle-subtitle,
+            .preferences-subtitle,
             .search-subtitle {
                 font-size: 0.9rem;
             }
 
-            .mode-buttons {
-                grid-template-columns: 1fr 1fr;
-                gap: 1rem;
-            }
-
-            .mode-btn {
-                padding: 1rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .mode-icon {
-                font-size: 2rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .mode-title {
-                font-size: 0.95rem;
-                margin-bottom: 0.3rem;
-            }
-
-            .mode-description {
-                font-size: 0.75rem;
-                text-align: center;
-            }
-
-            .selectors-grid {
+            .preferences-grid {
                 grid-template-columns: 1fr;
-                gap: 0.8rem;
+                gap: 1rem;
             }
 
             .language-selector {
@@ -1675,7 +1095,7 @@
 
             .voice-btn {
                 padding: 1rem;
-                font-size: 1.3rem;
+                font-size: 1.5rem;
                 border-bottom: 1px solid var(--light-gray);
             }
 
@@ -1717,61 +1137,12 @@
                 font-size: 1rem;
             }
 
-            .formatted-content ul,
-            .formatted-content ol {
-                margin: 0.8rem 0 0.8rem 0.5rem;
-                padding-left: 0.5rem;
-            }
-
-            .formatted-content ul li {
-                padding-left: 1.2rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .formatted-content ul li::before {
-                left: 0;
-                top: 0.5rem;
-                width: 6px;
-                height: 6px;
-            }
-
-            .formatted-content ol li {
-                padding-left: 1.5rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .formatted-content ol li::before {
-                left: 0;
-                top: 0.1rem;
-                width: 20px;
-                height: 20px;
-                font-size: 0.7rem;
-            }
-
-            .formatted-content table {
-                font-size: 0.85rem;
-                overflow-x: auto;
-                display: block;
-            }
-
-            .formatted-content th,
-            .formatted-content td {
-                padding: 0.5rem;
-                font-size: 0.8rem;
-            }
-
-            .formatted-content .math-display {
-                font-size: 1em;
-                padding: 0.8rem;
-                overflow-x: auto;
-            }
-
             .result-actions {
                 flex-direction: column;
                 gap: 0.5rem;
             }
 
-            .action-btn, .speaker-btn {
+            .action-btn {
                 width: 100%;
                 justify-content: center;
                 padding: 0.7rem;
@@ -1793,100 +1164,6 @@
 
             .chat-message-item {
                 padding: 0.8rem;
-            }
-
-            .units-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .unit-header {
-                padding: 1rem;
-            }
-
-            .unit-title {
-                font-size: 1rem;
-            }
-
-            .unit-icon {
-                font-size: 1.2rem;
-            }
-
-            .unit-toggle {
-                width: 28px;
-                height: 28px;
-                font-size: 1rem;
-            }
-
-            .question-section {
-                padding: 1rem;
-            }
-
-            .question-type-title {
-                font-size: 0.9rem;
-            }
-
-            .question-header {
-                padding: 0.8rem;
-            }
-
-            .question-left {
-                gap: 0.5rem;
-            }
-
-            .question-number {
-                width: 24px;
-                height: 24px;
-                font-size: 0.7rem;
-            }
-
-            .question-text {
-                font-size: 0.85rem;
-            }
-
-            .question-right {
-                gap: 0.5rem;
-                flex-direction: column;
-            }
-
-            .mark-badge {
-                font-size: 0.7rem;
-                padding: 0.25rem 0.6rem;
-            }
-
-            .question-toggle {
-                width: 24px;
-                height: 24px;
-                font-size: 1rem;
-            }
-
-            .answer-content {
-                padding: 1rem;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-            }
-
-            .answer-label {
-                font-size: 0.75rem;
-            }
-
-            .answer-text {
-                font-size: 0.85rem;
-            }
-
-            .answer-text pre {
-                padding: 1rem;
-                font-size: 0.8rem;
-                max-height: 400px;
-            }
-
-            .code-block-wrapper {
-                max-width: 100%;
-            }
-
-            .code-block-header {
-                font-size: 0.75rem;
-                padding: 0.4rem 0.8rem;
             }
 
             .footer-content {
@@ -1915,39 +1192,33 @@
                 padding: 0 16px;
             }
 
-            .mode-buttons {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .units-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .formatted-content table {
-                font-size: 0.9rem;
+            .preferences-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 <body>
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Header -->
     <header>
-        <div class="container header-content">
-            <div class="logo">
-                <span class="logo-icon">📚</span>
-                <span>Aasai SmartEDU</span>
-            </div>
-            <div class="auth-container">
-                <div class="google-signin-container" id="google-signin-container">
-                    <div id="google-signin-button"></div>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">📚</span>
+                    <span>Aasai SmartEDU</span>
                 </div>
-                <div id="user-profile" class="user-profile">
-                    <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
-                    <div class="user-info">
-                        <div id="user-name" class="user-name"></div>
-                        <div id="user-email" class="user-email"></div>
-                        <div id="user-stats" class="user-stats">
-                            <span><span id="search-count">0</span>S</span> | 
-                            <span><span id="conversation-count">0</span>C</span>
+                <div class="auth-container">
+                    <div id="user-profile" class="user-profile">
+                        <img id="user-avatar" src="" alt="User" class="user-avatar">
+                        <div class="user-info">
+                            <div id="user-name" class="user-name"></div>
+                            <div id="user-email" class="user-email"></div>
+                        </div>
+                        <div class="user-stats">
+                            <span id="search-count">0</span> searches
                         </div>
                     </div>
                     <button id="sign-out-btn" class="sign-out-btn">Sign Out</button>
@@ -1956,169 +1227,158 @@
         </div>
     </header>
 
-    <main class="container">
-        <div id="auth-required" class="auth-required">
-            <h2>Welcome to Aasai SmartEDU</h2>
-            <p>Please sign in with your Google account to start learning</p>
-        </div>
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Auth Required Screen -->
+            <div id="auth-required" class="auth-required">
+                <h2>Welcome to Aasai SmartEDU</h2>
+                <p>Your AI-powered learning assistant for school students</p>
+                <div id="google-signin-container">
+                    <div id="google-signin-button"></div>
+                </div>
+            </div>
 
-        <div id="main-layout" class="main-layout" style="display: none;">
-            <!-- Mode Toggle Section -->
-            <div class="mode-toggle-section">
-                <div class="mode-toggle-header">
-                    <h2 class="mode-toggle-title">Choose Your Study Mode</h2>
-                    <p class="mode-toggle-subtitle">Select how you want to explore your syllabus content</p>
-                </div>
-                
-                <div class="mode-buttons">
-                    <div class="mode-btn active" id="ai-search-mode" onclick="switchMode('search')">
-                        <div class="mode-icon">🤖</div>
-                        <div class="mode-title">AI Search</div>
-                        <div class="mode-description">Ask questions and get instant answers from your syllabus</div>
+            <!-- Main Layout (Hidden until signed in) -->
+            <div id="main-layout" class="main-layout" style="display: none;">
+                <!-- Preferences Section -->
+                <section class="preferences-section">
+                    <div class="preferences-header">
+                        <h2 class="preferences-title">📋 Your Learning Preferences</h2>
+                        <p class="preferences-subtitle">Set your standard, subject, and preferred language</p>
                     </div>
-                    
-                    <div class="mode-btn" id="question-bank-mode" onclick="switchMode('questions')">
-                        <div class="mode-icon">📝</div>
-                        <div class="mode-title">Question Bank</div>
-                        <div class="mode-description">Browse organized questions by units and topics</div>
-                    </div>
-                </div>
-                
-                <!-- Course Selection Panel -->
-                <div id="course-selection-panel" class="course-selection-panel">
-                    <h3 class="course-selection-title">Select Your Course Details</h3>
-                    <div class="selectors-grid">
-                        <div class="selector-group">
-                            <label for="department-select">Department</label>
-                            <select id="department-select" class="form-select">
-                                <option value="">Select Department</option>
-                                <option value="computer-science">Computer Science</option>
-                                <option value="mathematics">Mathematics</option>
-                                <option value="chemistry">Chemistry</option>
+                    <div class="preferences-grid">
+                        <div class="preference-group">
+                            <label for="standard-select">Standard / Class</label>
+                            <select id="standard-select" class="form-select">
+                                <option value="">Select Standard</option>
+                                <option value="1">Class 1</option>
+                                <option value="2">Class 2</option>
+                                <option value="3">Class 3</option>
+                                <option value="4">Class 4</option>
+                                <option value="5">Class 5</option>
+                                <option value="6">Class 6</option>
+                                <option value="7">Class 7</option>
+                                <option value="8">Class 8</option>
+                                <option value="9">Class 9</option>
+                                <option value="10">Class 10</option>
+                                <option value="11">Class 11</option>
+                                <option value="12">Class 12</option>
                             </select>
                         </div>
-                        
-                        <div class="selector-group">
-                            <label for="semester-select">Semester</label>
-                            <select id="semester-select" class="form-select">
-                                <option value="">Select Semester</option>
-                                <option value="1">Semester 1</option>
-                                <option value="2">Semester 2</option>
-                                <option value="3">Semester 3</option>
-                            </select>
-                        </div>
-                        
-                        <div class="selector-group">
+                        <div class="preference-group">
                             <label for="subject-select">Subject</label>
                             <select id="subject-select" class="form-select">
                                 <option value="">Select Subject</option>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="science">Science</option>
+                                <option value="physics">Physics</option>
+                                <option value="chemistry">Chemistry</option>
+                                <option value="biology">Biology</option>
+                                <option value="english">English</option>
+                                <option value="social_science">Social Science</option>
+                                <option value="history">History</option>
+                                <option value="geography">Geography</option>
+                                <option value="civics">Civics</option>
+                                <option value="economics">Economics</option>
+                                <option value="computer_science">Computer Science</option>
+                            </select>
+                        </div>
+                        <div class="preference-group">
+                            <label for="medium-select">Language Medium</label>
+                            <select id="medium-select" class="form-select">
+                                <option value="english">English</option>
+                                <option value="tamil">Tamil</option>
+                                <option value="hindi">Hindi</option>
+                                <option value="kannada">Kannada</option>
+                                <option value="telugu">Telugu</option>
+                                <option value="malayalam">Malayalam</option>
                             </select>
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
 
-            <!-- Search Section -->
-            <div id="search-section" class="search-container show">
-                <div class="search-header">
-                    <h2 class="search-title">Ask AI About Your Syllabus</h2>
-                    <p class="search-subtitle">Get instant answers with proper formatting</p>
-                </div>
-                
-                <!-- Language Selector -->
-                <div class="language-selector">
-                    <label for="language-select">🌐 Language:</label>
-                    <select id="language-select" class="language-select">
-                        <option value="en-US">English</option>
-                        <option value="hi-IN">Hindi (हिंदी)</option>
-                        <option value="ta-IN">Tamil (தமிழ்)</option>
-                        <option value="te-IN">Telugu (తెలుగు)</option>
-                        <option value="kn-IN">Kannada (ಕನ್ನಡ)</option>
-                        <option value="ml-IN">Malayalam (മലയാളം)</option>
-                        <option value="mr-IN">Marathi (मराठी)</option>
-                        <option value="gu-IN">Gujarati (ગુજરાતી)</option>
-                        <option value="bn-IN">Bengali (বাংলা)</option>
-                        <option value="pa-IN">Punjabi (ਪੰਜਾਬੀ)</option>
-                        <option value="es-ES">Spanish (Español)</option>
-                        <option value="fr-FR">French (Français)</option>
-                        <option value="de-DE">German (Deutsch)</option>
-                        <option value="ja-JP">Japanese (日本語)</option>
-                        <option value="zh-CN">Chinese (中文)</option>
-                        <option value="ar-SA">Arabic (العربية)</option>
-                    </select>
-                </div>
+                <!-- Search Section -->
+                <section class="search-container">
+                    <div class="search-header">
+                        <h2 class="search-title">🔍 Ask Your Question</h2>
+                        <p class="search-subtitle">Type or speak your question to get instant AI-powered answers</p>
+                    </div>
 
-                <!-- Voice Status -->
-                <div id="voice-status" class="voice-status">
-                    <span id="voice-status-text"></span>
-                </div>
-                
-                <div class="search-box">
-                    <input type="text" class="search-input" id="question-input" placeholder="What would you like to know?">
-                    <button class="voice-btn" id="voice-btn" title="Voice Input">🎤</button>
-                    <button class="search-btn" id="search-button">Search</button>
-                </div>
+                    <!-- Language Selector for Voice -->
+                    <div class="language-selector">
+                        <label for="language-select">🎤 Voice Language:</label>
+                        <select id="language-select" class="language-select">
+                            <option value="en-US">English</option>
+                            <option value="hi-IN">Hindi</option>
+                            <option value="ta-IN">Tamil</option>
+                            <option value="te-IN">Telugu</option>
+                            <option value="kn-IN">Kannada</option>
+                            <option value="ml-IN">Malayalam</option>
+                            <option value="mr-IN">Marathi</option>
+                            <option value="gu-IN">Gujarati</option>
+                            <option value="bn-IN">Bengali</option>
+                            <option value="pa-IN">Punjabi</option>
+                        </select>
+                    </div>
+
+                    <!-- Voice Status -->
+                    <div id="voice-status" class="voice-status">
+                        <span id="voice-status-text"></span>
+                    </div>
+
+                    <!-- Search Box -->
+                    <div class="search-box">
+                        <input 
+                            type="text" 
+                            id="question-input" 
+                            class="search-input" 
+                            placeholder="Ask any question from your syllabus..."
+                        >
+                        <button id="voice-btn" class="voice-btn" title="Click to speak">🎤</button>
+                        <button id="search-button" class="search-btn">Search</button>
+                    </div>
+
+                    <!-- Chat History -->
+                    <div class="chat-history-search">
+                        <div class="chat-history-header">
+                            <h3 class="chat-history-title">📖 Recent Questions</h3>
+                            <button id="refresh-history-btn" class="refresh-btn" title="Refresh history">🔄</button>
+                        </div>
+                        <div id="chat-history-grid" class="chat-messages-grid">
+                            <div class="no-chat-history"><p>No history yet</p></div>
+                        </div>
+                        <button id="load-more-history-btn" class="load-more-btn">Load More</button>
+                    </div>
+                </section>
 
                 <!-- Results Section -->
-                <div id="results-container" class="results-container">
+                <section id="results-container" class="results-container">
                     <div class="results-header">
-                        <h2 class="results-title">Results</h2>
+                        <h2 class="results-title">💡 Answer</h2>
                         <span id="results-count"></span>
                     </div>
-                    <div id="results-content">
-                        <div class="no-results">
-                            <p>Your search results will appear here</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Chat History -->
-                <div class="chat-history-search">
-                    <div class="chat-history-header">
-                        <h3 class="chat-history-title">Recent Searches</h3>
-                        <button id="refresh-history-btn" class="refresh-btn" title="Refresh">🔄</button>
-                    </div>
-                    
-                    <div id="chat-history-grid" class="chat-messages-grid">
-                        <div class="no-chat-history">
-                            <p>No search history yet</p>
-                        </div>
-                    </div>
-                    <button id="load-more-history-btn" class="load-more-btn" style="display: none;">Load More</button>
-                </div>
-            </div>
-
-            <!-- Question Bank Section -->
-            <div id="units-container" class="units-container">
-                <div class="units-header">
-                    <h2 class="units-title">Unit-wise Question Bank</h2>
-                </div>
-                
-                <div class="course-info">
-                    <h4 id="selected-course">Select Course Details</h4>
-                    <p>Choose department, semester, and subject</p>
-                </div>
-                
-                <div id="units-grid" class="units-grid"></div>
+                    <div id="results-content"></div>
+                </section>
             </div>
         </div>
     </main>
 
-    <div id="notification" class="notification"></div>
-
+    <!-- Footer -->
     <footer>
-        <div class="container footer-content">
-            <p>&copy; 2025 Aasai SmartEDU - AI Syllabus Assistant</p>
-            <div class="footer-links">
-                <a href="https://www.aasaitech.in">Company Website</a>
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-                <a href="#">Help</a>
+        <div class="container">
+            <div class="footer-content">
+                <div>&copy; 2025 Aasai SmartEDU. All rights reserved.</div>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact Us</a>
+                </div>
             </div>
         </div>
     </footer>
 
-  <script>
+    <script>
         // Configuration
         const GOOGLE_CLIENT_ID = '37355855536-n1pdonbkg3lb3s6psq938jk81hgjnebe.apps.googleusercontent.com';
         const API_BASE_URL = 'https://musical-suitably-woodcock.ngrok-free.app';
@@ -2128,37 +1388,27 @@
         let sessionToken = null;
         let chatHistoryData = [];
         let currentPage = 1;
-        let currentMode = 'search';
         let currentAnswerText = '';
         let currentChatId = null;
         let searchStartTime = null;
+        
+        // User Preferences
+        let userPreferences = {
+            standard: '',
+            subject: '',
+            medium: 'english'
+        };
         
         // Voice Recognition State
         let recognition = null;
         let isRecording = false;
         let selectedLanguage = 'en-US';
-        
-        // Text-to-Speech State
-        let speechSynthesis = window.speechSynthesis;
-        let currentUtterance = null;
-        let isSpeaking = false;
-        let availableVoices = [];
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             initializeGoogleSignIn();
             setupEventListeners();
             initializeVoiceRecognition();
-            loadVoices();
-            
-            if (typeof marked !== 'undefined') {
-                marked.setOptions({
-                    breaks: true,
-                    gfm: true,
-                    headerIds: false,
-                    mangle: false
-                });
-            }
         });
 
         function setupEventListeners() {
@@ -2168,12 +1418,23 @@
             document.getElementById('question-input').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') performSearch();
             });
-            document.getElementById('department-select').addEventListener('change', function() {
-                updateSubjectOptions();
-                checkCourseSelection();
+            
+            // Preference selectors
+            document.getElementById('standard-select').addEventListener('change', function(e) {
+                userPreferences.standard = e.target.value;
+                savePreferences();
             });
-            document.getElementById('semester-select').addEventListener('change', checkCourseSelection);
-            document.getElementById('subject-select').addEventListener('change', checkCourseSelection);
+            
+            document.getElementById('subject-select').addEventListener('change', function(e) {
+                userPreferences.subject = e.target.value;
+                savePreferences();
+            });
+            
+            document.getElementById('medium-select').addEventListener('change', function(e) {
+                userPreferences.medium = e.target.value;
+                savePreferences();
+            });
+            
             document.getElementById('load-more-history-btn').addEventListener('click', function() {
                 loadChatMessages(currentPage + 1, true);
             });
@@ -2187,26 +1448,31 @@
                 if (recognition) {
                     recognition.lang = selectedLanguage;
                 }
-                
-                // Log available voices for debugging
-                if (speechSynthesis) {
-                    const voices = speechSynthesis.getVoices();
-                    console.log('Language changed to:', selectedLanguage);
-                    console.log('Available voices for this language:');
-                    voices.forEach(function(voice) {
-                        if (voice.lang.startsWith(selectedLanguage.split('-')[0])) {
-                            console.log('  -', voice.name, '(' + voice.lang + ')');
-                        }
-                    });
-                }
-                
-                showNotification('Language changed to ' + getLanguageName(selectedLanguage), 'success', 2000);
+                showNotification('Voice language changed to ' + getLanguageName(selectedLanguage), 'success', 2000);
             });
+        }
+
+        function savePreferences() {
+            if (currentUser) {
+                localStorage.setItem('userPreferences_' + currentUser.id, JSON.stringify(userPreferences));
+                showNotification('Preferences saved', 'success', 1500);
+            }
+        }
+
+        function loadPreferences() {
+            if (currentUser) {
+                const saved = localStorage.getItem('userPreferences_' + currentUser.id);
+                if (saved) {
+                    userPreferences = JSON.parse(saved);
+                    document.getElementById('standard-select').value = userPreferences.standard || '';
+                    document.getElementById('subject-select').value = userPreferences.subject || '';
+                    document.getElementById('medium-select').value = userPreferences.medium || 'english';
+                }
+            }
         }
 
         // ==================== VOICE RECOGNITION ====================
         function initializeVoiceRecognition() {
-            // Check browser support
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             
             if (!SpeechRecognition) {
@@ -2241,12 +1507,10 @@
                     }
                 }
                 
-                // Update input with interim results
                 if (interimTranscript) {
                     document.getElementById('question-input').value = finalTranscript + interimTranscript;
                 }
                 
-                // Set final result
                 if (finalTranscript) {
                     document.getElementById('question-input').value = finalTranscript;
                     showVoiceStatus('Voice input received!', 'processing');
@@ -2300,7 +1564,6 @@
                 document.getElementById('voice-btn').classList.remove('recording');
                 hideVoiceStatus();
             } else {
-                // Update language before starting
                 recognition.lang = selectedLanguage;
                 
                 try {
@@ -2325,350 +1588,6 @@
             voiceStatus.classList.remove('show');
         }
 
-        // ==================== ENHANCED TEXT-TO-SPEECH WITH NATIVE LANGUAGE SUPPORT ====================
-        
-        function loadVoices() {
-            if (!speechSynthesis) {
-                console.warn('Speech synthesis not supported');
-                return;
-            }
-            
-            // Load voices multiple times as they may load asynchronously
-            function updateVoices() {
-                availableVoices = speechSynthesis.getVoices();
-                console.log('Available voices loaded:', availableVoices.length);
-                
-                if (availableVoices.length > 0) {
-                    console.log('Voice list:');
-                    availableVoices.forEach(function(voice, index) {
-                        console.log(index + ': ' + voice.name + ' (' + voice.lang + ')');
-                    });
-                }
-            }
-            
-            updateVoices();
-            
-            if (speechSynthesis.onvoiceschanged !== undefined) {
-                speechSynthesis.onvoiceschanged = updateVoices;
-            }
-            
-            // Also try loading after a short delay
-            setTimeout(updateVoices, 100);
-            setTimeout(updateVoices, 500);
-        }
-
-        function speakText(text) {
-            // Stop any ongoing speech
-            if (isSpeaking) {
-                stopSpeaking();
-                return;
-            }
-            
-            // Check browser support
-            if (!speechSynthesis) {
-                showNotification('Text-to-speech not supported in this browser', 'error');
-                return;
-            }
-            
-            // Refresh voices if needed
-            if (availableVoices.length === 0) {
-                availableVoices = speechSynthesis.getVoices();
-            }
-            
-            console.log('Original text length:', text.length);
-            console.log('Selected language:', selectedLanguage);
-            
-            // Clean the text for speech
-            let cleanText = cleanTextForSpeech(text, selectedLanguage);
-            
-            console.log('Cleaned text length:', cleanText.length);
-            console.log('Cleaned text preview:', cleanText.substring(0, 200));
-            
-            if (!cleanText || cleanText.length < 3) {
-                showNotification('No readable text found', 'error');
-                return;
-            }
-            
-            // Find the best voice for the selected language
-            const selectedVoice = findBestNativeVoice(availableVoices, selectedLanguage);
-            
-            if (!selectedVoice) {
-                console.warn('No native voice found for', selectedLanguage);
-                showNotification(
-                    'No ' + getLanguageName(selectedLanguage) + ' voice found. Install ' + getLanguageName(selectedLanguage) + ' text-to-speech in your device settings for better pronunciation.',
-                    'warning',
-                    5000
-                );
-            } else {
-                console.log('Selected voice:', selectedVoice.name, '(' + selectedVoice.lang + ')');
-            }
-            
-            // Split text into chunks if too long
-            const chunks = splitTextIntoChunks(cleanText, 200);
-            console.log('Split into', chunks.length, 'chunks');
-            
-            let currentChunkIndex = 0;
-            
-            function speakNextChunk() {
-                if (currentChunkIndex >= chunks.length) {
-                    isSpeaking = false;
-                    const speakerBtn = document.getElementById('speaker-btn');
-                    if (speakerBtn) {
-                        speakerBtn.classList.remove('speaking');
-                        speakerBtn.innerHTML = '🔊 Read Aloud';
-                    }
-                    console.log('Finished speaking all chunks');
-                    return;
-                }
-                
-                const chunkText = chunks[currentChunkIndex];
-                console.log('Speaking chunk', currentChunkIndex + 1, 'of', chunks.length + ':', chunkText.substring(0, 50) + '...');
-                
-                currentUtterance = new SpeechSynthesisUtterance(chunkText);
-                
-                // Set language
-                currentUtterance.lang = selectedLanguage;
-                
-                // Set the best voice
-                if (selectedVoice) {
-                    currentUtterance.voice = selectedVoice;
-                }
-                
-                // Adjust speech parameters
-                if (isIndicLanguage(selectedLanguage)) {
-                    currentUtterance.rate = 0.85;  // Slightly slower for better Tamil pronunciation
-                    currentUtterance.pitch = 1.0;
-                } else {
-                    currentUtterance.rate = 0.9;
-                    currentUtterance.pitch = 1.0;
-                }
-                currentUtterance.volume = 1.0;
-                
-                currentUtterance.onstart = function() {
-                    if (currentChunkIndex === 0) {
-                        isSpeaking = true;
-                        const speakerBtn = document.getElementById('speaker-btn');
-                        if (speakerBtn) {
-                            speakerBtn.classList.add('speaking');
-                            speakerBtn.innerHTML = '⏸️ Stop';
-                        }
-                        
-                        let voiceInfo = 'Reading in ' + getLanguageName(selectedLanguage);
-                        if (selectedVoice) {
-                            voiceInfo += ' (' + selectedVoice.name + ')';
-                        }
-                        showNotification(voiceInfo, 'info', 3000);
-                    }
-                    console.log('Started speaking chunk', currentChunkIndex + 1);
-                };
-                
-                currentUtterance.onend = function() {
-                    console.log('Finished chunk', currentChunkIndex + 1);
-                    currentChunkIndex++;
-                    speakNextChunk();
-                };
-                
-                currentUtterance.onerror = function(event) {
-                    console.error('Speech error:', event.error, 'at chunk', currentChunkIndex + 1);
-                    isSpeaking = false;
-                    const speakerBtn = document.getElementById('speaker-btn');
-                    if (speakerBtn) {
-                        speakerBtn.classList.remove('speaking');
-                        speakerBtn.innerHTML = '🔊 Read Aloud';
-                    }
-                    
-                    let errorMsg = 'Error reading text';
-                    if (event.error === 'language-not-supported') {
-                        errorMsg = getLanguageName(selectedLanguage) + ' language not supported on this device';
-                    } else if (event.error === 'synthesis-failed') {
-                        errorMsg = 'Speech synthesis failed. The text might be too complex.';
-                    } else if (event.error === 'network') {
-                        errorMsg = 'Network error. Check your internet connection.';
-                    }
-                    showNotification(errorMsg, 'error', 4000);
-                };
-                
-                // Cancel any ongoing speech
-                speechSynthesis.cancel();
-                
-                // Small delay to ensure cancellation completes
-                setTimeout(function() {
-                    try {
-                        speechSynthesis.speak(currentUtterance);
-                    } catch (error) {
-                        console.error('Error speaking:', error);
-                        showNotification('Failed to start speech', 'error');
-                    }
-                }, 50);
-            }
-            
-            speakNextChunk();
-        }
-
-        function splitTextIntoChunks(text, maxLength) {
-            if (text.length <= maxLength) {
-                return [text];
-            }
-            
-            const chunks = [];
-            const sentences = text.split(/(?<=[.!?।॥])\s+/);
-            let currentChunk = '';
-            
-            for (let i = 0; i < sentences.length; i++) {
-                if ((currentChunk + sentences[i]).length <= maxLength) {
-                    currentChunk += (currentChunk ? ' ' : '') + sentences[i];
-                } else {
-                    if (currentChunk) {
-                        chunks.push(currentChunk);
-                    }
-                    currentChunk = sentences[i];
-                }
-            }
-            
-            if (currentChunk) {
-                chunks.push(currentChunk);
-            }
-            
-            return chunks;
-        }
-
-        function isIndicLanguage(langCode) {
-            const indicLanguages = ['hi-IN', 'ta-IN', 'te-IN', 'kn-IN', 'ml-IN', 'mr-IN', 'gu-IN', 'bn-IN', 'pa-IN'];
-            return indicLanguages.includes(langCode);
-        }
-
-        function cleanTextForSpeech(text, language) {
-            if (!text) return '';
-            
-            let cleanText = text;
-            
-            // Remove math expressions
-            cleanText = cleanText.replace(/\\\[[\s\S]*?\\\]/g, ' mathematical expression ');
-            cleanText = cleanText.replace(/\\\([\s\S]*?\\\)/g, ' ');
-            cleanText = cleanText.replace(/\$\$[\s\S]*?\$\$/g, ' mathematical expression ');
-            cleanText = cleanText.replace(/\$[^$]*\$/g, ' ');
-            
-            // Remove HTML tags but keep content
-            cleanText = cleanText.replace(/<br\s*\/?>/gi, ' ');
-            cleanText = cleanText.replace(/<\/p>/gi, ' ');
-            cleanText = cleanText.replace(/<p>/gi, '');
-            cleanText = cleanText.replace(/<[^>]*>/g, '');
-            
-            // Remove markdown symbols but keep text
-            cleanText = cleanText.replace(/####\s*/g, '');
-            cleanText = cleanText.replace(/###\s*/g, '');
-            cleanText = cleanText.replace(/##\s*/g, '');
-            cleanText = cleanText.replace(/#\s*/g, '');
-            cleanText = cleanText.replace(/\*\*/g, '');
-            cleanText = cleanText.replace(/\*/g, '');
-            cleanText = cleanText.replace(/_/g, '');
-            cleanText = cleanText.replace(/`/g, '');
-            cleanText = cleanText.replace(/~/g, '');
-            cleanText = cleanText.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
-            
-            // Remove code blocks
-            cleanText = cleanText.replace(/```[\s\S]*?```/g, ' ');
-            
-            // Remove URLs
-            cleanText = cleanText.replace(/https?:\/\/[^\s]+/g, '');
-            
-            // Normalize whitespace
-            cleanText = cleanText.replace(/\n+/g, ' ');
-            cleanText = cleanText.replace(/\s+/g, ' ');
-            cleanText = cleanText.replace(/\t+/g, ' ');
-            
-            // For Indian languages, keep the text as is (minimal cleaning)
-            if (isIndicLanguage(language)) {
-                // Only remove truly problematic characters, keep Tamil/Hindi/etc text
-                // Tamil Unicode range: \u0B80-\u0BFF
-                // Devanagari (Hindi): \u0900-\u097F
-                // Telugu: \u0C00-\u0C7F
-                // Kannada: \u0C80-\u0CFF
-                // Malayalam: \u0D00-\u0D7F
-                // Bengali: \u0980-\u09FF
-                // Gujarati: \u0A80-\u0AFF
-                // Punjabi (Gurmukhi): \u0A00-\u0A7F
-                // Keep English alphanumeric, spaces, punctuation, and all Indic scripts
-                cleanText = cleanText.replace(/[^\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7Fa-zA-Z0-9\s.,!?;:()\[\]।॥-]/g, '');
-            } else {
-                // For English, keep alphanumeric and basic punctuation
-                cleanText = cleanText.replace(/[^a-zA-Z0-9\s.,!?;:()\[\]-]/g, '');
-            }
-            
-            // Final cleanup
-            cleanText = cleanText.replace(/\s+/g, ' ');
-            cleanText = cleanText.trim();
-            
-            return cleanText;
-        }
-
-        function findBestNativeVoice(voices, targetLang) {
-            if (!voices || voices.length === 0) {
-                console.warn('No voices available');
-                return null;
-            }
-            
-            const targetLangBase = targetLang.split('-')[0];
-            const targetRegion = targetLang.split('-')[1];
-            
-            console.log('Finding voice for:', targetLang, '(base:', targetLangBase, ', region:', targetRegion + ')');
-            
-            // Priority 1: Exact match with region (e.g., ta-IN)
-            let exactMatch = voices.find(function(voice) {
-                return voice.lang === targetLang;
-            });
-            if (exactMatch) {
-                console.log('Found exact match:', exactMatch.name);
-                return exactMatch;
-            }
-            
-            // Priority 2: Same language with region specified (e.g., Tamil from India)
-            let regionalMatch = voices.find(function(voice) {
-                return voice.lang.startsWith(targetLangBase + '-') && 
-                       voice.lang.includes(targetRegion);
-            });
-            if (regionalMatch) {
-                console.log('Found regional match:', regionalMatch.name);
-                return regionalMatch;
-            }
-            
-            // Priority 3: Base language match (e.g., any Tamil voice)
-            let baseMatch = voices.find(function(voice) {
-                return voice.lang.startsWith(targetLangBase + '-');
-            });
-            if (baseMatch) {
-                console.log('Found base language match:', baseMatch.name);
-                return baseMatch;
-            }
-            
-            // Priority 4: Voice name contains language name
-            const languageName = getLanguageName(targetLang).toLowerCase();
-            let nameMatch = voices.find(function(voice) {
-                return voice.name.toLowerCase().includes(languageName) ||
-                       voice.name.toLowerCase().includes(targetLangBase);
-            });
-            if (nameMatch) {
-                console.log('Found name match:', nameMatch.name);
-                return nameMatch;
-            }
-            
-            // Priority 5: For Indian languages, try to find any Indian English voice
-            if (isIndicLanguage(targetLang)) {
-                let indianEnglish = voices.find(function(voice) {
-                    return voice.lang === 'en-IN' || 
-                           voice.name.toLowerCase().includes('india') ||
-                           voice.name.toLowerCase().includes('hindi'); // Some devices use Hindi voices for Indian languages
-                });
-                if (indianEnglish) {
-                    console.log('Found Indian English fallback:', indianEnglish.name);
-                    return indianEnglish;
-                }
-            }
-            
-            console.warn('No suitable voice found for', targetLang);
-            return null;
-        }
-
         function getLanguageName(langCode) {
             const languageNames = {
                 'en-US': 'English',
@@ -2685,29 +1604,7 @@
             return languageNames[langCode] || langCode;
         }
 
-        function stopSpeaking() {
-            if (speechSynthesis) {
-                speechSynthesis.cancel();
-            }
-            isSpeaking = false;
-            const speakerBtn = document.getElementById('speaker-btn');
-            if (speakerBtn) {
-                speakerBtn.classList.remove('speaking');
-                speakerBtn.innerHTML = '🔊 Read Aloud';
-            }
-        }
-
-        function switchMode(mode) {
-            currentMode = mode;
-            document.getElementById('ai-search-mode').classList.toggle('active', mode === 'search');
-            document.getElementById('question-bank-mode').classList.toggle('active', mode === 'questions');
-            document.getElementById('search-section').classList.toggle('show', mode === 'search');
-            document.getElementById('units-container').classList.toggle('show', mode === 'questions');
-            document.getElementById('course-selection-panel').classList.toggle('show', mode === 'questions');
-            showNotification((mode === 'search' ? 'AI Search' : 'Question Bank') + ' mode activated', 'success');
-            if (mode === 'questions') checkCourseSelection();
-        }
-
+        // ==================== AUTHENTICATION ====================
         function initializeGoogleSignIn() {
             if (typeof google === 'undefined') {
                 setTimeout(initializeGoogleSignIn, 100);
@@ -2733,6 +1630,7 @@
                 showUserProfile(currentUser);
                 showSearchSection();
                 loadChatHistory();
+                loadPreferences();
             }
         }
 
@@ -2754,6 +1652,7 @@
                 showUserProfile(currentUser);
                 showSearchSection();
                 loadChatHistory();
+                loadPreferences();
                 showNotification('Welcome ' + currentUser.name + '!', 'success');
             } catch (error) {
                 console.error('Sign-in error:', error);
@@ -2783,6 +1682,61 @@
             return await response.json();
         }
 
+        async function signOut() {
+            try {
+                showNotification('Signing out...', 'info');
+                if (sessionToken) {
+                    await fetch(API_BASE_URL + '/auth/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + sessionToken,
+                            'ngrok-skip-browser-warning': 'true'
+                        }
+                    });
+                }
+                clearUserSession();
+                showNotification('Signed out', 'success');
+            } catch (error) {
+                console.error('Sign out error:', error);
+                clearUserSession();
+            }
+        }
+
+        function clearUserSession() {
+            currentUser = null;
+            sessionToken = null;
+            currentAnswerText = '';
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('sessionToken');
+            document.getElementById('user-profile').classList.remove('show');
+            document.getElementById('auth-required').style.display = 'block';
+            document.getElementById('main-layout').style.display = 'none';
+            
+            const signInContainer = document.getElementById('google-signin-container');
+            if (signInContainer) {
+                signInContainer.style.display = 'flex';
+            }
+        }
+
+        function showUserProfile(user) {
+            document.getElementById('user-profile').classList.add('show');
+            document.getElementById('user-avatar').src = user.picture;
+            document.getElementById('user-name').textContent = user.name;
+            document.getElementById('user-email').textContent = user.email;
+            document.getElementById('search-count').textContent = user.searchCount || 0;
+            
+            const signInContainer = document.getElementById('google-signin-container');
+            if (signInContainer) {
+                signInContainer.style.display = 'none';
+            }
+        }
+
+        function showSearchSection() {
+            document.getElementById('auth-required').style.display = 'none';
+            document.getElementById('main-layout').style.display = 'flex';
+        }
+
+        // ==================== SEARCH ====================
         async function performSearch() {
             if (!currentUser) {
                 showNotification('Please sign in first', 'error');
@@ -2792,6 +1746,12 @@
             const question = document.getElementById('question-input').value.trim();
             if (!question) {
                 showNotification('Please enter a question', 'error');
+                return;
+            }
+            
+            // Check if preferences are set
+            if (!userPreferences.standard || !userPreferences.subject) {
+                showNotification('Please set your standard and subject preferences first', 'warning', 3000);
                 return;
             }
             
@@ -2814,7 +1774,12 @@
                         'ngrok-skip-browser-warning': 'true',
                         'Authorization': 'Bearer ' + sessionToken
                     },
-                    body: JSON.stringify({ question: question, limit: 5, threshold: 0.75 })
+                    body: JSON.stringify({ 
+                        question: question, 
+                        limit: 5, 
+                        threshold: 0.75,
+                        preferences: userPreferences
+                    })
                 });
                 
                 if (!response.ok) throw new Error('API error');
@@ -2891,7 +1856,6 @@
                 '</div>' +
                 '<div class="formatted-content">' + formattedAnswer + '</div>' +
                 '<div class="result-actions">' +
-                    '<button class="speaker-btn" id="speaker-btn" onclick="speakText(currentAnswerText)">🔊 Read Aloud</button>' +
                     '<button class="action-btn" onclick="copyCurrentAnswer()">📋 Copy</button>' +
                     '<button class="feedback-btn" id="like-btn" onclick="submitFeedback(\'like\')">👍 Like</button>' +
                     '<button class="feedback-btn" id="dislike-btn" onclick="submitFeedback(\'dislike\')">👎 Dislike</button>' +
@@ -3095,72 +2059,7 @@
             }
         }
 
-        function showNotification(message, type, duration) {
-            type = type || 'info';
-            duration = duration || 3000;
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = 'notification ' + type;
-            notification.classList.add('show');
-            setTimeout(function() {
-                notification.classList.remove('show');
-            }, duration);
-        }
-
-        function showUserProfile(user) {
-            document.getElementById('user-profile').classList.add('show');
-            document.getElementById('user-avatar').src = user.picture;
-            document.getElementById('user-name').textContent = user.name;
-            document.getElementById('user-email').textContent = user.email;
-            document.getElementById('search-count').textContent = user.searchCount || 0;
-            
-            const signInContainer = document.getElementById('google-signin-container');
-            if (signInContainer) {
-                signInContainer.style.display = 'none';
-            }
-        }
-
-        function showSearchSection() {
-            document.getElementById('auth-required').style.display = 'none';
-            document.getElementById('main-layout').style.display = 'flex';
-        }
-
-        async function signOut() {
-            try {
-                showNotification('Signing out...', 'info');
-                if (sessionToken) {
-                    await fetch(API_BASE_URL + '/auth/logout', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': 'Bearer ' + sessionToken,
-                            'ngrok-skip-browser-warning': 'true'
-                        }
-                    });
-                }
-                clearUserSession();
-                showNotification('Signed out', 'success');
-            } catch (error) {
-                console.error('Sign out error:', error);
-                clearUserSession();
-            }
-        }
-
-        function clearUserSession() {
-            currentUser = null;
-            sessionToken = null;
-            currentAnswerText = '';
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('sessionToken');
-            document.getElementById('user-profile').classList.remove('show');
-            document.getElementById('auth-required').style.display = 'block';
-            document.getElementById('main-layout').style.display = 'none';
-            
-            const signInContainer = document.getElementById('google-signin-container');
-            if (signInContainer) {
-                signInContainer.style.display = 'flex';
-            }
-        }
-
+        // ==================== CHAT HISTORY ====================
         async function loadChatHistory() {
             if (!currentUser) return;
             await loadChatMessages();
@@ -3183,6 +2082,7 @@
                 } else {
                     chatHistoryData = chatHistoryData.concat(data.chatHistory || []);
                 }
+                currentPage = page;
                 displayChatHistory();
             } catch (error) {
                 console.error('Chat history error:', error);
@@ -3196,7 +2096,7 @@
                 return;
             }
             const historyHTML = chatHistoryData.map(function(msg) {
-                return '<div class="chat-message-item" onclick="rerunSearch(\'' + escapeHtml(msg.question) + '\')">' +
+                return '<div class="chat-message-item" onclick="rerunSearch(\'' + escapeHtml(msg.question).replace(/'/g, "\\'") + '\')">' +
                     '<div class="chat-question">' + escapeHtml(msg.question) + '</div>' +
                     '<div class="chat-answer">' + escapeHtml(msg.answer.substring(0, 100)) + '...</div>' +
                     '<div class="chat-message-meta"><span>' + new Date(msg.timestamp).toLocaleDateString() + '</span></div>' +
@@ -3206,6 +2106,7 @@
         }
 
         async function refreshChatHistory() {
+            currentPage = 1;
             await loadChatHistory();
             showNotification('Refreshed', 'success', 1500);
         }
@@ -3215,213 +2116,29 @@
             performSearch();
         }
 
+        // ==================== UTILITIES ====================
+        function showNotification(message, type, duration) {
+            type = type || 'info';
+            duration = duration || 3000;
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification ' + type;
+            notification.classList.add('show');
+            setTimeout(function() {
+                notification.classList.remove('show');
+            }, duration);
+        }
+
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        function checkCourseSelection() {
-            const department = document.getElementById('department-select').value;
-            const semester = document.getElementById('semester-select').value;
-            const subject = document.getElementById('subject-select').value;
-            if (department && semester && subject) {
-                displayUnitsSection(department, semester, subject);
-            }
-        }
-
-        function updateSubjectOptions() {
-            const department = document.getElementById('department-select').value;
-            const subjectSelect = document.getElementById('subject-select');
-            subjectSelect.innerHTML = '<option value="">Select Subject</option>';
-            if (department === 'computer-science') {
-                subjectSelect.innerHTML += '<option value="intro-programming">Introduction to Programming</option><option value="data-structures">Data Structures</option>';
-            } else if (department === 'mathematics') {
-                subjectSelect.innerHTML += '<option value="calculus-1">Calculus I</option>';
-            } else if (department === 'chemistry') {
-                subjectSelect.innerHTML += '<option value="organic-chem">Organic Chemistry</option>';
-            }
-        }
-
-        function displayUnitsSection(department, semester, subject) {
-            const unitsGrid = document.getElementById('units-grid');
-            const courseInfo = document.getElementById('selected-course');
-            
-            courseInfo.textContent = department.replace(/-/g, ' ').toUpperCase() + ' - Semester ' + semester + ' - ' + subject.replace(/-/g, ' ').toUpperCase();
-            
-            const questionBankData = {
-                'computer-science': {
-                    'intro-programming': [
-                        {
-                            unit: 'Introduction to Programming',
-                            icon: '💻',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { 
-                                            text: 'What is a variable in programming?', 
-                                            marks: 2,
-                                            answer: 'A variable is a named storage location in memory that holds a value. It has a name (identifier) and a data type that determines what kind of data it can store. Variables can be modified during program execution.<br><br><strong>Example:</strong><div class="code-block-wrapper"><div class="code-block-header">💻 Python</div><pre><code>age = 25          # Integer variable\nname = "John"     # String variable\nheight = 5.8      # Float variable</code></pre></div>'
-                                        },
-                                        { 
-                                            text: 'Explain the difference between int and float data types', 
-                                            marks: 2,
-                                            answer: '<strong>int (Integer):</strong> Stores whole numbers without decimal points (e.g., 5, -10, 100).<br><br><strong>float (Floating-point):</strong> Stores numbers with decimal points (e.g., 3.14, -0.5, 2.0).<br><br>Integers take less memory and operations are faster, while floats provide precision for decimal calculations.<br><br><strong>Example:</strong><div class="code-block-wrapper"><div class="code-block-header">💻 Python</div><pre><code>count = 42        # int\nprice = 19.99     # float\ntemp = -5         # int\npi = 3.14159      # float</code></pre></div>'
-                                        },
-                                        { 
-                                            text: 'Write a program to implement a simple calculator', 
-                                            marks: 10,
-                                            answer: '<strong>Simple Calculator Program:</strong><br><br>This program asks for two numbers and an operator, then calculates the answer. It prevents division by zero errors.<div class="code-block-wrapper"><div class="code-block-header">💻 Python - Simple Calculator</div><pre><code>print("Simple Calculator")\n\n# Get user inputs\na = float(input("Enter first number: "))\nop = input("Choose operator (+, -, *, /): ").strip()\nb = float(input("Enter second number: "))\n\n# Perform calculation\nif op == \'+\':\n    result = a + b\nelif op == \'-\':\n    result = a - b\nelif op == \'*\':\n    result = a * b\nelif op == \'/\':\n    if b == 0:\n        print("Error: Cannot divide by zero")\n        result = None\n    else:\n        result = a / b\nelse:\n    print("Invalid operator")\n    result = None\n\n# Display result\nif result is not None:\n    print(f"Result: {result}")</code></pre></div><br><strong>Features:</strong><ul><li>Takes two numbers as input</li><li>Performs basic arithmetic operations (+, -, *, /)</li><li>Handles division by zero error</li><li>Validates operator input</li><li>Displays formatted result</li></ul><br><strong>Example Usage:</strong><br>Input: a=12, b=3, operator="/" → Output: Result: 4.0'
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                'mathematics': {
-                    'calculus-1': [
-                        {
-                            unit: 'Limits & Continuity',
-                            icon: '∞',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { 
-                                            text: 'Define limit of a function', 
-                                            marks: 2,
-                                            answer: 'A limit describes the value that a function approaches as the input approaches some value. Mathematically: lim(x→a) f(x) = L means as x gets closer to a, f(x) gets closer to L.'
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                'chemistry': {
-                    'organic-chem': [
-                        {
-                            unit: 'Basic Concepts',
-                            icon: '🧪',
-                            sections: [
-                                {
-                                    type: '2 Mark Questions',
-                                    questions: [
-                                        { 
-                                            text: 'What is organic chemistry?', 
-                                            marks: 2,
-                                            answer: 'Organic chemistry is the branch of chemistry that studies carbon-containing compounds and their properties, structure, composition, reactions, and synthesis.'
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            };
-            
-            const units = questionBankData[department]?.[subject] || [];
-            
-            if (units.length === 0) {
-                unitsGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray);"><p>📚 No questions available yet for this course.</p></div>';
-                return;
-            }
-            
-            let unitsHTML = '';
-            units.forEach((unit, unitIndex) => {
-                const unitId = 'unit-' + unitIndex;
-                unitsHTML += '<div class="unit-card">';
-                unitsHTML += '<div class="unit-header" id="header-' + unitId + '" onclick="toggleUnit(\'' + unitId + '\')">';
-                unitsHTML += '<h3 class="unit-title"><span class="unit-icon">' + unit.icon + '</span>' + unit.unit + '</h3>';
-                unitsHTML += '<button class="unit-toggle" id="toggle-' + unitId + '">+</button>';
-                unitsHTML += '</div>';
-                unitsHTML += '<div class="unit-content" id="' + unitId + '">';
-                
-                unit.sections.forEach((section, sectionIndex) => {
-                    unitsHTML += '<div class="question-section">';
-                    unitsHTML += '<div class="question-section-header">';
-                    unitsHTML += '<span class="question-type-title">' + section.type + '</span>';
-                    unitsHTML += '<span class="question-count">' + section.questions.length + ' Questions</span>';
-                    unitsHTML += '</div>';
-                    unitsHTML += '<div class="questions-list">';
-                    
-                    section.questions.forEach((q, qIndex) => {
-                        const questionId = 'q-' + unitIndex + '-' + sectionIndex + '-' + qIndex;
-                        unitsHTML += '<div class="question-item">';
-                        unitsHTML += '<div class="question-header" id="header-' + questionId + '" onclick="toggleQuestion(\'' + questionId + '\')">';
-                        unitsHTML += '<div class="question-left">';
-                        unitsHTML += '<span class="question-number">' + (qIndex + 1) + '</span>';
-                        unitsHTML += '<div class="question-text">' + q.text + '</div>';
-                        unitsHTML += '</div>';
-                        unitsHTML += '<div class="question-right">';
-                        unitsHTML += '<span class="mark-badge">' + q.marks + ' Marks</span>';
-                        unitsHTML += '<button class="question-toggle" id="toggle-' + questionId + '">+</button>';
-                        unitsHTML += '</div>';
-                        unitsHTML += '</div>';
-                        
-                        unitsHTML += '<div class="question-answer" id="' + questionId + '">';
-                        unitsHTML += '<div class="answer-content">';
-                        unitsHTML += '<div class="answer-label">📝 Answer:</div>';
-                        unitsHTML += '<div class="answer-text">' + q.answer + '</div>';
-                        unitsHTML += '</div>';
-                        unitsHTML += '</div>';
-                        
-                        unitsHTML += '</div>';
-                    });
-                    
-                    unitsHTML += '</div>';
-                    unitsHTML += '</div>';
-                });
-                
-                unitsHTML += '</div>';
-                unitsHTML += '</div>';
-            });
-            
-            unitsGrid.innerHTML = unitsHTML;
-        }
-
-        function toggleUnit(unitId) {
-            const unitContent = document.getElementById(unitId);
-            const unitHeader = document.getElementById('header-' + unitId);
-            const toggleBtn = document.getElementById('toggle-' + unitId);
-            
-            if (unitContent.classList.contains('show')) {
-                unitContent.classList.remove('show');
-                unitHeader.classList.remove('active');
-                toggleBtn.textContent = '+';
-            } else {
-                unitContent.classList.add('show');
-                unitHeader.classList.add('active');
-                toggleBtn.textContent = '−';
-            }
-        }
-
-        function toggleQuestion(questionId) {
-            const questionAnswer = document.getElementById(questionId);
-            const questionHeader = document.getElementById('header-' + questionId);
-            const toggleBtn = document.getElementById('toggle-' + questionId);
-            
-            if (questionAnswer.classList.contains('show')) {
-                questionAnswer.classList.remove('show');
-                questionHeader.classList.remove('active');
-                toggleBtn.textContent = '+';
-            } else {
-                questionAnswer.classList.add('show');
-                questionHeader.classList.add('active');
-                toggleBtn.textContent = '−';
-            }
-        }
-
         // Make functions globally accessible
-        window.switchMode = switchMode;
         window.copyCurrentAnswer = copyCurrentAnswer;
         window.submitFeedback = submitFeedback;
         window.rerunSearch = rerunSearch;
-        window.toggleUnit = toggleUnit;
-        window.toggleQuestion = toggleQuestion;
-        window.speakText = speakText;
     </script>
 </body>
 </html>
