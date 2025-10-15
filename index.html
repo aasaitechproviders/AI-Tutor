@@ -509,10 +509,42 @@
             color: #991b1b;
         }
 
+        /* NEW: Styles for answer segments */
+        .answer-section {
+            margin-bottom: 2rem;
+        }
+
+        .answer-section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .answer-section-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0 0 8px 8px;
+            border: 2px solid var(--border);
+            border-top: none;
+        }
+
+        .original-definition-section .answer-section-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .ai-explanation-section .answer-section-header {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
         .answer-content {
             line-height: 1.8;
             color: var(--dark);
-            margin-bottom: 1.5rem;
         }
 
         .answer-content h1,
@@ -559,8 +591,120 @@
             text-align: center;
             margin: 1.5rem 0;
             padding: 1rem;
-            background: white;
+            background: var(--light);
             border-radius: 8px;
+        }
+
+        /* NEW: Source contexts section */
+        .source-contexts-section {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #fef3c7;
+            border-radius: 8px;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .source-contexts-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .source-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid #f59e0b;
+        }
+
+        .source-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .source-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .source-relevance {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .source-relevance.high {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .source-relevance.medium {
+            background: #fed7aa;
+            color: #92400e;
+        }
+
+        .source-relevance.low {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .source-text {
+            font-size: 0.9rem;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* NEW: Related topics section */
+        .related-topics-section {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%);
+            border-radius: 8px;
+        }
+
+        .related-topics-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .related-topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .related-topic-btn {
+            padding: 0.75rem 1rem;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            color: var(--primary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .related-topic-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(67, 97, 238, 0.3);
         }
 
         .result-actions {
@@ -569,6 +713,7 @@
             padding-top: 1rem;
             border-top: 2px solid var(--border);
             flex-wrap: wrap;
+            margin-top: 1.5rem;
         }
 
         .btn {
@@ -772,6 +917,10 @@
                 justify-content: center;
             }
 
+            .related-topics-grid {
+                grid-template-columns: 1fr;
+            }
+
             .footer-content {
                 flex-direction: column;
                 text-align: center;
@@ -909,8 +1058,7 @@
 
                 <div class="content-area">
                     <!-- Search card for desktop only -->
-                    <div class="search-card search-card-desktop">
-                        <div class="search-header">
+                    <div class="search-card search-card-desktop"><div class="search-header">
                             <h2>🔍 Ask Your Question</h2>
                             <p>Type or speak your question</p>
                         </div>
@@ -1032,7 +1180,9 @@
             if (typeof google === 'undefined') {
                 setTimeout(initGoogleSignIn, 100);
                 return;
-            }google.accounts.id.initialize({
+            }
+            
+            google.accounts.id.initialize({
                 client_id: CONFIG.CLIENT_ID,
                 callback: handleSignIn
             });
@@ -1283,7 +1433,7 @@
             const searchBtn = isMobile ? document.getElementById('search-btn-mobile') : document.getElementById('search-btn');
             
             resultsCard.classList.add('show');
-            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div><p style="margin-top: 1rem; color: var(--gray);">Searching for the best answer...</p></div>';
             searchBtn.disabled = true;
             searchBtn.textContent = 'Searching...';
             
@@ -1343,7 +1493,7 @@
             const isMobile = window.innerWidth <= 968;
             const resultsContent = isMobile ? document.getElementById('results-content-mobile') : document.getElementById('results-content');
             
-            if (!data.answer) {
+            if (!data.answer && !data.aiExplanation) {
                 resultsContent.innerHTML = '<div class="no-history">No information found</div>';
                 return;
             }
@@ -1358,9 +1508,8 @@
                 confidenceText = 'Medium';
             }
             
-            const formattedAnswer = formatMarkdown(data.answer);
-            
-            const resultHTML = `
+            // Build the result HTML with new segments
+            let resultHTML = `
                 <div class="result-item">
                     <div class="result-question-box">
                         <div class="result-question-label">Your Question</div>
@@ -1370,12 +1519,108 @@
                     <div class="result-meta">
                         <span class="badge ${confidenceClass}">Confidence: ${confidenceText} (${(data.confidence * 100).toFixed(1)}%)</span>
                         <span class="badge">⏱️ ${responseTime}s</span>
+                        ${data.cached ? '<span class="badge badge-high">⚡ Cached</span>' : ''}
                     </div>
-                    
-                    <div class="answer-content">${formattedAnswer}</div>
-                    
+            `;
+            
+            // SEGMENT 1: Original Definition (if available)
+            if (data.originalDefinition) {
+                const formattedOriginal = formatMarkdown(data.originalDefinition);
+                resultHTML += `
+                    <div class="answer-section original-definition-section">
+                        <div class="answer-section-header">
+                            📚 Original Explanation (From Textbook)
+                        </div>
+                        <div class="answer-section-content">
+                            <div class="answer-content">${formattedOriginal}</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // SEGMENT 2: AI Explanation
+            if (data.aiExplanation) {
+                const formattedAI = formatMarkdown(data.aiExplanation);
+                resultHTML += `
+                    <div class="answer-section ai-explanation-section">
+                        <div class="answer-section-header">
+                            🤖 AI Explanation (In Simple Words)
+                        </div>
+                        <div class="answer-section-content">
+                            <div class="answer-content">${formattedAI}</div>
+                        </div>
+                    </div>
+                `;
+            } else if (data.answer && !data.originalDefinition) {
+                // Fallback: if we don't have separate segments, show the combined answer
+                const formattedAnswer = formatMarkdown(data.answer);
+                resultHTML += `
+                    <div class="answer-section ai-explanation-section">
+                        <div class="answer-section-header">
+                            💡 Answer
+                        </div>
+                        <div class="answer-section-content">
+                            <div class="answer-content">${formattedAnswer}</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // SEGMENT 3: Source Contexts (if available)
+            if (data.sourceContexts && data.sourceContexts.length > 0) {
+                resultHTML += `
+                    <div class="source-contexts-section">
+                        <div class="source-contexts-header">
+                            📖 Reference Sources
+                        </div>
+                `;
+                
+                data.sourceContexts.forEach((source, index) => {
+                    resultHTML += `
+                        <div class="source-item">
+                            <div class="source-meta">
+                                <span style="font-weight: 600; color: var(--dark);">Source ${index + 1}</span>
+                                <span class="source-relevance ${source.relevanceLevel}">
+                                    ${source.relevanceLevel.toUpperCase()} (${(source.score * 100).toFixed(0)}%)
+                                </span>
+                            </div>
+                            <div class="source-text">${escapeHtml(source.text.substring(0, 300))}${source.text.length > 300 ? '...' : ''}</div>
+                        </div>
+                    `;
+                });
+                
+                resultHTML += `</div>`;
+            }
+            
+            // SEGMENT 4: Related Topics as Buttons
+            if (data.relatedTopics && data.relatedTopics.length > 0) {
+                resultHTML += `
+                    <div class="related-topics-section">
+                        <div class="related-topics-header">
+                            🔗 Explore Related Topics
+                        </div>
+                        <div class="related-topics-grid">
+                `;
+                
+                data.relatedTopics.forEach(topic => {
+                    resultHTML += `
+                        <button class="related-topic-btn" onclick="searchRelatedTopic('${escapeHtml(topic).replace(/'/g, "\\'")}')">
+                            <span>➜</span>
+                            <span>${escapeHtml(topic)}</span>
+                        </button>
+                    `;
+                });
+                
+                resultHTML += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Action buttons
+            resultHTML += `
                     <div class="result-actions">
-                        <button class="btn btn-primary" onclick="copyAnswer()">📋 Copy</button>
+                        <button class="btn btn-primary" onclick="copyAnswer()">📋 Copy Answer</button>
                         <button class="btn" id="like-btn" onclick="submitFeedback('like')">👍 Like</button>
                         <button class="btn" id="dislike-btn" onclick="submitFeedback('dislike')">👎 Dislike</button>
                         <button class="btn" id="report-btn" onclick="submitFeedback('report')">🚩 Report</button>
@@ -1387,19 +1632,42 @@
             renderMath();
         }
 
+        function searchRelatedTopic(topic) {
+            const isMobile = window.innerWidth <= 968;
+            if (isMobile) {
+                document.getElementById('search-input-mobile').value = topic;
+            } else {
+                document.getElementById('search-input').value = topic;
+            }
+            
+            showNotification(`Searching for: ${topic}`, 'info', 2000);
+            
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Perform search after a short delay
+            setTimeout(() => {
+                performSearch();
+            }, 500);
+        }
+
         function formatMarkdown(text) {
             let html = text;
             
+            // LaTeX display math
             html = html.replace(/\\\[([\s\S]*?)\\\]/g, '<div class="math-display">\\[$1\\]</div>');
             
+            // Headers
             html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
             html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
             html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
             html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
             
+            // Bold and italic
             html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
             html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
             
+            // Lists
             const lines = html.split('\n');
             let inList = false;
             const processed = [];
@@ -1423,6 +1691,7 @@
             
             html = processed.join('\n');
             
+            // Paragraphs
             html = html.replace(/\n\n+/g, '</p><p>');
             html = '<p>' + html + '</p>';
             html = html.replace(/<p><\/p>/g, '');
@@ -1444,7 +1713,7 @@
             }
             
             navigator.clipboard.writeText(state.answerText)
-                .then(() => showNotification('Copied to clipboard!', 'success', 2000))
+                .then(() => showNotification('Copied to clipboard! ✓', 'success', 2000))
                 .catch(() => showNotification('Copy failed', 'error'));
         }
 
@@ -1563,9 +1832,11 @@
             return div.innerHTML;
         }
 
+        // Expose functions to global scope
         window.copyAnswer = copyAnswer;
         window.submitFeedback = submitFeedback;
         window.rerunSearch = rerunSearch;
+        window.searchRelatedTopic = searchRelatedTopic;
     </script>
 </body>
 </html>
