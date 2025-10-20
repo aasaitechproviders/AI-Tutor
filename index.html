@@ -214,6 +214,16 @@
             border-color: var(--primary);
         }
 
+        .form-select:disabled {
+            background: #f0f0f0;
+            cursor: not-allowed;
+        }
+
+        .loading-option {
+            color: var(--gray);
+            font-style: italic;
+        }
+
         .history-header {
             display: flex;
             justify-content: space-between;
@@ -961,48 +971,19 @@
                         <div class="form-group">
                             <label>Standard / Class</label>
                             <select id="standard-select" class="form-select">
-                                <option value="">Select Standard</option>
-                                <option value="1">Class 1</option>
-                                <option value="2">Class 2</option>
-                                <option value="3">Class 3</option>
-                                <option value="4">Class 4</option>
-                                <option value="5">Class 5</option>
-                                <option value="6">Class 6</option>
-                                <option value="7">Class 7</option>
-                                <option value="8">Class 8</option>
-                                <option value="9">Class 9</option>
-                                <option value="10">Class 10</option>
-                                <option value="11">Class 11</option>
-                                <option value="12">Class 12</option>
+                                <option value="">Loading standards...</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Subject</label>
-                            <select id="subject-select" class="form-select">
-                                <option value="">Select Subject</option>
-                                <option value="mathematics">Mathematics</option>
-                                <option value="science">Science</option>
-                                <option value="physics">Physics</option>
-                                <option value="chemistry">Chemistry</option>
-                                <option value="biology">Biology</option>
-                                <option value="english">English</option>
-                                <option value="social_science">Social Science</option>
-                                <option value="history">History</option>
-                                <option value="geography">Geography</option>
-                                <option value="civics">Civics</option>
-                                <option value="economics">Economics</option>
-                                <option value="computer_science">Computer Science</option>
+                            <select id="subject-select" class="form-select" disabled>
+                                <option value="">Select standard first</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Language Medium</label>
                             <select id="medium-select" class="form-select">
-                                <option value="english">English</option>
-                                <option value="tamil">Tamil</option>
-                                <option value="hindi">Hindi</option>
-                                <option value="kannada">Kannada</option>
-                                <option value="telugu">Telugu</option>
-                                <option value="malayalam">Malayalam</option>
+                                <option value="">Loading mediums...</option>
                             </select>
                         </div>
                     </div>
@@ -1086,8 +1067,7 @@
                     <div id="results-card" class="results-card results-card-desktop">
                         <div class="results-header">
                             <h3>💡 Answer</h3>
-                        </div>
-                        <div id="results-content"></div>
+                        </div><div id="results-content"></div>
                     </div>
                 </div>
             </div>
@@ -1120,7 +1100,10 @@
             recognition: null,
             isRecording: false,
             selectedLanguage: 'en-US',
-            currentVoiceTarget: 'desktop'
+            currentVoiceTarget: 'desktop',
+            availableStandards: [],
+            availableSubjects: [],
+            availableMediums: []
         };
 
         document.addEventListener('DOMContentLoaded', init);
@@ -1148,9 +1131,21 @@
             document.getElementById('voice-btn-mobile').addEventListener('click', () => toggleVoice(true));
             document.getElementById('refresh-history').addEventListener('click', loadHistory);
             
-            document.getElementById('standard-select').addEventListener('change', e => {
+            // Standard select - fetch subjects when changed
+            document.getElementById('standard-select').addEventListener('change', async (e) => {
                 state.preferences.standard = e.target.value;
                 savePreferences();
+                
+                // Load subjects for selected standard
+                if (e.target.value) {
+                    await loadSubjects(e.target.value);
+                } else {
+                    // Reset subjects if no standard selected
+                    const subjectSelect = document.getElementById('subject-select');
+                    subjectSelect.innerHTML = '<option value="">Select standard first</option>';
+                    subjectSelect.disabled = true;
+                    state.preferences.subject = '';
+                }
             });
             
             document.getElementById('subject-select').addEventListener('change', e => {
@@ -1175,6 +1170,184 @@
                 if (state.recognition) state.recognition.lang = e.target.value;
             });
         }
+
+        // ============================================================================
+        // NEW: METADATA LOADING FUNCTIONS
+        // ============================================================================
+
+        async function loadMetadata() {
+            console.log('📚 Loading metadata from database...');
+            
+            try {
+                // Load standards, subjects, and mediums in parallel
+                await Promise.all([
+                    loadStandards(),
+                    loadMediums()
+                ]);
+                
+                console.log('✅ Metadata loaded successfully');
+            } catch (error) {
+                console.error('❌ Failed to load metadata:', error);
+                showNotification('Failed to load preferences data', 'error');
+            }
+        }
+
+        async function loadStandards() {
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/metadata/standards`, {
+                    method: 'GET',
+                    headers: {
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch standards');
+                }
+
+                const data = await response.json();
+                state.availableStandards = data.standards || [];
+
+                const standardSelect = document.getElementById('standard-select');
+                
+                if (state.availableStandards.length === 0) {
+                    standardSelect.innerHTML = '<option value="">No standards available</option>';
+                    return;
+                }
+
+                // Build options
+                let optionsHTML = '<option value="">All Standards</option>';
+                state.availableStandards.forEach(standard => {
+                    optionsHTML += `<option value="${standard}">Class ${standard}</option>`;
+                });
+
+                standardSelect.innerHTML = optionsHTML;
+                
+                // Restore saved preference if exists
+                if (state.preferences.standard) {
+                    standardSelect.value = state.preferences.standard;
+                    // Load subjects for saved standard
+                    await loadSubjects(state.preferences.standard);
+                }
+
+                console.log(`📚 Loaded ${state.availableStandards.length} standards:`, state.availableStandards);
+            } catch (error) {
+                console.error('❌ Error loading standards:', error);
+                const standardSelect = document.getElementById('standard-select');
+                standardSelect.innerHTML = '<option value="">Error loading standards</option>';
+            }
+        }
+
+        async function loadSubjects(standard) {
+            const subjectSelect = document.getElementById('subject-select');
+            
+            try {
+                // Show loading state
+                subjectSelect.innerHTML = '<option value="">Loading subjects...</option>';
+                subjectSelect.disabled = true;
+
+                const url = standard ? 
+                    `${CONFIG.API_URL}/metadata/subjects?standard=${encodeURIComponent(standard)}` :
+                    `${CONFIG.API_URL}/metadata/subjects`;
+
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch subjects');
+                }
+
+                const data = await response.json();
+                state.availableSubjects = data.subjects || [];
+
+                if (state.availableSubjects.length === 0) {
+                    subjectSelect.innerHTML = '<option value="">No subjects found</option>';
+                    subjectSelect.disabled = false;
+                    return;
+                }
+
+                // Build options with proper formatting
+                let optionsHTML = '<option value="">All Subjects</option>';
+                state.availableSubjects.forEach(subject => {
+                    // Format subject name (capitalize, replace underscores)
+                    const formattedSubject = subject
+                        .replace(/_/g, ' ')
+                        .replace(/\b\w/g, l => l.toUpperCase());
+                    
+                    optionsHTML += `<option value="${subject}">${formattedSubject}</option>`;
+                });
+
+                subjectSelect.innerHTML = optionsHTML;
+                subjectSelect.disabled = false;
+
+                // Restore saved preference if exists
+                if (state.preferences.subject) {
+                    subjectSelect.value = state.preferences.subject;
+                }
+
+                console.log(`📖 Loaded ${state.availableSubjects.length} subjects for standard ${standard}:`, state.availableSubjects);
+            } catch (error) {
+                console.error('❌ Error loading subjects:', error);
+                subjectSelect.innerHTML = '<option value="">Error loading subjects</option>';
+                subjectSelect.disabled = false;
+            }
+        }
+
+        async function loadMediums() {
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/metadata/mediums`, {
+                    method: 'GET',
+                    headers: {
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch mediums');
+                }
+
+                const data = await response.json();
+                state.availableMediums = data.mediums || [];
+
+                const mediumSelect = document.getElementById('medium-select');
+                
+                if (state.availableMediums.length === 0) {
+                    mediumSelect.innerHTML = '<option value="english">English</option>';
+                    return;
+                }
+
+                // Build options with proper formatting
+                let optionsHTML = '';
+                state.availableMediums.forEach(medium => {
+                    const formattedMedium = medium.charAt(0).toUpperCase() + medium.slice(1);
+                    optionsHTML += `<option value="${medium}">${formattedMedium}</option>`;
+                });
+
+                mediumSelect.innerHTML = optionsHTML;
+
+                // Restore saved preference if exists, or default to first medium
+                if (state.preferences.medium && state.availableMediums.includes(state.preferences.medium)) {
+                    mediumSelect.value = state.preferences.medium;
+                } else if (state.availableMediums.length > 0) {
+                    mediumSelect.value = state.availableMediums[0];
+                    state.preferences.medium = state.availableMediums[0];
+                }
+
+                console.log(`🌐 Loaded ${state.availableMediums.length} mediums:`, state.availableMediums);
+            } catch (error) {
+                console.error('❌ Error loading mediums:', error);
+                const mediumSelect = document.getElementById('medium-select');
+                mediumSelect.innerHTML = '<option value="english">English</option>';
+            }
+        }
+
+        // ============================================================================
+        // AUTHENTICATION FUNCTIONS
+        // ============================================================================
 
         function initGoogleSignIn() {
             if (typeof google === 'undefined') {
@@ -1221,6 +1394,10 @@
                 saveSession();
                 showUserProfile();
                 showMainContent();
+                
+                // Load metadata from database
+                await loadMetadata();
+                
                 loadHistory();
                 loadPreferences();
                 
@@ -1248,7 +1425,7 @@
             sessionStorage.setItem('aasai_session', JSON.stringify(sessionData));
         }
 
-        function restoreSession() {
+        async function restoreSession() {
             const savedSession = sessionStorage.getItem('aasai_session');
             
             if (savedSession) {
@@ -1257,6 +1434,10 @@
                 state.token = sessionData.token;
                 showUserProfile();
                 showMainContent();
+                
+                // Load metadata from database
+                await loadMetadata();
+                
                 loadHistory();
                 loadPreferences();
             }
@@ -1312,13 +1493,14 @@
                 state.preferences = {
                     standard: document.getElementById('standard-select').value || null,
                     subject: document.getElementById('subject-select').value || null,
-                    medium: document.getElementById('medium-select').value || 'english'
+                    medium: document.getElementById('medium-select').value || null
                 };
                 
                 sessionStorage.setItem(prefsKey, JSON.stringify(state.preferences));
                 
                 const standardText = state.preferences.standard ? `Class ${state.preferences.standard}` : 'All';
-                const subjectText = state.preferences.subject || 'All';
+                const subjectText = state.preferences.subject ? 
+                    state.preferences.subject.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'All';
                 
                 showNotification(`Preferences saved: ${standardText}, ${subjectText}`, 'success', 2000);
             }
@@ -1330,12 +1512,31 @@
                 const saved = sessionStorage.getItem(prefsKey);
                 if (saved) {
                     state.preferences = JSON.parse(saved);
-                    document.getElementById('standard-select').value = state.preferences.standard || '';
-                    document.getElementById('subject-select').value = state.preferences.subject || '';
-                    document.getElementById('medium-select').value = state.preferences.medium || 'english';
+                    
+                    // Set standard
+                    if (state.preferences.standard) {
+                        document.getElementById('standard-select').value = state.preferences.standard;
+                    }
+                    
+                    // Set subject (will be loaded when standard loads)
+                    if (state.preferences.subject) {
+                        // Wait a bit for subjects to load
+                        setTimeout(() => {
+                            document.getElementById('subject-select').value = state.preferences.subject || '';
+                        }, 500);
+                    }
+                    
+                    // Set medium
+                    if (state.preferences.medium) {
+                        document.getElementById('medium-select').value = state.preferences.medium;
+                    }
                 }
             }
         }
+
+        // ============================================================================
+        // VOICE RECOGNITION
+        // ============================================================================
 
         function initVoiceRecognition() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -1418,6 +1619,10 @@
             }
         }
 
+        // ============================================================================
+        // SEARCH FUNCTIONALITY
+        // ============================================================================
+
         async function performSearch() {
             if (!state.user) {
                 showNotification('Please sign in first', 'error');
@@ -1437,7 +1642,7 @@
             const currentPreferences = {
                 standard: document.getElementById('standard-select').value || null,
                 subject: document.getElementById('subject-select').value || null,
-                medium: document.getElementById('medium-select').value || 'english'
+                medium: document.getElementById('medium-select').value || null
             };
             
             // Update state preferences
@@ -1556,7 +1761,7 @@
             // Get standard/subject/medium labels
             const standardLabel = appliedPreferences.standard ? `Class ${appliedPreferences.standard}` : 'All Standards';
             const subjectLabel = appliedPreferences.subject ? 
-                appliedPreferences.subject.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) : 
+                appliedPreferences.subject.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 
                 'All Subjects';
             const mediumLabel = appliedPreferences.medium ? 
                 appliedPreferences.medium.charAt(0).toUpperCase() + appliedPreferences.medium.slice(1) : 
@@ -1663,8 +1868,7 @@
                             <div style="display: flex; gap: 0.5rem; margin: 0.5rem 0; flex-wrap: wrap;">
                                 <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
                                     Class: ${sourceStandard}
-                                </span>
-                                <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
+                                </span><span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
                                     ${sourceSubject}
                                 </span>
                                 <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
@@ -1737,6 +1941,10 @@
                 performSearch();
             }, 500);
         }
+
+        // ============================================================================
+        // FORMATTING AND UTILITIES
+        // ============================================================================
 
         function formatMarkdown(text) {
             let html = text;
