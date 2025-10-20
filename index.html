@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aasai SmartEDU - AI Learning Assistant</title>
-    
-    <!-- MathJax -->
+    <title>Aasai SmartEDU - AI Learning Assistant</title><!-- MathJax -->
     <script>
     window.MathJax = {
         tex: {
@@ -1058,7 +1056,8 @@
 
                 <div class="content-area">
                     <!-- Search card for desktop only -->
-                    <div class="search-card search-card-desktop"><div class="search-header">
+                    <div class="search-card search-card-desktop">
+                        <div class="search-header">
                             <h2>🔍 Ask Your Question</h2>
                             <p>Type or speak your question</p>
                         </div>
@@ -1066,8 +1065,7 @@
                         <div class="language-select-wrapper">
                             <label>🎤 Voice:</label>
                             <select id="language-select" class="language-select">
-                                <option value="en-US">English</option>
-                                <option value="hi-IN">Hindi</option>
+                                <option value="en-US">English</option><option value="hi-IN">Hindi</option>
                                 <option value="ta-IN">Tamil</option>
                                 <option value="te-IN">Telugu</option>
                                 <option value="kn-IN">Kannada</option>
@@ -1121,7 +1119,8 @@
             preferences: { standard: '', subject: '', medium: 'english' },
             recognition: null,
             isRecording: false,
-            selectedLanguage: 'en-US'
+            selectedLanguage: 'en-US',
+            currentVoiceTarget: 'desktop'
         };
 
         document.addEventListener('DOMContentLoaded', init);
@@ -1166,6 +1165,7 @@
             
             document.getElementById('language-select').addEventListener('change', e => {
                 state.selectedLanguage = e.target.value;
+                document.getElementById('language-select-mobile').value = e.target.value;
                 if (state.recognition) state.recognition.lang = e.target.value;
             });
             
@@ -1307,8 +1307,20 @@
         function savePreferences() {
             if (state.user) {
                 const prefsKey = `prefs_${state.user.id}`;
+                
+                // Get current values from dropdowns
+                state.preferences = {
+                    standard: document.getElementById('standard-select').value || null,
+                    subject: document.getElementById('subject-select').value || null,
+                    medium: document.getElementById('medium-select').value || 'english'
+                };
+                
                 sessionStorage.setItem(prefsKey, JSON.stringify(state.preferences));
-                showNotification('Preferences saved', 'success', 1500);
+                
+                const standardText = state.preferences.standard ? `Class ${state.preferences.standard}` : 'All';
+                const subjectText = state.preferences.subject || 'All';
+                
+                showNotification(`Preferences saved: ${standardText}, ${subjectText}`, 'success', 2000);
             }
         }
 
@@ -1339,7 +1351,6 @@
             state.recognition.continuous = false;
             state.recognition.interimResults = true;
             state.recognition.lang = state.selectedLanguage;
-            state.currentVoiceTarget = 'desktop';
             
             state.recognition.onstart = () => {
                 state.isRecording = true;
@@ -1422,9 +1433,20 @@
                 return;
             }
             
-            if (!state.preferences.standard || !state.preferences.subject) {
-                showNotification('Please set your preferences first', 'warning');
-                return;
+            // Get current preferences from dropdowns
+            const currentPreferences = {
+                standard: document.getElementById('standard-select').value || null,
+                subject: document.getElementById('subject-select').value || null,
+                medium: document.getElementById('medium-select').value || 'english'
+            };
+            
+            // Update state preferences
+            state.preferences = currentPreferences;
+            
+            // Validate: At least standard OR subject should be selected for better results
+            if (!currentPreferences.standard && !currentPreferences.subject) {
+                const proceed = confirm('No standard or subject selected. This will search ALL documents. Continue?');
+                if (!proceed) return;
             }
             
             const isMobile = window.innerWidth <= 968;
@@ -1433,13 +1455,26 @@
             const searchBtn = isMobile ? document.getElementById('search-btn-mobile') : document.getElementById('search-btn');
             
             resultsCard.classList.add('show');
-            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div><p style="margin-top: 1rem; color: var(--gray);">Searching for the best answer...</p></div>';
+            resultsContent.innerHTML = '<div class="loading"><div class="spinner"></div><p style="margin-top: 1rem; color: var(--gray);">Searching with your preferences...</p></div>';
             searchBtn.disabled = true;
             searchBtn.textContent = 'Searching...';
             
             const startTime = Date.now();
             
             try {
+                const requestBody = {
+                    question: question,
+                    limit: 5,
+                    threshold: 0.5,
+                    preferences: {
+                        standard: currentPreferences.standard || null,
+                        subject: currentPreferences.subject || null,
+                        medium: currentPreferences.medium || null
+                    }
+                };
+                
+                console.log('🔍 Sending search request:', requestBody);
+                
                 const response = await fetch(`${CONFIG.API_URL}/rag`, {
                     method: 'POST',
                     headers: {
@@ -1447,23 +1482,23 @@
                         'Authorization': `Bearer ${state.token}`,
                         'ngrok-skip-browser-warning': 'true'
                     },
-                    body: JSON.stringify({
-                        question,
-                        limit: 5,
-                        threshold: 0.75,
-                        preferences: state.preferences
-                    })
+                    body: JSON.stringify(requestBody)
                 });
                 
-                if (!response.ok) throw new Error('Search failed');
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Search failed');
+                }
                 
                 const data = await response.json();
                 const responseTime = ((Date.now() - startTime) / 1000).toFixed(2);
                 
+                console.log('✅ Search response:', data);
+                
                 state.chatId = data.chatId;
                 state.answerText = data.answer;
                 
-                displayResults(data, question, responseTime);
+                displayResults(data, question, responseTime, currentPreferences);
                 
                 if (state.user) {
                     state.user.searchCount = (state.user.searchCount || 0) + 1;
@@ -1481,20 +1516,30 @@
                 
             } catch (error) {
                 console.error('Search error:', error);
-                resultsContent.innerHTML = '<div class="no-history">Search failed. Please try again.</div>';
-                showNotification('Search failed', 'error');
+                resultsContent.innerHTML = `<div class="no-history">Search failed: ${error.message}<br>Please try again.</div>`;
+                showNotification('Search failed: ' + error.message, 'error');
             } finally {
                 searchBtn.disabled = false;
                 searchBtn.textContent = 'Search';
             }
         }
 
-        function displayResults(data, question, responseTime) {
+        function displayResults(data, question, responseTime, appliedPreferences) {
             const isMobile = window.innerWidth <= 968;
             const resultsContent = isMobile ? document.getElementById('results-content-mobile') : document.getElementById('results-content');
             
             if (!data.answer && !data.aiExplanation) {
-                resultsContent.innerHTML = '<div class="no-history">No information found</div>';
+                resultsContent.innerHTML = `
+                    <div class="no-history">
+                        <p>No information found with current preferences.</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray);">
+                            Try: <br>
+                            • Changing your standard or subject<br>
+                            • Using different keywords<br>
+                            • Removing some filters
+                        </p>
+                    </div>
+                `;
                 return;
             }
             
@@ -1508,6 +1553,15 @@
                 confidenceText = 'Medium';
             }
             
+            // Get standard/subject/medium labels
+            const standardLabel = appliedPreferences.standard ? `Class ${appliedPreferences.standard}` : 'All Standards';
+            const subjectLabel = appliedPreferences.subject ? 
+                appliedPreferences.subject.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) : 
+                'All Subjects';
+            const mediumLabel = appliedPreferences.medium ? 
+                appliedPreferences.medium.charAt(0).toUpperCase() + appliedPreferences.medium.slice(1) : 
+                'English';
+            
             // Build the result HTML with new segments
             let resultHTML = `
                 <div class="result-item">
@@ -1520,6 +1574,24 @@
                         <span class="badge ${confidenceClass}">Confidence: ${confidenceText} (${(data.confidence * 100).toFixed(1)}%)</span>
                         <span class="badge">⏱️ ${responseTime}s</span>
                         ${data.cached ? '<span class="badge badge-high">⚡ Cached</span>' : ''}
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                        <div style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🎯</span>
+                            <span>Filters Applied:</span>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <span class="badge" style="background: white; color: var(--dark); border: 2px solid var(--primary);">
+                                📚 ${standardLabel}
+                            </span>
+                            <span class="badge" style="background: white; color: var(--dark); border: 2px solid var(--primary);">
+                                📖 ${subjectLabel}
+                            </span>
+                            <span class="badge" style="background: white; color: var(--dark); border: 2px solid var(--primary);">
+                                🌐 ${mediumLabel}
+                            </span>
+                        </div>
                     </div>
             `;
             
@@ -1566,22 +1638,37 @@
                 `;
             }
             
-            // SEGMENT 3: Source Contexts (if available)
+            // SEGMENT 3: Source Contexts (if available) - WITH METADATA
             if (data.sourceContexts && data.sourceContexts.length > 0) {
                 resultHTML += `
                     <div class="source-contexts-section">
                         <div class="source-contexts-header">
-                            📖 Reference Sources
+                            📖 Reference Sources (${data.sourceContexts.length})
                         </div>
                 `;
                 
                 data.sourceContexts.forEach((source, index) => {
+                    const sourceStandard = source.standard || 'N/A';
+                    const sourceSubject = source.subject || 'N/A';
+                    const sourceMedium = source.medium || 'N/A';
+                    
                     resultHTML += `
                         <div class="source-item">
                             <div class="source-meta">
                                 <span style="font-weight: 600; color: var(--dark);">Source ${index + 1}</span>
                                 <span class="source-relevance ${source.relevanceLevel}">
                                     ${source.relevanceLevel.toUpperCase()} (${(source.score * 100).toFixed(0)}%)
+                                </span>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; margin: 0.5rem 0; flex-wrap: wrap;">
+                                <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
+                                    Class: ${sourceStandard}
+                                </span>
+                                <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
+                                    ${sourceSubject}
+                                </span>
+                                <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
+                                    ${sourceMedium}
                                 </span>
                             </div>
                             <div class="source-text">${escapeHtml(source.text.substring(0, 300))}${source.text.length > 300 ? '...' : ''}</div>
