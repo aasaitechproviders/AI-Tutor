@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aasai SmartEDU - AI Learning Assistant</title><!-- MathJax -->
+    <title>Aasai SmartEDU - AI Learning Assistant</title>
     <script>
     window.MathJax = {
         tex: {
@@ -13,8 +13,6 @@
     };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
-    
-    <!-- Google Sign-In -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <style>
@@ -219,11 +217,6 @@
             cursor: not-allowed;
         }
 
-        .loading-option {
-            color: var(--gray);
-            font-style: italic;
-        }
-
         .history-header {
             display: flex;
             justify-content: space-between;
@@ -362,6 +355,11 @@
             color: #92400e;
         }
 
+        .voice-status.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
         .search-box {
             display: flex;
             gap: 0;
@@ -386,10 +384,16 @@
             cursor: pointer;
             font-size: 1.5rem;
             transition: all 0.3s;
+            position: relative;
         }
 
-        .voice-btn:hover {
+        .voice-btn:hover:not(:disabled) {
             transform: scale(1.05);
+        }
+
+        .voice-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .voice-btn.recording {
@@ -517,7 +521,6 @@
             color: #991b1b;
         }
 
-        /* NEW: Styles for answer segments */
         .answer-section {
             margin-bottom: 2rem;
         }
@@ -603,7 +606,6 @@
             border-radius: 8px;
         }
 
-        /* NEW: Source contexts section */
         .source-contexts-section {
             margin-top: 1.5rem;
             padding: 1.5rem;
@@ -669,7 +671,6 @@
             line-height: 1.6;
         }
 
-        /* NEW: Related topics section */
         .related-topics-section {
             margin-top: 1.5rem;
             padding: 1.5rem;
@@ -988,7 +989,6 @@
                         </div>
                     </div>
 
-                    <!-- Search card for mobile only -->
                     <div class="search-card search-card-mobile">
                         <div class="search-header">
                             <h2>🔍 Ask Your Question</h2>
@@ -1011,12 +1011,11 @@
 
                         <div class="search-box">
                             <input type="text" id="search-input-mobile" class="search-input" placeholder="Ask any question...">
-                            <button id="voice-btn-mobile" class="voice-btn">🎤</button>
+                            <button id="voice-btn-mobile" class="voice-btn" title="Click to start voice input">🎤</button>
                             <button id="search-btn-mobile" class="search-btn">Search</button>
                         </div>
                     </div>
 
-                    <!-- Results card for mobile only -->
                     <div id="results-card-mobile" class="results-card results-card-mobile">
                         <div class="results-header">
                             <h3>💡 Answer</h3>
@@ -1036,7 +1035,6 @@
                 </div>
 
                 <div class="content-area">
-                    <!-- Search card for desktop only -->
                     <div class="search-card search-card-desktop">
                         <div class="search-header">
                             <h2>🔍 Ask Your Question</h2>
@@ -1046,7 +1044,8 @@
                         <div class="language-select-wrapper">
                             <label>🎤 Voice:</label>
                             <select id="language-select" class="language-select">
-                                <option value="en-US">English</option><option value="hi-IN">Hindi</option>
+                                <option value="en-US">English</option>
+                                <option value="hi-IN">Hindi</option>
                                 <option value="ta-IN">Tamil</option>
                                 <option value="te-IN">Telugu</option>
                                 <option value="kn-IN">Kannada</option>
@@ -1058,16 +1057,16 @@
 
                         <div class="search-box">
                             <input type="text" id="search-input" class="search-input" placeholder="Ask any question...">
-                            <button id="voice-btn" class="voice-btn">🎤</button>
+                            <button id="voice-btn" class="voice-btn" title="Click to start voice input">🎤</button>
                             <button id="search-btn" class="search-btn">Search</button>
                         </div>
                     </div>
 
-                    <!-- Results card for desktop only -->
                     <div id="results-card" class="results-card results-card-desktop">
                         <div class="results-header">
                             <h3>💡 Answer</h3>
-                        </div><div id="results-content"></div>
+                        </div>
+                        <div id="results-content"></div>
                     </div>
                 </div>
             </div>
@@ -1103,7 +1102,8 @@
             currentVoiceTarget: 'desktop',
             availableStandards: [],
             availableSubjects: [],
-            availableMediums: []
+            availableMediums: [],
+            voiceSupported: false
         };
 
         document.addEventListener('DOMContentLoaded', init);
@@ -1127,20 +1127,17 @@
                 if (e.key === 'Enter') performSearch();
             });
             
-            document.getElementById('voice-btn').addEventListener('click', toggleVoice);
+            document.getElementById('voice-btn').addEventListener('click', () => toggleVoice(false));
             document.getElementById('voice-btn-mobile').addEventListener('click', () => toggleVoice(true));
             document.getElementById('refresh-history').addEventListener('click', loadHistory);
             
-            // Standard select - fetch subjects when changed
             document.getElementById('standard-select').addEventListener('change', async (e) => {
                 state.preferences.standard = e.target.value;
                 savePreferences();
                 
-                // Load subjects for selected standard
                 if (e.target.value) {
                     await loadSubjects(e.target.value);
                 } else {
-                    // Reset subjects if no standard selected
                     const subjectSelect = document.getElementById('subject-select');
                     subjectSelect.innerHTML = '<option value="">Select standard first</option>';
                     subjectSelect.disabled = true;
@@ -1161,25 +1158,24 @@
             document.getElementById('language-select').addEventListener('change', e => {
                 state.selectedLanguage = e.target.value;
                 document.getElementById('language-select-mobile').value = e.target.value;
-                if (state.recognition) state.recognition.lang = e.target.value;
+                if (state.recognition) {
+                    state.recognition.lang = e.target.value;
+                }
             });
             
             document.getElementById('language-select-mobile').addEventListener('change', e => {
                 state.selectedLanguage = e.target.value;
                 document.getElementById('language-select').value = e.target.value;
-                if (state.recognition) state.recognition.lang = e.target.value;
+                if (state.recognition) {
+                    state.recognition.lang = e.target.value;
+                }
             });
         }
-
-        // ============================================================================
-        // NEW: METADATA LOADING FUNCTIONS
-        // ============================================================================
 
         async function loadMetadata() {
             console.log('📚 Loading metadata from database...');
             
             try {
-                // Load standards, subjects, and mediums in parallel
                 await Promise.all([
                     loadStandards(),
                     loadMediums()
@@ -1215,7 +1211,6 @@
                     return;
                 }
 
-                // Build options
                 let optionsHTML = '<option value="">All Standards</option>';
                 state.availableStandards.forEach(standard => {
                     optionsHTML += `<option value="${standard}">Class ${standard}</option>`;
@@ -1223,10 +1218,8 @@
 
                 standardSelect.innerHTML = optionsHTML;
                 
-                // Restore saved preference if exists
                 if (state.preferences.standard) {
                     standardSelect.value = state.preferences.standard;
-                    // Load subjects for saved standard
                     await loadSubjects(state.preferences.standard);
                 }
 
@@ -1242,7 +1235,6 @@
             const subjectSelect = document.getElementById('subject-select');
             
             try {
-                // Show loading state
                 subjectSelect.innerHTML = '<option value="">Loading subjects...</option>';
                 subjectSelect.disabled = true;
 
@@ -1270,10 +1262,8 @@
                     return;
                 }
 
-                // Build options with proper formatting
                 let optionsHTML = '<option value="">All Subjects</option>';
                 state.availableSubjects.forEach(subject => {
-                    // Format subject name (capitalize, replace underscores)
                     const formattedSubject = subject
                         .replace(/_/g, ' ')
                         .replace(/\b\w/g, l => l.toUpperCase());
@@ -1284,7 +1274,6 @@
                 subjectSelect.innerHTML = optionsHTML;
                 subjectSelect.disabled = false;
 
-                // Restore saved preference if exists
                 if (state.preferences.subject) {
                     subjectSelect.value = state.preferences.subject;
                 }
@@ -1320,7 +1309,6 @@
                     return;
                 }
 
-                // Build options with proper formatting
                 let optionsHTML = '';
                 state.availableMediums.forEach(medium => {
                     const formattedMedium = medium.charAt(0).toUpperCase() + medium.slice(1);
@@ -1329,7 +1317,6 @@
 
                 mediumSelect.innerHTML = optionsHTML;
 
-                // Restore saved preference if exists, or default to first medium
                 if (state.preferences.medium && state.availableMediums.includes(state.preferences.medium)) {
                     mediumSelect.value = state.preferences.medium;
                 } else if (state.availableMediums.length > 0) {
@@ -1344,10 +1331,6 @@
                 mediumSelect.innerHTML = '<option value="english">English</option>';
             }
         }
-
-        // ============================================================================
-        // AUTHENTICATION FUNCTIONS
-        // ============================================================================
 
         function initGoogleSignIn() {
             if (typeof google === 'undefined') {
@@ -1395,7 +1378,6 @@
                 showUserProfile();
                 showMainContent();
                 
-                // Load metadata from database
                 await loadMetadata();
                 
                 loadHistory();
@@ -1435,7 +1417,6 @@
                 showUserProfile();
                 showMainContent();
                 
-                // Load metadata from database
                 await loadMetadata();
                 
                 loadHistory();
@@ -1489,7 +1470,6 @@
             if (state.user) {
                 const prefsKey = `prefs_${state.user.id}`;
                 
-                // Get current values from dropdowns
                 state.preferences = {
                     standard: document.getElementById('standard-select').value || null,
                     subject: document.getElementById('subject-select').value || null,
@@ -1513,20 +1493,16 @@
                 if (saved) {
                     state.preferences = JSON.parse(saved);
                     
-                    // Set standard
                     if (state.preferences.standard) {
                         document.getElementById('standard-select').value = state.preferences.standard;
                     }
                     
-                    // Set subject (will be loaded when standard loads)
                     if (state.preferences.subject) {
-                        // Wait a bit for subjects to load
                         setTimeout(() => {
                             document.getElementById('subject-select').value = state.preferences.subject || '';
                         }, 500);
                     }
                     
-                    // Set medium
                     if (state.preferences.medium) {
                         document.getElementById('medium-select').value = state.preferences.medium;
                     }
@@ -1534,94 +1510,203 @@
             }
         }
 
-        // ============================================================================
-        // VOICE RECOGNITION
-        // ============================================================================
-
+        // FIXED VOICE RECOGNITION
         function initVoiceRecognition() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             
             if (!SpeechRecognition) {
-                console.warn('Speech recognition not supported');
-                document.getElementById('voice-btn').disabled = true;
-                document.getElementById('voice-btn-mobile').disabled = true;
+                console.warn('⚠️ Speech recognition not supported in this browser');
+                state.voiceSupported = false;
+                
+                // Disable voice buttons and show tooltip
+                const voiceBtnDesktop = document.getElementById('voice-btn');
+                const voiceBtnMobile = document.getElementById('voice-btn-mobile');
+                
+                voiceBtnDesktop.disabled = true;
+                voiceBtnMobile.disabled = true;
+                voiceBtnDesktop.title = 'Voice input not supported in this browser';
+                voiceBtnMobile.title = 'Voice input not supported in this browser';
+                voiceBtnDesktop.style.opacity = '0.5';
+                voiceBtnMobile.style.opacity = '0.5';
+                
                 return;
             }
             
-            state.recognition = new SpeechRecognition();
-            state.recognition.continuous = false;
-            state.recognition.interimResults = true;
-            state.recognition.lang = state.selectedLanguage;
+            state.voiceSupported = true;
+            console.log('✅ Speech recognition is supported');
             
-            state.recognition.onstart = () => {
-                state.isRecording = true;
-                const voiceBtn = state.currentVoiceTarget === 'mobile' ? 
-                    document.getElementById('voice-btn-mobile') : document.getElementById('voice-btn');
-                const voiceStatus = state.currentVoiceTarget === 'mobile' ?
-                    document.getElementById('voice-status-mobile') : document.getElementById('voice-status');
+            try {
+                state.recognition = new SpeechRecognition();
+                state.recognition.continuous = false;
+                state.recognition.interimResults = true;
+                state.recognition.lang = state.selectedLanguage;
+                state.recognition.maxAlternatives = 1;
+                
+                state.recognition.onstart = () => {
+                    console.log('🎤 Voice recognition started');
+                    state.isRecording = true;
+                    updateVoiceUI(true);
+                };
+                
+                state.recognition.onresult = (event) => {
+                    console.log('📝 Voice result received');
+                    let transcript = '';
+                    let isFinal = false;
                     
-                voiceBtn.classList.add('recording');
-                voiceStatus.textContent = 'Listening... Speak now';
-                voiceStatus.className = 'voice-status listening show';
-            };
-            
-            state.recognition.onresult = (event) => {
-                let transcript = '';
-                for (let i = event.resultIndex; i < event.results.length; i++) {
-                    transcript += event.results[i][0].transcript;
-                }
-                const input = state.currentVoiceTarget === 'mobile' ?
-                    document.getElementById('search-input-mobile') : document.getElementById('search-input');
-                input.value = transcript;
-            };
-            
-            state.recognition.onerror = (event) => {
-                console.error('Speech error:', event.error);
-                state.isRecording = false;
-                const voiceBtn = state.currentVoiceTarget === 'mobile' ?
-                    document.getElementById('voice-btn-mobile') : document.getElementById('voice-btn');
-                const voiceStatus = state.currentVoiceTarget === 'mobile' ?
-                    document.getElementById('voice-status-mobile') : document.getElementById('voice-status');
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        transcript += event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            isFinal = true;
+                        }
+                    }
                     
-                voiceBtn.classList.remove('recording');
-                voiceStatus.classList.remove('show');
-                showNotification('Voice input error', 'error');
-            };
-            
-            state.recognition.onend = () => {
-                state.isRecording = false;
-                const voiceBtn = state.currentVoiceTarget === 'mobile' ?
-                    document.getElementById('voice-btn-mobile') : document.getElementById('voice-btn');
-                const voiceStatus = state.currentVoiceTarget === 'mobile' ?
-                    document.getElementById('voice-status-mobile') : document.getElementById('voice-status');
+                    const input = state.currentVoiceTarget === 'mobile' ?
+                        document.getElementById('search-input-mobile') : 
+                        document.getElementById('search-input');
                     
-                voiceBtn.classList.remove('recording');
-                voiceStatus.classList.remove('show');
-            };
+                    input.value = transcript;
+                    
+                    const voiceStatus = state.currentVoiceTarget === 'mobile' ?
+                        document.getElementById('voice-status-mobile') : 
+                        document.getElementById('voice-status');
+                    
+                    if (isFinal) {
+                        voiceStatus.textContent = '✅ Got it! You can search now.';
+                        console.log('✅ Final transcript:', transcript);
+                    } else {
+                        voiceStatus.textContent = `Listening: "${transcript}"`;
+                    }
+                };
+                
+                state.recognition.onerror = (event) => {
+                    console.error('❌ Speech recognition error:', event.error);
+                    state.isRecording = false;
+                    updateVoiceUI(false);
+                    
+                    const voiceStatus = state.currentVoiceTarget === 'mobile' ?
+                        document.getElementById('voice-status-mobile') : 
+                        document.getElementById('voice-status');
+                    
+                    let errorMessage = 'Voice input error';
+                    
+                    switch(event.error) {
+                        case 'no-speech':
+                            errorMessage = 'No speech detected. Please try again.';
+                            break;
+                        case 'audio-capture':
+                            errorMessage = 'Microphone not found. Please check your device.';
+                            break;
+                        case 'not-allowed':
+                            errorMessage = 'Microphone permission denied. Please allow access.';
+                            showNotification('Please allow microphone access in your browser settings', 'error', 4000);
+                            break;
+                        case 'network':
+                            errorMessage = 'Network error. Please check your connection.';
+                            break;
+                        case 'aborted':
+                            errorMessage = 'Voice input cancelled';
+                            break;
+                        default:
+                            errorMessage = `Voice error: ${event.error}`;
+                    }
+                    
+                    voiceStatus.textContent = errorMessage;
+                    voiceStatus.className = 'voice-status error show';
+                    
+                    setTimeout(() => {
+                        voiceStatus.classList.remove('show');
+                    }, 3000);
+                };
+                
+                state.recognition.onend = () => {
+                    console.log('🛑 Voice recognition ended');
+                    state.isRecording = false;
+                    updateVoiceUI(false);
+                    
+                    setTimeout(() => {
+                        const voiceStatus = state.currentVoiceTarget === 'mobile' ?
+                            document.getElementById('voice-status-mobile') : 
+                            document.getElementById('voice-status');
+                        voiceStatus.classList.remove('show');
+                    }, 2000);
+                };
+                
+                console.log('✅ Voice recognition initialized successfully');
+                
+            } catch (error) {
+                console.error('❌ Failed to initialize voice recognition:', error);
+                state.voiceSupported = false;
+                showNotification('Voice input initialization failed', 'error');
+            }
         }
 
-        function toggleVoice(isMobile = false) {
-            if (!state.recognition) {
-                showNotification('Voice not supported', 'error');
+        function updateVoiceUI(isRecording) {
+            const voiceBtn = state.currentVoiceTarget === 'mobile' ? 
+                document.getElementById('voice-btn-mobile') : 
+                document.getElementById('voice-btn');
+            
+            const voiceStatus = state.currentVoiceTarget === 'mobile' ?
+                document.getElementById('voice-status-mobile') : 
+                document.getElementById('voice-status');
+            
+            if (isRecording) {
+                voiceBtn.classList.add('recording');
+                voiceBtn.title = 'Click to stop recording';
+                voiceStatus.textContent = '🎤 Listening... Speak now';
+                voiceStatus.className = 'voice-status listening show';
+            } else {
+                voiceBtn.classList.remove('recording');
+                voiceBtn.title = 'Click to start voice input';
+            }
+        }
+
+        function toggleVoice(isMobile) {
+            console.log('🎤 Voice button clicked. Mobile:', isMobile);
+            
+            if (!state.voiceSupported) {
+                showNotification('Voice input is not supported in this browser. Please use Chrome, Edge, or Safari.', 'error', 4000);
                 return;
             }
+            
+            if (!state.recognition) {
+                console.error('❌ Recognition object not initialized');
+                showNotification('Voice input not available', 'error');
+                return;
+            }
+            
+            state.currentVoiceTarget = isMobile ? 'mobile' : 'desktop';
             
             if (state.isRecording) {
-                state.recognition.stop();
-            } else {
-                state.recognition.lang = state.selectedLanguage;
-                state.currentVoiceTarget = isMobile ? 'mobile' : 'desktop';
+                console.log('🛑 Stopping voice recognition');
                 try {
-                    state.recognition.start();
+                    state.recognition.stop();
                 } catch (error) {
-                    showNotification('Could not start voice input', 'error');
+                    console.error('Error stopping recognition:', error);
+                }
+            } else {
+                console.log('▶️ Starting voice recognition with language:', state.selectedLanguage);
+                try {
+                    state.recognition.lang = state.selectedLanguage;
+                    state.recognition.start();
+                    console.log('✅ Recognition started successfully');
+                } catch (error) {
+                    console.error('❌ Error starting recognition:', error);
+                    
+                    if (error.message && error.message.includes('already started')) {
+                        state.recognition.stop();
+                        setTimeout(() => {
+                            try {
+                                state.recognition.start();
+                            } catch (e) {
+                                showNotification('Could not start voice input. Please try again.', 'error');
+                            }
+                        }, 100);
+                    } else {
+                        showNotification('Could not start voice input. Please ensure microphone access is allowed.', 'error', 4000);
+                    }
                 }
             }
         }
-
-        // ============================================================================
-        // SEARCH FUNCTIONALITY
-        // ============================================================================
 
         async function performSearch() {
             if (!state.user) {
@@ -1638,17 +1723,14 @@
                 return;
             }
             
-            // Get current preferences from dropdowns
             const currentPreferences = {
                 standard: document.getElementById('standard-select').value || null,
                 subject: document.getElementById('subject-select').value || null,
                 medium: document.getElementById('medium-select').value || null
             };
             
-            // Update state preferences
             state.preferences = currentPreferences;
             
-            // Validate: At least standard OR subject should be selected for better results
             if (!currentPreferences.standard && !currentPreferences.subject) {
                 const proceed = confirm('No standard or subject selected. This will search ALL documents. Continue?');
                 if (!proceed) return;
@@ -1758,7 +1840,6 @@
                 confidenceText = 'Medium';
             }
             
-            // Get standard/subject/medium labels
             const standardLabel = appliedPreferences.standard ? `Class ${appliedPreferences.standard}` : 'All Standards';
             const subjectLabel = appliedPreferences.subject ? 
                 appliedPreferences.subject.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 
@@ -1767,7 +1848,6 @@
                 appliedPreferences.medium.charAt(0).toUpperCase() + appliedPreferences.medium.slice(1) : 
                 'English';
             
-            // Build the result HTML with new segments
             let resultHTML = `
                 <div class="result-item">
                     <div class="result-question-box">
@@ -1800,7 +1880,6 @@
                     </div>
             `;
             
-            // SEGMENT 1: Original Definition (if available)
             if (data.originalDefinition) {
                 const formattedOriginal = formatMarkdown(data.originalDefinition);
                 resultHTML += `
@@ -1815,7 +1894,6 @@
                 `;
             }
             
-            // SEGMENT 2: AI Explanation
             if (data.aiExplanation) {
                 const formattedAI = formatMarkdown(data.aiExplanation);
                 resultHTML += `
@@ -1829,7 +1907,6 @@
                     </div>
                 `;
             } else if (data.answer && !data.originalDefinition) {
-                // Fallback: if we don't have separate segments, show the combined answer
                 const formattedAnswer = formatMarkdown(data.answer);
                 resultHTML += `
                     <div class="answer-section ai-explanation-section">
@@ -1843,7 +1920,6 @@
                 `;
             }
             
-            // SEGMENT 3: Source Contexts (if available) - WITH METADATA
             if (data.sourceContexts && data.sourceContexts.length > 0) {
                 resultHTML += `
                     <div class="source-contexts-section">
@@ -1868,7 +1944,8 @@
                             <div style="display: flex; gap: 0.5rem; margin: 0.5rem 0; flex-wrap: wrap;">
                                 <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
                                     Class: ${sourceStandard}
-                                </span><span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
+                                </span>
+                                <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
                                     ${sourceSubject}
                                 </span>
                                 <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
@@ -1883,7 +1960,6 @@
                 resultHTML += `</div>`;
             }
             
-            // SEGMENT 4: Related Topics as Buttons
             if (data.relatedTopics && data.relatedTopics.length > 0) {
                 resultHTML += `
                     <div class="related-topics-section">
@@ -1908,7 +1984,6 @@
                 `;
             }
             
-            // Action buttons
             resultHTML += `
                     <div class="result-actions">
                         <button class="btn btn-primary" onclick="copyAnswer()">📋 Copy Answer</button>
@@ -1933,36 +2008,26 @@
             
             showNotification(`Searching for: ${topic}`, 'info', 2000);
             
-            // Scroll to top smoothly
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Perform search after a short delay
             setTimeout(() => {
                 performSearch();
             }, 500);
         }
 
-        // ============================================================================
-        // FORMATTING AND UTILITIES
-        // ============================================================================
-
         function formatMarkdown(text) {
             let html = text;
             
-            // LaTeX display math
             html = html.replace(/\\\[([\s\S]*?)\\\]/g, '<div class="math-display">\\[$1\\]</div>');
             
-            // Headers
             html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
             html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
             html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
             html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
             
-            // Bold and italic
             html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
             html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
             
-            // Lists
             const lines = html.split('\n');
             let inList = false;
             const processed = [];
@@ -1986,7 +2051,6 @@
             
             html = processed.join('\n');
             
-            // Paragraphs
             html = html.replace(/\n\n+/g, '</p><p>');
             html = '<p>' + html + '</p>';
             html = html.replace(/<p><\/p>/g, '');
@@ -2127,7 +2191,6 @@
             return div.innerHTML;
         }
 
-        // Expose functions to global scope
         window.copyAnswer = copyAnswer;
         window.submitFeedback = submitFeedback;
         window.rerunSearch = rerunSearch;
