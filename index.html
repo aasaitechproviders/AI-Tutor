@@ -1909,6 +1909,12 @@
                 const responseTime = ((Date.now() - startTime) / 1000).toFixed(2);
                 
                 console.log('✅ Search response:', data);
+                console.log("🔍 DEBUG - Response Keys:", Object.keys(data));
+                console.log("🔍 DEBUG - Has sourceContexts?", !!data.sourceContexts);
+                if (data.sourceContexts) console.log("🔍 DEBUG - sourceContexts length:", data.sourceContexts.length);
+                if (data.sourceContexts && data.sourceContexts[0]) {
+                    console.log("🔍 DEBUG - First source sample:", data.sourceContexts[0]);
+                }
                 
                 state.chatId = data.chatId;
                 state.answerText = data.answer;
@@ -1940,6 +1946,7 @@
         }
 
         function displayResults(data, question, responseTime, appliedPreferences) {
+            console.log("🔍 DEBUG - Full Response Data:", JSON.stringify(data, null, 2));
             const isMobile = window.innerWidth <= 968;
             const resultsContent = isMobile ? document.getElementById('results-content-mobile') : document.getElementById('results-content');
             
@@ -2048,11 +2055,14 @@
                 `;
             }
             
+            // NEW EXPANDABLE SOURCES SECTION
             if (data.sourceContexts && data.sourceContexts.length > 0) {
+                console.log("✅ Found sourceContexts:", data.sourceContexts.length, "sources");
+                console.log("🔍 First source sample:", data.sourceContexts[0]);
                 resultHTML += `
                     <div class="source-contexts-section">
                         <div class="source-contexts-header">
-                            📖 Reference Sources (${data.sourceContexts.length})
+                            📚 Reference Sources (${data.sourceContexts.length})
                         </div>
                 `;
                 
@@ -2060,8 +2070,15 @@
                     const pageNum = source.page_number || source.page || 'N/A';
                     const sourceStandard = source.standard || 'N/A';
                     const sourceSubject = source.subject || 'N/A';
-                    const sourceMedium = source.medium || 'N/A';
+                    const sourceMedium = source.medium || 'English';
                     const sourceText = source.text || '';
+                    
+                    console.log(`📖 Source ${index + 1}:`, {
+                        page: pageNum,
+                        standard: sourceStandard,
+                        subject: sourceSubject,
+                        textLength: sourceText.length
+                    });
                     
                     resultHTML += `
                         <div class="source-item" id="source-${index}">
@@ -2087,8 +2104,11 @@
                 });
                 
                 resultHTML += `</div>`;
+            } else {
+                console.log("❌ No sourceContexts found in response");
+                console.log("Available keys:", Object.keys(data));
+                console.log("Full data:", data);
             }
-            
             if (data.relatedTopics && data.relatedTopics.length > 0) {
                 resultHTML += `
                     <div class="related-topics-section">
