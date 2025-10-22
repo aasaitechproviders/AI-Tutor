@@ -2056,17 +2056,17 @@
             }
             
             // NEW EXPANDABLE SOURCES SECTION
-            if (data.sourceContexts && data.sourceContexts.length > 0) {
-                console.log("✅ Found sourceContexts:", data.sourceContexts.length, "sources");
-                console.log("🔍 First source sample:", data.sourceContexts[0]);
+            if (data.sources && data.sources.length > 0) {
+                console.log("✅ Found sources:", data.sources.length, "sources");
+                console.log("🔍 First source sample:", data.sources[0]);
                 resultHTML += `
                     <div class="source-contexts-section">
                         <div class="source-contexts-header">
-                            📚 Reference Sources (${data.sourceContexts.length})
+                            📚 Reference Sources (${data.sources.length})
                         </div>
                 `;
                 
-                data.sourceContexts.forEach((source, index) => {
+                data.sources.forEach((source, index) => {
                     const pageNum = source.page_number || source.page || 'N/A';
                     const sourceStandard = source.standard || 'N/A';
                     const sourceSubject = source.subject || 'N/A';
@@ -2105,7 +2105,7 @@
                 
                 resultHTML += `</div>`;
             } else {
-                console.log("❌ No sourceContexts found in response");
+                console.log("❌ No sources found in response");
                 console.log("Available keys:", Object.keys(data));
                 console.log("Full data:", data);
             }
