@@ -1231,13 +1231,7 @@
             availableStandards: [],
             availableSubjects: [],
             availableMediums: [],
-            voiceSupported: false,
-            pagination: {
-                currentPage: 1,
-                totalPages: 1,
-                totalCount: 0,
-                hasMore: false
-            }
+            voiceSupported: false
         };
 
         document.addEventListener('DOMContentLoaded', init);
@@ -2291,11 +2285,11 @@
             }
         }
 
-        async function loadHistory(page = 1) {
+        async function loadHistory() {
             if (!state.user) return;
             
             try {
-                const response = await fetch(`${CONFIG.API_URL}/user/chat-history?page=${page}&limit=20`, {
+                const response = await fetch(`${CONFIG.API_URL}/user/chat-history?page=1&limit=20`, {
                     headers: {
                         'Authorization': `Bearer ${state.token}`,
                         'ngrok-skip-browser-warning': 'true'
@@ -2305,25 +2299,11 @@
                 if (!response.ok) return;
                 
                 const data = await response.json();
-                
-                // ✅ CAPTURE ALL PAGINATION DATA
-                state.pagination = {
-                    currentPage: data.currentPage || 1,
-                    totalPages: data.totalPages || 1,
-                    totalCount: data.totalCount || 0,
-                    hasMore: data.hasMore || false
-                };
-                
-                console.log('📊 Pagination:', state.pagination);
-                
                 displayHistory(data.chatHistory || []);
-                updatePaginationControls();
-                
             } catch (error) {
                 console.error('History error:', error);
             }
         }
-
 
         function displayHistory(history) {
             const historyList = document.getElementById('history-list');
@@ -2339,72 +2319,6 @@
                     <div class="history-date">${new Date(item.timestamp).toLocaleDateString()}</div>
                 </div>
             `).join('');
-        }
-
-
-        function updatePaginationControls() {
-            const historyCard = document.querySelector('.history-list').parentElement;
-            
-            // Remove existing pagination if it exists
-            const existingPagination = document.getElementById('pagination-controls');
-            if (existingPagination) {
-                existingPagination.remove();
-            }
-            
-            // Only show pagination if there are multiple pages
-            if (state.pagination.totalPages <= 1) return;
-            
-            const paginationHTML = `
-                <div id="pagination-controls" style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-top: 1rem;
-                    padding: 0.75rem;
-                    background: var(--light);
-                    border-radius: 8px;
-                    font-size: 0.9rem;
-                ">
-                    <button 
-                        onclick="loadHistory(${state.pagination.currentPage - 1})"
-                        ${state.pagination.currentPage === 1 ? 'disabled' : ''}
-                        style="
-                            padding: 0.5rem 1rem;
-                            background: ${state.pagination.currentPage === 1 ? '#ccc' : 'var(--primary)'};
-                            color: white;
-                            border: none;
-                            border-radius: 6px;
-                            cursor: ${state.pagination.currentPage === 1 ? 'not-allowed' : 'pointer'};
-                            font-weight: 500;
-                        "
-                    >
-                        ← Previous
-                    </button>
-                    
-                    <span style="color: var(--gray); font-weight: 500;">
-                        Page ${state.pagination.currentPage} of ${state.pagination.totalPages}
-                        <span style="font-size: 0.85rem; opacity: 0.8;">(${state.pagination.totalCount} total)</span>
-                    </span>
-                    
-                    <button 
-                        onclick="loadHistory(${state.pagination.currentPage + 1})"
-                        ${!state.pagination.hasMore ? 'disabled' : ''}
-                        style="
-                            padding: 0.5rem 1rem;
-                            background: ${!state.pagination.hasMore ? '#ccc' : 'var(--primary)'};
-                            color: white;
-                            border: none;
-                            border-radius: 6px;
-                            cursor: ${!state.pagination.hasMore ? 'not-allowed' : 'pointer'};
-                            font-weight: 500;
-                        "
-                    >
-                        Next →
-                    </button>
-                </div>
-            `;
-            
-            historyCard.insertAdjacentHTML('beforeend', paginationHTML);
         }
 
         function rerunSearch(question) {
@@ -2434,7 +2348,6 @@
         }
 
         window.copyAnswer = copyAnswer;
-        window.loadHistory = loadHistory;
         window.submitFeedback = submitFeedback;
         window.rerunSearch = rerunSearch;
         window.searchRelatedTopic = searchRelatedTopic;
