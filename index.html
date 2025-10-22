@@ -678,6 +678,134 @@
             border-radius: 8px;
         }
 
+
+        /* EXPANDABLE SOURCE STYLES - NEW ADDITION */
+        .source-item {
+            background: white;
+            padding: 0;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            border: 2px solid var(--border);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .source-item.expanded {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.15);
+        }
+
+        .source-header {
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .source-header:hover {
+            background: #f0f9ff;
+        }
+
+        .source-header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .source-number {
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .source-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .source-tag {
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .source-tag.page {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .source-tag.grade {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .source-tag.subject {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .expand-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .source-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .source-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .source-item.expanded .source-content {
+            max-height: 2000px;
+        }
+
+        .source-text-container {
+            padding: 1rem;
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
+        }
+
+        .source-text-label {
+            font-weight: 600;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .source-full-text {
+            color: var(--dark);
+            line-height: 1.6;
+            font-size: 0.9rem;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid var(--primary);
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
         .related-topics-header {
             display: flex;
             align-items: center;
@@ -1929,30 +2057,31 @@
                 `;
                 
                 data.sourceContexts.forEach((source, index) => {
+                    const pageNum = source.page_number || source.page || 'N/A';
                     const sourceStandard = source.standard || 'N/A';
                     const sourceSubject = source.subject || 'N/A';
                     const sourceMedium = source.medium || 'N/A';
+                    const sourceText = source.text || '';
                     
                     resultHTML += `
-                        <div class="source-item">
-                            <div class="source-meta">
-                                <span style="font-weight: 600; color: var(--dark);">Source ${index + 1}</span>
-                                <span class="source-relevance ${source.relevanceLevel}">
-                                    ${source.relevanceLevel.toUpperCase()} (${(source.score * 100).toFixed(0)}%)
-                                </span>
+                        <div class="source-item" id="source-${index}">
+                            <div class="source-header" onclick="toggleSource(${index})">
+                                <div class="source-header-content">
+                                    <div class="source-number">${index + 1}</div>
+                                    <div class="source-tags">
+                                        <span class="source-tag page">📄 Page ${escapeHtml(String(pageNum))}</span>
+                                        <span class="source-tag grade">🎓 Class ${escapeHtml(String(sourceStandard))}</span>
+                                        <span class="source-tag subject">📖 ${escapeHtml(String(sourceSubject))}</span>
+                                    </div>
+                                </div>
+                                <div class="expand-icon">▼</div>
                             </div>
-                            <div style="display: flex; gap: 0.5rem; margin: 0.5rem 0; flex-wrap: wrap;">
-                                <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
-                                    Class: ${sourceStandard}
-                                </span>
-                                <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
-                                    ${sourceSubject}
-                                </span>
-                                <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background: #e0e7ff; border-radius: 4px;">
-                                    ${sourceMedium}
-                                </span>
+                            <div class="source-content">
+                                <div class="source-text-container">
+                                    <div class="source-text-label">📝 Full Source Text</div>
+                                    <div class="source-full-text">${escapeHtml(sourceText)}</div>
+                                </div>
                             </div>
-                            <div class="source-text">${escapeHtml(source.text.substring(0, 300))}${source.text.length > 300 ? '...' : ''}</div>
                         </div>
                     `;
                 });
@@ -2013,6 +2142,13 @@
             setTimeout(() => {
                 performSearch();
             }, 500);
+        }
+
+        function toggleSource(index) {
+            const sourceItem = document.getElementById(`source-${index}`);
+            if (sourceItem) {
+                sourceItem.classList.toggle('expanded');
+            }
         }
 
         function formatMarkdown(text) {
@@ -2195,6 +2331,7 @@
         window.submitFeedback = submitFeedback;
         window.rerunSearch = rerunSearch;
         window.searchRelatedTopic = searchRelatedTopic;
+        window.toggleSource = toggleSource;
     </script>
 </body>
 </html>
