@@ -857,6 +857,48 @@
             overflow-y: auto;
             white-space: pre-wrap;
         }
+
+        /* IMAGE DISPLAY STYLES FOR SOURCES */
+        .source-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+            min-height: 200px;
+        }
+
+        .source-image {
+            max-width: 100%;
+            max-height: 600px;
+            width: auto;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .source-image:hover {
+            transform: scale(1.02);
+        }
+
+        .source-image-error {
+            color: var(--danger);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .source-image-loading {
+            color: var(--gray);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
         .related-topics-header {
             display: flex;
             align-items: center;
@@ -2153,7 +2195,7 @@
                 `;
             }
             
-            // NEW EXPANDABLE SOURCES SECTION
+            // NEW EXPANDABLE SOURCES SECTION WITH IMAGE DISPLAY
             if (data.sources && data.sources.length > 0) {
                 console.log("✅ Found sources:", data.sources.length, "sources");
                 console.log("🔍 First source sample:", data.sources[0]);
@@ -2172,12 +2214,14 @@
                     const sourceSubject = fs.subject || 'N/A';
                     const sourceMedium = fs.language || 'English';
                     const sourceText = source.text || '';
+                    const blobUrl = source.provenance?.blob_url || '';
                     
                     console.log(`📖 Source ${index + 1}:`, {
                         page: pageNum,
                         standard: sourceStandard,
                         subject: sourceSubject,
-                        textLength: sourceText.length
+                        textLength: sourceText.length,
+                        hasImage: !!blobUrl
                     });
                     
                     resultHTML += `
@@ -2195,8 +2239,29 @@
                             </div>
                             <div class="source-content">
                                 <div class="source-text-container">
-                                    <div class="source-text-label">📝 Full Source Text</div>
-                                    <div class="source-full-text">${escapeHtml(sourceText)}</div>
+                                    <div class="source-text-label">📄 Source Page Image</div>
+                    `;
+                    
+                    if (blobUrl) {
+                        resultHTML += `
+                                    <div class="source-image-container">
+                                        <img src="${escapeHtml(blobUrl)}" 
+                                             alt="Page ${escapeHtml(String(pageNum))}" 
+                                             class="source-image"
+                                             onclick="window.open('${escapeHtml(blobUrl)}', '_blank')"
+                                             onerror="this.parentElement.innerHTML='<div class=\\'source-image-error\\'>❌ Failed to load image</div>'"
+                                             loading="lazy">
+                                    </div>
+                        `;
+                    } else {
+                        resultHTML += `
+                                    <div class="source-image-error">
+                                        ⚠️ No image available for this source
+                                    </div>
+                        `;
+                    }
+                    
+                    resultHTML += `
                                 </div>
                             </div>
                         </div>
