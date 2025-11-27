@@ -2067,10 +2067,12 @@
                 `;
                 
                 data.sources.forEach((source, index) => {
+                    console.log(source)
+                    var fs = source.metadata;
                     const pageNum = source.page_number || source.page || 'N/A';
-                    const sourceStandard = source.metadata.standard || 'N/A';
-                    const sourceSubject = source.metadata.subject || 'N/A';
-                    const sourceMedium = source.medium || 'English';
+                    const sourceStandard = fs.standard || 'N/A';
+                    const sourceSubject = fs.subject || 'N/A';
+                    const sourceMedium = fs.language || 'English';
                     const sourceText = source.text || '';
                     
                     console.log(`📖 Source ${index + 1}:`, {
