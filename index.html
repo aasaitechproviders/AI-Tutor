@@ -2068,8 +2068,8 @@
                 
                 data.sources.forEach((source, index) => {
                     const pageNum = source.page_number || source.page || 'N/A';
-                    const sourceStandard = source.standard || 'N/A';
-                    const sourceSubject = source.subject || 'N/A';
+                    const sourceStandard = source.metadata.standard || 'N/A';
+                    const sourceSubject = source.metadata.subject || 'N/A';
                     const sourceMedium = source.medium || 'English';
                     const sourceText = source.text || '';
                     
