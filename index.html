@@ -2085,236 +2085,290 @@
             }
         }
 
-        function displayResults(data, question, responseTime, appliedPreferences) {
-            console.log("🔍 DEBUG - Full Response Data:", JSON.stringify(data, null, 2));
-            const isMobile = window.innerWidth <= 968;
-            const resultsContent = isMobile ? document.getElementById('results-content-mobile') : document.getElementById('results-content');
+// FIXED displayResults function for Router-based RAG responses
+function displayResults(data, question, responseTime, appliedPreferences) {
+    console.log("🔍 DEBUG - Full Response Data:", JSON.stringify(data, null, 2));
+    const isMobile = window.innerWidth <= 968;
+    const resultsContent = isMobile ? document.getElementById('results-content-mobile') : document.getElementById('results-content');
+    
+    // Check if we have any content to display
+    if (!data.htmlContent && !data.answer && !data.aiExplanation) {
+        resultsContent.innerHTML = `
+            <div class="no-history">
+                <p>No information found with current preferences.</p>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray);">
+                    Try: <br>
+                    • Changing your standard or subject<br>
+                    • Using different keywords<br>
+                    • Removing some filters
+                </p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Determine confidence badge
+    let confidenceClass = 'badge-low';
+    let confidenceText = 'Low';
+    if (data.confidence >= 0.8) {
+        confidenceClass = 'badge-high';
+        confidenceText = 'High';
+    } else if (data.confidence >= 0.5) {
+        confidenceClass = 'badge-medium';
+        confidenceText = 'Medium';
+    }
+    
+    // Format preference labels
+    const standardLabel = appliedPreferences.standard ? `Class ${appliedPreferences.standard}` : 'All Standards';
+    const subjectLabel = appliedPreferences.subject ? 
+        appliedPreferences.subject.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 
+        'All Subjects';
+    const mediumLabel = appliedPreferences.medium ? 
+        appliedPreferences.medium.charAt(0).toUpperCase() + appliedPreferences.medium.slice(1) : 
+        'English';
+    
+    // Start building the result HTML
+    let resultHTML = `
+        <div class="result-item">
+            <div class="result-question-box">
+                <div class="result-question-label">Your Question</div>
+                <div class="result-question-text">${escapeHtml(question)}</div>
+            </div>
             
-            if (!data.answer && !data.aiExplanation) {
-                resultsContent.innerHTML = `
-                    <div class="no-history">
-                        <p>No information found with current preferences.</p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray);">
-                            Try: <br>
-                            • Changing your standard or subject<br>
-                            • Using different keywords<br>
-                            • Removing some filters
-                        </p>
-                    </div>
-                `;
-                return;
-            }
+            <div class="result-meta">
+                <span class="badge ${confidenceClass}">Confidence: ${confidenceText} ${data.confidence ? `(${(data.confidence * 100).toFixed(1)}%)` : ''}</span>
+                <span class="badge">⏱️ ${responseTime}s</span>
+                ${data.cached ? '<span class="badge badge-high">⚡ Cached</span>' : ''}
+                ${data.modelUsed ? `<span class="badge">🤖 ${data.modelUsed}</span>` : ''}
+                ${data.templateName ? `<span class="badge">📋 ${data.templateName}</span>` : ''}
+            </div>
             
-            let confidenceClass = 'badge-low';
-            let confidenceText = 'Low';
-            if (data.confidence >= 0.8) {
-                confidenceClass = 'badge-high';
-                confidenceText = 'High';
-            } else if (data.confidence >= 0.5) {
-                confidenceClass = 'badge-medium';
-                confidenceText = 'Medium';
-            }
-            
-            const standardLabel = appliedPreferences.standard ? `Class ${appliedPreferences.standard}` : 'All Standards';
-            const subjectLabel = appliedPreferences.subject ? 
-                appliedPreferences.subject.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 
-                'All Subjects';
-            const mediumLabel = appliedPreferences.medium ? 
-                appliedPreferences.medium.charAt(0).toUpperCase() + appliedPreferences.medium.slice(1) : 
-                'English';
-            
-            let resultHTML = `
-                <div class="result-item">
-                    <div class="result-question-box">
-                        <div class="result-question-label">Your Question</div>
-                        <div class="result-question-text">${escapeHtml(question)}</div>
-                    </div>
-                    
-                    <div class="result-meta">
-                        <span class="badge ${confidenceClass}">Confidence: ${confidenceText} (${(data.confidence * 100).toFixed(1)}%)</span>
-                        <span class="badge">⏱️ ${responseTime}s</span>
-                        ${data.cached ? '<span class="badge badge-high">⚡ Cached</span>' : ''}
-                    </div>
-                    
-                    <div style="background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                        <div style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <span>🎯</span>
-                            <span>Filters Applied:</span>
-                        </div>
-                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                            <span class="badge" style="background: white; color: var(--dark); border: 2px solid var(--primary);">
-                                📚 ${standardLabel}
-                            </span>
-                            <span class="badge" style="background: white; color: var(--dark); border: 2px solid var(--primary);">
-                                📖 ${subjectLabel}
-                            </span>
-                            <span class="badge" style="background: white; color: var(--dark); border: 2px solid var(--primary);">
-                                🌐 ${mediumLabel}
-                            </span>
-                        </div>
-                    </div>
-            `;
+            <div style="background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <div style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>🎯</span>
+                    <span>Filters Applied:</span>
+                </div>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <span class="badge" style="background: white; color: var(--dark); border: 2px solid var(--primary);">
+                        📚 ${standardLabel}
+                    </span>
+                    <span class="badge" style="background: white; color: var(--dark); border: 2px solid var(--primary);">
+                        📖 ${subjectLabel}
+                    </span>
+                    <span class="badge" style="background: white; color: var(--dark); border: 2px solid var(--primary);">
+                        🌐 ${mediumLabel}
+                    </span>
+                </div>
+            </div>
+    `;
 
-if (data.htmlContent)
-resultHTML +=data.htmlContent;
-            
-            if (data.originalDefinition) {
-                const formattedOriginal = formatMarkdown(data.originalDefinition);
-                resultHTML += `
-                    <div class="answer-section original-definition-section">
-                        <div class="answer-section-header">
-                            📚 Original Explanation (From Textbook)
-                        </div>
-                        <div class="answer-section-content">
-                            <div class="answer-content">${formattedOriginal}</div>
-                        </div>
+    // ============================================================================
+    // MAIN ANSWER CONTENT - Router-based (htmlContent) or Legacy (answer/explanation)
+    // ============================================================================
+    
+    if (data.htmlContent) {
+        // ROUTER MODE: Display the pre-formatted HTML content from templates
+        console.log("✅ Displaying htmlContent from router");
+        resultHTML += `
+            <div class="answer-section ai-explanation-section">
+                <div class="answer-section-header">
+                    💡 AI Answer (${data.templateName || 'Template-based'})
+                </div>
+                <div class="answer-section-content">
+                    <div class="answer-content">
+                        ${data.htmlContent}
                     </div>
-                `;
-            }
-            
-            if (data.aiExplanation) {
-                const formattedAI = formatMarkdown(data.aiExplanation);
-                resultHTML += `
-                    <div class="answer-section ai-explanation-section">
-                        <div class="answer-section-header">
-                            🤖 AI Explanation (In Simple Words)
-                        </div>
-                        <div class="answer-section-content">
-                            <div class="answer-content">${formattedAI}</div>
-                        </div>
+                </div>
+            </div>
+        `;
+    } else {
+        // LEGACY MODE: Display originalDefinition and/or aiExplanation
+        console.log("⚠️ No htmlContent, using legacy format");
+        
+        if (data.originalDefinition) {
+            const formattedOriginal = formatMarkdown(data.originalDefinition);
+            resultHTML += `
+                <div class="answer-section original-definition-section">
+                    <div class="answer-section-header">
+                        📚 Original Explanation (From Textbook)
                     </div>
-                `;
-            } else if (data.answer && !data.originalDefinition) {
-                const formattedAnswer = formatMarkdown(data.answer);
-                resultHTML += `
-                    <div class="answer-section ai-explanation-section">
-                        <div class="answer-section-header">
-                            💡 Answer
-                        </div>
-                        <div class="answer-section-content">
-                            <div class="answer-content">${formattedAnswer}</div>
-                        </div>
+                    <div class="answer-section-content">
+                        <div class="answer-content">${formattedOriginal}</div>
                     </div>
-                `;
-            }
+                </div>
+            `;
+        }
+        
+        if (data.aiExplanation) {
+            const formattedAI = formatMarkdown(data.aiExplanation);
+            resultHTML += `
+                <div class="answer-section ai-explanation-section">
+                    <div class="answer-section-header">
+                        🤖 AI Explanation (In Simple Words)
+                    </div>
+                    <div class="answer-section-content">
+                        <div class="answer-content">${formattedAI}</div>
+                    </div>
+                </div>
+            `;
+        } else if (data.answer && !data.originalDefinition) {
+            const formattedAnswer = formatMarkdown(data.answer);
+            resultHTML += `
+                <div class="answer-section ai-explanation-section">
+                    <div class="answer-section-header">
+                        💡 Answer
+                    </div>
+                    <div class="answer-section-content">
+                        <div class="answer-content">${formattedAnswer}</div>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    
+    // ============================================================================
+    // EXPANDABLE SOURCES SECTION WITH IMAGE DISPLAY
+    // ============================================================================
+    
+    if (data.sources && data.sources.length > 0) {
+        console.log("✅ Found sources:", data.sources.length, "sources");
+        console.log("🔍 First source sample:", data.sources[0]);
+        
+        resultHTML += `
+            <div class="source-contexts-section">
+                <div class="source-contexts-header">
+                    📚 Reference Sources (${data.sources.length})
+                </div>
+        `;
+        
+        data.sources.forEach((source, index) => {
+            console.log(`📖 Source ${index + 1}:`, source);
             
-            // NEW EXPANDABLE SOURCES SECTION WITH IMAGE DISPLAY
-            if (data.sources && data.sources.length > 0) {
-                console.log("✅ Found sources:", data.sources.length, "sources");
-                console.log("🔍 First source sample:", data.sources[0]);
-                resultHTML += `
-                    <div class="source-contexts-section">
-                        <div class="source-contexts-header">
-                            📚 Reference Sources (${data.sources.length})
-                        </div>
-                `;
-                
-                data.sources.forEach((source, index) => {
-                    console.log(source)
-                    var fs = source.metadata;
-                    const pageNum = source.page_number || source.page || 'N/A';
-                    const sourceStandard = fs.standard || 'N/A';
-                    const sourceSubject = fs.subject || 'N/A';
-                    const sourceMedium = fs.language || 'English';
-                    const sourceText = source.text || '';
-                    const blobUrl = source.provenance?.blob_url || '';
-                    
-                    console.log(`📖 Source ${index + 1}:`, {
-                        page: pageNum,
-                        standard: sourceStandard,
-                        subject: sourceSubject,
-                        textLength: sourceText.length,
-                        hasImage: !!blobUrl
-                    });
-                    
-                    resultHTML += `
-                        <div class="source-item" id="source-${index}">
-                            <div class="source-header" onclick="toggleSource(${index})">
-                                <div class="source-header-content">
-                                    <div class="source-number">${index + 1}</div>
-                                    <div class="source-tags">
-                                        <span class="source-tag page">📄 Page ${escapeHtml(String(pageNum))}</span>
-                                        <span class="source-tag grade">🎓 Class ${escapeHtml(String(sourceStandard))}</span>
-                                        <span class="source-tag subject">📖 ${escapeHtml(String(sourceSubject))}</span>
-                                    </div>
-                                </div>
-                                <div class="expand-icon">▼</div>
-                            </div>
-                            <div class="source-content">
-                                <div class="source-text-container">
-                                    <div class="source-text-label">📄 Source Page Image</div>
-                    `;
-                    
-                    if (blobUrl) {
-                        resultHTML += `
-                                    <div class="source-image-container">
-                                        <img src="${escapeHtml(blobUrl)}" 
-                                             alt="Page ${escapeHtml(String(pageNum))}" 
-                                             class="source-image"
-                                             onclick="window.open('${escapeHtml(blobUrl)}', '_blank')"
-                                             onerror="this.parentElement.innerHTML='<div class=\\'source-image-error\\'>❌ Failed to load image</div>'"
-                                             loading="lazy">
-                                    </div>
-                        `;
-                    } else {
-                        resultHTML += `
-                                    <div class="source-image-error">
-                                        ⚠️ No image available for this source
-                                    </div>
-                        `;
-                    }
-                    
-                    resultHTML += `
-                                </div>
+            const fs = source.metadata || {};
+            const pageNum = source.page_number || source.page || fs.page || 'N/A';
+            const sourceStandard = fs.standard || 'N/A';
+            const sourceSubject = fs.subject || 'N/A';
+            const sourceMedium = fs.language || 'English';
+            const sourceText = source.text || source.content || '';
+            const blobUrl = source.provenance?.blob_url || source.blob_url || '';
+            
+            console.log(`📄 Source ${index + 1} details:`, {
+                page: pageNum,
+                standard: sourceStandard,
+                subject: sourceSubject,
+                textLength: sourceText.length,
+                hasImage: !!blobUrl
+            });
+            
+            resultHTML += `
+                <div class="source-item" id="source-${index}">
+                    <div class="source-header" onclick="toggleSource(${index})">
+                        <div class="source-header-content">
+                            <div class="source-number">${index + 1}</div>
+                            <div class="source-tags">
+                                <span class="source-tag page">📄 Page ${escapeHtml(String(pageNum))}</span>
+                                <span class="source-tag grade">🎓 Class ${escapeHtml(String(sourceStandard))}</span>
+                                <span class="source-tag subject">📖 ${escapeHtml(String(sourceSubject))}</span>
                             </div>
                         </div>
-                    `;
-                });
-                
-                resultHTML += `</div>`;
+                        <div class="expand-icon">▼</div>
+                    </div>
+                    <div class="source-content">
+                        <div class="source-text-container">
+                            <div class="source-text-label">📄 Source Page Image</div>
+            `;
+            
+            if (blobUrl) {
+                resultHTML += `
+                            <div class="source-image-container">
+                                <img src="${escapeHtml(blobUrl)}" 
+                                     alt="Page ${escapeHtml(String(pageNum))}" 
+                                     class="source-image"
+                                     onclick="window.open('${escapeHtml(blobUrl)}', '_blank')"
+                                     onerror="this.parentElement.innerHTML='<div class=\\'source-image-error\\'>❌ Failed to load image</div>'"
+                                     loading="lazy">
+                            </div>
+                `;
             } else {
-                console.log("❌ No sources found in response");
-                console.log("Available keys:", Object.keys(data));
-                console.log("Full data:", data);
-            }
-            if (data.relatedTopics && data.relatedTopics.length > 0) {
                 resultHTML += `
-                    <div class="related-topics-section">
-                        <div class="related-topics-header">
-                            🔗 Explore Related Topics
-                        </div>
-                        <div class="related-topics-grid">
+                            <div class="source-image-error">
+                                ⚠️ No image available for this source
+                            </div>
                 `;
-                
-                data.relatedTopics.forEach(topic => {
-                    resultHTML += `
-                        <button class="related-topic-btn" onclick="searchRelatedTopic('${escapeHtml(topic).replace(/'/g, "\\'")}')">
-                            <span>➜</span>
-                            <span>${escapeHtml(topic)}</span>
-                        </button>
-                    `;
-                });
+            }
+            
+            // Optionally show text excerpt if available
+            if (sourceText && sourceText.length > 0) {
+                const truncatedText = sourceText.length > 500 ? 
+                    sourceText.substring(0, 500) + '...' : 
+                    sourceText;
                 
                 resultHTML += `
-                        </div>
-                    </div>
+                            <div class="source-text-label" style="margin-top: 1rem;">📝 Text Excerpt</div>
+                            <div class="source-full-text">
+                                ${escapeHtml(truncatedText)}
+                            </div>
                 `;
             }
             
             resultHTML += `
-                    <div class="result-actions">
-                        <button class="btn btn-primary" onclick="copyAnswer()">📋 Copy Answer</button>
-                        <button class="btn" id="like-btn" onclick="submitFeedback('like')">👍 Like</button>
-                        <button class="btn" id="dislike-btn" onclick="submitFeedback('dislike')">👎 Dislike</button>
-                        <button class="btn" id="report-btn" onclick="submitFeedback('report')">🚩 Report</button>
+                        </div>
                     </div>
                 </div>
             `;
-            
-            resultsContent.innerHTML = resultHTML;
-            renderMath();
-        }
-
+        });
+        
+        resultHTML += `</div>`;
+    } else {
+        console.log("❌ No sources found in response");
+    }
+    
+    // ============================================================================
+    // RELATED TOPICS
+    // ============================================================================
+    
+    if (data.relatedTopics && data.relatedTopics.length > 0) {
+        resultHTML += `
+            <div class="related-topics-section">
+                <div class="related-topics-header">
+                    🔗 Explore Related Topics
+                </div>
+                <div class="related-topics-grid">
+        `;
+        
+        data.relatedTopics.forEach(topic => {
+            resultHTML += `
+                <button class="related-topic-btn" onclick="searchRelatedTopic('${escapeHtml(topic).replace(/'/g, "\\'")}')">
+                    <span>➜</span>
+                    <span>${escapeHtml(topic)}</span>
+                </button>
+            `;
+        });
+        
+        resultHTML += `
+                </div>
+            </div>
+        `;
+    }
+    
+    // ============================================================================
+    // ACTION BUTTONS
+    // ============================================================================
+    
+    resultHTML += `
+            <div class="result-actions">
+                <button class="btn btn-primary" onclick="copyAnswer()">📋 Copy Answer</button>
+                <button class="btn" id="like-btn" onclick="submitFeedback('like')">👍 Like</button>
+                <button class="btn" id="dislike-btn" onclick="submitFeedback('dislike')">👎 Dislike</button>
+                <button class="btn" id="report-btn" onclick="submitFeedback('report')">🚩 Report</button>
+            </div>
+        </div>
+    `;
+    
+    // Set the HTML and render math
+    resultsContent.innerHTML = resultHTML;
+    renderMath();
+}
         function searchRelatedTopic(topic) {
             const isMobile = window.innerWidth <= 968;
             if (isMobile) {
