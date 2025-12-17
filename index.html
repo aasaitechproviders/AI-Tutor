@@ -1158,6 +1158,353 @@
                 text-align: center;
             }
         }
+        /* ============================================================================
+   AASAI SMARTEDU - Mathematical Formula Styling
+   Proper rendering of formulas without LaTeX/MathJax dependency
+   ============================================================================ */
+
+/* Mathematical Formula Container */
+.math {
+  font-family: 'Times New Roman', 'Cambria Math', serif;
+  font-style: italic;
+  font-size: 1.05em;
+  display: inline-block;
+  padding: 2px 4px;
+  background: #f9f9f9;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+/* Highlight important formulas */
+.math.highlight {
+  background: #fff9e6;
+  padding: 4px 8px;
+  border: 1px solid #ffe4a3;
+  font-weight: 500;
+}
+
+/* Block-level formula (centered) */
+.math-block {
+  font-family: 'Times New Roman', 'Cambria Math', serif;
+  font-style: italic;
+  font-size: 1.1em;
+  display: block;
+  text-align: center;
+  padding: 10px;
+  margin: 15px 0;
+  background: #f5f5f5;
+  border-left: 4px solid #2196f3;
+  border-radius: 4px;
+}
+
+/* Numerical Solution Styling */
+.numerical-solution {
+  background: #ffffff;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.numerical-solution p {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.numerical-solution ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.numerical-solution ul li {
+  margin: 5px 0;
+  padding-left: 5px;
+}
+
+.numerical-solution .formula-note {
+  color: #555;
+  font-size: 0.95em;
+  margin-top: 5px;
+}
+
+/* Final Answer Highlight */
+.final-answer {
+  background: #fff9e6;
+  padding: 12px 16px;
+  border-left: 5px solid #ffb300;
+  margin: 15px 0;
+  border-radius: 4px;
+}
+
+.final-answer strong {
+  color: #e65100;
+  font-size: 1.1em;
+}
+
+/* Derivation Styling */
+.derivation {
+  background: #fafafa;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.derivation table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+  background: #fff;
+}
+
+.derivation table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.derivation table tr:hover {
+  background: #f5f5f5;
+}
+
+.derived-result {
+  background: #e3f2fd;
+  padding: 15px;
+  border-left: 5px solid #2196f3;
+  margin: 15px 0;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.derived-result strong {
+  color: #1565c0;
+  font-size: 1.15em;
+}
+
+/* Chemical Equation Styling */
+.chemical-equation {
+  background: #ffffff;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.chemical-equation .equation {
+  background: #f5f5f5;
+  padding: 15px;
+  margin: 15px 0;
+  text-align: center;
+  font-size: 1.15em;
+  border: 2px solid #4caf50;
+  border-radius: 5px;
+  font-family: 'Arial', sans-serif;
+}
+
+.chemical-equation sub {
+  font-size: 0.75em;
+  vertical-align: sub;
+}
+
+.chemical-equation sup {
+  font-size: 0.75em;
+  vertical-align: super;
+}
+
+.chemical-equation table {
+  margin-top: 15px;
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.chemical-equation table th,
+.chemical-equation table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.chemical-equation table th {
+  background: #f0f0f0;
+  font-weight: 600;
+}
+
+/* Physics/Math Symbols and Units */
+.unit {
+  font-family: 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  margin-left: 3px;
+}
+
+.variable {
+  font-family: 'Times New Roman', serif;
+  font-style: italic;
+}
+
+/* Subscripts and Superscripts */
+sub {
+  font-size: 0.75em;
+  vertical-align: sub;
+  line-height: 0;
+}
+
+sup {
+  font-size: 0.75em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+/* General Answer Container */
+.answer {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.8;
+  color: #333;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+.answer h4 {
+  color: #1976d2;
+  margin: 15px 0 10px 0;
+  font-size: 1.1em;
+  border-bottom: 2px solid #e3f2fd;
+  padding-bottom: 5px;
+}
+
+.answer h5 {
+  color: #424242;
+  margin: 12px 0 8px 0;
+  font-size: 1em;
+}
+
+.answer p {
+  margin: 8px 0;
+}
+
+.answer ul, .answer ol {
+  margin: 10px 0;
+  padding-left: 30px;
+}
+
+.answer li {
+  margin: 5px 0;
+}
+
+.answer strong {
+  color: #1565c0;
+  font-weight: 600;
+}
+
+.answer em {
+  color: #666;
+  font-style: italic;
+}
+
+/* Note/Tip Styling */
+.note {
+  background: #e8f5e9;
+  border-left: 4px solid #4caf50;
+  padding: 10px 15px;
+  margin: 10px 0;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+.tip {
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  padding: 10px 15px;
+  margin: 10px 0;
+  border-radius: 4px;
+}
+
+/* Out of Syllabus Warning */
+.out-of-syllabus {
+  background: #fff3cd;
+  padding: 15px;
+  border-left: 4px solid #ffc107;
+  margin: 15px 0;
+  border-radius: 4px;
+}
+
+.out-of-syllabus strong {
+  color: #e65100;
+}
+
+/* Exam Strategy Box */
+.exam-strategy {
+  background: #e3f2fd;
+  padding: 15px;
+  border-left: 4px solid #2196f3;
+  margin: 15px 0;
+  border-radius: 4px;
+}
+
+.exam-strategy h4 {
+  color: #1565c0;
+  margin-top: 0;
+}
+
+.exam-strategy h5 {
+  color: #424242;
+  margin-top: 12px;
+  margin-bottom: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .answer {
+    padding: 10px;
+    font-size: 0.95em;
+  }
+  
+  .math {
+    font-size: 1em;
+  }
+  
+  .math-block {
+    font-size: 1.05em;
+    padding: 8px;
+  }
+  
+  .numerical-solution,
+  .derivation,
+  .chemical-equation {
+    padding: 15px;
+  }
+  
+  .final-answer,
+  .derived-result {
+    padding: 10px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .answer {
+    background: white;
+    color: black;
+  }
+  
+  .math, .math-block {
+    background: transparent;
+    border: none;
+  }
+  
+  .final-answer,
+  .derived-result,
+  .note,
+  .tip {
+    border: 1px solid #000;
+    background: transparent;
+  }
+  
+  .numerical-solution table,
+  .derivation table,
+  .chemical-equation table {
+    border: 1px solid #000;
+  }
+}
     </style>
 </head>
 <body>
@@ -2577,3 +2924,4 @@ function displayResults(data, question, responseTime, appliedPreferences) {
     </script>
 </body>
 </html>
+
