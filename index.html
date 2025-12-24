@@ -1763,7 +1763,8 @@ sup {
                 const response = await fetch(`${CONFIG.API_URL}/metadata/standards`, {
                     method: 'GET',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true'
+                       'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
                     }
                 });
 
@@ -1815,7 +1816,8 @@ sup {
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true'
+                       'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
                     }
                 });
 
@@ -1861,7 +1863,8 @@ sup {
                 const response = await fetch(`${CONFIG.API_URL}/metadata/mediums`, {
                     method: 'GET',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true'
+                       'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
                     }
                 });
 
@@ -1928,7 +1931,8 @@ sup {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
+                       'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
                     },
                     body: JSON.stringify({ 
                         googleUserData: {
@@ -2001,7 +2005,8 @@ sup {
                         method: 'POST',
                         headers: {
                             'Authorization': `Bearer ${state.token}`,
-                            'ngrok-skip-browser-warning': 'true'
+                           'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
                         }
                     });
                 }
@@ -2382,7 +2387,8 @@ sup {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${state.token}`,
-                        'ngrok-skip-browser-warning': 'true'
+                       'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
                     },
                     body: JSON.stringify(requestBody)
                 });
@@ -2830,7 +2836,8 @@ function displayResults(data, question, responseTime, appliedPreferences) {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${state.token}`,
-                        'ngrok-skip-browser-warning': 'true'
+                       'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
                     },
                     body: JSON.stringify({
                         chatId: state.chatId,
@@ -2861,7 +2868,8 @@ function displayResults(data, question, responseTime, appliedPreferences) {
                 const response = await fetch(`${CONFIG.API_URL}/user/chat-history?page=1&limit=20`, {
                     headers: {
                         'Authorization': `Bearer ${state.token}`,
-                        'ngrok-skip-browser-warning': 'true'
+                       'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
                     }
                 });
                 
@@ -2924,4 +2932,3 @@ function displayResults(data, question, responseTime, appliedPreferences) {
     </script>
 </body>
 </html>
-
